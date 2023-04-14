@@ -14,6 +14,7 @@ Chapter 4 presents the six box models, which are
     d. table
     e. absolute
     f. float
+
 Furthermore, each box model defines its own way that it flows or is positioned. 
 For example: 
 **inline boxes** flow horizontally and wrap across lines. 
@@ -48,3 +49,5 @@ Another innovation is the Event Styling JavaScript Framework presented in Chapte
 
 
 ## C H A P T E R 1: Design Patterns: Making CSS Easy!
+
+
