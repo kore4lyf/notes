@@ -1350,7 +1350,19 @@ For example, the anagrams of "abc" are:
 "cab",
 "cba"]
 
+#### The Efficiency of Anagram Generation
+For a string containing three characters, we create permutations that start with each of the three characters. Each permutation then picks its middle character from one of the two remaining characters, and its last character from the last character that’s left. This is 3 * 2 * 1, which is six permutations.
 
+Looking at this for other string lengths, we get:
+4 characters: 4 * 3 * 2 * 1 anagrams
+5 characters: 5 * 4 * 3 * 2 * 1 anagrams
+6 characters: 6 * 5 * 4 * 3 * 2 * 1 anagrams
+
+Do you recognize this pattern? It’s a factorial!
+That is, if the string has six characters, the number of anagrams is whatever the factorial of 6 is. This is 6 * 5 * 4 * 3 * 2 * 1, which computes to 720.
+The mathematical symbol for factorial is the exclamation point. So, factorial 6 is expressed as 6!, and the factorial of 10 is expressed as 10.
+
+For a string of length N, we produce N! anagrams. In Big O Notation then, this is expressed as O(N!). This is also known as factorial time. O(N!) is the slowest category of Big O we’ll encounter in this book. 
 
 
 
