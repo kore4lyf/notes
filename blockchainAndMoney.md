@@ -48,3 +48,66 @@ Satoshi did not invent the Blockchain, it has been existing since 1990.
 - Lucre (Ben Laurie)
 
 
+### Blockchain Technology
+- Verifiably moves data on a decentralised network.
+- The data can represent data or computer code (Smart Contract)
+- Broad adoption relies on addressing technical, commercial and public policy hurdles.
+- It can be a catalyst for change in the world of finance and money.
+
+
+## What is the role of money? 
+- Medium of exchange
+- Store of value
+- Unit of account
+
+
+## What is the role of finance?
+- Moving, allocating and pricing of Money and risk through out the economy.
+
+
+## Financial sector challenges (Blockchain Potential Opportunities)
+- Repeated crises and instability.
+- Fiat currency instability associated with unsound polices.
+- Centralised intermediaries concentrates risks & ecconomic rents.
+- Central bank legacy payment system.
+- Clearing and settlement cost &, counterparty risks
+- Financial inclusion
+
+
+- Payment system costs: 1/2 - 1% of Global GDP
+- Financial sector costs: 7(1/2)% of U.S GDP
+
+
+## Financial Sector Issues with Blockchain Technology 
+- Performance, Scalability & Efficiency
+- Privacy & Security
+- Interoperability
+- Governance
+- Commercial use cases
+- Public policy Issues
+
+## Financial Sector Favours
+1. Permissioned Blockchains
+- Known set of participants
+- No proof-of-work or mining
+- No need for a native currency
+- Distributed database technology
+
+2. Permissionless Blockchains
+- Unknown participants
+- Security based on incentives
+- Native Currency
+- Crypto-economics
+
+
+## Financial Sector Potential Uses Cases 
+- Payment Systems - Cross norder, Lage Interbank & Retail
+- Central Bank Digital Currency & Private Stable Sector Value tokens.
+- Secondary Market Trading - Crypto exchanges and Custody.
+- Venture Capital - Crowdfunding through initial coin offering.
+- Clearign, Settlement and Processing - Securities & Derivatives.
+- Trade Finance & Supply Chain - Digitizing paper-based processes.
+- Digit ID and data processing. 
+
+
+
