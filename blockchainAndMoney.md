@@ -110,7 +110,7 @@ Satoshi did not invent the Blockchain, it has been existing since 1990.
 - Digit ID and data processing. 
 
 
-## Money, ledgers & Bitcoin
+## Lecture 2: Money, ledgers & Bitcoin
 
 ### Overview 
 - History of Money
@@ -211,5 +211,119 @@ But if he uses GTBank account CBN needs to do some balancing.
 - Concensus
 
 
+## Chapter 3: Blockchain Basics and Cryptography
 
+### Overview 
+- Bitcoin Design Features
+- Cryptographic Hash Function
+- Timestamped Append-only logs
+- Block Headers & Merkle Trees 
+- Asymmetric Cryptography & Digital Signatures
+- Bitcoin Addresses 
+
+> Fiat currency has challenges & instability issues
+
+### Bitcoin Design Features
+- **Merkel Trees** is a way to compress a lot of data and sort through the data.
+- **Nonce** mean Number used once, i.e. a random number that is used once.
+- Cryptographic Hash Functions
+- Timestamped Append-only Logs (Blocks)
+- Block Headers Merkle Tree
+- Asymmetric Cryptography & Digital Signatures
+- Addresses
+
+- Consensus through Proof of Work
+- Network of Nodes 
+- Native Currency: When you mine and recieve bitcoin, you have created a native currency.
+
+- Transaction Inputs & Outputs
+- Unspent Transaction Outputs (UTXO)
+- Scripting Language 
+
+### Cryptographic Hash Function
+A hash can be thought of as a didgital fingerprint for data.
+- It Maps input x of any size to an Output of fixed size called a Hash.
+
+- Deterministic: Always the same hash fir the the same x.
+- Efficiently computed (Doesn't take time to compute).
+
+#### Cryptography Properties
+- Preimage resistant (One Way): infeasible to determine x from Hash(x).
+- Collision Resistant: Infeasible to find x and y where Hash(x) = Hash(y).
+- Avalanche Effect: Change x slightly and Hash(x) changes slightly.
+- Puzzle Friendliness: Knowing Hash(x) and part of x, it is still very hard to find rest of x.
+
+
+#### Uses of Hash Function
+- Names 
+- References 
+- Pointers
+- Commitments
+
+##### Bitcoin Hash Functions
+- Headers & Merkel Trees - SHA 256
+- Bitcoin Addresses - SHA 256 and RIPEMD160
+
+
+### Timestamped Append-only logs
+
+
+### Block Headers & Merkle Trees 
+
+#### Block Header 
+There are 5 pieces of key information
+1. Version
+2. Previous Block Hash
+3. Merkle Root Hash (A way to grab all the transactions )
+4. Timestamp
+5. Difficult Target
+6. Nonce
+
+
+#### Merkle Tree 
+Is a Binary Data Tree with Hashes.
+
+
+### Asymmetric Cryptography & Digital Signatures
+Involves two key, the public and private keys.
+i.e If you want to send a message to Bob, you'd encrypt it with his public key while he decrypts it with his own private key.
+
+##### Digital Signatures Algorithm 
+- Generate a key pair - Public Key & Private Key - from a random number
+- Signature - Creates Digital Signature from a message and private key 
+- Verification - Verified if a signature is valid for a message and a public key.
+
+##### Generating Private and Public keys
+1. You take a random number 0 - 256 that will be your private key.
+2. The public key is a one way function of the private key. Your public key will be derived directly from your private key e.g. by exponentiating(in Bitcoin a function called ECDSA is used) another number by you private key.
+
+> Given a public key you cannot find a private key
+
+##### Properties
+- It's infeasible to find a private key from a public key.
+- All Valid signatures verify 
+- Signatures are infeasible to forge 
+
+### Bitcoin Digital Signature
+ECDSA (Elliptic Curve Digital Signature Algorithm)
+
+
+### Bitcoin Addresses 
+Public keys and bitcoin addresses are not the same.
+- In Bitcoin, the public key is hashed twice, 
+1. firstly with **SHA256**
+2. then with **RIPEMD-160**
+3. Then appends a checksum (first 8 characters [from the SHA256 of no. 2]) to the result at no. 2.
+4. Then computes the **Base58** of the result at no 3. 
+
+
+### Transaction Format 
+All transactions have an input and an output.
+- input: (Previous Transaction ID, Index) => Money, Signature
+- Output: Value, Public Key(Bitcoin Address)
+Money is sent in satoshis (10^8 is 1 Bitcoin)
+- lock_time: 
+
+
+When you want to verify, you need an **index number** to find t on the markle tree.
 
