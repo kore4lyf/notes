@@ -327,3 +327,79 @@ Money is sent in satoshis (10^8 is 1 Bitcoin)
 
 When you want to verify, you need an **index number** to find t on the markle tree.
 
+
+
+
+## Chapter 5: Blockchain Basics, Transaction, UTXO & Script Code.
+
+### Overview 
+- Transaction Inputs & Outputs
+- Unspent Transaction Outputs (UTXO)
+- Scripting Language
+- Bitcoin Design - Putting it all together
+- Bitcoin's Academic Pedigree
+- Who is Satoshi Nakamoto?
+- Conclusion 
+
+
+### Transaction Inputs & Outputs
+All transactions have an input and an output.
+- input: (Previous Transaction ID, Index) => Money, Signature
+- Output: Value, Public Key(Bitcoin Address)
+Money is sent in satoshis (10^8 is 1 Bitcoin)
+- lock_time: It's when the transaction happened (You might want to condition a transaction).
+
+> All new Bitcoins comes from a CoinBase transaction
+
+
+#### Multiple inputs & outputs 
+- In order to send a money, previous transactions are added up to an amount that sums up to the amount needed and it may be more than amount needed (which is returned back to the sender).
+The sender can also add an extra for miner to process the transaction faster, this is known as gas fee.
+
+> Input Must be >= Output 
+
+> fees = input - output 
+Once this transaction becomes valid, the transaction inputs of that transaction becomes spent.
+
+
+**Coinbase Transaction** is a reward for solving the puzzle (PoW).
+|_ Reward halves (1/2s) every 210,000 blocks 
+|_ Originally 50 Bitcon per block
+|_ Output may not be used as a Transaction Input until another 100 Blocks.
+|_ Always recorded as the first transaction in Markle Tree.
+|_ May include 100 bytes of arbitrary data.
+
+### Unspent Transaction Outputs (UTXO)
+- UTXO are bitcoin transactions that haven't been spent at a give time.
+- It contains all currently unapent Transaction Outputs.
+- Speeds up transaction validation process.
+- It is not stored in the database, it a regular  database. it uses a **LevelDB database** in Bitcoin Core called "chainstate".
+To make it easy or software, the Bitcoin that haven't been spent are stored in a software.
+
+
+### Scripting Language
+- It's a programming code for transactions.
+- It is Stack-based code, with no Loops (not Turning-complete)
+- Provides a flexible set of instructions for transaction validation and Signature Authentication.
+
+Scripting code allows for some conditionality, which give us the ability to condition a transaction 
+
+### Bitcoin Design - Putting it all together
+
+
+### Bitcoin's Academic Pedigree
+
+
+### Who is Satoshi Nakamoto?
+
+
+### Conclusion
+
+### Bitcoin Network 
+- Full Nodes: Stores full Blockchain & able to validate all transactions
+- Pruning Nodes: Prune transactions after validation and aging.
+- Lightweight Nodes: Simplified Payment Verification (SPV) nodes - Store Blockchain headers only.
+- Miners: Performs proof of work & Create new Blocks - Don't need to be a full Node Mining.
+- Mining Pool Operators
+- Wallets: Store, View, Send and Receive Transactions & Create Key Pairs.
+- Mempool: Pool of unconfirmed (yet to be validated) transactions.
