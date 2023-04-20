@@ -1365,6 +1365,36 @@ The mathematical symbol for factorial is the exclamation point. So, factorial 6 
 For a string of length N, we produce N! anagrams. In Big O Notation then, this is expressed as O(N!). This is also known as factorial time. O(N!) is the slowest category of Big O we’ll encounter in this book. 
 
 
+### Exercises 
+1. 
+```js 
+/*
+ * Use recursion to write a function that accepts 
+ * an array of strings and returns the total number 
+ * of characters across all the strings. For example,
+ * if the input array is ["ab", "c", "def", "ghij"], 
+ * the output should be 10 since there are 10 
+ * characters in total.
+ */
+
+let countStrOfArr = (array) => {
+	if(array){
+		let arrayLen = array.length;
+		let strLen = 0;
+
+		if(arrayLen >= 1) {
+			strLen = array[arrayLen - 1].length;
+			console.log(` Poped Array: ${array.pop()}`);
+			return strLen + countStrOfArr(array);
+		} else {
+			return 0;
+		}
+	}
+}
+
+const arrayOfStr = ["ab", "c", "def", "ghij"];
+console.log(countStrOfArr(arrayOfStr));
+```
 
 
 
