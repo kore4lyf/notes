@@ -53,3 +53,21 @@ You cannot get the original value from the hash value, it one way. A particular 
   - Hash functions can take almost anything as an input value.
   - Allows for anything that can be hashed to be used as an index value creating a key-value mapping.
 
+
+### Hash Functions found in Bitcoin
+
+## Merkel Damguard Hash Function
+- Breaks up the input message into fixed-length blocks and then process each block sequentially through a compression function.
+- The output of each compression function is then combined with the next block of data, and the process is repeated until all blocks have been processed.
+- The final output is a fixed-length digest or have value, unique to the input message. 
+- Widely used for building hash function that process input messages of arbitrary length and produce fixed length output.
+
+### SHA-256 
+
+### RIPEMD-160
+
+## What is base58 and why Bitcoin uses it. 
+- Base58 is a binary-to-text encoding of data to plain text. 
+- It not not a a cryptographic hash, it encodes binary-to-text.
+- base58 was used in Bitcoin instead of based-64 to avoid characters such as I, O, 0, l, 1 that visually looks alike.
+- base58 has 58 characters and these characters are missing ( I, O, 0, l, 1).

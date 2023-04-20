@@ -48,6 +48,9 @@ The Fluid Layout design pattern creates columnar layouts with the versatility of
 Another innovation is the Event Styling JavaScript Framework presented in Chapter 17. This is a simple, powerful, open source framework for dynamically and interactively styling a document. It uses the latest best practices to ensure that HTML markup is completely free of JavaScript code and completely accessible, and all styling is done with CSS. Furthermore, the framework allows you to select elements in JavaScript using the same selectors you use to select elements in CSS. This vastly simplifies and unifies the styling and scripting of a dynamic HTML document!
 
 
-## C H A P T E R 1: Design Patterns: Making CSS Easy!
+## CHAPTER1: Design Patterns: Making CSS Easy!
+
+
+
 
 

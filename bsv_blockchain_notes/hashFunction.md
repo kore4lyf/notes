@@ -60,30 +60,35 @@ The GoLang code used in this course can be found here: [https://github.com/jakeB
 ### What are Hash Functions?
 #### What are Hash Functions?
 A hash function is a mathematical process that maps a bitstring of any length to a bitstring of a defined length.
-The term hash function, it means secure cryptographic or ideal hash function.
-The output values of hash functions are often referred to as message digests, hash values, checksums, or hashes. 
+The term hash function, it means **secure cryptographic hash function**.
+The output values of hash functions are often referred to as message 
+- digests
+- hash values
+- checksums
+- hashes
 
-- A **one-way hash function** must be: **preimage resistant** and **second preimage resistant**, While a **secure cryptographic** or ideal hash function must be **preimage resistant**, **second preimage resistant**, and **collision resistant**.
+A **one-way hash function** must be: **preimage resistant** and **second preimage resistant**, While a **secure cryptographic** or ideal hash function must be **preimage resistant**, **second preimage resistant**, and **collision resistant**.
 
-- A **preimage** is the data that is input into a hash function to calculate a hash. 
+A **preimage** is the data that is input into a hash function to calculate a hash. 
 
-**Preimage Resistant** - This property means that it should be computationally hard to reverse a hash function. In other words, if a hash function h produced a hash value z, then it should be a difficult process to find any input value x that hashes to z. This property protects against an attacker who only has a hash value and is trying to find the input.
-
-
-**Second Preimage Resistant** - referred to as “weak collision resistance.” It is computationally infeasible to find any second input which has the same output as any specified input. Imagine a hash function is given and it is second preimage resistance, but the resistance is not preimage. The outcome of such a result might be contradictory which implies that you will have to get preimage resistance before you can get second preimage resistance.
+**Preimage Resistant** - This property means that it should be computationally infeasible to reverse a hash function. **In other words if h(x) = z , then it should be infeasible to find x given z.**
 
 
--  This property means given an input and its hash, it should be hard to find a different input with the same hash.
--  In other words, if a hash function h for an input x produces hash value h(x), then it should be difficult to find any other input value y such that h(y) = h(x).
--  This property of hash function protects against an attacker who has an input value and its hash, and wants to substitute different value as legitimate value in place of original input value.
+**Second Preimage Resistant** -  It is computationally infeasible to find any second input which has the same output as any specified input. 
+
+> A hash function muat be preimage resistance before you can get second preimage resistance.
+
+**This property means given an input and its hash, it should be hard to find a different input with the same hash.**  In other words, if a hash function h for an input x produces hash value h(x), then it should be difficult to find any other input value y such that h(y) = h(x).
 
 
 **Collision Resistance** - This property means it should be hard to find two different inputs of any length that result in the same hash. This property is also referred to as collision free hash function.
-- Collision resistance also has similarities with the second preimage resistance, and because of this, collision resistance can also be called “weak collision resistance.” However, before a hash function can be referred to as collision resistance, it must have a minimum of 160 bits length.
+- Collision resistance also has similarities with the second preimage resistance, and because of this, collision resistance can also be called “weak collision resistance.”
+
+ > However, before a hash function can be referred to as collision resistance, it must have a minimum of 160 bits length.
 
 
 ##### Popular Hash Function
-**Message Digest (MD)** - 
+**Markle Damgard (MD)** -  2, 4, 5, 6
 - MD5 was most popular and widely used hash function for quite some years.
 
 - The MD family comprises of hash functions MD2, MD4, MD5 and MD6. It was adopted as Internet Standard RFC 1321. It is a 128-bit hash function.
@@ -93,7 +98,7 @@ The output values of hash functions are often referred to as message digests, ha
 - In 2004, collisions were found in MD5. An analytical attack was reported to be successful only in an hour by using computer cluster. This collision attack resulted in compromised MD5 and hence it is no longer recommended for use.
 
 
-**Secure Hash Function (SHA)**
+**Secured Hashing Algorithm (SHA)**
 - Family of SHA comprise of four SHA algorithms; SHA-0, SHA-1, SHA-2, and SHA-3. Though from same family, there are structurally different.
 
 - The original version is SHA-0, a 160-bit hash function, was published by the National Institute of Standards and Technology (NIST) in 1993. It had few weaknesses and did not become very popular. Later in 1995, SHA-1 was designed to correct alleged weaknesses of SHA-0.
@@ -102,7 +107,7 @@ The output values of hash functions are often referred to as message digests, ha
 
 - In 2005, a method was found for uncovering collisions for SHA-1 within practical time frame making long-term employability of SHA-1 doubtful.
 
-- SHA-2 family has four further SHA variants, SHA-224, SHA-256, SHA-384, and SHA-512 depending up on number of bits in their hash value. No successful attacks have yet been reported on SHA-2 hash function.
+- **SHA-2 family has four further SHA variants, SHA-224, SHA-256, SHA-384, and SHA-512 depending up on number of bits in their hash value.** No successful attacks have yet been reported on SHA-2 hash function.
 
 - Though SHA-2 is a strong hash function. Though significantly different, its basic design is still follows design of SHA-1. Hence, NIST called for new competitive hash function designs.
 
@@ -300,7 +305,8 @@ Bitcoin makes extensive use of Merkle Trees. A Merkle Tree is a binary tree stru
 ##### Digital Signatures
 Although hash tables and data structures like Merkle Trees are where hash functions find their greatest use, the most widely recognized use of hash functions is in cryptography. In addition to encryption and key-exchanges, digital signatures make extensive use of hash functions. Like a physical signature, a digital signature associates an identity to a document or message. To ensure the security of digital signatures, well tested algorithms are used to both construct and verify them.
 
-In Bitcoin, digital signatures are most commonly used for Pay-to-Public-Key-Hash (P2PKH) transactions – the most common type of Bitcoin transaction template -- where the ownership of funds are transferred from the sending party to the receiving party. The two other common uses of digital signatures in Bitcoin are for signing arbitrary messages and using a Bitcoin address as part of the verification process, and MinerID which is a message included in the first transaction of a block that acts as an authentication mechanism in case another miner (Bitcoin node) tries to act dishonestly while using the ID of a competing miner.
+**In Bitcoin, digital signatures are most commonly used for Pay-to-Public-Key-Hash (P2PKH) transactions** – the most common type of Bitcoin transaction template -- where the ownership of funds are transferred from the sending party to the receiving party. 
+The two other common uses of digital signatures in Bitcoin are for **signing arbitrary messages and using a Bitcoin address as part of the verification process**, and MinerID which is a message included in the first transaction of a block that acts as an authentication mechanism in case another miner (Bitcoin node) tries to act dishonestly while using the ID of a competing miner.
 
 With that said, it's helpful to recognize that even though hash functions and cryptographic digital signatures are used in Bitcoin, it is not a cryptographic system, and it's actually incorrect to use the term “cryptocurrency” when referring to Bitcoin or a system that follows the Bitcoin architectural design like BSV. This is a really important distinction to be aware of because as we'll see in chapter 7, it's fundamental to how the Bitcoin system operates and how it's secured.
 

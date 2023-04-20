@@ -329,8 +329,11 @@ When you want to verify, you need an **index number** to find t on the markle tr
 
 
 
+## Lecture 4: Blockchain Basics & Concensus 
 
-## Chapter 5: Blockchain Basics, Transaction, UTXO & Script Code.
+
+
+## Lecture 5: Blockchain Basics, Transaction, UTXO & Script Code.
 
 ### Overview 
 - Transaction Inputs & Outputs
@@ -396,10 +399,13 @@ Scripting code allows for some conditionality, which give us the ability to cond
 ### Conclusion
 
 ### Bitcoin Network 
-- Full Nodes: Stores full Blockchain & able to validate all transactions
-- Pruning Nodes: Prune transactions after validation and aging.
-- Lightweight Nodes: Simplified Payment Verification (SPV) nodes - Store Blockchain headers only.
-- Miners: Performs proof of work & Create new Blocks - Don't need to be a full Node Mining.
-- Mining Pool Operators
-- Wallets: Store, View, Send and Receive Transactions & Create Key Pairs.
-- Mempool: Pool of unconfirmed (yet to be validated) transactions.
+- **Full Nodes**: Stores full Blockchain & able to validate all transactions
+- **Pruning Nodes**: Prune transactions after validation and aging.
+- **Lightweight Nodes**: Simplified Payment Verification (SPV) nodes - Store Blockchain headers only.
+- **Miners**: Performs proof of work & Create new Blocks - Don't need to be a full Node Mining.
+- **Mining Pool Operators**
+- **Wallets**: Store, View, Send and Receive Transactions & Create Key Pairs.
+- **Mempool**: Pool of unconfirmed (yet to be validated) transactions.
+- 
+
+
