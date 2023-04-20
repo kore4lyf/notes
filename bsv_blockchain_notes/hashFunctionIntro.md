@@ -71,3 +71,12 @@ You cannot get the original value from the hash value, it one way. A particular 
 - It not not a a cryptographic hash, it encodes binary-to-text.
 - base58 was used in Bitcoin instead of based-64 to avoid characters such as I, O, 0, l, 1 that visually looks alike.
 - base58 has 58 characters and these characters are missing ( I, O, 0, l, 1).
+
+
+### Base58Check
+- Base58Check is a modification of the original Base58 encoding scheme.
+
+> It adds a checksum to the encoded data to detect errores and ensure data integrity.
+
+- The checksum is calculated by taking a hash of the data to be encoded, typically using the SHA-256 algorithm, and then taking the 4 byte of the resulting hash. 
+These 4 bytes are appended to the end of the data to be encoded, and the resulting data is then encoded using the Base58 encoding scheme.
