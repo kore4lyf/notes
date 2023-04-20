@@ -751,7 +751,78 @@ One important point to note is that a block is only considered ‘won’ if the 
 
 ### Walkthrough Implementation of SHA-256 in GoLang
 #### Overview of SHA-256
+
+##### Our implementation of SHA-256 follows this design:
+
+1. Input and Preprocessing
+- Input
+- Message block construction
+- Message schedule construction
+
+2. Compression
+- Initialization of working variables
+- Computation of temporary words and mutation of working variables
+- Integrate computed and mutated working variables with initial values
+
+3. Final value construction and output
+
 #### SHA-256 Input and Processing
+##### Input
+Hash functions aren't very useful unless there's a way to give them an input value. In our GoLang implementation which is a command-line-interface (CLI) program, we can simply take in some input as a string and then represent that input as an array of bytes:
+
+For example, if our input is the string "abc":
+```go
+massage := []byte("abc");
+ 
+fmt.Printf("Output: %b", message) // the %b prints the output in binary form 4 
+//Output: [1100001 1100010 1100011] 
+``` 
+
+
+##### Message Block Creation
+Once we have our input, the next step is to turn it into a message block or a series of message blocks that consists of an array of bits that's 448 congruent to 512bits in length.
+
+All this means is we need to pad the bits from our message with enough bits to get it to a length that's 64 bits short of a multiple of 512.
+
+To do this, we first add a 1 bit to denote where the padding bits start within the block, then we add zeros until we reach a bit length that's 64 bits short of a multiple of 512 bits.
+
+The logic is as follows:
+```go
+package preprocessing 
+import "encoding/binary" 
+func HowMuchPadding(message []byte) int { 
+ messageLength := len(message) 
+ result := 0 
+ if messageLength%64 < 56 { 
+ result = 56 - messageLength%64 
+ } else { 
+ result = 64 + 56 - messageLength%64 
+ } 
+ return result 
+} 
+func AddZeroPaddingBits(messageBlock []byte, message []byte) []byte { 
+ zeros := make([]byte, HowMuchPadding(message)) 
+ //add separator bit 
+ zeros[0] += 0x80 
+ return append(messageBlock, zeros...) 
+} 
+func AddMessageLength(messageBlock []byte, message []byte) []byte { 
+ messageLength := len(message) << 3 
+ messageLengthInBits := make([]byte, 8) 
+ binary.BigEndian.PutUint64(messageLengthInBits[:], uint64(messageLength)) 
+ return append(messageBlock, messageLengthInBits...) 
+} 
+func BuildMessageBlocks(message []byte) []byte { 
+ var messageBlock []byte 
+ messageBlock = append(messageBlock, message...) 
+ messageBlock = AddZeroPaddingBits(messageBlock, message) 
+ messageBlock = AddMessageLength(messageBlock, message) 
+ return messageBlock 
+} 
+```
+**Check the github repo for the full code**
+
+
 #### SHA-256 Compression
 #### SHA-256 Final Value Construction and Output
 
