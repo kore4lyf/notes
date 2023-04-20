@@ -92,3 +92,17 @@ SHA-256 (Secure Hashing Algorithm)
 - And it has a very good collision resistance that will likely be quite a long time before we have the ability to find a feasible SHA-256 attack.
 
 
+
+### HASH 256 (Double SHA-256)
+- In Bitcoin, the double hash of SHA-256 is commonly wrotten as SHA-256d or abstracted to a new function called HASH-256.
+- Hash-256 is used to:
+    - Generate transaction IDs - Include Merkle Roots
+    - Generate block header IDs
+    - Block header IDs
+    - Block header IDs are used to proof-of-work solution.
+   
+
+
+
+> You can pay to scripts.
+
