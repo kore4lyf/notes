@@ -820,16 +820,67 @@ func BuildMessageBlocks(message []byte) []byte {
  return messageBlock 
 } 
 ```
-**Check the github repo for the full code**
+**Check the github repo or BSV Academy for the full code**
 
 
-#### SHA-256 Compression
+### SHA-256 Compression
 #### SHA-256 Final Value Construction and Output
+**Check the github repo or BSV Academy for the full code**
 
 
 ### RIPEMD-160
+#####A brief history of Race Integrity Primitives Evaluation: RIPEMD
+In the 1990s, the European Union established the RIPE (Race Integrity Primitives Evaluation) consortium. The consortium was tasked developing better integrity primitives – ways to ensure data integrity – namely hash functions. The most popular hash functions of the time were Ron Rivest’s MD4 and MD5. After evaluating MD4 and MD5, the consortium proposed a stronger version of MD4 called RIPEMD.
+
+RIPEMD is essentially two parallel versions of MD4 run in tandem along with improvements to how bits are shifted and how words are ordered within the message schedules.
+
+Not long after RIPEMD was proposed, the NSA’s SHA-1 was published by NIST as an improvement to MD5.
+
+
 #### RIPEMD-160
+In early 1995, H. Dobbertin found collisions for the last two out of three rounds of RIPEMD, so in 1996, Dobbertin et al. proposed a better version RIPEMD replete with a longer message digest called RIPEMD-160 and RIPEMD-128 (corresponding to the bit length of their outputs). RIPEMD-160 and RIPEMD-128 are still considered secure hash functions today.
+
+Dobbertin chose to base RIPEMD-160 on MD5, like SHA-1, as opposed to MD4. Using MD5, and the longer bit length of the message digest, provides a trade-off between better security for a slight performance hit. Today, with modern processors, this performance hit is negligible.
+
+The basic design philosophy of RIPEMD-160 is to build on the parallel iterations from RIPEMD with more rounds of compression, and in an optimized order. The design secured RIPEMD by making as few changes as possible to RIPEMD so the confidence gained by RIPEMD, MD5, and MD4 was maintained (e.g. keeping message block size consistent). It takes the following approach:
+
+Increase the bit size of the message digest to 160 bits
+Increase the number of rounds from three to five
+Bit shifts chosen between 5 and 15
+Every message block is rotated over different amounts
+The shifts applied to each register can’t have a special pattern (e.g. not divisible by 32)
+Not too many shift constants divisible by four.
+Dobbertin et al. found RIPEMD-160 to be 15% slower than SHA-1, half as fast as RIPEMD, and four times slower than MD4.
+
+Apart from Bitcoin, the most notable use of RIPEMD-160 is within the PGP (Pretty Good Privacy) email encryption standard.
+
+
 #### Bitcoin Addresses & WIFs
+##### Satoshis Are Property
+When a transaction is added to the ledger, it acts as a timestamped record of a change of ownership with satoshis (and whatever else is included in the transaction) being the property exchanged. Unlike account-based systems like a bank account where money is added and subtracted to and from the account with each transaction, satoshis aren’t actually ‘sent’ and ‘received' in UTXOs. In much the same way the ownership of gold is transferred without physically moving the gold, the ownership change of satoshis is tagged in UTXOs, and the event itself recorded in transactions. However, it’s important to note that Bitcoin is not digital gold.
+
+Since the BSV ledger is public, the ownership history of all 2,100,000,000,000,000 satoshis can be traced back to their issuance in 2009 by following the chain of digital signatures that link each UTXO and transaction in their history. This means Bitcoin doesn’t have accounts, so identity can be pseudonymously tied to each UTXO allowing macro-level activity to be visible while simultaneously providing individual privacy. It also means there’s a lot more flexibility in how transactions are conducted than account-based systems because a transaction doesn’t need to be submitted by an account holder; it can be submitted by anyone. However, identity is still a fundamental part of communication and UTXOs are still traceable and identity is still attributable when required.
+
+All electronic communications are based on two concepts: using some kind of shared secret or signal so parties know they're talking to the correct people, and attributing identity to documents or messages so parties can attest to their ownership. The two most common methods used to make these two concepts a reality are the Diffie-Hellman key exchange algorithm and digital signatures.
+
+##### Diffie-Hellman Key Exchange and the Discrete Logarithm Problem (DLP)
+Much of the modern world is based on the concept of using a secure secret as a 'seed' value to encrypt communications: symmetric end-to-end (E2E) encryption. There are two problems with this approach:
+
+If everything is encrypted, how can attackers be stopped if they gain access to a system -- since system administrators can't tell good network traffic from bad because everything is encrypted.
+How do the communicating parties share the secret seed securely.
+We explore how Bitcoin addresses the first problem without using encryption in Chapter 7, but the answer to the second problem was found before the internet began, called the Diffie-Hellman key exchange, and it's based on the idea of using asymmetric, public-private, key-pairs to generate a symmetric shared secret, securely.
+
+Published in 1976 by Ralph Merkle, and named after Whitfield Diffie and Martin Hellman, the Diffie-Hellman key exchange method is the earliest publicly known protocol for exchanging asymmetric keypairs. To this day, Diffie-Hellman is used extensively in everything involving end-to-end encryption, and even in the exchange of physical keys via written notes in some instances.
+
+Essentially, the Diffie-Hellman key exchange algorithm works by taking advantage of the unique mathematical properties of the modulo operation, or in other words, the logarithm space of a given power ‘n'. The modulo operation '%' yields the remainder after division: e.g. 4 mod 3 = 1. However, another way of looking at modulo is that it limits results to a certain space. For example, mod 232 or mod 264 are commonly used in computer science to constrain results to 32- or 64-bit integers because those are the largest integers computers can currently handle natively: uint32 and uint64. This means any number, or key, mod n will remain within the space of 0 to n.
+
+First, two communicating parties agree on two numbers: a generator point ‘g', and a certain ‘order’ or modulo space 'n’ which must be a large prime number. Next, each party picks a random number (the larger, the better) which act as their private keys: a and b. They then use their private keys and the generator point g to calculate their public keys: A = ga mod n and B = gb mod n. Following that, they exchange their public keys in clear text over a public medium, and they can do so securely because so long as n is sufficiently large, it's computationaly infeasible to find a or b from A or B even when g is known -- this is called the Discrete Logarithm Problem (DLP). Once the two parties have exchanged their public keys, all they need to do is exponentiate the other party's public key by their private key, and both parties end up with the same shared secret value 'sv': sv = Ab mod n = Ba mod n.
+
+For example, say Alice generates a private key ‘a' (currently these kinds of keys are 2,000 to 4,000 bits long for security), and Bob generates a private key 'b’. Knowing g and n, Alice can calculate her public key as ga mod n, and Bob his public key as gb mod n, and, given a sufficiently large n (again 2,000 to 4,000 bits) it's impossible for anyone to figure out what a or b are without brute-force checking all the possibilities g1 mod n, g2 mod n, … etc.
+
+From there, Alice and Bob can exchange their public keys knowing it won’t expose their private keys, and then they can use the properties of exponentiation to derive the same secret value:
+
+sv = (g^a)^b mod n = (g^b)^a mod n
 
 
 ### Walkthrough Implementation of RIPEMD-160 in GoLang
