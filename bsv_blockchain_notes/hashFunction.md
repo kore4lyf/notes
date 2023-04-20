@@ -98,7 +98,7 @@ A **preimage** is the data that is input into a hash function to calculate a has
 - In 2004, collisions were found in MD5. An analytical attack was reported to be successful only in an hour by using computer cluster. This collision attack resulted in compromised MD5 and hence it is no longer recommended for use.
 
 
-**Secured Hashing Algorithm (SHA)**
+**Secure Hashing Algorithms (SHA)**
 - Family of SHA comprise of four SHA algorithms; SHA-0, SHA-1, SHA-2, and SHA-3. Though from same family, there are structurally different.
 
 - The original version is SHA-0, a 160-bit hash function, was published by the National Institute of Standards and Technology (NIST) in 1993. It had few weaknesses and did not become very popular. Later in 1995, SHA-1 was designed to correct alleged weaknesses of SHA-0.
@@ -449,8 +449,9 @@ Using the hash calculator, encode the following hash (displayed in HEX) in Base5
 ```
 
 #### What is Base58Check and How Does Bitcoin Use it?
-The "check" of Base58Check refers to a shortened hash, or 'checksum', which is appended to the end of the Base58 encoded data.
-The checksum provides another step to ensure the integrity of the Base58 encoded data by providing a comparison value that can be used to automatically detect typographical errors. That way, if any data changes, the checksum value will reflect the change and a data integrity check will fail before any data is transmitted.
+> The "check" of Base58Check refers to a shortened hash, or 'checksum', which is appended to the end of the Base58 encoded data.
+
+** The checksum provides another step to ensure the integrity of the Base58 encoded data** by providing a comparison value that can be used to automatically detect typographical errors. That way, **if any data changes, the checksum value will reflect the change and a data integrity check will fail before any data is transmitted.**
 
 For example, Alice wants to send some BSV to Bob. She uses a Bitcoin wallet on her mobile phone to scan a QR code corresponding to Bob's Bitcoin address. As soon as Alice scan's Bob's address, her Bitcoin wallet saves the checksum bytes of Bob's address. Unbeknownst to Alice, a link her grandmother sent her on social media had malware in it that targets Bitcoin wallet addresses. Right before Alice is about to send Bitcoin to Bob, the malware changes the address to an address the attacker controls. But, before posting the transaction to the chain, the Bitcoin wallet performs an integrity check using the saved checksum from when Alice first scanned Bob's address. The send fails, and Alice is able to clean the malware off her phone and send the Bitcoin to Bob in a subsequent transaction.
 
@@ -462,7 +463,14 @@ Base58Check has the following features:
 - Four bytes (32 bits) of a SHA256-based error checking to auto-detect and possibly correct typographical errors.
 - An extra step to preserve leading zeros in the data.
 
-Bitcoin uses Base58Check to encode Bitcoin addresses, and when exporting and importing private keys to and from different Bitcoin wallets. 
+> Bitcoin uses Base58Check to encode Bitcoin addresses, and when exporting and importing private keys to and from different Bitcoin wallets. 
+
+- What are the two places Base58Check is used in the Bitcoin system?
+Public ECDSA keys during the Bitcoin address creation process and private ECDSA keys in a Wallet Import Format (WIF).
+
+- **Wallet Import Format (WIF)** is a standardized method for displaying Bitcoin private keys using the Base58Check encoding scheme. WIF format was standardized in order to allow all Bitcoin wallets to import and export private keys.
+
+> Basically Base58 is used into format Bitcoin addresses in both public and private.
 
 
 ### SHA-256
@@ -481,9 +489,6 @@ Named after its message digest bit-length, SHA-256 produces a 256-bit message di
 
 
 ##### Double SHA-256: HASH-256
-
-
-
 In Bitcoin, the double hash of SHA-256 is commonly written as SHA-256d or abstracted to a new function called HASH-256. 
 
 - HASH-256 is used to:
@@ -495,17 +500,34 @@ In Bitcoin, the double hash of SHA-256 is commonly written as SHA-256d or abstra
 
 #### Bitcoin Transactions and SHA-256
 ##### What is a Transaction?
-Bitcoin is an electronic cash system made up of 2,100,000,000,000,000 tokens (called ‘satoshis’) and a ledger. A ‘bitcoin’ is 1∗10^8 satoshis. These satoshi tokens are the smallest unit of account in Bitcoin. To transfer ownership of an arbitrary amount of satoshis, a record is added to the ledger in the form of a transaction.
+Bitcoin is an electronic cash system made up of 2,100,000,000,000,000 tokens (called ‘satoshis’) and a ledger. A ‘bitcoin’ is 1∗10^8 satoshis. These satoshi tokens are the smallest unit of account in Bitcoin. 
+> To transfer ownership of an arbitrary amount of satoshis, a record is added to the ledger in the form of a transaction.
 
-The transaction acts as a contract complete with how many satoshis are being transferred; from where the satoshis are coming from; and to whom their ownership is being transferred to. Each transaction holds an arbitrary number of input Unspent Transaction Outputs (UTXOs) which include a puzzle or ‘lock’ written in a minimal scripting language called Bitcoin Script (based on Forth) that need to be unlocked in order for the sender to transfer the ownership of the satoshis they hold (I.e., spend), and an arbitrary number of output UTXOs which include new locking scripts that only the receiver can unlock.
+- The transaction acts as a contract complete with how many satoshis are being transferred; from where the satoshis are coming from; and to whom their ownership is being transferred to. 
 
-Each locking script resolves to either true or false. This means Bitcoin is a predicate system and as such the locking script of a UTXO can be anything that ultimately resolves to true or false.
+- Two scripts
+1. **Each transaction holds an arbitrary number of input Unspent Transaction Outputs (UTXOs)** which include a puzzle or ‘lock’ written in a minimal scripting language called Bitcoin Script (based on Forth) that need to be unlocked in order for the sender to transfer the ownership of the satoshis they hold (I.e., spend), and 
+2. **an arbitrary number of output UTXOs** which **include new locking scripts** that only the receiver can unlock.
 
-As discussed briefly in chapter 1, the most common type of UTXO locking script template used in Bitcoin is the Pay-to-Public-Key-Hash (P2PKH) template. The sender uses a hash of the receiver's public key to lock the satoshis being spent in a new output UTXO. The receiver is then able to unlock and use that UTXO as an input in a new transaction by providing the digital signature generated from the corresponding private key. As briefly mentioned above, it’s important to note that there are innumerable ways to lock, and subsequently unlock, UTXOs -- they just need to resolve to either true or false. So long as the result resolves to true, the sending and receiving parties are essentially transferring ownership of the contained satoshis with a digital signature (even if it's not a literal digital signature like in a P2PKH transaction).
+> Bitcoin transactions use locking and unlocking scripts, which are executed together to verify a transaction. As mentioned earlier, a locking script is a spending condition specified in the transaction output, and an unlocking script satisfies this condition when the two scripts are executed together.
+
+- Each locking script resolves to either true or false. This means Bitcoin is a predicate system and as such **the locking script of a UTXO can be anything that ultimately resolves to true or false**.
+
+> In P2PKH UTXOs, the public key hash is a Bitcoin address, which is a HASH-160 of the public key portion of an Elliptic Curve public-private key-pair. In P2PKH UTXOs, satoshis are “locked” to the receiver’s Bitcoin address allowing them to unlock the UTXO and spend the satoshis within it using the corresponding private key for the public key used to create the address. 
+
+As discussed briefly in chapter 1, the most common type of **UTXO locking script template** used in Bitcoin is the **Pay-to-Public-Key-Hash (P2PKH) template**. **The sender uses a hash of the receiver's public key to lock the satoshis being spent in a new output UTXO**. The receiver is then able to unlock and use that UTXO as an input in a new transaction by providing the **digital signature generated from the corresponding private key. As briefly mentioned above, it’s important to note that **there are innumerable ways to lock, and subsequently unlock, UTXOs -- they just need to resolve to either true or false**. So long as the result resolves to true, the sending and receiving parties are essentially transferring ownership of the contained satoshis with a digital signature (even if it's not a literal digital signature like in a P2PKH transaction).
+
+- The five standard types of transaction scripts are       1. pay-to-public-key-hash (P2PKH)
+    2. public-key
+    3. multi-signature (limited to 15 keys)
+    4. pay-to-script-hash (P2SH)
+    5. data output (OP_RETURN)
 
 In this way, we can say each satoshi itself is a chain of digital signatures that can be traced back to the initial instantiation of the Bitcoin network in 2009. And, transactions are the fundamental record type that track the addition of each new digital signature to each satoshi since the Bitcoin network was instantiated in 2009.
 
-Once a transaction has been constructed and serialised in its raw HEX form, it's hashed using HASH-256 to get its corresponding transaction ID (TXID). Bitcoin nodes use TXIDs in their Merkle trees and in their memory pools to keep received transactions organised.
+> Once a transaction has been constructed and serialised in its raw HEX form, it's hashed using **HASH-256** to get its corresponding transaction ID (TXID). 
+
+Bitcoin nodes use TXIDs in their Merkle trees and in their memory pools to keep received transactions organised.
 
 ##### Example P2PKH Transaction
 ```
@@ -558,19 +580,14 @@ Transactions consist of 6 serialised elements:
 | Version (4 bytes little endian): | The version number of a transaction is meant for transaction routing and handling. Currently, only version numbers 01000000 (1) and 02000000 (2) are accepted by. In future, the transaction version number will allow nodes to specialize their services by geographic location and service type. | 01000000 | "version": 1 | 
  | Input count (1-9 bytes little endian): | Specifies how many input UTXOs are in the transaction | 01 | "vin" | 
  | Input list (variable length little endian): | The input UTXOs themselves | 67e7105b52e8534596af29dba949921cffe3dbaa555b8ed96121346c6755adae000000006a47304402206e4db9dee8449b861e5fdc00ba3bdb80fba8cd52c75489376c54bd65d26262650220453569438e6bc6f957b1f7ff6fff4af2e42edaae1ac885382373d42fa569b17c41210267d2d1f8b3affffa10b68b2756ba7f6f4efafcadbecd145181016178d00b379bffffffff | "txid": "aead55676c342161d98e5b55aadbe3ff1c9249a9db29af964553e8525b10e767", "vout": 0, "scriptSig": { "asm": "304402206e4db9dee8449b861e5fdc00ba3bdb80fba8cd52c75489376c54bd65d26262650220453569438e6bc6f957b1f7ff6fff4af2e42edaae1ac885382373d42fa569b17c[ALL|FORKID] 0267d2d1f8b3affffa10b68b2756ba7f6f4efafcadbecd145181016178d00b379b", "hex": "47304402206e4db9dee8449b861e5fdc00ba3bdb80fba8cd52c75489376c54bd65d26262650220453569438e6bc6f957b1f7ff6fff4af2e42edaae1ac885382373d42fa569b17c41210267d2d1f8b3affffa10b68b2756ba7f6f4efafcadbecd145181016178d00b379b" }, "sequence": 4294967295 | 
- | Output count (1-9 bytes little endian): | Specifies how many new output UTXOs are being created in the transaction | 01 | "vout": | 
+ |  count (1-9 bytes little endian): | Specifies how many new output UTXOs are being created in the transaction | 01 | "vout": | 
  | Output list (variable length): | The output UTXOs themselves | 9c276bee0000000976a914accd105073775756cc04962bc1e4893694f50c5588ac | "value": 39.999999, "n": 0, "scriptPubKey": { "asm": "OP_DUP OP_HASH160 accd105073775756cc04962bc1e4893694f50c55 OP_EQUALVERIFY OP_CHECKSIG", "hex": "76a914accd105073775756cc04962bc1e4893694f50c5588ac", "reqSigs": 1, "type": "pubkeyhash", "addresses": [ "mwGeB8HZwx22snzWoXRRfL2dhmJ4QXZr9V" ] } | 
- | nLocktime (4 bytes little endian) | Represents either: 1. A block height if the value is < 500,000,000 2. A UNIX Epoch timestamp – the number of seconds elapsed since 01 January, 1970. Note that the nLockTime of a transaction is ignored if all the transaction inputs have the maximum nSequence value (UINT_MAX). | 00000000
+ | nLocktime (4 bytes little endian) | Represents either: 1. A block height if the value is < 500,000,000 2. A UNIX Epoch timestamp – the number of seconds elapsed since 01 January, 1970. Note that the nLockTime of a transaction is ignored if all the transaction inputs have the maximum nSequence value (UINT_MAX). | 00000000 |
 
 
 
 Input UTXOs consist of 5 serialised elements:
-
-
-
 The below table breaks-down the input UTXO from the above example transaction.
-
-
 
  | Element | Description | RAW Hexadecimal | JSON | 
  | :--- | :--- | :--- | :--- |
@@ -582,12 +599,7 @@ The below table breaks-down the input UTXO from the above example transaction.
 
 
 Output UTXOs consist of 3 serialised elements:
-
-
-
 The below table breaks-down the new output UTXO(s) from the above example transaction.
-
-
 
  | Element | Description | RAW Hexadecimal (Little Endian) | JSON (Big Endian) | 
  | :--- | :--- | :--- | :--- | 
@@ -595,14 +607,11 @@ The below table breaks-down the new output UTXO(s) from the above example transa
  | Output script length (1-9 bytes little endian) | How long the output UTXO locking script is | 19 | 25 (decimal) | 
  | Output script (varInt little endian) | The actual output UTXO locking script | 76a914accd105073775756cc04962bc1e4893694f50c5588ac |
 
-
-
-
+- In computing, **endianness** is the order or sequence of bytes of a word of digital data in computer memory. Endianness is primarily expressed as big-endian or little-endian. A big-endian system stores the most significant byte of a word at the smallest memory address and the least significant byte at the largest.
 
 
 #### Bitcoin Blocks and SHA-256
 What is a Bitcoin Block?
-
 A Bitcoin block is the time stamped package consisting of all transactional activity accumulated between each proof of work solution discovery. Like 
 - TXIDs
 - **Block IDs are the HASH-256 of the serialised block header.**
@@ -679,7 +688,9 @@ The below is an example block deserialised in JSON format
  "totalFees": "-24.99999887", 
  "miner": "\u0002\u001c\u0001\u0001\u0001", 
  "txCount": 2 
+ }
 ```
+
 The below table breaks down the block header for the above block
 | Element| Description| RAW Hexadecimal (Little Endian)| JSON (Big Endian)| 
 | :--- | :--- | :--- | :--- | 
@@ -690,19 +701,29 @@ The below table breaks down the block header for the above block
 | nBits| The difficulty target in compact form| ffff7f20| "bits": "207fffff", "difficulty": "4.656542373906925e-10",| 
 | Nonce| The "Number Used Once" which allows hashers to iterate through a block header value in search of a proof-of-work solution| 00000000 | "nonce": 0, |
 
-All spendable outputs from previous transactions are held by all nodes in their continuously updated Unspent Transaction Output (UTXO) sets. All new transactions submitted to the node network have their input UTXOs cross-checked against nodes' UTXO sets. Transactions that have been generated on the network and are yet to be timestamped into a block are stored in node memory pools or mempools. Nodes construct a Merkle tree from the transactions in their mempool to calculate the Merkle root to populate the Merkle Root field in the block header. Once a UTXO has been consumed as an input, it's no longer necessary for nodes to keep it in their UTXO sets, and its often pruned -- including its data payload.
+All spendable outputs from previous transactions are held by all nodes in their continuously updated Unspent Transaction Output (UTXO) sets. All new transactions submitted to the node network have their input UTXOs cross-checked against nodes' UTXO sets. 
+
+> Transactions that have been generated on the network and are yet to be timestamped into a block are stored in node memory pools or mempools. 
+
+> Nodes construct a Merkle tree from the transactions in their mempool to calculate the Merkle root to populate the Merkle Root field in the block header.
+
+ > Once a UTXO has been consumed as an input, it's no longer necessary for nodes to keep it in their UTXO sets, and its often pruned -- including its data payload.
 
 
 ##### How is a Bitcoin Block Created?
-As transactions are broadcast to the BSV network to be added to the blockchain, each node validates them against the block consensus rules, then against their local policies. If received transactions pass validation, their TXIDs are added to the node's working Merkle Tree.
-
-Nodes then send block header templates to their hashing pools with a range of nonce values to be iterated through with the aim of finding a proof-of-work solution. Once a proof-of-work solution is found, the block ID is finalized, and the resulting ‘proposed’ block is distributed to the rest of the nodes on the network. Once the majority of other network nodes have signalled acceptance of the newly found block by starting to build a block template using its block ID as the previous block hash, the block is considered won, and after 99 more blocks are added on top of it, its block reward UTXO becomes spendable.
-
+1. As transactions are broadcast to the BSV network to be added to the blockchain
+2. Each node validates them against the block consensus rules, then against their local policies. 
+3. If received transactions pass validation, their TXIDs are added to the node's working Merkle Tree.
+4. Nodes then send block header templates to their hashing pools with a range of nonce values to be iterated through with the aim of finding a proof-of-work solution. 
+5. Once a proof-of-work solution is found, the block ID is finalized, and the resulting ‘proposed’ block is distributed to the rest of the nodes on the network.
+6. Once the majority of other network nodes have signalled acceptance of the newly found block by starting to build a block template using its block ID as the previous block hash, the block is considered won, and after 99 more blocks are added on top of it, its block reward UTXO becomes spendable.
 
 
 #### Proof-of-Work and HASH-256
 ##### What is Proof-of-Work?
-As referenced in the Bitcoin white paper, a proof-of-work system is a signalling mechanism that requires participants to demonstrate they have performed a necessary amount of work before they're allowed to perform a desired action. In Bitcoin, this is achieved by requiring participants (I.e., Bitcoin nodes) use HASH-256 on a serialised block header until they find a resulting message digest that’s less than a provided difficulty target value. 
+As referenced in the Bitcoin white paper, a proof-of-work system is a signalling mechanism that requires participants to demonstrate they have performed a necessary amount of work before they're allowed to perform a desired action. 
+
+ > In Bitcoin, Pow is achieved by requiring participants (I.e., Bitcoin nodes) use HASH-256 on a serialised block header until they find a resulting message digest that’s less than a provided difficulty target value. 
 
 The preimage, second preimage, and collision resistance properties of SHA-256 – and in turn HASH-256 – ensure the only way nodes are able to find a proof-of-work solution is by brute-force; i.e., by hashing as many versions of the block header as they can as quickly as possible (iterating the nonce value in the block header), until they find a desired message digest.
 
@@ -755,3 +776,4 @@ One important point to note is that a block is only considered ‘won’ if the 
 
 
 ## 
+
