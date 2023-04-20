@@ -80,3 +80,15 @@ You cannot get the original value from the hash value, it one way. A particular 
 
 - The checksum is calculated by taking a hash of the data to be encoded, typically using the SHA-256 algorithm, and then taking the 4 byte of the resulting hash. 
 These 4 bytes are appended to the end of the data to be encoded, and the resulting data is then encoded using the Base58 encoding scheme.
+
+
+## SHA-256 
+### History
+SHA-256 (Secure Hashing Algorithm)
+
+- Named after it's message digest bit-length, SHA-256 produces a 256-bit message digest. This means SHA-256 has 2^256 possible unique output values.
+- 2^256 is approximately equal to 1.1579 * 10^77
+- This implies that SHA-256 has such a low probability, of two different input values sharing the same message digest.
+- And it has a very good collision resistance that will likely be quite a long time before we have the ability to find a feasible SHA-256 attack.
+
+
