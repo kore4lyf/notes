@@ -918,3 +918,170 @@ function myFunction(value, index, array) {
 
 
 
+## JavaScript Date Objects
+By default, JavaScript will use the browser's time zone and display a date as a full text string:
+
+**Sun Apr 23 2023 11:31:16 GMT+0100 (West Africa Standard Time)**
+
+### Creating Date Objects
+Date objects are created with the new Date() constructor.
+
+There are 4 ways to create a new date object:
+```js
+new Date()
+new Date(year, month, day, hours, minutes, seconds, milliseconds)
+new Date(milliseconds)
+new Date(date string)
+```
+
+### new Date()
+new Date() creates a new date object with the current date and time:
+
+Example
+```js
+var d = new Date();
+```
+
+### new Date(year, month, ...)
+new Date(year, month, ...) creates a new date object with a specified date and time.
+
+7 numbers specify year, month, day, hour, minute, second, and millisecond (in that order):
+
+Example
+```js
+var d = new Date(2018, 11, 24, 10, 33, 30, 0);
+```
+
+> Note: JavaScript counts months from 0 to 11. January is 0. December is 11.
+
+6 numbers specify year, month, day, hour, minute, second:
+
+Example
+```js
+var d = new Date(2018, 11, 24, 10, 33, 30);
+```
+5 numbers specify year, month, day, hour, and minute:
+
+Example
+```js
+var d = new Date(2018, 11, 24, 10, 33);
+```
+4 numbers specify year, month, day, and hour:
+
+Example
+```js
+var d = new Date(2018, 11, 24, 10);
+```
+3 numbers specify year, month, and day:
+
+Example
+```js
+var d = new Date(2018, 11, 24);
+```
+2 numbers specify year and month:
+
+Example
+```js
+var d = new Date(2018, 11);
+```
+
+> You cannot omit month. If you supply only one parameter it will be treated as milliseconds.
+
+Example
+```js
+var d = new Date(2018); // Miliseconds
+```
+
+
+### Previous Century
+One and two digit years will be interpreted as 19xx:
+
+Example
+```js
+var d = new Date(99, 11, 24);
+```
+Example
+```js
+var d = new Date(9, 11, 24);
+```
+
+### new Date(dateString)
+new Date(dateString) creates a new date object from a date string:
+
+Example
+```js
+var d = new Date("October 13, 2014 11:13:00");
+```
+
+### JavaScript Stores Dates as Milliseconds
+JavaScript stores dates as number of milliseconds since January 01, 1970, 00:00:00 UTC (Universal Time Coordinated).
+
+Zero time is January 01, 1970 00:00:00 UTC.
+
+> Now the time is: 1682245876537 milliseconds past January 01, 1970
+
+### new Date(milliseconds)
+new Date(milliseconds) creates a new date object as zero time plus milliseconds:
+
+Example
+```js
+var d = new Date(0);
+```
+
+01 January 1970 plus 100 000 000 000 milliseconds is approximately 03 March 1973:
+
+Example
+```js
+var d = new Date(100000000000);
+```
+January 01 1970 minus 100 000 000 000 milliseconds is approximately October 31 1966:
+
+Example
+```js
+var d = new Date(-100000000000);
+```
+Example
+```js
+var d = new Date(86400000);
+```
+
+
+### Displaying Dates
+JavaScript will (by default) output dates in full text string format:
+```
+Wed Mar 25 2015 01:00:00 GMT+0100 (West Africa Standard Time)
+```
+
+When you display a date object in HTML, it is automatically converted to a string, with the toString() method.
+
+Example
+```js
+d = new Date();
+document.getElementById("demo").innerHTML = d;
+```
+
+Same as:
+```js
+d = new Date();
+document.getElementById("demo").innerHTML = d.toString();
+```
+Sun Apr 23 2023 12:00:17 GMT+0100 (West Africa Standard Time)
+
+
+The toUTCString() method converts a date to a UTC string (a date display standard).
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.toUTCString();
+```
+Sun, 23 Apr 2023 11:02:25 GMT
+
+The toDateString() method converts a date to a more readable format:
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.toDateString();
+```
+Sun Apr 23 2023
