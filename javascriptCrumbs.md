@@ -1085,3 +1085,108 @@ var d = new Date();
 document.getElementById("demo").innerHTML = d.toDateString();
 ```
 Sun Apr 23 2023
+
+
+
+## JavaScript Date Input
+There are generally 3 types of JavaScript date input formats:
+
+TYPE
+- ISO Date - "2015-03-25" (The International Standard)
+- Short Date - "03/25/2015"
+- Long Date	- "Mar 25 2015" or "25 Mar 2015"
+
+### JavaScript Date Output
+> Independent of input format, JavaScript will (by default) output dates in full text string format:
+
+```js
+Wed Mar 25 2015 01:00:00 GMT+0100 (West Africa Standard Time)
+```
+
+### JavaScript ISO Dates
+ISO 8601 is the international standard for the representation of dates and times.
+
+The ISO 8601 syntax (YYYY-MM-DD) is also the preferred JavaScript date format:
+
+Example (Complete date)
+```js
+var d = new Date("2015-03-25");
+```
+Wed Mar 25 2015 01:00:00 GMT+0100 (West Africa Standard Time)
+
+
+### ISO Dates (Year and Month)
+ISO dates can be written without specifying the day (YYYY-MM):
+
+Example
+```js
+var d = new Date("2015-03");
+```
+Sun Mar 01 2015 01:00:00 GMT+0100 (West Africa Standard Time)
+
+
+### ISO Dates (Only Year)
+ISO dates can be written without month and day (YYYY):
+
+Example
+```js
+var d = new Date("2015");
+```
+Thu Jan 01 2015 01:00:00 GMT+0100 (West Africa Standard Time)
+
+
+### Time Zones
+When setting a date, without specifying the time zone, JavaScript will use the browser's time zone.
+
+When getting a date, without specifying the time zone, the result is converted to the browser's time zone.
+
+In other words: If a date/time is created in GMT (Greenwich Mean Time), the date/time will be converted to CDT (Central US Daylight Time) if a user browses from central US.
+
+### JavaScript Short Dates.
+Short dates are written with an "MM/DD/YYYY" syntax like this:
+
+Example
+```js
+var d = new Date("03/25/2015");
+```
+
+### WARNINGS !
+In some browsers, months or days with no leading zeroes may produce an error:
+
+```js
+var d = new Date("2015-3-25");
+```
+
+### JavaScript Long Dates.
+Long dates are most often written with a "MMM DD YYYY" syntax like this:
+
+Example
+```js
+var d = new Date("Mar 25 2015");
+```
+
+Month and day can be in any order:
+
+Example
+```js
+var d = new Date("25 Mar 2015");
+```
+And, month can be written in full (January), or abbreviated (Jan):
+
+Example
+```js
+var d = new Date("January 25 2015");
+```
+
+### Date Input - Parsing Dates
+If you have a valid date string, you can use the Date.parse() method to convert it to milliseconds.
+
+Date.parse() returns the number of milliseconds between the date and January 1, 1970:
+
+Example
+```js
+var msec = Date.parse("March 21, 2012");
+document.getElementById("demo").innerHTML = msec;
+```
+
+
