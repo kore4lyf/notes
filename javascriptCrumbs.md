@@ -553,3 +553,38 @@ Example
 var x = 6;
 var y = x.MAX_VALUE;    // y becomes undefined
 ```
+
+
+
+## Javascript Arrays
+
+### Avoid new Array()
+There is no need to use the JavaScript's built-in array constructor new Array().
+
+Use [] instead.
+These two different statements both create a new empty array named points:
+```js
+var points = new Array();     // Bad
+var points = [];              // Good 
+```
+
+```js
+var points = new Array(40, 100);  // Creates an array with two elements (40 and 100)
+var points = new Array(40);  // Creates an array with 40 undefined elements !!!!!
+```
+
+### How to recognize an array
+Solution 1:
+To solve this problem ECMAScript 5 defines a new method Array.isArray():
+```js
+let fruits = ["Banana", "Orange", "Apple", "Mango"];
+Array.isArray(fruits);   // returns true
+```
+
+Solution 3:
+The instanceof operator returns true if an object is created by a given constructor:
+
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits instanceof Array;   // returns true
+```
