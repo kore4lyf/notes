@@ -1190,3 +1190,101 @@ document.getElementById("demo").innerHTML = msec;
 ```
 
 
+
+## JavaScript Get Date Methods
+These methods can be used for getting information from a date object:
+
+Method	Description
+- **getFullYear()** - Get the year as a four digit number (yyyy)
+- **getMonth()** - Get the month as a number (0-11)
+- **getDate()** - Get the day as a number (1-31)
+- **getHours()** - Get the hour (0-23)
+- **getMinutes()** - Get the minute (0-59)
+- **getSeconds()** - Get the second (0-59)
+- **getMilliseconds()** - Get the millisecond (0-999)
+- **getTime()** - Get the time (milliseconds since January 1, 1970) e.g. 1682249981442 
+- **getDay()** - Get the weekday as a number (0-6)
+- **Date.now()** - Get the time in miliseconds. e.g. 1682249981442 ECMAScript 5.
+
+
+### The getTime() Method
+The getTime() method returns the number of milliseconds since January 1, 1970:
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getTime();
+```
+
+### The getFullYear() Method
+The getFullYear() method returns the year of a date as a four digit number:
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getFullYear();
+```
+
+### The getMonth() Method
+The getMonth() method returns the month of a date as a number (0-11):
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getMonth();
+```
+> In JavaScript, the first month (January) is month number 0, so December returns month number 11.
+
+You can use an array of names, and getMonth() to return the month as a name:
+
+Example
+```js
+var d = new Date();
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+document.getElementById("demo").innerHTML = months[d.getMonth()];
+```
+
+### The getDate() Method
+The getDate() method returns the day of a date as a number (1-31):
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getDate();
+```
+
+### The getHours() Method
+The getHours() method returns the hours of a date as a number (0-23):
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getHours();
+```
+
+### The getSeconds() Method
+The getSeconds() method returns the seconds of a date as a number (0-59):
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getSeconds();
+```
+
+### The getMilliseconds() Method
+The getMilliseconds() method returns the milliseconds of a date as a number (0-999):
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getMilliseconds();
+```
+
+### The getDay() Method
+The getDay() method returns the weekday of a date as a number (0-6):
+
+Example
+```js
+var d = new Date();
+document.getElementById("demo").innerHTML = d.getDay();
+```
