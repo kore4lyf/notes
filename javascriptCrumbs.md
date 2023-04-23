@@ -625,3 +625,125 @@ Example
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 delete fruits[0];  // Changes the first element in fruits to undefined
 ```
+
+
+
+## JavaScript Sorting Arrays
+
+### Sorting an Array
+The sort() method sorts an array alphabetically:
+
+Example
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.sort();  // Apple,Banana,Mango,Orange
+```
+
+### Reversing an Array
+The reverse() method reverses the elements in an array.
+
+You can use it to sort an array in descending order:
+
+Example
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.sort(); // Apple,Banana,Mango,Orange
+fruits.reverse(); // Orange,Mango,Banana,Apple
+```
+
+
+### Numeric Sort
+By default, the sort() function sorts values as strings.
+
+> However, if numbers are sorted as strings, "25" is bigger than "100", because "2" is bigger than "1".
+
+Because of this, the sort() method will produce incorrect result when sorting numbers.
+
+You can fix this by providing a compare function:
+
+Example
+```js
+var points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return a - b});
+```
+
+Use the same trick to sort an array descending:
+
+Example
+```js
+var points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return b - a});
+```
+
+#### The Compare Function
+The purpose of the compare function is to define an alternative sort order.
+
+The compare function should return a negative, zero, or positive value, depending on the arguments:
+```js
+function(a, b){return a - b}
+```
+When the sort() function compares two values, it sends the values to the compare function, and sorts the values according to the returned (negative, zero, positive) value.
+
+If the result is negative a is sorted before b.
+
+If the result is positive b is sorted before a.
+
+If the result is 0 no changes are done with the sort order of the two values.
+
+
+### Sorting an Array in Random Order
+Example
+```js
+var points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return 0.5 - Math.random()});
+```
+
+
+### Find the Highest (or Lowest) Array Value
+There are no built-in functions for finding the max or min value in an array.
+
+However, after you have sorted an array, you can use the index to obtain the highest and lowest values.
+
+Sorting ascending:
+
+Example
+```js
+var points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return a - b});
+// now points[0] contains the lowest value
+// and points[points.length-1] contains the highest value
+```
+
+
+#### Using Math.max() on an Array or Array list
+```js
+var points = [40, 100, 1, 5, 25, 10];
+var highest = Math.max(...points); // 100
+```
+
+#### Using Math.max() on an Array or Array list
+```js
+var points = [40, 100, 1, 5, 25, 10];
+var lowest = Math.min(...points); // 1
+```
+
+### Sorting Object Arrays
+JavaScript arrays often contain objects:
+
+Example
+```js
+var cars = [
+  {type:"Volvo", year:2016},
+  {type:"Saab", year:2001},
+  {type:"BMW", year:2010}
+];
+```
+
+Even if objects have properties of different data types, the sort() method can be used to sort the array.
+
+The solution is to write a compare function to compare the property values:
+
+Example
+```js
+cars.sort(function(a, b){return a.year - b.year});
+```
