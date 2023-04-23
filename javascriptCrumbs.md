@@ -588,3 +588,40 @@ The instanceof operator returns true if an object is created by a given construc
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 fruits instanceof Array;   // returns true
 ```
+
+
+
+## JavaScript Array Methods
+
+### Converting Arrays to Strings
+The JavaScript method toString() converts an array to a string of (comma separated) array values.
+
+Example
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("demo").innerHTML = fruits.toString();
+```
+Result:
+Banana,Orange,Apple,Mango
+
+The join() method also joins all array elements into a string.
+
+It behaves just like toString(), but in addition you can specify the separator:
+
+Example
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("demo").innerHTML = fruits.join(" * ");
+```
+Result:
+Banana * Orange * Apple * Mango
+
+
+### Deleting Elements
+Since JavaScript arrays are objects, elements can be deleted by using the JavaScript operator delete:
+
+Example
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+delete fruits[0];  // Changes the first element in fruits to undefined
+```
