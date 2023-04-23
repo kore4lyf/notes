@@ -747,3 +747,174 @@ Example
 ```js
 cars.sort(function(a, b){return a.year - b.year});
 ```
+
+
+
+## JavaScript Array Iteration Methods
+
+### Array.forEach()
+The forEach() method calls a function (a callback function) once for each array element.
+
+Example
+```js
+var txt = "";
+var numbers = [45, 4, 9, 16, 25];
+numbers.forEach(myFunction);
+
+function myFunction(value, index, array) {
+  txt = txt + value + "<br>";
+}
+```
+
+### Array.map()
+The map() method creates a new array by performing a function on each array element.
+
+The map() method does not execute the function for array elements without values.
+
+The map() method does not change the original array.
+
+This example multiplies each array value by 2:
+
+Example
+```js
+var numbers1 = [45, 4, 9, 16, 25];
+var numbers2 = numbers1.map(myFunction);
+
+function myFunction(value, index, array) {
+  return value * 2;
+}
+```
+
+### Array.filter()
+The filter() method creates a new array with array elements that passes a test.
+
+This example creates a new array from elements with a value larger than 18:
+
+Example
+```js
+var numbers = [45, 4, 9, 16, 25];
+var over18 = numbers.filter(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+```
+
+### Array.reduce()
+The reduce() method runs a function on each array element to produce (reduce it to) a single value.
+
+The reduce() method works from left-to-right in the array. See also **reduceRight()**.
+The reduce() method does not reduce the original array.
+
+This example finds the sum of all numbers in an array:
+
+> Takes 4 arguments
+
+Example
+```js
+var numbers1 = [45, 4, 9, 16, 25];
+var sum = numbers1.reduce(myFunction);
+
+function myFunction(total, value, index, array) {
+  return total + value;
+}
+```
+
+The example above does not use the index and array parameters. It can be rewritten to:
+
+Example
+```js
+var numbers1 = [45, 4, 9, 16, 25];
+var sum = numbers1.reduce(myFunction);
+
+function myFunction(total, value) {
+  return total + value;
+}
+```
+
+### Array.reduceRight()
+The reduceRight() method runs a function on each array element to produce (reduce it to) a single value.
+
+> Takes 4 arguments
+
+This example finds the sum of all numbers in an array:
+
+Example
+```js
+var numbers1 = [45, 4, 9, 16, 25];
+var sum = numbers1.reduceRight(myFunction);
+
+function myFunction(total, value, index, array) {
+  return total + value;
+}
+```
+
+
+
+### Array.every()
+The every() method check if all array values pass a test.
+
+> return a boolean value
+
+This example check if all array values are larger than 18:
+
+Example
+```js
+var numbers = [45, 4, 9, 16, 25];
+var allOver18 = numbers.every(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+```
+
+### Array.some()
+The some() method check if some array values pass a test.
+
+> returns a boolean 
+
+This example check if some array values are larger than 18:
+
+Example
+```js
+var numbers = [45, 4, 9, 16, 25];
+var someOver18 = numbers.some(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18; // true
+}
+```
+
+### Array.find()
+The find() method returns the value of the first array element that passes a test function.
+
+This example finds (returns the value of) the first element that is larger than 18:
+
+Example
+```js
+var numbers = [4, 9, 16, 25, 29];
+var first = numbers.find(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+```
+
+
+### Array.findIndex()
+The findIndex() method returns the index of the first array element that passes a test function.
+
+This example finds the index of the first element that is larger than 18:
+
+Example
+```js
+var numbers = [4, 9, 16, 25, 29];
+var first = numbers.findIndex(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+```
+
+
+
