@@ -116,6 +116,24 @@ func main() {
 }
 ```
 
+#### You can use iota 5 to enumerate values.
+```go 
+import "fmt"
+func main() {
+    const (
+        a = iota
+        b
+        c
+        d
+        e
+        )
+        fmt.Println(a, b, c, d, e)
+}
+```
+0 1 2 3 4
+
+The first use of iota will yield 0, so a is equal to 0. Whenever iota is used again on a new line its value is incremented with 1, so b has a value of 1. 
+
 ### Using If and else in go 
 The syntax is:
 ```
@@ -305,7 +323,7 @@ Computers do the same, but they only have 2 digits instead of 10. So counting lo
 Go’s integer types are **uint8, uint16, uint32, uint64, int8, int16, int32, and int64**.
 8, 16, 32, and 64 tell us how many bits each of the types use. uint means “unsigned integer” while int means “signed integer.” Unsigned integers only contain positive numbers (or zero). 
 In addition, there two alias types: 
-- **byte** (which is the same as uint8) and **rune** (which is the same as int32). 
+- **byte** (which is the same as uint8) (which is the same as int32).
 - Bytes are an extremely common unit of measurement used on computers (1 byte = 8 bits, 1,024 bytes = 1 kilobyte, 1,024 kilobytes = 1 megabyte, etc.) and therefore Go’s byte data type is often used in the definition of other types. 
 
  
@@ -1317,6 +1335,13 @@ fmt is the name of a package that includes a variety of functions related to for
 • It reduces the chance of having overlapping names, and in turn keeps our function names short and succinct.
 • It organizes code so that it’s easier to find code you want to reuse.
 • It speeds up the compiler by only requiring recompilation of smaller chunks of a program. Although we use the package fmt, we don’t have to recompile it every time we change our program.
+
+
+
+### More 
+> uint8 is the same as the byte type 
+
+
 
 
 
