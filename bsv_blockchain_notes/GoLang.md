@@ -963,6 +963,14 @@ elements["Li"]["name"]
 elements["Li"]["state"]
 ```
 
+```go 
+var xs = map[int]func() int{
+    1: func() int { return 10 },
+    2: func() int { return 20 },
+    3: func() int { return 30 },
+}
+```
+
 
 
 ## Functions 
@@ -1111,6 +1119,13 @@ This has three advantages:
 • If our function had multiple return statements (perhaps one in an if and one in an else), Close will happen before both of them.
 • Deferred functions are run even if a runtime panic occurs.i
 
+
+### Callbacks
+```go
+func callback(y int, f func(int)) {
+    f(y)
+}
+```
 
 
 ### panic and recover
