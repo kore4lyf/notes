@@ -401,6 +401,9 @@ s2 := string(c)
 fmt.Printf("%s\n", s2) 
 ```
 
+#### Runes
+**Rune is an alias for int32**. It is an UTF-8 encoded code point. When is this type useful? One example is when you’re iterating over characters in a string. You could loop over each byte
+
 
 #### Booleans
 A boolean value (named after George Boole) is a special 1-bit integer type used to represent true and false (or on and off). Three logical operators are used with boolean
