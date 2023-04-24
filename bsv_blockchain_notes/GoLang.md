@@ -757,6 +757,20 @@ arr[0:] is the same as arr[0:len(arr)], arr[:5] is the same as arr[0:5], and
 arr[:] is the same as arr[0:len(arr)].
 
 
+```go 
+a := [5]int{1, 2, 3, 4, 5}
+s1 := a[2:4] // 3,4
+s2 := a[1:5] // 1,2,3,4
+s3 := a[:]  // 1,2,3,4,5
+s4 := a[:4] // 1,2,3
+s5 := s2[:] // 1,2,3,4
+s6 := a[2:4:5] //3,4
+```
+- First we define an array with five elements, from index 0 to 4. 
+- From this we create a slice with the elements from index 2 to 3, this slices contains: 3, 4. 
+- Then we we create another slice 3 from a: with the elements from index 1 to 4, this contains: 2, 3, 4, 5. With a[:] 4 we create a slice with all the elements in the array. This is a shorthand for: a[0:len(a)]. And with a[:4] 5 we create a slice with the elements from index 0 to 3, this is short for: a[0:4], and gives us a slices that contains: 1, 2, 3, 4. With s2[:] we create a slice from the slice s2 6, note that s5 still refers to the array a. Finally, we create a slice with the elements from index 3 to 3 and also set the cap to 4 7.
+
+
 ## append
 append adds elements onto the end of a slice. 
 ```go 
