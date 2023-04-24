@@ -642,6 +642,40 @@ switch i {
 ```
 
 
+## Built-in Functions 
+A few functions are predefined, meaning you don’t have to include any package to get access to them.
+
+- close	
+- new	
+- panic	
+- complex
+- delete	
+- make
+- recover
+- real
+- len
+- append	
+- print
+- imag
+- cap
+- copy	
+- println
+
+
+Pre-defined functions in Go.
+These built-in functions are documented in the builtin pseudo package that is included in recent Go releases. Let’s go over these functions briefly.
+
+- close: is used in channel communication. It closes a channel.
+- delete: is used for deleting entries in maps.
+- len and cap:  are used on a number of different types, len is used to return the lengths of strings, maps, slices, and arrays. we’ll look at slices, arrays and the function cap.
+- new: is used for allocating memory for user defined data types. 
+- make: is used for allocating memory for built-in types (maps, slices, and channels). 
+- copy, append: copy is for copying slices. And append is for concatenating slices.
+- panic, recover: are used for an exception mechanism.
+- print, println: are low level printing functions that can be used without reverting to the fmt package. These are mainly used for debugging. built-in,println)
+- complex, real, imag: all deal with complex numbers.
+
+
 
 ## Arrays, Slices, and Maps 
 ### Arrays
