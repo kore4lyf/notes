@@ -116,7 +116,7 @@ func main() {
 }
 ```
 
-#### You can use iota 5 to enumerate values.
+#### You can use iota to enumerate values.
 ```go 
 import "fmt"
 func main() {
@@ -366,10 +366,11 @@ Remainder
 
 
 #### Strings 
-> String literals can be created using double quotes "Hello, World" or backticks `Hello, World`. The difference between these is that double-quoted strings cannot contain newlines and they allow special escape sequences. For example, \n gets replaced with a newline and \t gets replaced with a tab character. 
+- String literals can be created using double quotes "Hello, World" or backticks `Hello, World`. The difference between these is that double-quoted strings cannot contain newlines and they allow special escape sequences. For example, \n gets replaced with a newline and \t gets replaced with a tab character. 
+
+
 
 The following are some common operations on strings:
-
 `len("Hello, World")`
 Finds the length of a string
 
@@ -389,8 +390,16 @@ func main() {
 }
 ```
 
+- Strings in Go are a sequence of UTF-8 characters enclosed in double quotes (“). If you use the single quote (‘) you mean one character (encoded in UTF-8) — which is not a string in Go.
 
-
+To do this in Go you will need the following:
+```go
+s := "hello"
+c := []rune(s)	    
+c[0] = 'c'	        
+s2 := string(c)     
+fmt.Printf("%s\n", s2) 
+```
 
 
 #### Booleans
@@ -409,8 +418,6 @@ func main() {
     fmt.Println(!true)
 }
 ```
-
-
 
 
 
