@@ -599,6 +599,48 @@ default: fmt.Println("Unknown Number")
 ```
 
 
+```go
+// Convert hexadecimal character to an int value
+switch { 
+case '0' <= c && c <= '9': 
+    return c - '0' 3
+case 'a' <= c && c <= 'f':
+    return c - 'a' + 10
+case 'A' <= c && c <= 'F': 
+    return c - 'A' + 10
+}
+return 0
+```
+- A switch without a condition is the same as switch true 1. 
+- We list the different cases. Each case statement has a condition that is either true of false. 
+- At case '0' we check if c is a number. If c is a number we return its value. 
+- At case 'a', we Check if c falls between “a” and “f”.
+- For an “a” we return 10, for “b” we return 11, etc. We also do the same 5 thing for “A” to “F”.
+
+
+> There is no automatic fall through, you can use fallthrough for that.
+
+```,go
+switch i {
+    case 0:  fallthrough
+    case 1: 1
+        f()
+    default:
+        g() 2
+```
+- f() can be called when i == 0. 
+- With default you can specify an action when none of the other cases match. Here g() is called when i is not 0 or 1. 
+
+We could rewrite the above example as:
+```go
+switch i {
+    case 0, 1: 1
+        f()
+    default:
+        g()
+}
+```
+
 
 
 ## Arrays, Slices, and Maps 
