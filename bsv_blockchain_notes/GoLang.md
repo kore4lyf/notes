@@ -405,6 +405,11 @@ fmt.Printf("%s\n", s2)
 **Rune is an alias for int32**. It is an UTF-8 encoded code point. When is this type useful? One example is when you’re iterating over characters in a string. You could loop over each byte
 
 
+#### Complex Numbers
+Go has native support for complex numbers. To use them you need a variable of type **complex128** (64 bit real and imaginary parts) or **complex64*" (32 bit real and imaginary parts). Complex numbers are written as re + imI, where re is the real part, im is the imaginary part and I, is the literal I (√-1).
+
+
+
 #### Booleans
 A boolean value (named after George Boole) is a special 1-bit integer type used to represent true and false (or on and off). Three logical operators are used with boolean
 values:
