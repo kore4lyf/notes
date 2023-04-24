@@ -408,7 +408,8 @@ fmt.Printf("%s\n", s2)
 #### Complex Numbers
 Go has native support for complex numbers. To use them you need a variable of type **complex128** (64 bit real and imaginary parts) or **complex64*" (32 bit real and imaginary parts). Complex numbers are written as re + imI, where re is the real part, im is the imaginary part and I, is the literal I (√-1).
 
-
+#### Errors
+Any non-trivial program will have the need for error reporting sooner or later. Because of this Go has a builtin type specially for errors, called error. var e error creates a variable e of type error with the value nil. 
 
 #### Booleans
 A boolean value (named after George Boole) is a special 1-bit integer type used to represent true and false (or on and off). Three logical operators are used with boolean
@@ -442,6 +443,14 @@ Use the keyword var (or const) followed by parentheses with each variable on its
 own line.
 
 
+## Go Keywords
+Let’s start looking at keywords, Table 2 lists all the keywords in Go.
+
+break	default	func	interface	select
+case	defer	go	    map	        struct
+chan	else	goto	package	    switch
+const	fallthrough	if	range	    type
+continue	for	import	return	    var
 
 
 
