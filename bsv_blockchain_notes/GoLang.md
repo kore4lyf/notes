@@ -522,6 +522,24 @@ func main() {
 ```
 
 
+#### Range 
+```go 
+list := []string{"a", "b", "c", "d", "e", "f"}
+for k, v := range list {
+    // do something with k and v
+}
+``` 
+
+```go 
+for pos, char := range "Gő!" {
+    fmt.Printf("character '%c' starts at byte position %d\n", char, pos)
+}
+```
+prints
+
+character 'G' starts at byte position 0
+character 'ő' starts at byte position 1
+character '!' starts at byte position 3
 
 
 
@@ -538,7 +556,32 @@ if i % 2 == 0 {
 }
 ``` 
 
+```go 
+if err := SomeFunction(); err == nil {
+    // do something
+} else {
+    return err
+}
 
+
+if err := SomeFunction(); err != nil {
+    return err
+}
+```
+
+
+## Goto
+Go has a goto statement - use it wisely. With goto you jump to a label which must be defined within the current function. For instance, a loop in disguise:
+
+```go
+func myfunc() {
+    i := 0
+Here:
+    fmt.Println(i)
+    i++
+    goto Here
+}
+```
 
 
 
