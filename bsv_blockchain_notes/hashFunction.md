@@ -308,7 +308,7 @@ Although hash tables and data structures like Merkle Trees are where hash functi
 **In Bitcoin, digital signatures are most commonly used for Pay-to-Public-Key-Hash (P2PKH) transactions** – the most common type of Bitcoin transaction template -- where the ownership of funds are transferred from the sending party to the receiving party. 
 The two other common uses of digital signatures in Bitcoin are for **signing arbitrary messages and using a Bitcoin address as part of the verification process**, and MinerID which is a message included in the first transaction of a block that acts as an authentication mechanism in case another miner (Bitcoin node) tries to act dishonestly while using the ID of a competing miner.
 
-With that said, it's helpful to recognize that even though hash functions and cryptographic digital signatures are used in Bitcoin, it is not a cryptographic system, and it's actually incorrect to use the term “cryptocurrency” when referring to Bitcoin or a system that follows the Bitcoin architectural design like BSV. This is a really important distinction to be aware of because as we'll see in chapter 7, it's fundamental to how the Bitcoin system operates and how it's secured.
+With that said, it's helpful to recognize that even though hash functions and cryptographic digital signatures are used in Bitcoin, it is not a cryptographic system, and it's actually incorrect to use the term “cryptocurrency” when referring to Bitcoin or a system that follows the Bitcoin architectural design like BSV. This is a really important distinction to be aware of because as we'll see in chapter 7, it's fundamental to how the Bitcoin system operates and how it's secured.
 
 
 #### The Differences Between Hashing and Encryption
@@ -370,7 +370,7 @@ As already mentioned, the two hash functions found in the Bitcoin system are SHA
 However, the following table displays the full range of hash functions commonly found in the greater Bitcoin ecosystem; including SHA-512 and the HMACs of SHA-256 and SHA-512 which are often utilized by Bitcoin wallet implementations: 
 
 | Hash Function | Output Length | Description |Example Application in BSV | 
-| :--- | :--- | :--- | :---|
+| :--- | :--- | :--- | :--- |
 | SHA-256 | 32 Bytes | Generates unique 256-bit value from input string | 1. Proof-of-work algorithm 2. Address Creation | 
 | RIPEMD-160 | 20 Bytes | Generates unique 160-bit value from an input string | Address creation | 
 | HASH-256 | 32 Bytes | SHA256 hash of a SHA256 hash | 1. Blocks 2. Transactions | 
@@ -892,10 +892,176 @@ sv = (g^a)^b mod n = (g^b)^a mod n
 
 ### Double Hashing and Bitcoin's Security
 #### Why is Double Hashing Used in Bitcoin
+- Bitcoin uses double hash functions: HASH-256 and HASH-160. 
+- The intention behind using double hash functions in Bitcoin was to add additional security against birthday attacks.
+- However, we now know this isn't true. Since the use of double hash functions actually increases the probability of finding a collision as opposed to only using one, using double hash functions is less secure than using a single hash function. And it's even worse if the same hash function is used twice like HASH-256. 
+
+Put in a very simplified way, every time a hash function is hashed again by another hash function, it more or less doubles the likelihood of a collision.
+
 #### Hash Functions and Bitcoin's Security Model
+- Bitcoin uses double hash functions to facilitate a **separation of concerns** (within the Bitcoin system and add usability and extensibility).
+
+- In the proof-of-work process, instead of nodes being self-contained units with the full responsibility of
+
+i. Block construction
+ii. Block hashing
+iii. Block verification
+
+These three functions can be split up, and businesses that specialize in any one of them can form to address them.
+
+- In other words, a company that specializes in hashing which has a competitive advantage due to their geographic location and access to cheap power can build a large hashing facility that caters to multiple Bitcoin nodes. 
+
+- Since a hash value is a digital fingerprint, and Bitcoin uses double hash functions, these entities don't need all the transaction information received by the nodes, and can instead communicate through partial hash values of the double hash functions.
+
+- This can be further refined by using a separate verification facility which the hashing facility can send its results to for verification. Once verified, the hashing facility can return its verified result to the node which can then distribute their found block to the rest of the nodes on the network.
+For example, since A == Hash(X) and B == Hash(A), a node can send a hashing facility the Hash(A) and the hashing facility does not need to know what X is to find B.
+
+**In Summary, double hash functions allow for a separation of concerns within the Bitcoin system which aids in its robustness, extensibility, and security.**
 
 
 
 
-## 
 
+## Others 
+
+### Use the hash calculator to calculate the TXID for the following transaction:
+
+Serialised Raw Transaction Hex
+```
+010000000167e7105b52e8534596af29dba949921cffe3dbaa555b8ed96121346c6755adae000000006a47304402206e4db9dee8449b861e5fdc00ba3bdb80fba8cd52c75489376c54bd65d26262650220453569438e6bc6f957b1f7ff6fff4af2e42edaae1ac885382373d42fa569b17c41210267d2d1f8b3affffa10b68b2756ba7f6f4efafcadbecd145181016178d00b379bffffffff019c276bee000000001976a914accd105073775756cc04962bc1e4893694f50c5588ac00000000
+```
+
+TXID in Little Endian 
+- reverse(HASH256(Transaction Hex))  
+- OR 
+- reverse(TXID in BigEndian)
+
+
+TXID in Big Endian
+- HASH256(Transaction Hex)
+
+
+
+### Divide the following transaction up into its constituent elements:
+```
+01000000011e4bf9dc623d942fee4113e077f67204419cb6f841d98ebf250b698cbea8912b000000006b483045022100a7ce3b1d8cc852e625e5da3159131ba7ba071c7a93684f1d3b8d08b6dbc08e82022041ac850772b5877cc8b724f6a7a92709a65a17a52f78419b67304f2481526b79412102e8a1ab43a501a2ab84a14c5ef1a65c15add65f3ec8230e3fb63644a44ac71003ffffffff0200943577000000001976a914aa5604bae61cd60690dd9dec5efbb841668cb19288ac8f933577000000001976a914e33649e455368d536f6003b2908b6299df5fe8bf88ac00000000
+```
+
+1. Version (4 bytes) - 01000000
+
+2. Input Count (1-9 bytes) - 01 
+
+3. Input List (Var length) - 1e4bf9dc623d942fee4113e077f67204419cb6f841d98ebf250b698cbea8912b000000006b483045022100a7ce3b1d8cc852e625e5da3159131ba7ba071c7a93684f1d3b8d08b6dbc08e82022041ac850772b5877cc8b724f6a7a92709a65a17a52f78419b67304f2481526b79412102e8a1ab43a501a2ab84a14c5ef1a65c15add65f3ec8230e3fb63644a44ac71003ffffffff
+
+4. Output Count (1-9 bytes) - 02
+
+5. Output List (Var length) - 00943577000000001976a914aa5604bae61cd60690dd9dec5efbb841668cb19288ac8f933577000000001976a914e33649e455368d536f6003b2908b6299df5fe8bf88ac
+
+6. nLockTime (4 bytes) - 00000000
+
+
+### Using the transaction from the previous question, divide the input UTXO into its constituent elements:
+```
+01000000011e4bf9dc623d942fee4113e077f67204419cb6f841d98ebf250b698cbea8912b000000006b483045022100a7ce3b1d8cc852e625e5da3159131ba7ba071c7a93684f1d3b8d08b6dbc08e82022041ac850772b5877cc8b724f6a7a92709a65a17a52f78419b67304f2481526b79412102e8a1ab43a501a2ab84a14c5ef1a65c15add65f3ec8230e3fb63644a44ac71003ffffffff0200943577000000001976a914aa5604bae61cd60690dd9dec5efbb841668cb19288ac8f933577000000001976a914e33649e455368d536f6003b2908b6299df5fe8bf88ac00000000
+```
+
+1. Previous TX Hash - 1e4bf9dc623d942fee4113e077f67204419cb6f841d98ebf250b698cbea8912b
+
+2. Previous Output Index - 00000000
+
+3. Input Script Length - 6b
+
+4. Input Script - 483045022100a7ce3b1d8cc852e625e5da3159131ba7ba071c7a93684f1d3b8d08b6dbc08e82022041ac850772b5877cc8b724f6a7a92709a65a17a52f78419b67304f2481526b79412102e8a1ab43a501a2ab84a14c5ef1a65c15add65f3ec8230e3fb63644a44ac71003
+
+5. nSequence - ffffffff
+
+
+### Using the transaction from the previous question, divide the output UTXO(s) into its constituent elements:
+``` 
+01000000011e4bf9dc623d942fee4113e077f67204419cb6f841d98ebf250b698cbea8912b000000006b483045022100a7ce3b1d8cc852e625e5da3159131ba7ba071c7a93684f1d3b8d08b6dbc08e82022041ac850772b5877cc8b724f6a7a92709a65a17a52f78419b67304f2481526b79412102e8a1ab43a501a2ab84a14c5ef1a65c15add65f3ec8230e3fb63644a44ac71003ffffffff0200943577000000001976a914aa5604bae61cd60690dd9dec5efbb841668cb19288ac8f933577000000001976a914e33649e455368d536f6003b2908b6299df5fe8bf88ac00000000
+```
+
+1. Output Count - 02
+2. 
+    i. Output Value(s) - 0094357700000000
+                       - 8f93357700000000
+    ii. Output Script Length(s) - 19
+                                - 19
+    iii. Output Script(s) - 76a914aa5604bae61cd60690dd9dec5efbb841668cb19288ac
+    - 76a914e33649e455368d536f6003b2908b6299df5fe8bf88ac
+
+
+
+### Given the ECDSA public key x and y coordinates below, calculate the compressed public key in HEX:
+
+PubKey.X - 61702053028733271054209908027052318932346644879827564097906752978487519734153
+
+PubKey.Y - 107222915356196552656214196479588207773590978294786246589469812962187242002272
+
+
+SOLUTION 
+1.  Convert PubKey.X from Decimal to HEX 
+```
+886a1fda0acce3b3678b502469c19d4fde51349af3ccc175c304d81b96a7e989
+```
+
+2.  Convert PubKey.Y from Decimal to HEX 
+```
+ed0e04fb56a20cd1215ee18c715885f99a85044c72ef290ff4921222b8b65760
+```
+
+
+- Uncompressed pubkey = 04 + HEX(Pubkey.x) + HEX(Pubkey.y)
+
+- Compressed Pubkey 
+02 + Pubkey.x (02 mean Y is even)
+03 + Pubkey.x (03 means Y is Odd)
+
+
+ANSWER
+Compressed PubKey - 
+```
+02886a1fda0acce3b3678b502469c19d4fde51349af3ccc175c304d81b96a7e989
+```
+
+
+
+### Using `02886a1fda0acce3b3678b502469c19d4fde51349af3ccc175c304d81b96a7e989` and the hash calculator, calculate the corresponding mainnet Bitcoin address:
+
+SOLUTION
+1. x = 02886a1fda0acce3b3678b502469c19d4fde51349af3ccc175c304d81b96a7e989
+
+2. hash160X = HASH160(02886a1fda0acce3b3678b502469c19d4fde51349af3ccc175c304d81b96a7e989)
+
+3. baseCheck = BaseCheck(00 + hash160)
+
+The 00 symbolises a P2PKH Transaction.
+
+ANSWER
+Bitcoin Address (Mainnet)
+```
+1D1fVY9pk5jnry51bu6ZwPGhfGyvSZsJ8e
+```
+
+
+### Given the below private key, use the hash calculator to calculate the corresponding mainnet WIF:
+
+Private Key
+```
+3cd5a3e7c745f5b5accf07c5ea1de734cf4c67e96ce15e00c6966de77ef2a02c
+```
+
+SOLUTION
+1. privKey = 3cd5a3e7c745f5b5accf07c5ea1de734cf4c67e96ce15e00c6966de77ef2a02c 
+
+2. privKey = 80 + privKey + 01 
+
+3. wif = BaseCheck(privKey)
+
+
+
+ANSWER
+WIF
+```
+KyFxwPwkMMvyPWQenmgxAfquLSbBstH4Q55hBjDXSBfVoeWptdEa 
+```
