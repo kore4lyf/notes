@@ -330,6 +330,51 @@ When you want to verify, you need an **index number** to find t on the markle tr
 
 
 ## Lecture 4: Blockchain Basics & Concensus 
+- The Byzantine generals problem: 
+- The PoW puzzle is hard to solve a puzzle but easy to verify.
+
+### Overview
+- Review of Blockchain Design
+- Consensus through Proof of Work 
+- Bitcoin Mining 
+- Native Currency 
+- Network 
+- Other Concensus Protocol 
+
+### Review of Blockchain Design
+
+#### Bitcoin - Technical Features 
+##### Cryptography & Timestamped Logs 
+- Cryptographic Hash Functions 
+- Timestamped Append-only Logs (Blocks)
+- Assymetric Cryptography & Digital Signatures 
+- Addresses 
+
+##### Decentralised Network Consensus
+- Proof of Work 
+- Native Currency 
+- Network 
+
+##### Transaction Script & UTXO 
+- Transaction Inputs & Outputs 
+- UTXO set 
+- Scripting Language 
+
+
+### Consensus through Proof of Work 
+
+
+### Bitcoin Mining 
+
+
+### Native Currency 
+
+
+### Network
+
+
+### Other Concensus Protocol 
+
 
 
 
