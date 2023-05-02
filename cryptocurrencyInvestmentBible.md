@@ -59,7 +59,7 @@
 
 
 
-# SAFE AND RELIABLE DIGITAL CURRENCY
+# SAFE AND RELIABLE DIGITAL CURRENCY EXCHANGE 
 - (Localcoins)[https://localbitcoins.com/] Here you will find people who are willing to meet with you and make and exchange for cash or by bank transfer.
 
 A reliable DCE should have a website a ratings and reviews section, support chat, and the amounts of currency available for conversion. For example, you can see that this DCE offers a particular amount of Bitcoin, Ether, and cash dollars.
