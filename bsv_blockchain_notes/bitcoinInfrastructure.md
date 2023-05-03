@@ -331,3 +331,11 @@ For a byte sequence to validly represent a numeric value, the length of the byte
 
 Note that while some operations require parameters to be valid numeric values, they may produce byte sequences which are not valid numeric values (for example, OP_MUL may produce a byte sequence which is too large to validly represent a numeric value).
 
+
+
+### Stack Memory Usage Rule
+The stack memory usage consensus rule limits the amount of memory that can be used on the stacks. This rule is evaluated against the sum of the memory used by the stack and the alt-stack.
+
+If the execution of the unlocking and locking script for an input uses more memory than defined in this rule, then the transaction is 
+
+
