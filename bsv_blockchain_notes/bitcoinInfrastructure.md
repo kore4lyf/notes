@@ -297,4 +297,21 @@ A data item can be interpreted as a numeric value. The numeric value is encoded 
 
 
 
+### Formal Grammar for Bitcoin Script
+The Formal Grammar for Bitcoin Script is set by node operators. This contains the full set of approved opcodes and their exact spelling and function.
+
+It’s also worth highlighting the following features of this formal grammar:
+
+- The complete script consists of two sections, the unlocking script (scriptSig) and the locking script (scriptPubKey). The locking script is from the transaction output that is being spent, while the unlocking script is included in the transaction input that is spending the output.
+- Current consensus rules state that an unlocking script can only contain the first 96 opcodes, which allow constants and data to be pushed onto the stack. This requirement is a part of the Validity of Script Consensus Rule, defined later.
+- A branching operator (OP`_`IF or OP`_`NOTIF) must have a matching OP_ENDIF.
+
+- An OP`_`ELSE can only be included between a branching operator and OP`_`ENDIF pair. There can only be at most one OP`_`ELSE between a branching operator and an OP`_`ENDIF.
+
+- OP`_`RETURN may appear at any location in a valid script. The functionality of OP`_`RETURN has been restored and is defined later in the section OP`_`RETURN Functionality. Grammatically, any bytes after an OP`_`RETURN that is not in a branch block are not evaluated and there are no grammatical requirements for those bytes.
+
+- Note that disabled operations are part of this grammar. A disabled operation is grammatically correct but will produce a failure if executed.
+
+
+
 
