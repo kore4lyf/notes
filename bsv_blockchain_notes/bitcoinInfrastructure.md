@@ -313,5 +313,12 @@ It’s also worth highlighting the following features of this formal grammar:
 - Note that disabled operations are part of this grammar. A disabled operation is grammatically correct but will produce a failure if executed.
 
 
+### Validity of Script Rule
+The locking and unlocking scripts for every input of a transaction must be grammatically valid, as defined by the formal grammar rules from the previous page.
 
+Also note that the scripts must be grammatically valid when they are spent. It is not required that the output scripts of a transaction are grammatically valid although it is highly recommended that client software implement this restriction as a policy.
+
+The unlocking scripts used in transaction inputs may only contain PUSHDATA operations, as defined by the formal grammar above.
+
+Currently, the following 5 opcodes are disabled: OP`_`2MUL, OP`_`2DIV, OP`_`VER, OP`_`VERIF, OP`_`VERNOTIF.
 
