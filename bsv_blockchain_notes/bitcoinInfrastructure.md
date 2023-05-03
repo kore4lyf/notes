@@ -164,4 +164,30 @@ This section details the role of nodes in the network and also how nodes resolve
 
 
 
+### Block consensus rules no. 1
+
+#### Block Size Rule
+When a block is found, there is an economic limit applied to the block size, which is imposed by nodes on the network. This allows nodes to reach consensus on behavioural limits of the network. This limit is set to a large multiple of typical demand.
+
+The size of a block is the size in bytes of the serialised form of the block, including the block header and all of the transactions it includes.
+
+
+This rule is a configurable consensus rule meaning that node operators set the limit. As a group, they are expected to reach consensus on this value and configure it manually.
+
+There is no default value for this setting, and the current BitcoinSV node client software will not start without the operator setting a value. Nodes that are configured with different values to the rest of the network risk having their blocks rejected, or rejecting blocks that other nodes accept, leaving them stuck working on a nonviable chain-tip.
+
+
+
+#### Block Subsidy Rule
+The block subsidy will drop by half at a scheduled rate of every 210,000 blocks, starting with a subsidy of 5,000,000,000 satoshis per block from the genesis block, rounding down when sub-integer fractions are encountered.
+
+
+This rule defines the rate at which Bitcoins are released onto the network from the original issuance. This rule means that nodes who create blocks are rewarded Bitcoins which have not been previously circulated. It is the means by which the entire supply of Bitcoin is released onto the ledger. The subsidy distribution rate was codified in the first ever version of the Bitcoin client.
+
+Nodes who try to issue extra bitcoins to themselves outside of this so-called ‘inflation schedule’ violate the rule that defines how many bitcoins are in existence and as such their blocks must be rejected as invalid. Nodes must adhere to this rule, or their blocks will be judged as invalid by the other participants in the network.
+
+Interestingly, blocks which fail to reward tokens from the subsidy or tokens paid by transaction creators as fees to the winning miner are still considered valid, and the satoshi tokens which aren’t included in the final reward are withheld from circulation. While this is uncommon, it has happened in the past, collectively resulting in a cumulative loss of over 1000 Bitcoins since the network was first formed.
+
+
+
 
