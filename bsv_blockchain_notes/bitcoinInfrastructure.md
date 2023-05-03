@@ -313,6 +313,7 @@ It’s also worth highlighting the following features of this formal grammar:
 - Note that disabled operations are part of this grammar. A disabled operation is grammatically correct but will produce a failure if executed.
 
 
+
 ### Validity of Script Rule
 The locking and unlocking scripts for every input of a transaction must be grammatically valid, as defined by the formal grammar rules from the previous page.
 
@@ -321,4 +322,12 @@ Also note that the scripts must be grammatically valid when they are spent. It i
 The unlocking scripts used in transaction inputs may only contain PUSHDATA operations, as defined by the formal grammar above.
 
 Currently, the following 5 opcodes are disabled: OP`_`2MUL, OP`_`2DIV, OP`_`VER, OP`_`VERIF, OP`_`VERNOTIF.
+
+
+
+### Numeric Value Size Rule
+For a byte sequence to validly represent a numeric value, the length of the byte sequence must be less than or equal to 750,000 bytes. A byte sequence that is larger than this is a valid byte sequence but is not a valid numeric value.
+
+
+Note that while some operations require parameters to be valid numeric values, they may produce byte sequences which are not valid numeric values (for example, OP_MUL may produce a byte sequence which is too large to validly represent a numeric value).
 
