@@ -274,3 +274,27 @@ While these rules are rigid and uniformly applied across all current transaction
 
 
 
+### Script language rules no. 1
+The Bitcoin scripting language and its specification
+One of the aspects of Bitcoin which gives it such a broad range of applicability and function is its scripting language. Based on Forth, the language is stack based and uses Reverse Polish Notation as the means to enter and process data. While the language appears simple, when used properly it can provide a Turing complete environment within which complex and diverse applications can be built.
+
+The scripting language is made up of a set of 186 opcodes which each instruct operations on the processing stack. Any node that wishes to process transactions on the Bitcoin network must ensure that their node client implementation is processing each of the opcodes in a way that exactly matches the outcomes expected by every other node on the network at that time, including whether or not those opcodes are enabled or not.
+
+Even a minor change in the way opcodes are processed can result in transactions that were committed to the ledger being rendered unspendable and causing irreparable damage to the system’s integrity and usability. It is because of these reasons that it is of vital importance that every node processes each opcode in the script in exactly the same manner.
+Interestingly, this also means that bugs that existed in the execution algorithms must also be upheld. Notably, a bug in the OP`_`CHECKMULTISIG opcode requires that an extra data item be added to the stack before the first signature or the opcode will fail to execute properly. For this reason, anyone spending an output with OP`_`CHECKMULTISIG in it must add one extra data item to their script. Additionally, any node clients that did not take this known bug into account would incorrectly validate scripts that use the opcode, potentially causing them to reject transactions or blocks that should be considered valid, or accepting transactions and blocks which the rest of the network considers invalid.
+
+The following rules are applied for all transactions.
+
+#### Data Types
+All data items in Bitcoin Script are a byte sequence. Some operations interpret their parameters as numeric or boolean values and require the item to fulfil the specifications of those types. Some operations produce items on the stack which are valid numeric or boolean values.
+A byte sequence has a length and a value. The length of the byte sequence must be an integer greater or equal to zero and less than or equal to 2^32-1 (UINT32_MAX).
+
+The byte sequence of length zero is called the “null value”.
+
+Any data item can be interpreted as a boolean value. If the data item consists entirely of bytes with value zero, or the data item is the null value, then the boolean value of the item is false. Otherwise, the boolean value of the item is true.
+
+A data item can be interpreted as a numeric value. The numeric value is encoded in a byte sequence using little-endian notation. When script items are processed using opcodes that perform mathematical functions, the node will treat any byte sequence of up to 7500 bytes long as a numeric value, allowing for 'bignum' calculations to be performed in script.
+
+
+
+
