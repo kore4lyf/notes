@@ -2607,3 +2607,82 @@ class Car {
   }
 }
 var mycar = new Car("Ford");
+
+
+
+
+
+## Code Debugging 
+
+Searching for (and fixing) errors in programming code is called code debugging.
+
+
+### JavaScript Debuggers
+Debugging is not easy. But fortunately, all modern browsers have a built-in JavaScript debugger.
+
+- With a debugger, you can also set breakpoints (places where code execution can be stopped), and examine variables while the code is executing.
+
+- You activate debugging in your browser with the **F12 key**, and select "Console" in the debugger menu.
+
+
+
+### The console.log() Method
+If your browser supports debugging, you can use console.log() to display JavaScript values in the debugger window:
+```js
+a = 5;
+b = 6;
+c = a + b;
+console.log(c);
+```
+
+
+
+### Setting Breakpoints
+In the debugger window, you can set breakpoints in the JavaScript code.
+
+At each breakpoint, JavaScript will stop executing, and let you examine JavaScript values.
+
+After examining values, you can resume the execution of code (typically with a play button).
+
+With the debugger turned on, this code will stop executing before it executes the third line.
+
+
+
+### The debugger Keyword
+The debugger keyword stops the execution of JavaScript, and calls (if available) the debugging function.
+
+Example
+```js
+var x = 15 * 5;
+debugger;
+document.getElementById("demo").innerHTML = x;
+```
+
+
+### MORE 
+A common practice programmers use to track bugs in their code is to print statements as the program runs. One way is to use statements such as **console.log() or console.debug()**, but it is considered to be unsafe and must be included production. 
+**Debuggers** provide a systematic way to observe what is happening in a program, without exposing your program to security threats.
+The key features of debuggers are **watching objects** (by watching objects you can track changes), and adding **breakpoints** (breakpoints are markers that a programmer can place in their code to stop the code form continuing beyond points that the developer is investigating). 
+
+
+#### 1. Using Node JS watchers
+To use the node js debugger on a program, you have to **node inspect** the program
+
+```sh
+node inspect example.js
+```
+
+##### commands that can be used in the debugger
+- `c` or `cont`: continue execution to the next breakingpoin or to th end of the program. 
+- `n` or `next`: Move to the next line of code.
+- `s` or `step`: Step into a function. By default, we only step through code in the block or scope we're debugging. 
+- `o`: Step out of a function (After stepping into a function).
+- `pause`: Pause the running code.
+- `watch()`: To watch a variable, use `watch()` function with a string argument that contains the variable name (e.g. `watch('myVar')`)
+- `unwatch()`: To stop watching a variable (e.g. `unwatch('myVar')`)
+- `.exit`: to exit debugger.
+
+
+#### Using Breakpoint with the Node.js debugger
+It's comon for Node.js projects to consist of many interconnnected modules debugging them line-by-line would be time consuming. 
+Break points allows you to jump to a line you'd like to pause by using in the `debugger` keyword. 
