@@ -1569,3 +1569,78 @@ list: {
 ```
 
 
+
+
+
+## JavaScript Type Conversion
+
+Number() converts to a Number, String() converts to a String, Boolean() converts to a Boolean.
+
+
+### JavaScript Data Types
+In JavaScript there are 5 different data types that can contain values:
+
+- string
+- number
+- boolean
+- object
+- function
+
+There are 6 types of objects:
+- Object
+- Date
+- Array
+- String
+- Number
+- Boolean
+
+
+And 2 data types that cannot contain values:
+- null
+- undefined
+
+Example
+```js
+typeof "John"                 // Returns "string"
+typeof 3.14                   // Returns "number"
+typeof NaN                    // Returns "number"
+typeof false                  // Returns "boolean"
+typeof [1,2,3,4]              // Returns "object"
+typeof {name:'John', age:34}  // Returns "object"
+typeof new Date()             // Returns "object"
+typeof function () {}         // Returns "function"
+typeof myCar                  // Returns "undefined" *
+typeof null                   // Returns "object"
+```
+
+
+### The constructor Property
+The constructor property returns the constructor function for all JavaScript variables.
+
+Example
+```js
+"John".constructor                // Returns function String()  {[native code]}
+(3.14).constructor                // Returns function Number()  {[native code]}
+false.constructor                 // Returns function Boolean() {[native code]}
+[1,2,3,4].constructor             // Returns function Array()   {[native code]}
+{name:'John',age:34}.constructor  // Returns function Object()  {[native code]}
+new Date().constructor            // Returns function Date()    {[native code]}
+function () {}.constructor        // Returns function Function(){[native code]}
+```
+
+You can check the constructor property to find out if an object is an Array (contains the word "Array"):
+```js
+function isArray(myArray) {
+  return myArray.constructor === Array;
+}
+```
+
+
+You can check the constructor property to find out if an object is a Date (contains the word "Date"):
+```js
+function isDate(myDate) {
+  return myDate.constructor === Date;
+}
+```
+
+
