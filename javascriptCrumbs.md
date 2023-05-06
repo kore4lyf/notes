@@ -1536,4 +1536,36 @@ if (condition1) {
 
 
 
+## JavaScript Lables
+
+To label JavaScript statements you precede the statements with a label name and a colon:
+
+
+```js
+label:
+statements
+```
+
+The break and the continue statements are the only JavaScript statements that can "jump out of" a code block.
+
+Syntax:
+```js
+break labelname;
+
+continue labelname;
+```
+
+
+Example
+```js
+var cars = ["BMW", "Volvo", "Saab", "Ford"];
+list: {
+  text += cars[0] + "<br>";
+  text += cars[1] + "<br>";
+  break list;
+  text += cars[2] + "<br>";
+  text += cars[3] + "<br>";
+}
+```
+
 
