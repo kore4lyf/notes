@@ -1779,5 +1779,140 @@ Found e in position 2 in the text: The best things in life are free!
 
 
 
+## JavaScript Errors - Throw and Try to Catch
+
+The try statement lets you test a block of code for errors.
+
+
+- The catch statement lets you handle the error.
+
+- The throw statement lets you create custom errors.
+
+- The finally statement lets you execute code, after try and catch, regardless of the result.
+
+Example 
+```js
+try {
+  adddlert("Welcome guest!");
+}
+catch(err) {
+  document.getElementById("demo").innerHTML = err.message;
+}
+```
+
+
+### The throw Statement
+The throw statement allows you to create a custom error.
+
+Technically you can throw an exception (throw an error).
+
+The exception can be a JavaScript String, a Number, a Boolean or an Object:
+```js
+throw "Too big";    // throw a text
+throw 500;          // throw a number
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Please input a number between 5 and 10:</p>
+
+<input id="demo" type="text">
+<button type="button" onclick="myFunction()">Test Input</button>
+<p id="p01"></p>
+
+<script>
+function myFunction() {
+  var message, x;
+  message = document.getElementById("p01");
+  message.innerHTML = "";
+  x = document.getElementById("demo").value;
+  try { 
+    if(x == "")  throw "empty";
+    if(isNaN(x)) throw "not a number";
+    x = Number(x);
+    if(x < 5)  throw "too low";
+    if(x > 10)   throw "too high";
+  }
+  catch(err) {
+    message.innerHTML = "Input is " + err;
+  }
+}
+</script>
+
+</body>
+
+<!-- Mirrored from www.w3schools.com/js/tryit.asp?filename=tryjs_throw_error by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 27 Jan 2020 02:39:33 GMT -->
+</html>
+```
+
+### The finally Statement
+The finally statement lets you execute code, after try and catch, regardless of the result:
+
+Syntax
+```js
+try {
+  Block of code to try
+}
+catch(err) {
+  Block of code to handle errors
+}
+finally {
+  Block of code to be executed regardless of the try / catch result
+}
+```
+
+
+### The Error Object
+JavaScript has a built in error object that provides error information when an error occurs.
+
+The error object provides two useful properties: name and message.
+
+#### Error Object Properties
+- name -	Sets or returns an error name
+- message -	Sets or returns an error message (a string)
+
+
+#### Error Name Values
+Six different values can be returned by the error name property:
+
+- **EvalError** -	An error has occurred in the eval() function. (Newer versions of JavaScript do not throw EvalError. Use SyntaxError instead.)
+- **RangeError** -	A number "out of range" has occurred (e.g. num.toPrecision(500)  A number cannot have 500 significant digits)
+- **ReferenceError** -	An illegal reference has occurred 
+- **SyntaxError** -	A syntax error has occurred
+- **TypeError** -	A type error has occurred
+- **URIError** -	An error in encodeURI() has occurred
+
+
+### JavaScript Hoisting
+Hoisting is JavaScript's default behavior of moving all declarations to the top of the current scope (to the top of the current script or the current function).
+
+- Variables and constants declared with let or const are not hoisted!
+
+#### JavaScript Declarations are Hoisted
+In JavaScript, a variable can be declared after it has been used.
+
+In other words; a variable can be used before it has been declared.
+
+Example 1 gives the same result as Example 2:
+
+Example 1
+```js
+x = 5; // Assign 5 to x
+
+elem = document.getElementById("demo"); // Find an element
+elem.innerHTML = x;                     // Display x in the element
+
+var x; // Declare x
+```
+
+> JavaScript in strict mode does not allow variables to be used if they are not declared.
+
+
+
+
+
 
 
