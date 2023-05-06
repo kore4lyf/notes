@@ -2346,3 +2346,264 @@ In short, with arrow functions there are no binding of this.
 In regular functions the this keyword represented the object that called the function, which could be the window, the document, a button or whatever.
 
 With arrow functions the this keyword always represents the object that defined the arrow function.
+
+
+
+
+
+## JavaScript Classes
+### ECMAScript 2015
+ES6, also known as ECMAScript2015, introduced classes.
+
+A class is a type of function, but instead of using the keyword function to initiate it, we use the keyword class, and the properties are assigned inside a constructor() method.
+
+### Class Definition
+Use the keyword class to create a class, and always add the constructor() method.
+
+The constructor method is called each time the class object is initialized.
+
+Example
+A simple class definition for a class named "Car":
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+}
+```
+
+Now you can create objects using the Car class:
+
+Example
+Create an object called "mycar" based on the Car class:
+
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+}
+mycar = new Car("Ford");
+```
+
+
+### Methods
+The constructor method is special, it is where you initialize properties, it is called automatically when a class is initiated, and it has to have the exact name "constructor", in fact, if you do not have a constructor method, JavaScript will add an invisible and empty constructor method.
+
+You are also free to make your own methods, the syntax should be familiar:
+
+Example
+Create a method named "present":
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+  present() {
+    return "I have a " + this.carname;
+  }
+}
+
+mycar = new Car("Ford");
+document.getElementById("demo").innerHTML = mycar.present();
+```
+
+
+
+### Static Methods
+Static methods are defined on the class itself, and not on the prototype.
+
+That means you cannot call a static method on the object (mycar), but on the class (Car):
+
+Example
+Create a static method and call it on the class:
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+  static hello() {
+    return "Hello!!";
+  }
+}
+
+mycar = new Car("Ford");
+
+//Call 'hello()' on the class Car:
+document.getElementById("demo").innerHTML = Car.hello();
+
+//and NOT on the 'mycar' object:
+//document.getElementById("demo").innerHTML = mycar.hello();
+//this would raise an error.
+```
+If you want to use the mycar object inside the static method, you can send it as a parameter:
+
+Example
+Send "mycar" as a parameter:
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+  static hello(x) {
+    return "Hello " + x.carname;
+  }
+}
+
+mycar = new Car("Ford");
+
+document.getElementById("demo").innerHTML = Car.hello(mycar);
+```
+
+
+### Inheritance
+To create a class inheritance, use the extends keyword.
+
+A class created with a class inheritance inherits all the methods from another class:
+
+Example
+Create a class named "Model" which will inherit the methods from the "Car" class:
+
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+  present() {
+    return 'I have a ' + this.carname;
+  }
+}
+
+class Model extends Car {
+  constructor(brand, mod) {
+    super(brand);
+    this.model = mod;
+  }
+  show() {
+    return this.present() + ', it is a ' + this.model;
+  }
+}
+
+mycar = new Model("Ford", "Mustang");
+document.getElementById("demo").innerHTML = mycar.show();
+```
+
+The super() method refers to the parent class.
+
+By calling the super() method in the constructor method, we call the parent's constructor method and gets access to the parent's properties and methods.
+
+> Inheritance is useful for code reusability: reuse properties and methods of an existing class when you create a new class.
+
+
+### Getters and Setters
+Classes also allows you to use getters and setters.
+
+It can be smart to use getters and setters for your properties, especially if you want to do something special with the value before returning them, or before you set them.
+
+To add getters and setters in the class, use the get and set keywords.
+
+Example
+Create a getter and a setter for the "carname" property:
+```js
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+  get cnam() {
+    return this.carname;
+  }
+  set cnam(x) {
+    this.carname = x;
+  }
+}
+
+mycar = new Car("Ford");
+```
+
+document.getElementById("demo").innerHTML = mycar.cnam;
+
+Note: even if the getter is a method, you do not use parentheses when you want to get the property value.
+
+The name of the getter/setter method cannot be the same as the name of the property, in this case carname.
+
+Many programmers use an underscore character _ before the property name to separate the getter/setter from the actual property:
+
+Example
+You can use the underscore character to separate the getter/setter from the actual property:
+```js
+class Car {
+  constructor(brand) {
+    this._carname = brand;
+  }
+  get carname() {
+    return this._carname;
+  }
+  set carname(x) {
+    this._carname = x;
+  }
+}
+
+mycar = new Car("Ford");
+
+document.getElementById("demo").innerHTML = mycar.carname;
+```
+
+To use a setter, use the same syntax as when you set a property value, without parentheses:
+
+Example
+Use a setter to change the carname to "Volvo":
+```js
+class Car {
+  constructor(brand) {
+    this._carname = brand;
+  }
+  get carname() {
+    return this._carname;
+  }
+  set carname(x) {
+    this._carname = x;
+  }
+}
+
+mycar = new Car("Ford");
+mycar.carname = "Volvo";
+document.getElementById("demo").innerHTML = mycar.carname;
+```
+
+
+### Hoisting
+Unlike functions, and other JavaScript declarations, class declarations are not hoisted.
+
+That means that you must declare a class before you can use it:
+
+Example
+```js
+//You cannot use the class yet.
+//mycar = new Car("Ford")
+//This would raise an error.
+
+class Car {
+  constructor(brand) {
+    this.carname = brand;
+  }
+}
+
+//Now you can use the class:
+mycar = new Car("Ford")
+```
+
+### "use strict"
+The syntax in classes must be written in "strict mode".
+
+You will get an error if you do not follow the "strict mode" rules.
+
+Example
+In "strict mode" you will get an error if you use a variable without declaring it:
+
+class Car {
+  constructor(brand) {
+    i = 0;
+    this.carname = brand;
+  }
+}
+var mycar = new Car("Ford");
