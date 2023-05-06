@@ -2226,4 +2226,73 @@ person1.fullName.call(person2);  // Will return "John Doe"
 
 
 
+## JavaScript Const
 
+Variables defined with const behave like let variables, except they cannot be reassigned:
+
+```js
+const PI = 3.141592653589793;
+PI = 3.14;      // This will give an error
+PI = PI + 10;   // This will also give an error
+```
+
+
+### Constant Objects can Change
+You can change the properties of a constant object:
+
+Example
+```js
+// You can create a const object:
+const car = {type:"Fiat", model:"500", color:"white"};
+
+// You can change a property:
+car.color = "red";
+
+// You can add a property:
+car.owner = "Johnson";
+```
+
+
+But you can NOT reassign a constant object:
+
+Example
+```js
+const car = {type:"Fiat", model:"500", color:"white"};
+car = {type:"Volvo", model:"EX60", color:"red"};    // ERROR
+```
+
+### Constant Arrays can Change
+You can change the elements of a constant array:
+
+Example
+```js
+// You can create a constant array:
+const cars = ["Saab", "Volvo", "BMW"];
+
+// You can change an element:
+cars[0] = "Toyota";
+
+// You can add an element:
+cars.push("Audi");
+But you can NOT reassign a constant array:
+```
+
+Example
+```js
+const cars = ["Saab", "Volvo", "BMW"];
+cars = ["Toyota", "Volvo", "Audi"];    // ERROR
+```
+
+### Redeclaring a variable with const
+in another scope, or in another block, is allowed:
+```js
+const x = 2;       // Allowed
+
+{
+  const x = 3;   // Allowed
+}
+
+{
+  const x = 4;   // Allowed
+}
+```
