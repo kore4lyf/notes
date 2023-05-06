@@ -1644,3 +1644,140 @@ function isDate(myDate) {
 ```
 
 
+
+
+
+## JavaScript Bitwise Operations
+
+| Operator |	Name |	Description |
+| :--- | :--- | :--- |
+| & |	AND |	Sets each bit to 1 if both bits are 1 |
+| |	OR | Sets each bit to 1 if one of two bits is 1 |
+| ^ |	XOR |	Sets each bit to 1 if only one of two bits is 1 |
+| ~ |	NOT |	Inverts all the bits |
+| << |	Zero | fill left shift	Shifts left by pushing zeros in from the right and let the leftmost bits fall off |
+| >> |	Signed right shift	| Shifts right by pushing copies of the leftmost bit in from the left, and let the rightmost bits fall off |
+| >>>	| Zero fill right shift	| Shifts right by pushing zeros in from the left, and let the rightmost bits fall off |
+
+
+
+Examples
+| Operation |	Result |	Same as	| Result |
+| :--- | :--- | :--- | :--- |
+| 5 & 1 |	1 |	0101 & 0001 | 0001 |
+| 5 I 1	| 5	 | 0101 I 0001 |	 0101 |
+| ~ 5 |	10	| ~0101	| 1010 |
+| 5 << 1 | 10 |	0101 << 1	| 1010 |
+| 5 ^ 1 |	4 |	0101 ^ 0001	| 0100 |
+| 5 >> 1 |	2 |	0101 >> 1	| 0010 |
+| 5 >>> 1 |	2	| 0101 >>> 1	| 0010 |
+
+
+
+
+
+### JavaScript Regular Expressions
+A regular expression is a sequence of characters that forms a search pattern.
+
+The search pattern can be used for text search and text replace operations.
+
+Regular expressions can be used to perform all types of **text search** and **text replace** operation
+
+Syntax
+```js
+/pattern/modifiers;
+```
+
+- search() - 
+- match() -  retrieves the matches in an array when matching a string against a regular expression
+- test() - method executes a search for a match between a regular expression and a specified string. Returns true or false
+
+
+### Regular Expression Modifiers
+Modifiers can be used to perform case-insensitive more global searches:
+- i  is a modifier (modifies the search to be case-insensitive).
+- g	Perform a global match (find all matches rather than stopping after the first match)
+- m	Perform multiline matching
+
+
+### Regular Expression Patterns
+Brackets are used to find a range of characters:
+
+- [abc]	- Find any of the characters between the brackets	
+- [0-9]	- Find any of the digits between the brackets	
+(x|y)	- Find any of the alternatives separated with |
+
+
+
+### Metacharacters are characters with a special meaning:
+
+Metacharacter	Description	Try it
+\d -	Find a digit	
+\s	Find a whitespace character	
+\b	Find a match at the beginning of a word like this: \bWORD, or at the end of a word like this: WORD\b
+
+
+### Quantifiers define quantities:
+
+Quantifier	
+n+	Matches any string that contains at least one n
+n*	Matches any string that contains zero or more occurrences of n
+n?	Matches any string that contains zero or one occurrences of n
+
+
+
+Example
+var patt = /w3schools/i;
+
+Example explained:
+/w3schools/i  is a regular expression.
+w3schools  is a pattern (to be used in a search).
+i  is a modifier (modifies the search to be case-insensitive).
+
+
+### Using test()
+The test() method is a RegExp expression method.
+
+It searches a string for a pattern, and returns true or false, depending on the result.
+
+The following example searches a string for the character "e":
+
+Example
+```js
+var patt = /e/;
+patt.test("The best things in life are free!");
+
+// OR
+
+/e/.test("The best things in life are free!");
+```
+
+
+### Using exec()
+The exec() method is a RegExp expression method.
+
+It searches a string for a specified pattern, and returns the found text as an object.
+
+If no match is found, it returns an empty (null) object.
+
+The following example searches a string for the character "e":
+
+Example 1
+```js
+/e/.exec("The best things in life are free!");
+```
+
+```js
+var obj = /e/g.exec("The best things in life are free!");
+console.log(
+"Found " + obj[0] + " in position " + obj.index + " in the text: " + obj.input;
+);
+```
+Found e in position 2 in the text: The best things in life are free!
+
+
+
+
+
+
+
