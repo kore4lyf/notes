@@ -146,4 +146,101 @@ What the hell is blockchain? How does it work? Can you enlighten me, but in a wa
 
 
 
-## 
+## CHAPTER 2. Blockchain
+A very short definition of blockchain would be “an unhackable public ledger,” but it doesn’t explain much.
+
+Imagine blockchain as a pile of boxes with old photos in your garage. Each box represents a year of life. One box is from when you were 5; another is from when you were 10, and so on. You have your parents’ wedding pictures, pictures of your hamster Biscuit, and unflattering images of you on your potty.
+
+Blockchain, too, consists of boxes. They are called “blocks,” thus the name — block-chain. Each block contains information. 
+
+When we fill boxes with photographs, we tape them shut and stack them on top of each other in a pile. However, once we fill blocks with data, we can’t pile them up on the blockchain. They are linked or chained together.
+
+Chained blocks create a linear history of recorded data. This chain of information is the blockchain. As new info comes in, we put it in a fresh block (like a new box of photos). Then, that block gets linked to existing ones. Creating new blocks on the blockchain is a never-ending process. 
+
+Blocks are files where the data is collected together. For example, with Bitcoin, the most recent block contains the most recent transactions. When each block is filled, it is attached to the previous block in the chain, and a new block gets opened to record new data. It is like a page in a record book: each page can be regarded as a block, with the whole book representing the blockchain. 
+
+
+
+The concept of blockchain appeared almost 20 years before Bitcoin. It was first outlined in 1991 by Scott Haber and W. Scott Stornetta. These two exceptional researchers wanted to implement a system where document timestamps couldn’t be changed or tampered with. However, it wasn’t until the arrival of Bitcoin in 2009 that this concept got its first real-world application. 
+
+Since 2009, cryptocurrencies and blockchain systems have become best buddies. Literally “inseparable.” This is because cryptocurrency transactions ARE the data stored on a blockchain. 
+
+But where does all this data “live”? Like in a mega-computer or something? In thousands of computers, actually. There is no central place of storage because the blockchain system is decentralized.
+
+### Decentralization
+Cryptocurrencies like BTC need an extensive network of computers to store all their data. Nevertheless, the Bitcoin network isn’t held all in one location with a single point of control: it is made up of computers all around the world, each with its own individual and unique operator (miner).
+
+Decentralization spreads power, control, and authority among many locations and/or people instead of locking it up in one place, in the hands of one person or central institution. Because of these characteristics, a decentralized system is more secure, and any attacks on it are less likely to succeed. Yet, such an event is possible. We will talk about it below.
+
+Each machine in this network is called a node. Each node has a full record of all the data stored on the blockchain since its very inception. So, for Bitcoin, it would be the entire history of transactions. 
+
+### How is a transaction processed? Consensus algorithms 
+Remember when you did something so embarrassing that you’re still getting flashbacks? The blockchain, too, has an excellent memory for very specific things: it memorizes the time of each piece of data stored on it. When a block is filled, the information it holds is set in stone. 
+
+The blockchain remembers. Each new block adds a “hash,” or a line of code, from the previous block. Since every one of them must be authenticated before it can be added, altering the chain is merely impossible. The data stored in the chain cannot be changed and becomes part of the timeline. 
+
+When it comes to recording transactions on the blockchain, the process is quite simple. For example, this is what happens when you send (let’s imagine) 1 Bitcoin:
+
+After you click “Send,” the transaction becomes a block of information. 
+The information is then transmitted across a network of peer-to-peer (P2P) nodes spread around the world. 
+Nodes validate the transaction. For Bitcoin, the transaction must be validated through a proof-of-work consensus mechanism. 
+Nodes receive a special reward for validating the transaction, usually in cryptocurrency.
+A new block containing the transaction is added to the blockchain. 
+The transaction is completed! 
+
+So, a node is a server that validates the blocks of data/transactions on the blockchain. 
+
+Peer-to-peer refers to the direct sharing of data, information, or even assets, without the involvement of a third party or a central authority.
+
+A consensus algorithm refers to a method of synchronizing nodes and validating transactions.
+
+Such blockchains as Bitcoin, Litecoin, Bitcoin Cash, and many others utilize the proof-of-work consensus algorithm to create new blocks. 
+
+Proof of Work (PoW) is a type of consensus algorithm used to confirm transactions and produce new blocks on the blockchain. When a transaction is being processed, users check and prove its accuracy by solving a complex mathematical problem. PoW requires a lot of energy, which often gives a person with the most potent set-up the best chance of getting a reward. 
+
+EOS, TRON, and Tezos (and someday, we hope, Ethereum) use a proof-of-stake algorithm. 
+
+Proof of Stake (PoS) is another consensus algorithm. It differs from PoW in that a person, a miner, can validate blocks of transactions based on how many coins they hold. PoS was created as an alternative to PoW as the latter requires massive amounts of energy. Instead of using up energy to solve PoW algorithms, PoS miners are limited to mining the percentage of transactions relative to the number of coins they own. For example, if you own 5% of available coins, you can only mine 5% of blocks. 
+
+If one node has an error in its data, thousands of other nodes can be used as a reference point for correction. This way, no nodes within the network can alter the information held inside. As a result, the history of transactions in each block making up the Bitcoin blockchain is irreversible and reliable. 
+
+Even if someone were to tamper with Bitcoin’s transaction history, all other nodes would cross-reference and easily pinpoint the node with incorrect information. This helps to establish the exact and transparent order of events. It’s like a group of friends. If one friend starts making up rumors and claiming things that aren’t true, the rest of them will eventually come together and confront the liar. 
+
+In order for such an attack to be successful, the person or persons carrying out the hack would need to simultaneously control and alter at least 51% of all copies of the blockchain so that the new copy would be the majority, making it an agreed-upon chain. But since the Bitcoin network is so large and ever-growing, such a feat would be pretty much impossible to complete. Even if it occurred, success wouldn’t be guaranteed. Such changes to the blockchain would definitely be noticeable, and the other network members could just split off or fork off to a new version of the chain that has not been affected. We are going to explain a 51% attack in detail in Chapter 7. Crypto security.
+
+A hack of this level would also cause the value of the attacked version of Bitcoin to drop significantly, ultimately making the whole operation pointless as the hacker would then control a worthless asset. The Bitcoin blockchain is built in such a way that joining and taking part in the network is much more economically beneficial than attacking it. 
+
+### Smart contracts
+Most cryptocurrencies either use their own blockchains or borrow blockchains from other platforms. Some smaller alternative cryptocurrencies, or altcoins, use the blockchain technology of bigger ones, like Bitcoin. Others create their own new blockchains to do something different, like Ethereum, which lets developers build and publish smart contracts and decentralized applications (dApps).
+
+___
+Smart contracts are programs stored on the blockchain. Like in paper contracts, parties can write the conditions of their transaction. Those conditions don’t exist in words: instead, they are lines of code. Smart contracts are self-executing, so there is no need for any third parties or intermediaries. 
+
+Decentralized applications, or dApps, are programs that exist and run on a blockchain or a peer-to-peer (P2P) network of computers instead of a single computer.
+
+Smart contracts are built into the blockchain to verify, execute, or negotiate contract agreements. They can be used to automate any workflow once the conditions are met. 
+
+The terms of the agreement are carried out automatically. They follow a simple pattern of “if/when… then…” — for example, if I give you $10, you will give me a book, meaning smart contracts give me a book once I have given you ten bucks. They also help eliminate extra fees and processes usually associated with a third party, a mediator, an attorney, or a notary.
+
+### Is blockchain just about crypto?
+Blockchain technology can also be used in a wide range of sectors and industries to record data and procedures. For example, it can trace the journey of food products from their origins to their final destination, noting every stop they make along the way. Each stop is counted as a block in the chain. 
+
+Another industry that could significantly benefit from implementing blockchain technology is the banking and financial sector. Most banks work Monday to Friday, 9 am to 5 pm, and are closed on public holidays, yet the blockchain never sleeps. It is operational 24/7, 365 days a year. 
+
+Since blockchain eliminates many intermediaries and third parties, it could reduce both transaction fees and time frames of banking transactions. 
+
+Blockchain could find another real-world application in voting where it could modernize voting systems, eliminate voter fraud, and boost voter turnout. This was proven in the test in the 2018 midterm elections in West Virginia. Blockchain would make it virtually impossible for votes to be tampered with, help ensure transparency, and provide officials with almost instant results. We are exploring more real-world use cases of blockchain in Chapter 12. Spoiler alert: Hennessy, Louis Vuitton, Nike, and other giant players are using (or going to) use blockchain. 
+
+### Summary time
+To sum up, a blockchain is a database that can store all kinds of information. The data is stored in blocks, like small boxes. When each block is filled, it is chained to the previous ones, arranging all of them in linear order. Bitcoin was the first real-world application of blockchain technology, and it is the most well-known. 
+
+Once a block is verified and recorded on the chain, a piece of data inside can no longer be changed or edited.
+PoW and PoS consensus algorithms are used to verify and validate transactions.
+The decentralized nature of the Bitcoin blockchain helps improve its security by removing a single point of failure/control.
+Most cryptocurrencies have their own blockchains, or they borrow the blockchain of another platform.
+Blockchain increases transaction speed and eliminates the need for third parties and intermediaries.
+Smart contracts execute an agreement once the pre-arranged conditions of that contract are met.
+Blockchain isn’t just for cryptocurrencies and recording transactions: it can be used in a wide range of industries, such as supply chains, voting (e.g., blockchain technology implementation in Sierra Leone), etc.
+
+
+
