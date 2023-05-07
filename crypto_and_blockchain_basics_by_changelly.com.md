@@ -451,12 +451,160 @@ Dogecoin, Shiba Inu, Floki Inu, RoboApe Token, Dogelon Mars.
 ### Summary time
 So, to give a brief recap, there are 7 types of cryptocurrencies, each with its own advantages, disadvantages, and uses:
 
-Store-of-value cryptocurrencies hold and increase value over time. In terms of cryptocurrencies, they are relatively safe and stable. However, their limited functionality is sometimes seen as a disadvantage. 
-Smart contract cryptocurrencies help create tokenized assets and dApps. They get their value from their use as a payment method for smart contracts and dApp transactions. Ethereum is the most popular smart contract cryptocurrency, with a market cap of $166 billion.
-Oracle cryptocurrencies bring real-world data to smart contract blockchains that need this information for their dApps to have real-world applications and use cases. 
-Payment cryptocurrencies aim to replace our current payment systems. They have the highest chance of mainstream adoption, and their target market is the most lucrative. However, this is unlikely to happen anytime soon. Bitcoin Cash (BCH) is a well-known example of a payment cryptocurrency.
-Privacy cryptocurrencies preserve your privacy when you’re making transactions or using dApps. Generally, they are well-designed and built to last, but they are a common target for regulators. Monero (XMR) and Zcash (ZEC) are two examples of this type of cryptocurrency.
-Exchange tokens are owned and operated by the cryptocurrency exchanges they belong to. Binance coin (BNB) is probably the most well-known example of an exchange token.
-Meme coins have no actual real-world use or advantage. However, skillful investors can understand in advance which tokens will be hyped up and buy them early to sell them later on at a higher price. Dogecoin is the most famous example of a meme coin.
+**Store-of-value** cryptocurrencies hold and increase value over time. In terms of cryptocurrencies, they are relatively safe and stable. However, their limited functionality is sometimes seen as a disadvantage. 
+
+**Smart contract cryptocurrencies** help create tokenized assets and dApps. They get their value from their use as a payment method for smart contracts and dApp transactions. Ethereum is the most popular smart contract cryptocurrency, with a market cap of $166 billion.
+
+**Oracle cryptocurrencies** bring real-world data to smart contract blockchains that need this information for their dApps to have real-world applications and use cases. 
+
+**Payment cryptocurrencies** aim to replace our current payment systems. They have the highest chance of mainstream adoption, and their target market is the most lucrative. However, this is unlikely to happen anytime soon. Bitcoin Cash (BCH) is a well-known example of a payment cryptocurrency.
+
+**Privacy cryptocurrencies**  preserve your privacy when you’re making transactions or using dApps. Generally, they are well-designed and built to last, but they are a common target for regulators. Monero (XMR) and Zcash (ZEC) are two examples of this type of cryptocurrency.
+
+**Exchange tokens** are owned and operated by the cryptocurrency exchanges they belong to. Binance coin (BNB) is probably the most well-known example of an exchange token.
+
+**Meme coins** have no actual real-world use or advantage. However, skillful investors can understand in advance which tokens will be hyped up and buy them early to sell them later on at a higher price. Dogecoin is the most famous example of a meme coin.
+
+
+
+
+
+## CHAPTER 4. Types of wallets and exchange platforms
+Now it’s time to finally invest! But where to start? You can’t go down to your local bank or investment office, hand them cash, and select the coins you want to buy.
+
+The first 3 micro steps to becoming a top crypto investor are:
+
+finding and studying a suitable cryptocurrency 
+finding and studying a crypto wallet to store coins
+finding and studying a cryptocurrency exchange to purchase and trade coins 
+The security of cryptocurrencies is an issue for many investors. The new electronic money attracts hundreds of thousands of internet users, including hackers. Thieves are aiming to steal your money. Fraudsters will give you false price predictions to… again, steal your money. 
+
+The only security measure that is a 100% guarantee is your knowledge about the market. You should do your research, and that’s not just a common phrase.
+
+### Crypto wallets
+First things first, you’ll have to decide where to store your new coins. Unlike cash, these coins aren’t physical, and we can’t just put them in our pockets. 
+
+The next step is to select a wallet. However, crypto wallets differ from the ones where we used to keep our cash and cards. There are several factors to consider, the first being whether you want a custodial or a non-custodial wallet.
+
+Examples of custodial wallets: Binance, BitMex, Bitgo, Coinbase.
+
+Examples of non-custodial wallets: Electrum, Exodus, Ledger Nano X, Trezor One, ZenGo, Wasabi.
+
+### Custodial vs Non-custodial
+________________________________________________________________________
+
+Custodial wallets are a kind of digital wallet that keeps customers’ private keys and provides backup and security for their assets. They are probably the most convenient way to store cryptocurrency. With custodial wallets, a loss of a private key or a mnemonic phrase doesn’t mean a loss of funds. They also often offer free and instant transactions and use 2FA to enhance security.
+
+Non-custodial wallets are a decentralized type of wallet where the customer owns their private keys. Having private keys means you have full control over the funds, but it also makes you the only one responsible for them. If you lose your keys or forget your mnemonic phrase, you can lose your funds. 
+
+________________________________________________________________________
+
+### Custodial   Non-custodial table
+Security	Security is controlled by a third party. You don’t hold on to your private keys.	
+You are in charge of your own security. You don’t rely on a third party, but one mistake on your part will let thieves steal your money.
+Privacy	The provider stores and has access to your private keys.	Your personal information is not stored on a central server.
+Recovery	You can usually recover your custodial wallet by entering a special recovery phrase in the app. 	Most non-custodial wallets come built-in with the ability to “back up” the wallet.
+Offline accessibility 	You have to have an internet connection to access your funds.	No internet connection is required.
+
+### Two-factor authentication (2FA), or two-step verification as it’s sometimes called, is an additional security layer. In terms of crypto wallets, it provides an extra level of security to your passcode. 
+
+2FA requires two forms of identification to access something. They can be broken down into three main categories: 
+
+1. Something you know — like a password or a pin
+
+2. Something you have — such as a code sent to your phone
+
+3. Something you are — a biometric scan of your fingerprint, face, or even retina
+
+###Software wallets
+Software wallets (soft wallets) are software that you download onto your computer or smartphone connected to the internet. They are also known as hot wallets. Hot wallets are more vulnerable to hacks and leaking your private key. 
+
+There are different subtypes of software wallets, which include mobile, desktop, and web wallets. They are usually built to work on various platforms at once. Mobile software wallets are basically apps you can install on your phone (e.g., ZenGo). A desktop software wallet is a piece of software that’s installed on your computer (e.g., Coinomi). Web software wallets are accessed via a web browser (e.g., Exodus Wallet).
+
+### Hardware wallets
+Hardware wallets (hard wallets) are physical devices that look similar to USB sticks or external hard drives. They are sometimes also referred to as cold wallets. Cold wallets are usually connected via USB and are the most secure kind of wallet, especially for large amounts of crypto. They store crypto offline, which makes them hard to hack. 
+
+There are two subtypes of hardware wallets: paper wallets and hardware devices. A paper wallet is a piece of paper with your private and public keys printed out on it. It might also have a scannable QR code. Hardware devices look like USB drives and can be connected to a computer. 
+
+Tommy’s Tips:
+If you’re testing the waters with smaller investments, you’re better off with a soft wallet. Industry leaders like Coinomi, Exodus, and Jaxx Liberty are always a safe bet. They all offer high levels of security, with private keys being on the user’s personal device. Also, built-in exchanges allow users to exchange coins from within the wallet. 
+If you’re contemplating a more large-scale investment and intend to hold more than trade, then a hard wallet is a must-have. Ledger and Trezor are the leaders of the industry.
+
+### Cryptocurrency exchanges
+Crypto exchanges’ goals are similar to those of traditional stock exchanges. However, the focus here is on trading: 
+
+fiat currencies → cryptocurrencies 
+cryptocurrencies → fiat currencies
+cryptocurrencies → cryptocurrencies 
+
+
+### Centralized exchanges
+Centralized exchanges (CEXs) are the most common type of exchange. They provide a platform to trade cryptocurrencies and act as a third party between the coin/token and the investor. This kind of exchange requires registration and identification — namely, Know Your Client (KYC). Most CEXs have high trading volumes and offer high liquidity. Nonetheless, they are more vulnerable to hacks and can be shut down by government regulations (e.g., C-CEX Exchange, Huobi Thailand). 
+
+Centralized exchanges have access to a range of trading pairs. Liquidity on centralized exchanges is higher, and trading volumes allow transactions to be completed faster. This can be critical, especially if we are talking about the work of traders. It’s important to trade quickly here.
+
+### Decentralized exchanges
+Decentralized exchanges (DEXs) do not depend on a company or a service to handle users’ trades and assets. Transactions going through them are automated, peer-to-peer trades. Decentralized exchanges ensure the secure transfer of cryptocurrencies without a central authority. Many DEXs use the Ethereum blockchain to conduct services through smart contracts. Their decentralized nature gives them more protection against hacks. Moreover, for governments, DEXs are difficult to shut down. However, they have lower trading volumes and liquidity when compared to CEXs. Examples of DEXs include Changelly, Uniswap, and PancakeSwap.
+
+On DEXs, it is easy to exchange different coins. There may not be such trading pairs on any crypto exchange, but DEX instruments allow you to exchange any crypto if there is enough liquidity and willingness to make a transaction. Otherwise, you will be offered to make an exchange with an intermediary operation — for example, pre-exchange your coins for Bitcoin or a stablecoin.
+
+### Hybrid exchanges
+Hybrid exchanges are a combination of both centralized and decentralized versions. Taking the best from both worlds, combining the trustless nature of DEXs with the low latency and high speed of centralized exchanges, hybrid exchanges use smart contracts to make sure that there is no central power controlling the trades.
+
+Hybrid exchanges are a new generation of cryptocurrency trading platforms that are still being developed. The most popular hybrid exchanges are Nash and Qurrex.
+
+CEXs	DEXs
+Security	Security measures include 2FA, cold storage, white lists, and so on. Still, the possibility of hacks persists	DEXs do not have access to users’ funds. Transactions are made directly between two parties and reflected on the blockchain
+Trading Features	Popular exchanges like Bitfinex, HitBTC, and Bittrex provide a wide variety of trading instruments and tools	DEXs provide a limited number of trading pairs. Most of the time, assets are built on the same blockchain
+Liquidity	High liquidity	Sometimes there may be a struggle to attract liquidity. Overall, DEXs have average liquidity
+Fees	Higher fees	Lower fees
+________________________________________________________________________
+
+Liquidity is the ability of a cryptocurrency to convert into cash or another coin.
+
+Latency is the delay in a transfer after it was initiated.
+
+________________________________________________________________________
+
+The Know Your Client/Customer (KYC) procedure is used throughout the investment industry to ensure that advisors know detailed information about the risk tolerance, investment knowledge, and financial position of their clients. The KYC procedure helps establish essential facts about the customer. For example, the US Securities and Exchange Commission (SEC) requires detailed financial information from customers before they are allowed to set up an account. Passing the KYC test is as easy as ABC, but it helps prevent big troubles. 
+
+There is a range of problems that KYC solves:
+
+helps to avoid illegal activities
+makes the market transparent 
+helps to get money back to the rightful owners
+The US Securities and Exchange Commission (SEC) was set up after the Wall Street Crash in 1929. Their main purposes are to enforce the law against market manipulation, protect investors, maintain fair and efficient markets, and sustain economic growth.
+
+________________________________________________________________________
+
+Fiat for cryptocurrency, or more commonly, fiat to cryptocurrency (F2C), involves exchanging a traditional currency, such as dollars or euros, for a cryptocurrency like Bitcoin.
+
+Cryptocurrency to fiat (C2F) means that users exchange their cryptocurrency for fiat money. This kind of trade happens when users decide to sell their crypto or a part of it and take out their profits in fiat. 
+
+Cryptocurrency to cryptocurrency (C2C) implies trading one cryptocurrency for another.
+
+### Where else can you get cryptocurrency?
+Crypto ATMs. Just like regular ATMs, these machines allow you to purchase Bitcoin and other cryptocurrencies with cash or a debit card. 
+
+Crypto exchange platforms. These are unique platforms that allow you to exchange/trade one crypto for another. For example, Changelly provides its services to both pros and beginners.
+
+Crypto faucets. Those are platforms that let users earn small crypto rewards by completing simple tasks — for instance, Cointiply rewards viewers for watching videos, etc.
+
+### Summary time
+To sum up, in order to buy your first coin, you need to go through the following steps:
+
+Select the platform you will use to make your purchase.
+Get your first wallet. For smaller, short-term trading, go with a soft wallet like Coinomi, Exodus, or Jaxx Liberty, and for larger and more long-term investments, choose a hard wallet like Ledger or Trezor. 
+Set up and verify your account.
+Decide which coin you’d like to buy.
+Hooray! You’re a crypto investor now!
+P.S. Don’t get too excited too soon, though. You probably want to become a real pro, so there’s a long path to go — we’re happy to guide you here. If you haven’t decided on a specific portfolio, you can read all about how to build your portfolio in the next chapter.
+
+
+
+
+
+
+
 
 
