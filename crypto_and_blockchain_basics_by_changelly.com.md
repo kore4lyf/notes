@@ -604,6 +604,120 @@ P.S. Don’t get too excited too soon, though. You probably want to become a rea
 
 
 
+## CHAPTER 5. Cryptocurrency mining
+We’ve learned about how to buy and trade cryptocurrencies! Now let’s explore some other ways how you can get crypto.
+
+The most popular and well-known way to earn crypto is mining. When we hear the term “crypto mining,” we often imagine someone with a pickax digging until they strike ‘digital gold.’ Although the reality may not be the same, it’s not a million miles away from the truth.
+
+### Basics of mining
+Mining is performed by high-powered computers called mining rigs that solve complex math problems. 
+
+What exactly happens when one is mining? Two things:
+
+When a computer solves math equations, new coins are produced. This is somewhat similar to when a miner extracts gold from the ground.
+Miners ensure that the crypto network is trustworthy and secure by verifying its transaction information. Groups of transactions are gathered in “blocks” and added to the public record known as the blockchain. The records of those blocks are maintained by nodes so that they can be verified in the future. 
+When miners add a new block of transactions to the blockchain, their job is to ensure that those transactions are accurate. 
+
+In particular, they make sure that transactions are not duplicated and the same crypto isn’t used twice. This is a unique quirk of cryptocurrencies called double-spending.
+
+Verifying each crypto transaction requires a great deal of work from miners. As compensation for their efforts, miners are rewarded with the transaction fees for all transactions in the block they validated and some amount of newly mined coins. This amount depends on the cryptocurrency itself; for example, Bitcoin currently rewards miners with 6.25 Bitcoin (BTC) for each block.
+
+### How is the reward number calculated?
+
+In the case of Bitcoin, the reward is halved every 210,000 blocks, roughly every 4 years. The reward went from 50 in 2009 to 25 in 2012, then to 12.5 in 2016. In 2020, it was halved again, and that’s what we’re left with — 6.25 BTC.
+
+Bitcoin’s next halving is expected to happen in 2024. The last Bitcoin is predicted to be mined in 2140. Afterward, miners will only be rewarded with fees that network users will pay for processing transactions. These halvings also reduce the rate at which new coins are created, lowering the available supply. And this pushes the price higher.
+
+________________________________________________________________________
+
+Double-spending occurs when the blockchain network is disrupted, and the thief sends a copy of a currency transaction to make it look legitimate or erases it altogether, essentially stealing it. 
+
+________________________________________________________________________
+
+Although there are many different methods of achieving consensus on a blockchain network, two of them stand out from the rest of the pack: Proof of Work (PoW) and Proof of Stake (PoS). They are incredibly popular and are used by most major cryptocurrencies.
+
+Both of them are consensus algorithms used to solve math problems and come up with a 64-digit hexadecimal number called a hash. 
+
+It’s not up to miners to calculate the total value of the hash. The miner’s computer will produce multiple hash possibilities. These are spit out at different rates depending on the power of the system — kilohashes per second (kH/s), megahashes per second (MH/s), gigahashes per second (GH/s), or terahashes per second (TH/s).
+
+________________________________________________________________________
+
+An example of a 64-digit hexadecimal number is 0000000000000000035cfc804ba1832d95e46c5819203e9f967ac56e4df598ee. As you can see, it consists of both numbers and letters. Hexadecimal is made up of two Greek words, “hex” meaning 6 and “deca” meaning 10, giving us a total of 16 possibilities for each digit. However, in computing, the numeric system only offers us 10 ways to represent numbers (0 to 9), so the other 6 symbols are made up of letters, specifically a, b, c, d, e, and f.
+
+________________________________________________________________________
+
+### PoW & PoS algorithms
+
+The PoW model is used by Bitcoin, Bitcoin Cash, and Litecoin. It’s a mechanism that involves individuals, groups, and businesses competing with one another using high-powered computers, known as mining rigs, to be the first to solve complex math problems.
+
+Hash rate, or the amount of guesses a rig can make per second, is vital for PoW mining. The miner that comes up with the first suitable hash will be allowed to mine the block, regardless of whether another miner comes up with one closer to the target hash later.
+
+The main disadvantage of PoW is that it requires lots of electrical power. Large amounts of energy are necessary to power mining rigs; in some cases, the costs even outweigh the rewards.
+
+Unlike the proof-of-work model, Proof of Stake doesn’t reward the fastest miners with high-powered mining rigs sucking up energy to validate transactions.
+
+The higher the amount of a crypto you own, the more likely you are to be selected. 
+
+Those who are chosen don’t receive a block reward once they’ve completed the block. Instead, they are given combined transaction fees.
+
+The main advantage of PoS over PoW is its considerably lower cost and level of energy consumption. A downside is that major stakeholders can have a much larger say in the network’s future as they have more power and control.
+
+### How to build a mining rig
+Let’s get down to the basics and talk about the equipment you’ll need to do some crypto mining. 
+
+Nowadays, there are a few steps you need to take to ensure you got the right set-up for you and your mining goals.
+
+Step 1 is to ensure that you have the appropriate hardware for your mining rig: do your research and buy equipment that will be suitable for your chosen cryptocurrency. 
+10 years ago, mining could easily be done on a normal desktop computer (CPU); however, nowadays, miners are recommended to ditch their PCs for more powerful set-ups. AMD Threadripper 3990X and 3960X are one of the best CPUs currently on the market.
+
+Over time, many miners noticed how graphics processing units (GPUs) were much more efficient than CPUs. GPU mining is probably the most popular and well-known method of mining, but its rise in popularity has seen the price of graphics cards skyrocket. 
+
+For larger coins, like Bitcoin, even a top-of-the-range GPU mining rig will struggle due to the amount of energy required. It’s really a case of “you gotta spend money to make money,” with ASIC (Application-Specific Integrated Circuit) rigs being one of the best options to profitably mine Bitcoin solo.
+
+Tommy’s Tips:
+Cryptocurrencies such as Zcash and Monero can be easily mined with GPUs. Some of the best GPUs for mining include Nvidia TITAN RTX, AMD RADEON VII, and ASUS STRIX RTX 2080TI.
+
+Set up a cooling system. Mining hardware generates a lot of heat energy while it’s working, so it’s important to keep it cool so that it doesn’t overheat and burn out.
+Download mining software. There are many options available online, and similar to investing, be sure to do your research first so that you download a legitimate one and watch out for scams. Programs such as CGMiner, MultiMiner, EasyMiner, ECOS, and BFGMiner are all highly rated in the mining community and worth checking out. 
+That’s it! You’re all set up and ready to start digging for digital gold.
+
+### Mining pools and cloud mining
+If you don’t want to spend all that money on setting up your mining rig or go through the hassle of putting it all together, then cloud mining might be a better fit for you. 
+
+Cloud mining is a type of activity where you pay someone and rent out their mining rig for a set time. And if you don’t want to mine solo, you can share the workload by joining a mining pool. When searching for a mining pool to join, you should keep in mind a few factors: 
+
+Infrastructure compatibility. You must check if your mining rig is compatible with the pool requirements. You don’t want to be left out because your CPU set-up isn’t up to scratch or your network connection speed isn’t fast enough.
+Pool transparency. Check the pool out and make sure it is legitimate.
+Payout threshold & frequency. If you have a low-end setup, you should avoid pools with higher thresholds for making payments since your output will be less. The same applies to the payment frequency of the mining pool.
+Pool stability. How stable is the pool? Does it offer a secure connection? Is it vulnerable to attacks? These are the questions you should be asking yourself.
+________________________________________________________________________
+
+A mining pool is a group of miners who combine, or pool, their mining resources to find blocks as a team and share the rewards proportionally between members. 
+
+________________________________________________________________________
+
+A centralized cash currency system means that the power to control financial decisions in the country lies with a small group of people (e.g., the government or central bank) instead of the majority of the population.
+
+### Affiliate programs
+Affiliate programs are another way you can earn crypto without buying it. Changelly’s affiliate program offers up to 60% revenue share from C2C and F2C transactions. You can see your profits grow and request one-click payouts in USDT at any time. 24/7 priority support is available via email and live chat, ensuring you earn commissions trouble-free.
+
+________________________________________________________________________
+
+An affiliate program is a type of business relationship in which a merchant pays you (the affiliate) for placing links to their site on your site. This could include just visiting a website, signing up for a program, or purchasing an item. ________________________________________________________________________
+
+### Cryptojacking
+One danger that you should be aware of is cryptojacking. It is a sort of cyberattack in which a hacker hijacks someone’s computing power to illegally mine crypto. 
+
+Cryptojackers can target individuals, businesses, and even industrial control systems. We will discuss this issue and other security threats later in Chapter 12.
+
+So, all in all, there are a few different ways to get crypto without purchasing it: 
+
+Mining is the most popular form. Don’t rush your decision on which crypto to mine: this choice could make or break your success in mining. 
+Solo mining is extremely difficult and expensive, especially as mining rewards go down but equipment prices go up.
+Mining pools make things a little easier but still have disadvantages like restrictions in approach or hardware and a lower level of potential rewards.
+Affiliate programs are another way to earn crypto without buying it and are much more straightforward and less costly than mining. However, if you are really interested in crypto and wish to own some, you can’t beat just purchasing it on an exchange and saving yourself a lot of time, energy, and money in the long run.
+That’s it! You’ve learned all the basics, and now, you are ready to start trading! Can you smell those sweet profits? Let’s roll!
+
 
 
 
