@@ -1,0 +1,8 @@
+My Git token
+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
+
+
+git clone https://{YOUR_PERSONAL_TOKEN}@github.com/{YOUR_USERNAME}/alx-pre_course.git
+
+
+git clone https://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@github.com/kore4lyf/alx-pre_course.git
