@@ -12,7 +12,7 @@
 
 
 ## Grid
-``css
+```css
 .list {
     padding-left: 0;
     display: grid;
@@ -27,7 +27,7 @@ For example:
 ```css
 grid-template-columns: 100px auto 100px;
 grid-template-rows: 50px 50px 200px;
-
+```
 
 
 - `span X` - span is used to set the amount of space an element should within a given grid template.
@@ -53,7 +53,6 @@ grid-template: L (column/vertical) then (row/horizontal)
 ```
 
 ## grid-column-start, grid-column-end, grid-row-start and grid-row-end
-```css
 ```css
 .body {
     display: grid;
@@ -105,8 +104,8 @@ It allows one to create prototypes of layout quickly.
     height: 100%;
     display: grid;
     grid-gap: 3px;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 40px auto 40px;
+    /* grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 40px auto 40px; */
     grid-template-areas:
         "h h h h h h h h h h h h"
         "m c c c c c c c c c c c"
@@ -242,7 +241,7 @@ By using `auto` instead of specifing a particular place to begin, `.horizontal` 
 Another way we can solve this problem is to remove the us
 
 
-Assuming some imagese were shrinked by height and some are 2 times bigger than than the original sqaured images. The images that were shrinked by height have a class name of `vertical` and images that were big have a class name of `big`.
+Assuming some images were shrinked by height and some are 2 times bigger than than the original sqaured images. The images that were shrinked by height have a class name of `vertical` and images that were big have a class name of `big`.
 
 ```css
 .horizontal {
