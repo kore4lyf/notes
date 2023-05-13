@@ -90,6 +90,21 @@ This puts the background image 45px from the right and 20px from the bottom of t
 
 
 
+## text-rendering
+The text-rendering CSS property provides information to the rendering engine about what to optimize for when rendering text. The browser makes trade-offs among speed, legibility, and geometric precision.!
+
+> The text-rendering property is not defined in any CSS standard. It’s actually an SVG property. However, Gecko/WebKit/Blink browsers let you apply this property to HTML elements.
+
+There are four possible values:
+- **auto** (default) – The browser makes educated guesses about when to optimize for speed, legibility, and geometric precision while drawing text. Be aware that different browsers interpret this value differently.
+- **optimizeSpeed** – The browser emphasizes rendering speed over legibility and geometric precision when drawing text. It disables kerning and ligatures.
+- **optimizeLegibility** – The browser emphasizes legibility over rendering speed and geometric precision. This enables the use of special kerning and optional ligature information that may be contained in the font file for certain fonts.
+- **geometricPrecision** – The browser emphasizes geometric precision over rendering speed and legibility. Certain aspects of fonts—such as kerning—don’t scale linearly, so geometricPrecision can make text using those fonts look good. When SVG font is scaled, the browser calculates pixel size, then rounds to the nearest integer. The geometricPrecision property allows for more fluid scaling. Note: Only WebKit browsers apply this fluid value, Gecko treats the value just like optimizeLegibility.
+
+
+
+
+
 ## Others
 - text-rendering: optimizeSpeed
 - clip: rect(0, 0, 0, 0);
