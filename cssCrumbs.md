@@ -52,3 +52,44 @@ div {
 }
 ```
 
+
+
+### Background Position
+```css
+html {
+  background-position: 100px 5px; 
+}
+```
+> The first value is the horizontal position, second value is the vertical position. So 100px 5px will move the image 100px to the right and five pixels down.
+
+It has three different types of values:
+- Length values (e.g. 100px 5px)
+- Percentages (e.g. 100% 5%)
+- Keywords (e.g. top right)
+
+When you specify three values, the browser interpets the “missing” fourth value as 0. Here’s an example of a three-value background-position:
+
+```css
+.three-values {
+  background-position: right 45px bottom;
+}
+```
+
+This positions the background image 45px from the right and 0px from the bottom of the container.
+
+Here’s an example of a four-value background-position:
+```css
+.four-values {
+  background-position: right 45px bottom 20px;
+}
+```
+
+This puts the background image 45px from the right and 20px from the bottom of the container.
+
+
+
+
+
+## Others
+- text-rendering: optimizeSpeed
+- clip: rect(0, 0, 0, 0);
