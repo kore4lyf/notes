@@ -3152,4 +3152,291 @@ V
 
 
 
+## JavaScript Objects
+
+In JavaScript, almost "everything" is an object.
+
+
+- Booleans can be objects (if defined with the new keyword)
+- Numbers can be objects (if defined with the new keyword)
+- Strings can be objects (if defined with the new keyword)
+- Dates are always objects
+- Maths are always objects
+- Regular expressions are always objects
+- Arrays are always objects
+- Functions are always objects
+- Objects are always objects
+
+
+
+
+### JavaScript Primitives
+A primitive value is a value that has no properties or methods.
+
+A primitive data type is data that has a primitive value.
+
+JavaScript defines 5 types of primitive data types:
+- string
+- number
+- boolean
+- null
+- undefined
+
+Primitive values are immutable (they are hardcoded and therefore cannot be changed).
+
+> if x = 3.14, you can change the value of x. But you cannot change the value of 3.14.
+
+
+
+
+### JavaScript Function or Getter?
+What is the differences between these two examples?
+
+Example 1
+```js
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+```
+
+
+
+
+### JavaScript Object Constructors
+Example
+```js
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+```
+> It is considered good practice to name constructor functions with an upper-case first letter.
+
+
+Objects of the same type are created by calling the constructor function with the new keyword:
+```js
+var myFather = new Person("John", "Doe", 50, "blue");
+var myMother = new Person("Sally", "Rally", 48, "green");
+```
+
+
+
+
+### Adding a Property to an Object
+Adding a new property to an existing object is easy:
+
+Example
+```js
+myFather.nationality = "English";
+```
+
+
+
+
+### Adding a Method to an Object
+Adding a new method to an existing object is easy:
+
+Example
+```js
+myFather.name = function () {
+  return this.firstName + " " + this.lastName;
+};
+```
+
+
+
+
+### Adding a Property to a Constructor
+You cannot add a new property to an object constructor the same way you add a new property to an existing object:
+
+Example
+```js
+Person.nationality = "English";
+```
+
+To add a new property to a constructor, you must add it to the constructor function:
+
+Example
+```js
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+  this.nationality = "English";
+}
+```
+This way object properties can have default values.
+
+
+
+
+
+### Adding a Method to a Constructor
+Your constructor function can also define methods:
+
+Example
+```js
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+  this.name = function() {return this.firstName + " " + this.lastName;};
+}
+```
+You cannot add a new method to an object constructor the same way you add a new method to an existing object.
+
+Adding methods to an object constructor must be done inside the constructor function:
+
+Example
+```js
+function Person(firstName, lastName, age, eyeColor) {
+  this.firstName = firstName; 
+  this.lastName = lastName;
+  this.age = age;
+  this.eyeColor = eyeColor;
+  this.changeName = function (name) {
+    this.lastName = name;
+  };
+}
+```
+The changeName() function assigns the value of name to the person's lastName property.
+
+
+
+
+### Built-in JavaScript Constructors
+JavaScript has built-in constructors for native objects:
+
+Example
+```js
+var x1 = new Object();    // A new Object object
+var x2 = new String();    // A new String object
+var x3 = new Number();    // A new Number object
+var x4 = new Boolean();   // A new Boolean object
+var x5 = new Array();     // A new Array object
+var x6 = new RegExp();    // A new RegExp object
+var x7 = new Function();  // A new Function object
+var x8 = new Date();      // A new Date object
+```
+
+But there is no reason to create complex objects. Primitive values are much faster.
+
+ALSO:
+
+- Use object literals {} instead of new Object().
+
+- Use string literals "" instead of new String().
+
+- Use number literals 12345 instead of new Number().
+
+- Use boolean literals true / false instead of new Boolean().
+
+- Use array literals [] instead of new Array().
+
+- Use pattern literals /()/ instead of new RegExp().
+
+- Use function expressions () {} instead of new Function().
+
+
+
+### Prototype Inheritance
+All JavaScript objects inherit properties and methods from a prototype.
+
+In the previous chapter we learned how to use an object constructor:
+
+Example
+```js
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+}
+
+var myFather = new Person("John", "Doe", 50, "blue");
+var myMother = new Person("Sally", "Rally", 48, "green");
+```
+We also learned that you can not add a new property to an existing object constructor:
+
+Example
+```js
+Person.nationality = "English";
+```
+To add a new property to a constructor, you must add it to the constructor function:
+
+Example
+```js
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+  this.nationality = "English";
+}
+```
+
+All JavaScript objects inherit properties and methods from a prototype:
+
+- Date objects inherit from Date.prototype
+- Array objects inherit from Array.prototype
+- Person objects inherit from Person.prototype
+
+The Object.prototype is on the top of the prototype inheritance chain:
+Date objects, Array objects, and Person objects inherit from Object.prototype.
+
+
+
+
+### Adding Properties and Methods to Objects
+Sometimes you want to add new properties (or methods) to all existing objects of a given type.
+
+Sometimes you want to add new properties (or methods) to an object constructor.
+
+
+
+
+### Using the prototype Property
+The JavaScript prototype property allows you to add new properties to object constructors:
+
+Example
+```js
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+}
+```
+
+Person.prototype.nationality = "English";
+The JavaScript prototype property also allows you to add new methods to objects constructors:
+
+Example
+```js
+function Person(first, last, age, eyecolor) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eyecolor;
+}
+
+Person.prototype.name = function() {
+  return this.firstName + " " + this.lastName;
+};
+```
+
+> Only modify your own prototypes. Never modify the prototypes of standard JavaScript objects.
+
+
+
+
+
 ## 
