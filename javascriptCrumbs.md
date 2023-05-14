@@ -3855,3 +3855,113 @@ Because of this, objects will behave like they are passed by reference:
 If a function changes an object property, it changes the original value.
 
 Changes to object properties are visible (reflected) outside the function.
+
+
+
+
+
+## JavaScript Function Call
+
+### Method Reuse
+
+With the call() method, you can write a method that can be used on different objects.
+
+Example
+```js
+var person = {
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+}
+var person1 = {
+  firstName:"John",
+  lastName: "Doe"
+}
+var person2 = {
+  firstName:"Mary",
+  lastName: "Doe"
+}
+person.fullName.call(person1);  // Will return "John Doe"
+```
+
+The call() Method with Arguments
+The call() method can accept arguments:
+Example
+```js
+var person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+var person1 = {
+  firstName:"John",
+  lastName: "Doe"
+}
+person.fullName.call(person1, "Oslo", "Norway");
+```
+
+
+
+
+
+## JavaScript Function Apply
+### Method Reuse
+With the apply() method, you can write a method that can be used on different objects.
+
+The JavaScript apply() Method
+The apply() method is similar to the call() method (previous chapter).
+
+In this example the fullName method of person is applied on person1:
+
+Example
+```js
+var person = {
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+}
+var person1 = {
+  firstName: "Mary",
+  lastName: "Doe"
+}
+person.fullName.apply(person1);  // Will return "Mary Doe"
+```
+
+
+
+
+### The apply() Method with Arguments
+The apply() method accepts arguments in an array:
+
+Example
+```js
+var person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+var person1 = {
+  firstName:"John",
+  lastName: "Doe"
+}
+person.fullName.apply(person1, ["Oslo", "Norway"]);
+```
+
+
+
+
+
+## The Difference Between call() and apply()
+The difference is:
+
+The call() method takes arguments separately.
+
+The apply() method takes arguments as an array.
+
+> The apply() method is very handy if you want to use an array instead of an argument list.
+
+
+
+
+
+## 
