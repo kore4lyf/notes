@@ -2847,3 +2847,19 @@ Other web servers (Microsoft, IIS) are not case sensitive:
 
 
 
+## JavaScript Best Practices
+
+> Avoid global variables, avoid **new**, avoid **==**, avoid **eval()**
+
+
+### Avoid Global Variables
+Minimize the use of global variables.
+
+This includes all data types, objects, and functions.
+
+Global variables and functions can be overwritten by other scripts.
+
+Use local variables instead, and learn how to use closures.
+
+> Variables created without a declaration keyword (var, let, or const) are always global, even if they are created inside a function.
+
