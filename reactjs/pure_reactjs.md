@@ -308,3 +308,107 @@ return [
 ];
 ```
 Try it out! It should fail in the dev console.
+
+
+
+
+
+## JavaScript in JSX
+
+You can insert real JavaScript expressions within JSX code, and in fact, you’ll do this pretty often. Surround JavaScript with single braces like this:
+
+```js
+function SubmitButton() {
+    var buttonLabel = "Submit";
+    return (
+        <button>{buttonLabel}</button>
+    );
+}
+```
+
+Remember that this will be compiled to JavaScript, which means that the JS inside the braces must be an expression. An expression produces a value. These
+are expressions:
+1 + 2, buttonLabel, aFunctionCall(), aFunctionName
+Each of these produces (aka returns) a single value. 
+
+In contrast, statements do not produce values and can’t be used inside JSX. Here are some examples of statements:
+var a = 5
+if(true) { 17; }
+while(i < 7) { i++ }
+None of these things produces a value. 
+
+
+
+#### “If” in JSX
+The next question you might wonder is, “How do I write a conditional if I can’t
+use ‘if’?” There are a couple of options.
+The first is the ternary operator (?). Use it like this:
+```js
+function ValidIndicator() {
+    var isValid = true;
+    return (
+        <span>{isValid ? 'valid' : 'not valid'}</span>
+    );
+}
+```
+You can also use boolean operators such as && like this:
+```js
+function ValidIndicator() {
+    var isValid = true;
+    return (
+        <span>
+            {isValid && 'valid'}
+            {!isValid && 'not valid'}
+        </span>
+    );
+}
+```
+
+
+
+### Comments in JSX
+If you need to put a comment into a block of JSX, the syntax may look a little strange. Remember that JavaScript needs to be inside single braces. Comments in JSX must go inside a JavaScript block like this:
+```js
+function ValidIndicator() {
+    var isValid = true;
+    return (
+        <span>
+            {/* here is a comment */}
+            {isValid && 'valid'}
+            {!isValid && 'not valid'}
+            {
+            // Double-slash comments are
+            // OK in multi-line blocks.
+            }
+        </span>
+    );
+}
+```
+
+
+#### Capitalize Component Names
+The components you write must begin with an uppercase letter. This means using names like UserList and Menu and SubmitButton, and not names like userList, menu, and submitButton.
+
+In JSX, a component that starts with a lowercase letter is assumed to be a built-in HTML or SVG element (div, ul, rect, etc.).
+
+> Early versions of React kept a “whitelist” of all the built-in element names so it could tell them apart from custom ones. Maintaining that whitelist was timeconsuming and error-prone – if a new SVG element made its way into the spec, you couldn’t use it until React updated that list. So they killed the list, and added this rule
+
+
+
+#### Close Every Element
+JSX requires that every element be closed, similar to XML or XHTML. This
+includes the ones you might be used to leaving open in HTML5, like `<br>` or
+`<input>` or maybe even `<li>`.
+// DO THIS:
+return `<br/>`;
+return `<input type='password' .../>`;
+return `<li>`text`</li>`;
+// NOT THIS:
+return `<br>`;
+return `<input type='password' ...>`;
+return `<li>`text;
+
+
+
+
+
