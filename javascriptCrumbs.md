@@ -3784,3 +3784,74 @@ Example
 ```js
 const x = (x, y) => { return x * y };
 ```
+
+
+
+
+
+## JavaScript Function Parameters
+
+The Arguments Object
+
+JavaScript functions have a built-in object called the arguments object.
+
+The argument object contains an array of the arguments used when the function was called (invoked).
+
+This way you can simply use a function to find (for instance) the highest value in a list of numbers:
+
+Example
+```js
+x = findMax(1, 123, 500, 115, 44, 88);
+
+function findMax() {
+  var i;
+  var max = -Infinity;
+  for (i = 0; i < arguments.length; i++) {
+    if (arguments[i] > max) {
+      max = arguments[i];
+    }
+  }
+  return max;
+}
+```
+
+Or create a function to sum all input values:
+
+Example
+```js
+x = sumAll(1, 123, 500, 115, 44, 88);
+
+function sumAll() {
+  var i;
+  var sum = 0;
+  for (i = 0; i < arguments.length; i++) {
+    sum += arguments[i];
+  }
+  return sum;
+}
+```
+> If a function is called with too many arguments (more than declared), these arguments can be reached using the arguments object.
+
+
+
+
+### Arguments are Passed by Value
+The parameters, in a function call, are the function's arguments.
+
+JavaScript arguments are passed by value: The function only gets to know the values, not the argument's locations.
+
+If a function changes an argument's value, it does not change the parameter's original value.
+
+Changes to arguments are not visible (reflected) outside the function.
+
+
+
+
+### Objects are Passed by Reference
+In JavaScript, object references are values.
+
+Because of this, objects will behave like they are passed by reference:
+
+If a function changes an object property, it changes the original value.
+
+Changes to object properties are visible (reflected) outside the function.
