@@ -214,3 +214,97 @@ you see in the wild (on GitHub, Stack Overflow, etc) is likely to be written wit
 
 
 
+## Working With JSX
+
+### Composing Components
+JSX, like HTML, allows you to nest elements inside of one another. This is probably not a big surprise.
+Let’s refactor the HelloWorld component from earlier to demonstrate how composition works. Here’s the original HelloWorld:
+```js
+function HelloWorld() {
+    return (
+        <div>Hello World!</div>
+    );
+}
+```
+Leaving the HelloWorld component intact for now, create two new components:
+one named Hello and one named World. Hello should render `<span>Hello</span>` and World should render `<span>World</span>`. You can basically copy-and-paste the HelloWorld component and just change the text and the function name.
+
+Your two new components should look like this:
+```js
+function Hello() {
+    return <span>Hello</span>;
+}
+
+function World() {
+    return <span>World</span>;
+}
+```
+Now, update the HelloWorld component to use the two new components you just created. It should look something like this:
+```js
+function HelloWorld() {
+return (
+    <div>
+        <Hello/> <World/>!
+    </div>
+);
+}
+```
+
+
+
+### Wrap JSX with Parentheses
+First, a note on formatting. You might notice I wrapped the returned JSX inside parentheses, (). This isn’t strictly necessary, but if you leave off the parens, the opening tag must be on the same line as the return, which looks a bit awkward:
+
+```
+function HelloWorld() {
+    return <div>
+        <Hello/> <World/>!
+    </div>;
+}
+```
+
+Just for kicks, try removing the parens and watch what happens:
+```
+function HelloWorld() {
+return
+    <div>
+    <Hello/> <World/>!
+    </div>;
+}
+```
+This will fail with an error in the browser console
+
+
+#### Return a Single Element
+Notice how the two components are wrapped in a `<div>` in the HelloWorld
+example:
+```js
+function HelloWorld() {
+return (
+    <div>
+        <Hello/> <World/>!
+    </div>
+);
+}
+```
+Here’s a little exercise: try removing the <div> wrapper and see what happens.
+You should get this error:
+> Adjacent JSX elements must be wrapped in an enclosing tag
+
+Returning two things at once makes no sense. So that leads to this very important rule:
+> A component function must return a single element.
+
+
+But wait! Could you return an array? It’s just JavaScript after all…
+```js
+// This JSX:
+return [<Hello/>, <World/>];
+// Would turn into this JS
+// (notice the brackets).
+// It looks valid...
+return [
+    React.createElement(Hello, null),
+    React.createElement(World, null)
+];
+```
+Try it out! It should fail in the dev console.
