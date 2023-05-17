@@ -398,7 +398,7 @@ In JSX, a component that starts with a lowercase letter is assumed to be a built
 #### Close Every Element
 JSX requires that every element be closed, similar to XML or XHTML. This
 includes the ones you might be used to leaving open in HTML5, like `<br>` or
-`<input>` or maybe even `<li>`.
+`<input>` or maybe even `<li>`. MMR
 // DO THIS:
 return `<br/>`;
 return `<input type='password' .../>`;
@@ -412,3 +412,19 @@ return `<li>`text;
 
 
 
+## Component
+Assuming your are trying to build out a tweet box, you will need the following...
+Each of these will become a component, with Tweet being the “parent” of the others:
+- Tweet
+  - Avatar
+  - NameWithHandle
+  - Time
+  - Message
+  - ReplyButton
+  - LikeButton
+  - RetweetButton
+  - MoreOptionsButton
+
+The parent component, which is the tweet can then be return in ReactDOM.render().
+
+> You can import css into the index.js. import './index.css'
