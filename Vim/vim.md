@@ -51,6 +51,10 @@ How to search forward and backward
 ## Show line numbers
 `:set number`
 
+
+## Hide line numbers
+`:set nonumber`
+
 ## Moving the cursor with the keyboard
 You can use your direction keys
 OR
