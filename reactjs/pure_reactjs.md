@@ -428,3 +428,123 @@ Each of these will become a component, with Tweet being the “parent” of the 
 The parent component, which is the tweet can then be return in ReactDOM.render().
 
 > You can import css into the index.js. import './index.css'
+
+
+
+
+
+## Props 
+Where HTML elements have “attributes,” React components have “props” (short for “properties”). Props are the arguments to your components.
+
+
+
+### Passing Props
+This bit of JSX is passing a prop called name with a string value of "Dave":
+`<Person name='Dave'/>`
+
+Here’s another example, passing a className prop with the value "person":
+`<div className='person'/>`
+
+JSX uses className instead of class to specify CSS classes.
+
+> Notice how the div is self-closing? In JSX, every component can be self-closing. In fact, if the component has no children (no contents), the convention is to write it like this, instead of using a
+closing tag.
+
+Here, we’re passing a string for className, a number for the age prop, and an actual JavaScript expression for the name:
+
+```js
+function Dave() {
+  const firstName = "Dave";
+  const lastName = "Ceddia";
+  
+  return (
+    <Person 
+    className='person'
+    age={33}
+    name={firstName + ' ' + lastName} />
+  );
+}
+```
+
+Remember that JSX evaluates to JavaScript, and the props become keys and values in an object. Here’s that example from above, transformed into
+
+JavaScript:
+```js
+function Dave() {
+  const firstName = "Dave";
+  const lastName = "Ceddia";
+  return React.createElement(Person, {
+    age: 33,
+    name: firstName + ' ' + lastName,
+    className: 'person'
+    }, null);
+}
+```
+
+
+
+### Receiving Props
+
+Props are passed as the first argument to a component function, like this:
+```js
+function Hello(props) {
+  return (
+    <span>Hello, {props.name}</span>
+  );
+}
+```
+// Used like:
+`<Hello name="Dave"/>`
+
+
+ES6 has a new syntax called destructuring which makes props easier to work with. It looks like this:
+```js
+const Hello = ({ name }) => (
+  <span>Hello, {name}</span>
+);
+```
+
+It can extract multiple keys, too:
+```js
+const Hello = ({ firstName, lastName }) => (
+<span>Hello, {firstName} {lastName}</span>
+);
+``` 
+
+In practice, props are very often written using this destructuring syntax. Just so you know, it works outside of function arguments as well. You can destructure props this way, for instance:
+
+
+
+### Modifying Props
+One important thing to know is that props are read-only. Components that receive props must not change them. If you come from an Angular background this is a change. Angular’s 2-way binding mechanism allowed modifying scope variables (Angular’s version of
+props) and would automatically propagate those changes to the parent component.
+In React, data flows one way. Props are read-only, and can only be passed down to children.
+
+
+
+
+### Communicating With Parent Components
+If you can’t change props, but you need to communicate something up to a parent component, how does that work?
+If a child needs to send data to its parent, the parent can inject a function as a prop, like this:
+```js
+function handleAction(event) {
+  console.log('Child did:', event);
+}
+
+function Parent() {
+  return (
+    <Child onAction={handleAction}/>
+  );
+}
+```
+The Child component receives a prop named onAction, which it can call whenever it needs to send up data or notify the parent of an event. You’ll notice that the built-in button element accepts an onClick prop, which it’ll call when the button is clicked. We’ll look more deeply at event handling later on.
+```js 
+function Child({ onAction }) {
+  return (
+    <button onClick={onAction}/>
+  );
+}
+```
+
+
+
