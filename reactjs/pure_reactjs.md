@@ -548,3 +548,183 @@ function Child({ onAction }) {
 
 
 
+
+
+## PropTypes
+What happens if you forget to pass one of the props? Well, it ends up being undefined. 
+
+When you create a component, you can declare that certain props are optional or required, and you can declare what type of value that prop expects. Here’s an example:
+
+```js
+import PropTypes from 'proptypes';
+function Comment({ author, message, likes }) {
+  return (
+    <div>
+      <div className='author'>{author}</div>
+        <div className='message'>{message}</div>
+        <div className='likes'>
+          {likes > 0 ? likes : 'No'} likes
+        </div>
+    </div>
+  );
+}
+Comment.propTypes = {
+  message: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  likes: PropTypes.number
+}
+```
+
+React will warn you in the console if you forget a required prop:
+<Comment author='an_error'/>
+Warning: Failed propType: Required prop message was not specified in Comment.
+
+Likewise, you’ll get a warning if you pass the wrong type:
+<Comment author={42}/>
+Warning: Failed propType: Invalid prop author of type number supplied to Comment, expected string.
+
+These warning messages are invaluable for debugging. It tells you the mistake you made, and gives you a hint where to look! This is a fair bit better than some frameworks that silently fail when you forget a required attribute.
+
+
+
+### The Catch
+The only catch with propTypes is that you must remember to declare them. Providing propTypes is optional, and React won’t give you any warnings if you don’t specify propTypes for one of your components.
+You can either vow to be super-diligent about writing those propTypes, or you can have a linter tool check for you. I recommend the second one.
+**ESLint** is a popular choice, and there is a React plugin for ESLint that will check for things like missing PropTypes and that props are passed correctly.
+
+
+
+### Validators
+First, there are validators for the standard JavaScript types:
+- PropTypes.array
+- PropTypes.bool
+- PropTypes.func
+- PropTypes.number
+- PropTypes.object
+- PropTypes.string
+
+There are validators for node and element. A node is anything that can be rendered, meaning numbers, strings, elements, or an array of those. An element is a React element created with JSX or by calling React.createElement:
+- PropTypes.node
+- PropTypes.element
+
+There’s an instanceOf validator for checking that the prop is an instance of a specific class. It takes an argument:
+```
+PropTypes.instanceOf(SpecificClass)
+```
+
+
+You can limit to specific values with oneOf:
+```
+PropTypes.oneOf(['person', 'place', 1234])
+```
+
+You can validate that the prop is one of a few types:
+```
+PropTypes.oneOfType([
+PropTypes.string,
+PropTypes.boolean
+])
+```
+
+You can validate that it’s an array of a certain type, or an object whose properties are values of a certain type:
+``` 
+PropTypes.arrayOf(PropTypes.string)
+```
+Would match: ['a', 'b', 'c']
+Would not match: ['a', 'b', 42]
+
+```
+PropTypes.objectOf(PropTypes.number)
+```
+Would match: {age: 27, birthMonth: 9}
+Would not match: {age: 27, name: 'Joe'}
+
+You can validate that an object has a certain shape, meaning that it has particular properties. The object passed to this prop is allowed to have extra properties too, but it must at least have the ones in the shape description.
+```
+PropTypes.shape({
+  name: PropTypes.string,
+  age: PropTypes.number
+})
+```
+This will match an object of the exact shape, like this:
+
+person = {
+name: 'Joe',
+age: 27
+}
+
+
+It will also match an object with additional properties, like this:
+
+person = {
+name: 'Joe',
+age: 27,
+address: '123 Fake St',
+validPerson: false
+}
+
+
+This PropTypes shape is requiring an object that has name and age keys, so if we leave one of them off, it won’t pass. This would generate a warning:
+
+person = {
+age: 27
+}
+
+
+Similarly, if we pass the wrong type for one of those keys, we’ll get a warning:
+
+person = {
+name: false, // boolean instead of string
+age: 27
+}
+
+
+
+### Required Props
+Any PropType validation can be made required by adding .required to the end of it. These are all required:
+
+```
+PropTypes.bool.isRequired
+PropTypes.oneOf(['person', 'place', 1234]).isRequired
+PropTypes.shape({
+  name: PropTypes.string,
+  age: PropTypes.number
+}).isRequired
+```
+
+
+
+### Custom Validators
+If the built-in PropType validators aren’t expressive enough, you can write your own! The function should take the props, propName, and componentName, and
+return an Error if validation fails. Note that’s return an Error, not throw an Error.
+A custom validator to check that the passed prop is exactly length 3 (either a string or an array) would look like this:
+```js 
+function customValidator(props, propName, componentName) {
+// here, propName === "myCustomProp"
+  if (props[propName].length !== 3) {
+    return new Error(
+      'Invalid prop `' + propName + '` supplied to' +
+      ' `' + componentName + '`. Length is not 3.'
+    );
+  }
+}
+
+const CustomTest = ({ myCustomProp }) => (
+  <span>{myCustomProp}</span>
+);
+
+CustomTest.propTypes = {
+  myCustomProp: customValidator
+}
+
+// This will produce a warning:
+ReactDOM.render(
+  <CustomTest myCustomProp='not_three_letters'/>,
+  document.getElementById('root')
+);
+```
+
+> PropTypes are a great debugging tool, but a failed validation won’t stop your code from running. Keep an eye on that console window.
+
+
+
