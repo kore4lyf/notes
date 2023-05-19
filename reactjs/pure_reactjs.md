@@ -728,3 +728,7 @@ ReactDOM.render(
 
 
 
+### PropTypes as Documentation
+One last thing about PropTypes: in addition to helping out with debugging, they serve as nice documentation. When you come back to a component a few days, a week, or a month later, the PropTypes will serve as a “README” of sorts. You won’t have to scan through the code to decipher which props are required.
+
+
