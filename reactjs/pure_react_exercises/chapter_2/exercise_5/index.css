@@ -1,0 +1,67 @@
+body {
+  width: 100%;
+  overflow: hidden;
+}
+
+input[type=checkbox]:focus {
+  border: 0px;
+  outline: 1px solid lightgray;
+}
+input[type=checkbox]:checked {
+  background: #0075ff;
+}
+
+button {
+  background-color: transparent;
+  border: 0px;
+}
+
+button:focus, button:hover {
+  border: 0px;
+  outline: 0px;
+}
+
+.details {
+  width: 95%;
+}
+
+.mail {
+  align-items: center;
+  display: flex;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  gap: 10px;
+  margin: auto;
+  padding-block: 10px;
+  text-rendering: optimizeSpeed;
+  width: 80%;
+  min-width: fit-content;
+  border-block: 1px solid lightgray;
+}
+
+.message {
+  color: rgb(119, 119, 119);
+  font-size: .7rem;
+  height: 1rem;
+  margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pin {
+  color: lightgray;
+  width: 15px;
+}
+
+.pin:hover, .pin:focus {
+  color: #0075ff;
+  filter:drop-shadow(1px 1px 1px lightgray);
+}
+
+.sender-subject-date {
+  color: rgb(78, 78, 78);
+  display: flex;
+  font-size: .85rem;
+  font-weight: bold;
+  justify-content: space-between;
+  margin-block: 2px;
+}
