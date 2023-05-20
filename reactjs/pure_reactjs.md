@@ -732,3 +732,111 @@ ReactDOM.render(
 One last thing about PropTypes: in addition to helping out with debugging, they serve as nice documentation. When you come back to a component a few days, a week, or a month later, the PropTypes will serve as a “README” of sorts. You won’t have to scan through the code to decipher which props are required.
 
 
+
+
+## Children 
+
+There’s a special prop we haven’t talked about yet: it’s called children.
+
+You might imagine using it like this:
+```jsx
+<IconButton>Do The Thing</IconButton>
+```
+Assuming you want react to be able to access the inner text, “Do The Thing”? Well, that’s where the children prop comes in.
+
+You have to explicitly render the children somewhere in your component. If you
+don’t, they are ignored. For instance, if the IconButton component looked like this:
+```jsx
+function IconButton() {
+    return (
+        <button>
+        <i class="target-icon"/>
+        </button>
+    );
+}
+```
+The rendered component would be a button with an icon, the inner text will not be included in the button.
+
+With a small tweak, we can place the text after the icon:
+```jsx
+function IconButton({ children }) {
+    return (
+        <button>
+            <i class="target-icon"/>
+            {children}
+        </button>
+    );
+}
+```
+
+
+
+### Different Types of Children
+The children prop is always pluralized as children no matter whether there’s a single child or multiple children. Moreover, the type of children will change depending on what it contains.
+
+> When there are multiple children, children is an array of ReactElements. However, when there is only one child, it is a single ReactElement.
+
+
+
+### Dealing with children
+React provides utility functions for dealing with this opaque data structure.
+
+- **React.Children.map**(children, function)
+map returns an array made up of the values you return from the function you provide.
+
+- **React.Children.forEach**(children, function)
+forEach iterates over the children and returns nothing
+
+- **React.Children.count**(children)
+count is pretty self-explanatory: it returns the number of items in children.
+
+- **React.Children.only**(children)
+only returns the single child, or throws an exception if there is more than one child.
+  
+- **React.Children.toArray**(children)
+toArray is similarly intuitive: it converts children into a flat array, whether it was an array or not.
+
+
+The first two, map and forEach, work the same as the methods on JavaScript’s built-in Array.
+
+
+
+### PropTypes for Children
+If you want your component to accept zero, one, or more children, use the .node validator:
+```js
+propTypes: {
+children: PropTypes.node
+}
+```
+
+If you want it to accept only a single child, use the element validator:
+```js
+propTypes: {
+children: PropTypes.element
+}
+```
+
+Beware that this expects a single React Element as a child. This means it has to be a custom component, or a tag like `<div>`. PropTypes.element will warn if you pass a string or number. If you need to allow an element or a string, you can use the oneOfType validator like this:
+```js
+propTypes: {
+    children: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.string
+    ])
+}
+```
+
+
+
+### A More Interesting Example
+Imagine that we constructed our own “API” of sorts for expressing a navigation
+header:
+```js
+<Nav>
+    <NavItem url='/'>Home</NavItem>
+    <NavItem url='/about'>About</NavItem>
+    <NavItem url='/contact'>Contact</NavItem>
+</Nav>
+```
+
+Using the children prop, the Nav component can do things like insert a separator between each item:

@@ -1,0 +1,45 @@
+body {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.address {
+  padding: 10px;
+  margin: 15px;
+  max-width: fit-content;
+  font-weight: 500;
+}
+
+.address p {
+  margin: 0px;
+}
+
+.envelop {
+  border: 1px solid lightgray;
+  height: 280px;
+  padding: 20px;
+  max-width: 380px;
+  margin: auto;
+}
+
+
+
+.address:last-of-type {
+  display: block;
+  margin: auto;
+  max-width: fit-content;
+}
+
+.stamp {
+  border: 2px solid lightgray;
+  color: gray;
+  display: block-inline;
+  float: right;
+  font-weight: 700;
+  font-size: 1.2rem;
+  max-width: fit-content;
+}
+
+.stamp p{
+  padding-block: 10px;
+  transform: rotate(-30deg);
+}
