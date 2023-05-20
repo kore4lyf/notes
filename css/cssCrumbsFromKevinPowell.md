@@ -388,7 +388,14 @@ To display the content set grid-template-rows of the container to be 1fr.
 > JavaScript can be use to enable click events to effect the changes instead of using the hover effect in css
 
 
-# Search
+## Steps to take before writting css code
+- Scan through the design
+- Identify the layout
+- Look for the common css properties each elements and sections share.
+
+
+
+## Search
 - padding-block ✅
 - Logical property (Kevin Powell)
 - CSS custom property
