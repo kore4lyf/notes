@@ -3,7 +3,7 @@
 ## Responsive Tips And Tricks
 
 ### 1. Start Global
-When start writting your CSS start global first. Don't worry about layouts first, work on your typography, background, colors e.t.c. Work on responsiveness of the page later.
+When you start writting your CSS start global first. Don't worry about layouts first, work on your typography, background, colors e.t.c. Work on responsiveness of the page later.
 
 ### 2. Avoid Fixed Sizes
 When start working on your layouts, avoid fixed sizes (e.g. height: 100px; e.t.c). The element will begin to overflow when the screen gets smaller. 
@@ -28,7 +28,7 @@ Example 1:
 Example 2:
 Example 1 can be simplified like this, instead of overidding a bunch of propertise.
 ```css 
-@media (max-width: 40em) {
+@media (mix-width: 40em) {
     .split {
         display: flex;
         gap: 2em;
@@ -291,9 +291,9 @@ We have two categories of semantic tags.
 a. Content: We've had them before like `<h1> - <h6>, <p>, <a>, <ol>, <ul>, <li>, <figure>` e.t.c
 b. Context: They give structural context to our page `<heading>, <main>, <footer>, <article>, <section>, <nav>`  e.t.c.
 
-> You can only have one main oer page.
+> You can only have one main per page.
  
-> Sections are parts of a bigher content.
+> Sections are parts of a bigger content.
 
 - 4. Attributes
 The most common Global attributes are `class` and `id`. `id`s are best used for linking, while `class`es are best for styling elements.
@@ -350,19 +350,53 @@ Usually used to seperate code that is not support by all browsers.
 
 
 
+## Transition height from 0 to auto (accordion)
+This can be used on an accordion.
+By setting grid-template-rows to 0fr you can hide the content of the div within the grid (Ensure the div has an overflow value of hidden).
 
+To display the content set grid-template-rows of the container to be 1fr.
+```html
+<style>
+  .quick-example {
+    background: darkslategray;
+    color white;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows ease 3000ms;
+  }
+  
+  .quick-example > div {
+    overflow: hidden;
+  }
+  
+  .quick-example:hover {
+    grid-template-rows: 1fr;
+  }
+</style>
 
+<div>
+  <div class="quick-example">
+    This is amazing!
+  </div>
+</div>
+```
+
+> JavaScript can be use to enable click events to effect the changes instead of using the hover effect in css
 
 
 # Search
-- padding-block 
+- padding-block ✅
 - Logical property (Kevin Powell)
 - CSS custom property
-- min() 
-- max()
-- clamp()
+- min() ✅
+- max() ✅
+- clamp() ✅
 - ARIA attribute
-- box-sizing: border-box
-- isolation : Isolate
-- Feature Selction - `@supports`
-- mix-blend-mode
+- box-sizing: border-box✅
+- isolation : Isolate ✅
+- Feature Selction - `@supports` 
+- mix-blend-mode ✅
