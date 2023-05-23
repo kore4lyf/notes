@@ -1371,6 +1371,140 @@ const EasyInput = () => (
 
 
 
+## The Component LifeCycle
+
+The Component Lifecycle
+
+Every React component goes through a lifecycle as it’s rendered on screen. There are a sequence of methods called in a specific order. Some of them only run once, and some run multiple times.
+
+For most of the components you build, tapping into the lifecycle methods won’t be necessary. But when you need them, you need them. Whether you need to make AJAX calls to fetch data, insert your own nodes into the DOM, or set up timers, the lifecycle methods are the place to do it.
+
+The entire lifecycle of a componet:
+```
+                  componentWillMount (1)
+                          |
+                          |
+                        render (2)
+                          |
+                          |
+                  componentDidMount (3)
+                          |
+                  ________|________
+                 /                  \
+componentDidUpdate   componentWillRecieveProps
+(prevProps, prevState)  (nextProps)               
+               |                      |
+            render                    |
+               |                      |
+  componentWillUpdate     shouldComponentUpdate
+   (nextProps, nextState)         (nextProps, nextState)
+                \__________________/
+                          |
+                  componentWillUnmount
+
+```
+
+### Usage
+Tapping in to a lifecycle hook is as simple as adding the appropriate function to your component class. Lifecycle methods are only available to class components, not functional ones.
+
+Here’s an example that uses every lifecycle method. Run it, click the button, and
+watch the console to see the order in which they’re called.
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class LifecycleDemo extends React.Component {
+  state = {counter: 0};
+  constructor(props) {
+    super(props);
+    console.log('Constructing...');
+    console.log('State already set to:', this.state);
+  }
+    componentWillMount() {
+    console.log('About to mount...');
+  }
+    componentDidMount() {
+    console.log('Mounted.');
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log('Current props:', this.props);
+    console.log('Next props:', nextProps);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('Deciding to update');
+    return true;
+  }
+  componentWillUpdate(nextProps, nextState) {
+    console.log('About to update...');
+  }
+  componentDidUpdate() {
+    console.log('Updated.');
+  }
+  componentWillUnmount() {
+    console.log('Goodbye cruel world.');
+  }
+  handleClick = () => {
+    this.setState({
+    counter: this.state.counter + 1
+  });
+  };
+
+  render() {
+    console.log('Rendering...');
+
+    return (
+    <div>
+      <span>Counter: {this.state.counter}</span>
+      <button onClick={this.handleClick}>
+        Click to increment
+      </button>
+    </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <LifecycleDemo/>,
+  document.querySelector('#root')
+);
+```
+
+
+
+####  Mounting
+These methods are called only once, when the component first mounts.
+**constructor**: This is the first method called when your component is created. If state is initialized with a property initializer, as shown above, then it will already be set by the time the constructor executes.
+
+**componentWillMount**: Called immediately before your component mounts for the first time. **Children are mounted before the parent, so each child’s componentWillMount will be called called before the parent**.
+
+**componentDidMount**: Called immediately after the first render. The component’s children are already rendered at this point, too. This is a good place to make AJAX requests to fetch any data you need.
+
+
+
+#### Updating
+These are called, in order, before and after each render. None of them are called during the initial render.
+
+**componentWillReceiveProps(nextProps)**: This is passed the nextProps that will be received. Old props are still available as this.props, and you can call this.setState if necessary.
+
+**shouldComponentUpdate(nextProps, nextState)**: This is an opportunity to prevent rendering if you know that props and state have not changed. The default implementation always returns true. If you return false, the render will not occur (and children will not render either), and the remaining lifecycle methods will be skipped.
+
+**componentWillUpdate(nextProps, nextState)**: Rendering is a foregone conclusion at this point. Use this to do any prep work before render is called.
+You cannot call this.setState from within this method.
+
+**render**: You know this one well. It fits in the lifecycle right between componentWillUpdate and componentDidUpdate.
+
+**componentDidUpdate**: Render is done. You can use this opportunity to operate on the DOM if you need to. Prior to this, DOM nodes could still be in flux.
+
+
+
+#### Unmounting
+**componentWillUnmount**: The component is about to be unmounted. Maybe its item was removed from a list, maybe the user navigated to another tab… whatever the case, this component’s time is numbered. You should invalidate any timers you created (using clearInterval() or clearTimeout()), disable event handlers (with removeEventListener()), and perform any other necessary cleanup
+
+
+
+
+
+
 
 
 
