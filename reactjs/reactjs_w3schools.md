@@ -1340,4 +1340,217 @@ ReactDOM.render(<Container />, document.getElementById('root'));
 
 
 
+## React Events
+
+Just like HTML, React can perform actions based on user events.
+
+
+React has the same events as HTML: click, change, mouseover etc.
+
+### Adding Events
+React events are written in camelCase syntax:
+
+onClick instead of onclick.
+
+React event handlers are written inside curly braces:
+
+onClick={shoot}  instead of onclick="shoot()".
+
+React:
+```js
+<button onClick={shoot}>Take the Shot!</button>
+```
+
+HTML:
+```html
+<button onclick="shoot()">Take the Shot!</button>
+```
+
+
+
+### Event Handlers
+A good practice is to put the event handler as a method in the component class:
+
+Example:
+Put the shoot function inside the Football component:
+```js
+class Football extends React.Component {
+  shoot() {
+    alert("Great Shot!");
+  }
+  render() {
+    return (
+      <button onClick={this.shoot}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+
+
+
+### Bind this
+For methods in React, the this keyword should represent the component that owns the method.
+
+That is why you should use arrow functions. With arrow functions, this will always represent the object that defined the arrow function.
+
+Example:
+```js
+class Football extends React.Component {
+  shoot = () => {
+    alert(this);
+    /*
+    The 'this' keyword refers to the component object
+    */
+  }
+  render() {
+    return (
+      <button onClick={this.shoot}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+#### Why Arrow Functions?
+In class components, the this keyword is not defined by default, so with regular functions the this keyword represents the object that called the method, which can be the global window object, a HTML button, or whatever.
+
+If you must use regular functions instead of arrow functions you have to bind this to the component instance using the bind() method:
+
+Example:
+Make this available in the shoot function by binding it in the constructor function:
+```js
+class Football extends React.Component {
+  constructor(props) {
+    super(props)
+    this.shoot = this.shoot.bind(this)
+  }
+  shoot() {
+    alert(this);
+    /*
+    Thanks to the binding in the constructor function,
+    the 'this' keyword now refers to the component object
+    */
+  }
+  render() {
+    return (
+      <button onClick={this.shoot}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+
+> Without the binding, the this keyword would return undefined.
+
+
+
+
+### Passing Arguments
+If you want to send parameters into an event handler, you have two options:
+
+1. Make an anonymous arrow function:
+
+Example:
+Send "Goal" as a parameter to the shoot function, using arrow function:
+```js
+class Football extends React.Component {
+  shoot = (a) => {
+    alert(a);
+  }
+  render() {
+    return (
+      <button onClick={() => this.shoot("Goal")}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+
+Or:
+
+2. Bind the event handler to this.
+
+Note that the first argument has to be this.
+
+Example:
+Send "Goal" as a parameter to the shoot function:
+```js
+class Football extends React.Component {
+  shoot(a) {
+    alert(a);
+  }
+  render() {
+    return (
+      <button onClick={this.shoot.bind(this, "Goal")}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+
+> Note on the second example: If you send arguments without using the bind method, (this.shoot(this, "Goal") instead of this.shoot.bind(this, "Goal")), the shoot function will be executed when the page is loaded instead of waiting for the button to be clicked.
+
+
+
+### React Event Object
+Event handlers have access to the React event that triggered the function.
+
+In our example the event is the "click" event. Notice that once again the syntax is different when using arrow functions or not.
+
+With the arrow function you have to send the event argument manually:
+
+Example:
+Arrow Function: Sending the event object manually:
+```js
+class Football extends React.Component {
+  shoot = (a, b) => {
+    alert(b.type);
+    /*
+    'b' represents the React event that triggered the function,
+    in this case the 'click' event
+    */
+  }
+  render() {
+    return (
+      <button onClick={(ev) => this.shoot("Goal", ev)}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+
+Without arrow function, the React event object is sent automatically as the last argument when using the bind() method:
+
+Example:
+With the bind() method, the event object is sent as the last argument:
+```js
+class Football extends React.Component {
+  shoot = (a, b) => {
+    alert(b.type);
+    /*
+    'b' represents the React event that triggered the function,
+    in this case the 'click' event
+    */
+  }
+  render() {
+    return (
+      <button onClick={this.shoot.bind(this, "Goal")}>Take the shot!</button>
+    );
+  }
+}
+
+ReactDOM.render(<Football />, document.getElementById('root'));
+```
+
+
+
+
+
+
 
