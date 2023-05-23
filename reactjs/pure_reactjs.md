@@ -1288,3 +1288,90 @@ In an ideal world, you’d try to organize your app so that the components at th
 
 
 
+## Input Controls
+Input controls in React come in two flavors: **controlled** and **uncontrolled**.
+
+
+
+### Controlled Inputs
+The reason they’re called “controlled” is because you are responsible for controlling their state. You need to pass in a value, and keep that value updated
+as the user types.
+Example 1: 
+```js
+class ControlledInput extends React.Component {
+  state = { text: '' };
+  handleChange = (event) => {
+    this.setState({
+    text: event.target.value
+    });
+  };
+
+  render() {
+    return (
+      <input type="text"
+      value={this.state.text}
+      onChange={this.handleChange} />
+    );
+  }
+}
+```
+
+
+Example 2:
+```js
+class TrickInput extends React.Component {
+  state = {
+    text: 'try typing something'
+  };
+  handleChange = (event) => {
+    this.setState({
+    text: 'haha nope'
+    });
+  };
+  render() {
+    return (
+      <input type="text"
+      value={this.state.text}
+      onChange={this.handleChange} />
+    );
+  }
+}
+```
+You’ll see that the input thwarts your attempts to change it, and mocks you. Every time you try to type, all you see in the input box is "haha nope".
+
+
+This is very powerful though. If you want to do some kind of custom validation, or formatting, you can do that in the handleChange function. Don’t want the user to type numbers? Strip out the numbers before updating the state:
+
+```js
+class NoNumbersInput extends React.Component {
+  // ...
+  handleChange = (event) => {
+    let text = event.target.value;
+    text = text.replace(/[0-9]/g, '');
+    this.setState({ text });
+  };
+  // ...
+}
+```
+
+> that syntax this.setState({ text }) is just ES6 shorthand for this.setState({ text: text }). With ES6, if the key is the same as the variable name, you don’t have to write it twice.
+
+
+
+### Uncontrolled Inputs
+When an input is uncontrolled, it manages its own internal state. So you can put
+an input on the page like this (without a value prop):
+```js
+const EasyInput = () => (
+  <input type="text" />
+);
+```
+
+
+
+
+
+
+
+
+
