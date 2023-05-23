@@ -939,3 +939,352 @@ const testFiles = [
 
 
 
+
+
+## State
+
+Up until this point we’ve used props to pass data to components. But props are read-only. What if you need to keep track of data that can change? This is where state comes in.
+
+
+For Example: : A Counter
+```js
+function handleAction(event) {
+  console.log('Child did:', event);
+}
+function Parent() {
+  return (
+    <Child onAction={handleAction}/>
+  );
+}
+function Child({ onAction }) {
+  return (
+    <button onClick={onAction}>
+      Click Me!
+    </button>
+  );
+}
+```
+
+What if we wanted Parent to keep track of how many times the button was clicked. To do this, Parent needs 3 new things: an initial state where the counter is set to 0, a call to this.setState to increment the counter, and a way to display the current count.
+
+> t function components are stateless. To make Parent stateful, it needs to be transformed into an ES6 class component.
+
+Here’s the new version of Parent, renamed to CountingParent – make sure to update the call to ReactDOM.render!
+```js
+class CountingParent extends React.Component {
+  state = {
+    actionCount: 0
+  }
+  handleAction = (action) => {
+    console.log('Child says', action);
+    // actionCount is incremented, and
+    // the new count replaces the existing one
+    this.setState({
+      actionCount: this.state.actionCount + 1
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Child onAction={this.handleAction}/>
+        <p>Clicked {this.state.actionCount} times</p>
+      </div>
+    );
+  }
+}
+```
+
+> this.setState({}) is a function that is called when ever we want to make changes to a state's data actionCount: this.state.actionCount + 1})
+
+The action variable passed into the function, hold information about the computer as the action was performed. e.g. 
+
+```js
+{
+altKey: false
+bubbles: true
+button: 0
+buttons: 0
+cancelable: true
+clientX: 49
+clientY: 20
+ctrlKey: true
+currentTarget: null
+defaultPrevented: false
+detail: 1
+eventPhase: 3
+getModifierState: ƒ modifierStateGetter(keyArg)
+isDefaultPrevented: ƒ functionThatReturnsFalse()
+isPropagationStopped: ƒ functionThatReturnsFalse()
+isTrusted: true
+metaKey: false
+movementX: 0
+movementY: 0
+nativeEvent: PointerEvent {isTrusted: true, pointerId: 3, width: 1, height: 1, pressure: 0, …}
+pageX: 49
+pageY: 20
+relatedTarget: null
+screenX: 769
+screenY: 203
+shiftKey: false
+target: button
+timeStamp: 184306.69999999553
+type: "click"
+view: Window {window: Window, self: Window, document: document, name: '', location: Location, …}
+_reactName: "onClick"
+_targetInst: null
+[[Prototype]]: Object
+}
+```
+
+
+
+### setState Is Asynchronous
+setState function would immediately update the state and call render. 
+
+If you need to set the state and immediately act on that change, you can pass in a
+callback function like this:
+```js
+this.setState({name: 'Joe'}, function() {
+// called after state has been updated
+// and the component has been re-rendered
+});
+```
+I.e it can take a callback. The code above updates the state data "name" and then calls the function immediately after the update.
+
+
+
+### Functional setState
+Another way to make it so that sequential state updates run in sequence is to use the functional form of setState, like this:
+```js
+this.setState((state, props) => {
+  return {
+  value: state.value + 1
+  }
+});
+```
+In this form, you pass a function to setState. The function receives the current state and props as arguments, and it is expected to return the desired new state. If you were to run a few of these sequentially…
+```js
+this.setState((state, props) => {
+  return {
+    value: state.value + 1
+  }
+});
+
+this.setState((state, props) => {
+  return {
+    value: state.value + 1
+  }
+});
+
+this.setState((state, props) => {
+  return {
+    value: state.value + 1
+  }
+});
+```
+
+This would work as expected, eventually incrementing value by 3.  It works because calling setState “queues” the updates in the order they’re called, and when they’re executed, they receive the latest state as an argument instead of using a potentially-stale this.state.
+
+
+
+### Shallow vs Deep Merge
+When you call setState, whether you call it with an object or in the functional form, the result is that it will shallow merge the properties in your object with the curren state. Here’s how that works.
+
+The “shallow merging” behavior means that if you have a state like this:
+```js
+{
+  score: 7,
+  user: {
+    name: "somebody",
+    age: 26
+  },
+  products: [ /*...*/ ]
+}
+```
+And then you do this.setState({ score: 42 }), the new state will be:
+```js
+{
+  score: 42, // new!
+  user: { // unchanged
+    name: "somebody", // unchanged
+    age: 26 // unchanged
+  },
+  products: [ /* unchanged */ ]
+}
+```
+
+That is, it merges the object you pass to setState (or return from the functional
+version) with the existing state. It doesn’t erase the existing state.
+If instead you run this.setState({ user: { age: 4 } }) then it would
+replace the entire user object with the new one:
+```js
+{
+  score: 7, // unchanged
+  user: { // new!
+    age: 4 // no more 'name'
+  },
+  products: [ ... ], // unchanged
+}
+```
+
+
+
+### Handling Events
+We’ve seen a few components that take an onClick prop. This is just one of many events that React components can handle. The convention is that React’s events are named with camelCase like onClick, onSubmit, onKeyDown.
+At least **one event differs by more than just capitalization: ondblclick is renamed to onDoubleClick**. A complete list of events can be found in the official Facebook docs.
+
+If you print it out with console.log(event), the instance logged to the console will be cleared out by the time you go to look at it. You also can’t access it asynchronously (say, after a timeout). If you need to access it asynchronously, you can call event.persist() and React will keep it around for you.
+
+
+
+### What to Put in State
+How do you decide what should go into state? Is there anywhere else to store persistent data?
+
+> As a general rule, data that is stored in state should be referenced inside render somewhere. 
+
+**Component state is for storing UI state** – things that affect the visual rendering of the page. This makes sense because **any time state is updated, the component will re-render.**
+
+> If modifying a piece of data does not visually change the component, that data shouldn’t go into state. 
+
+Here are some things that make sense to put in state:
+- User-entered input (values of text boxes and other form fields)
+- Current or selected item (the current tab, the selected row)
+- Data from the server (a list of products, the number of “likes” on a page)
+- Open/closed state (modal open/closed, sidebar expanded/hidden)
+
+
+Other stateful data, like handles to timers, should be stored on the component instance itself.
+
+
+
+Example: Animating a Change
+Let’s say you have a badge with a counter showing the number of logged-in users. It gets this number from a prop. What if you want the badge to animate
+when the number changes?
+
+**The old way:** You might use jQuery to toggle a class that plays the animation, or use jQuery to animate the element directly.
+**The declarative way:** You can respond when props change by implementing the componentWillReceiveProps lifecycle method and comparing the old value to
+the new one (you’ll learn more about lifecycle methods in Chapter 14). If it changed, you can set the “animating” state to true. Then in render, when
+“animating” is true, add a CSS class that does the animation. When “animating” is false, don’t add that class. Here’s what this might look like:
+
+```js
+class Badge extends Component {
+  componentWillReceiveProps(nextProps) {
+    if(this.props.counter !== nextProps.counter) {
+      // Set animating to true right now.
+      // When the state change finishes, set a timer
+      // to turn animating off in 200ms.
+      this.setState({ animating: true }, () => {
+        setTimeout(() => {
+          this.setState({ animating: false });
+        }, 200);
+      });
+    }
+  }
+  render() {
+    const animatingClass =
+    this.state.animating ? 'animating' : '';
+    return (
+      <div className={`badge ${animatingClass}`}>
+      {this.props.counter}
+      </div>
+    );
+  }
+}
+```
+
+
+
+### Where to Keep State
+Whenever you can, **it’s best to keep components stateless**. Sometimes this isn’t possible, but often, pieces of data you initially think should go into internal state can actually be pulled up to the parent component, or even higher.
+
+Think about a section of the page that can be shown or hidden, maybe a sidebar like this:
+
+When you click the “Hide” button, the sidebar should disappear, which means setting a showSidebar flag to false. This flag should be stored in state somewhere. But where?
+
+Option 1, the showSidebar flag could reside in the Sidebar component. This way the Sidebar “knows” whether it is open or not. This is similar to how uncontrolled inputs work, which we’ll see next.
+
+Option 2, the showSidebar flag can go in the parent Layout component, and the
+parent can decide whether to render the Sidebar or not:
+
+```js
+class Layout extends React.Component {
+  state = {
+    showSidebar: false
+  }
+  toggleSidebar = () => {
+    this.setState({
+    showSidebar: !this.state.showSidebar
+  });
+  }
+  render() {
+    const { showSidebar } = this.state;
+    return (
+      <div className="layout">
+        {showSidebar &&
+        <Sidebar onHide={this.toggleSidebar}>
+          some sidebar content
+        </Sidebar>}
+        <Content isSidebarVisible={showSidebar}
+        onShowSidebar={this.toggleSidebar}>
+          some content here
+        </Content>
+      </div>
+    );
+  }
+}
+
+const Content = ({children, isSidebarVisible, onShowSidebar}) => (
+  <div className="content">
+    {children}
+    {!isSidebarVisible && (
+    <button onClick={onShowSidebar}>
+      Show
+    </button>
+    )}
+  </div>
+);
+
+
+const Sidebar = ({onHide, children  }) => (
+  <div className="sidebar">
+    {children}
+    <button onClick={onHide}>
+      Hide
+    </button>
+  </div>
+);
+```
+
+This way Sidebar doesn’t internally “know” whether it’s visible. It is either rendered, or not rendered. 
+
+Keeping the state in a parent component might feel unnatural. It might even seem at first glance like this would make Sidebar hard to reuse, since you need to pass a callback function that Sidebar can call when it needs to hide. 
+
+On the contrary, having fewer components containing state means fewer places to look when a bug appears. And if you need to do anything with that state, for instance, save it to localStorage to persist across page reloads, that logic only needs to exist in one component instance. 
+
+Browsers come with localStorage, a place you can use to save data between sessions. Closing and reopening the browser or refreshing the page won’t clear the data. You could save the Sidebar state with **localStorage.setItem('showSidebar', true)** and later retrieve it with **localStorage.getItem('showSidebar')**.
+
+You can see that if the Sidebar component knew how to save its own state tolocalStorage, and there were multiple Sidebars in the app, they would need away to differentiate themselves. A single showSidebar key in localStoragewould lead to conflicts, and the Sidebars don’t know where in the app they reside.
+
+Perhaps the parents could be responsible for passing down a unique “id” or “location” to each Sidebar. However, that would split the concern of “where to save” between both the parent and the Sidebar. That makes two components that need to know about saving, rather than one. A better design would keep all of the saving-related logic in one place, and that is easier to do if the state is stored alongside it.
+
+
+
+### “Kinds” of Components
+Architecturally, you can segment components into two kinds: Presentational (a.k.a “Dumb”) and Container (a.k.a. “Smart”).
+
+Presentational components are stateless. They simply accepts props and render
+some elements based on those props. Being stateless means that the component will contain less logic, and will be easier to debug and test. They are, in essence, pure functions. They always return the same result for a given set of props, and they don’t change anything. Ideally, most of your components will be presentational
+
+Sidebar, as written above, is a presentational component. So is Child, and so is the Tweet component we made a while back. They accept data and render it, and if events need to be handled, they call back up to the parent. Other kinds of common presentational components include buttons, navigation bars, links, images, etc.
+
+Container components are stateful. They maintain state for themselves and any child components, and pass it down to them via props. They usually pass down handler functions to children, and respond to callbacks by updating their internal state. Container components are also responsible for asynchronous communication, such as AJAX calls to the server.
+
+Page is actually presentational. Presentational components can contain Container components, and Containers can contain Presentational components – there aren’t any strict rules for nesting.
+
+In an ideal world, you’d try to organize your app so that the components at the very top level (and maybe one level below that) are containers, and everything under them is presentational. In the real world this is difficult to achieve because you might have nested inputs that contain their own state. That’s okay though – perfection is not the goal.
+
+
+
+
+
