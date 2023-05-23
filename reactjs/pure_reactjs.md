@@ -874,3 +874,68 @@ function(videos) {
 ```
 
 
+
+
+
+## The “key” Prop
+
+Any time you use map to render an array, you’ll also need key on the topmost element. React consumes the key prop before rendering, so the component you pass key to will not actually receive the prop.
+
+
+In practice, the important thing to keep in mind is that keys should be stable, permanent, and unique for each element in the array.
+- **Stable**: An element should always have the same key, regardless of its position in the array. This means key={index} is a bad idea.
+- **Permanent**: An element’s key must not change between renders. This means key={Math.random()} is a bad idea.
+- **Unique**: No two elements should have the same key.
+If an item has a unique ID attached to it, that’s a great choice for the key. If the items don’t have IDs, try using a hashing function, or generate unique IDs with a library like shortid.
+The item’s array index is not a good choice because if the index changes, for instance when an element is added to the front of the array, React’s mapping of indexes will become outdated. The item that was previously index “0” will now be “1”, but React doesn’t know that, and it might cause tough-to-diagnose rendering bugs.
+
+```jsx
+const FileList = ({ files }) => (
+  <table className="filelist">
+      <tbody>
+          {files.map(file => (
+              <tr className="filelist-item" key={file.id}>
+                  <td className="file-name">{file.name}</td>
+              </tr>
+          ))
+          }
+      </tbody>
+  </table>
+);
+
+FileList.propTypes = {
+  files: PropTypes.array
+};
+const testFiles = [
+  {
+    id: 1,
+    name: 'src',
+    type: 'folder',
+    updated_at: "2016-07-11 21:24:00",
+    latestCommit: {
+      message: 'Initial commit'
+    }
+    },
+    {
+    id: 2,
+    name: 'tests',
+    type: 'folder',
+    updated_at: "2016-07-11 21:24:00",
+    latestCommit: {
+      message: 'Initial commit'
+    }
+    },
+    {
+    id: 3,
+    name: 'README',
+    type: 'file',
+    updated_at: "2016-07-18 21:24:00",
+    latestCommit: {
+      message: 'Added a readme'
+    }
+  },
+];
+```
+
+
+
