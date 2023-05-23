@@ -1504,7 +1504,106 @@ You cannot call this.setState from within this method.
 
 
 
+## More
 
+### Creating Functions in Render: Bad?
+It’s generally a bad idea to create new functions to pass into props, but it’s worth understanding why, so you can apply the rule when it makes sense.
+The reason it’s bad to create new functions is for performance: not because functions are expensive to create, but because passing a new function down to a pure component every time it renders means that it will always see “new” props,
+and therefore always re-render (needlessly).
+Avoid creating a new function in render when 
+a. the child component receiving the function prop is pure and 
+b. you expect the parent component to re-render often.
+
+
+
+
+### Updating State Immutably
+You might be wondering… why not just modify state directly and then call setState, like this?
+
+```js
+this.state.cart.push(item.id);
+this.setState({cart: this.state.cart});
+```
+
+This is a bad idea for two reasons (even though it would work in this example).
+You should never modify (“mutate”) state or its child properties directly. Don’t do this.state.something = x, and don’t do this.state = x. React relies on you to call this.setState when you want to make a change, so that it will know something changed and trigger a re-render. If you circumvent setState the UI will get out of sync with the data.
+Mutating state directly can lead to odd bugs, and components that are hard to optimize.
+
+Recall that one of the common ways to optimize a React component is to make it “pure,” meaning that it only re-renders when its props change. This can be done automatically by extending React.PureComponent instead of React.Component, or manually by implementing the shouldComponentUpdate lifecycle method to compare nextProps with current props. If the props look the same, it skips the render, and saves some time.
+
+Here is a simple component that renders a list of items. Notice that it extends
+React.PureComponent:
+(If you have the example code, this code is under the “impure-state” folder.)
+```js
+class ItemList extends React.PureComponent {
+  static propTypes = {
+    items: PropTypes.array.isRequired
+  }
+  render() {
+    return (
+      <ul>
+        {this.props.items.map(item =>
+        <li key={item.id}>{item.value}</li>
+        )}
+      </ul>
+    );
+  }
+}
+```
+
+Now, here is a tiny app that renders the ItemList and allows you to mutably or
+immutably add items to the list:
+```js
+class App extends Component {
+  // Initialize items to an empty array
+  state = {
+  items: []
+  }
+  // Initialize a counter that will increment
+  // for each item ID
+  nextItemId = 0;
+  makeItem() {
+  // Create a new ID and use
+  // a random number as the value
+    return {
+    id: this.nextItemId++,
+    value: Math.random()
+    };
+  }
+  // The Right Way:
+  // copy the existing items and add a new one
+  addItemImmutably = () => {
+    this.setState({
+      items: [
+      ...this.state.items,
+      this.makeItem()
+      ]
+    });
+  }
+  // The Wrong Way:
+  // mutate items and set it back
+  addItemMutably = () => {
+    this.state.items.push(this.makeItem());
+    this.setState({ items: this.state.items });
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.addItemImmutably}>
+        Add item immutably (good)
+        </button>
+        <button onClick={this.addItemMutably}>
+        Add item mutably (bad)
+        </button>
+        <ItemList items={this.state.items}/>
+      </div>
+    );
+  }
+}
+```
+
+Optimized components (ones that implement shouldComponentUpdate) might not re-render if you do.
+Instead, you should create new objects and arrays when you call setState, which is what we did above with the spread operator.
 
 
 
