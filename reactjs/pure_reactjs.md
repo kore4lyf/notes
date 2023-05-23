@@ -840,3 +840,37 @@ header:
 ```
 
 Using the children prop, the Nav component can do things like insert a separator between each item:
+
+
+
+
+
+## 
+
+
+
+
+
+
+**NB:** STATE: 
+If you write a function within a class component (container) it doesn't automatically bind unless the function is an arrow function.
+To make the function bind you can append .bind(this) to the function call
+e.g.
+`<button onClick={this.delta.bind(this)}>+</button>`
+
+When using ES6 code in React always use arrow functions, because the this context is automatically binded with it.
+```js
+//Use this:
+(videos) => {
+    this.setState({ videos: videos });
+    console.log(this.state.videos);
+};
+
+//instead of:
+function(videos) {
+    this.setState({ videos: videos });
+    console.log(this.state.videos);
+};
+```
+
+
