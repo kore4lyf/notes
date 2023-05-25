@@ -1,0 +1,20 @@
+.error-note {
+    color: dimgray;
+}
+
+.msg-note {
+    margin: auto;
+    margin-top: 5rem;
+    text-align: center;
+    width: fit-content;
+}
+
+.numberOfOrders {
+    display: flex;
+    align-items: center;
+}
+
+.numberOfOrders input {
+    line-height: 1.5rem; 
+    width: 3ch;
+}
