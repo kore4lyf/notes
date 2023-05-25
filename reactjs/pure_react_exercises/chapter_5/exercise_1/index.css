@@ -1,0 +1,148 @@
+/* ####################
+      Global Styles
+   #################### */
+:root {
+   --clr-icon: #616163;
+   --clr-text: rgb(31, 31, 31);
+   font-family:  Calibri, 'Trebuchet MS', sans-serif;
+}
+
+p {
+   margin-block: 2.5px;
+}
+   
+   
+   
+/* ####################
+Component Styles
+#################### */
+
+/* ---Tweet List--- */
+.tweet-list {
+   margin: auto;
+   width: 425px;
+   min-width: 320px;
+}
+
+
+/* ---Tweet--- */
+.tweet {
+   border-bottom: .5px solid lightgray;
+   display: flex;
+   gap: 8px;
+   padding: 10px;
+   width: 100%;
+}
+
+.top {
+   align-items: center;
+   display: flex;
+   gap: 5px;
+   justify-content: space-between;
+   width: 100%;
+}
+
+
+/* ---Profil Pic--- */
+.profile-pic img{
+   border-radius: 100%;
+   width: 50px;
+}
+
+/* ---Name--- */
+.name {
+   color: var(--clr-text);
+   font-weight: bold;
+}
+
+
+
+/* ---Handle & Time--- */
+.handle, .time {
+   color: var(--clr-icon);
+}
+
+
+
+/* ---Share--- */
+/* ---TotalLikes--- */
+/* ---TotalRetweet--- */
+/* ---TotalComment--- */
+/* ---SharePhotos--- */
+.shared-photo {
+   aspect-ratio: 2/1;
+   border-radius: 10px;
+   object-fit: cover;
+   object-position: top;
+   margin-block: 2.5px;
+   width: 100%;
+}
+
+
+
+/* ---Message--- */
+/* ---Time--- */
+/* ---IsVerified--- */
+.verification .icon {
+   color: #0b94c6;
+   transform: translateY(3px);
+}
+
+
+
+/* ---Menu--- */
+.menu.icon {
+   color: lightgray;
+   transform: rotate(90deg);
+   width: 13px;
+}
+
+
+
+
+
+
+
+/* ####################
+Other Styles
+#################### */
+.icon {
+   color: var(--clr-icon);
+   height: 15px;
+   width: 20px;
+}
+
+.share-stroke {
+   fill:none;
+   stroke: var(--clr-icon);
+   stroke-linecap: round;
+   stroke-linejoin: round;
+   stroke-width: 5px;
+}
+
+.seperator .icon {
+   transform: translateY(-2.5px);
+   width: 2.5px;
+   height: 2.5px;
+}
+
+.post-details {
+   align-items: center;
+   display: flex;
+   gap: 2px;
+}
+
+.icons {
+   display: flex;
+   padding-top: 10px;
+   justify-content: space-between;
+   max-width: 80%;
+}
+
+.icon-total {
+   align-items: center;
+   display: flex;
+   gap: 2px;
+}
+
+
