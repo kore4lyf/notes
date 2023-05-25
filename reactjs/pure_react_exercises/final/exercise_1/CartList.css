@@ -1,0 +1,9 @@
+.numberOfOrders {
+    display: flex;
+    align-items: center;
+}
+
+.numberOfOrders input {
+    line-height: 1.5rem; 
+    width: 3ch;
+}
