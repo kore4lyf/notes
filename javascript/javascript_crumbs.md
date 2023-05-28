@@ -4805,6 +4805,232 @@ function checkCookie() {
 ```
 The example above runs the checkCookie() function when the page loads.
 
+
+
+
+
+## window.console
+
+
+
+### Console Object
+The Console object provides access to the browser's debugging console.
+
+| Method |	Description |
+| :--- | :--- |
+| assert() |	Writes an error message to the console if the assertion is false |
+| clear() |	Clears the console |
+| count() |	Logs the number of times that this particular call to count() has been called |
+| error() |	Outputs an error message to the console |
+| group() |	Creates a new inline group in the console. This indents following console messages by an additional level, until console.groupEnd() is called |
+| groupCollapsed() |	Creates a new inline group in the console. However, the new group is created collapsed. The user will need to use the disclosure button to expand it |
+| groupEnd() |	Exits the current inline group in the console |
+| info() |	Outputs an informational message to the console |
+| log() |	Outputs a message to the console |
+| table() |	Displays tabular data as a table |
+| time() |	Starts a timer (can track how long an operation takes) |
+| timeEnd() |	Stops a timer that was previously started by console.time() |
+| trace() |	Outputs a stack trace to the console |
+| warn() |	Outputs a warning message to the console |
+
+
+
+### console.assert() Method
+The console.assert() method writes a message to the console, but only if an expression evaluates to false.
+```js
+console.assert(document.getElementById("demo"), "You have no element with ID 'demo'");
+```
+
+**Syntax**
+```
+console.assert(expression, message)
+```
+- expression - A Boolean expression
+- message -	String or Object
+
+
+
+### console.clear() Method
+The console.clear() method clears the console.
+It will also write a message in a browser's console: "Console was cleared".
+
+**Syntax**
+```js
+console.clear();
+```
+
+
+
+### console.count() Method
+Write to the console the number of time the console.count() is called inside the loop:
+
+```js
+for (i = 0; i < 10; i++) {
+  console.count();
+}
+```
+
+**Syntax**
+```
+console.count(label)
+```
+
+- label -	String
+Optional. If present, the method counts the number of times console.count() has been called with this label. If not present, the label "default" will be added.
+
+
+
+### console.error() Method
+Write an error to the console (has a light red background on the browser):
+```js
+console.error("You made a mistake");
+```
+
+
+### console.group() Method
+Create a group of messages in the console:
+```js
+console.log("Hello world!");
+console.group();
+console.log("Hello again, this time inside a group!");
+```
+
+> Tip: Use the `console.groupEnd()` method to end the group.
+
+> Tip: Use the `console.groupCollapsed()` method to hide the message group (collapsed by default).
+
+
+**Syntax**
+```
+console.group(label)
+```
+- label	- String -	Optional. A label for the group
+
+
+
+### console.info() Method
+Write a message to the console:
+```js
+console.info("Hello world!");
+```
+
+**Syntax**
+```
+console.info(message)
+```
+
+
+
+### console.table() Method
+Writes a table in the console. The first parameter is required, and must be either an object, or an array, containing data to fill the table.
+```js
+console.table(["Audi", "Volvo", "Ford"]);
+```
+
+**Syntax**
+```
+console.table(tabledata, tablecolumns)
+```
+
+- **tabledata**	- Object or Array -	Required. The data to fill the table with.
+
+- **tablecolumns** -	Array	Optional. - An array containing the names of the columns to be included in the table.
+
+**Example**
+Using an object as the first parameter:
+```js
+console.table({ firstname : "John", lastname : "Doe" });
+```
+
+**Example**
+Using an array of objects:
+```js
+var car1 = { name : "Audi", model : "A4" }
+var car2 = { name : "Volvo", model : "XC90" }
+var car3 = { name : "Ford", model : "Fusion" }
+
+console.table([car1, car2, car3]);
+```
+
+**Example**
+Specifying that we only want to include the "model" column in the table:
+
+var car1 = { name : "Audi", model : "A4" }
+var car2 = { name : "Volvo", model : "XC90" }
+var car3 = { name : "Ford", model : "Fusion" }
+
+console.table([car1, car2, car3], ["model"]);
+
+
+### console.time() Method
+The console.time() method starts a timer in the console view.
+
+This method allows you to time certain operations in your code for testing purposes.
+
+Use the console.timeEnd() method to end the timer and display the result in the console.view.
+
+Use the label parameter to name the timer, then you are able to have many timers on the same page.
+
+How long does it take to perform a for-loop 100.000 times:
+```js
+console.time();
+for (i = 0; i < 100000; i++) {
+  // some code
+}
+console.timeEnd();
+```
+
+- label	- String -	Optional. Use the label parameter to give the timer a name
+
+Using the label parameter:
+```js
+console.time("test1");
+for (i = 0; i < 100000; i++) {
+  // some code
+}
+console.timeEnd("test1");
+```
+
+
+### console.trace() Method
+Trace of how a function was called.
+Show the trace of how the code ended up here:
+
+```html
+function myFunction() {
+  myOtherFunction();
+}
+
+function myOtherFunction() {
+  console.trace();
+}
+```
+
+The console.trace() method displays a trace that show how the code ended up at a certain point.
+
+**Syntax**
+```
+console.trace(label)
+```
+
+
+
+### console.warn() Method
+
+Write a warning to the console:
+```js
+console.warn("This is a warning!");
+```
+
+**Syntax**
+```
+console.warn(message)
+```
+
+
+
+
+
 ____________________________________________________
 
 
