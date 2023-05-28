@@ -395,6 +395,238 @@ To display the content set grid-template-rows of the container to be 1fr.
 
 
 
+
+## Before and After Psuedo Element
+
+If you are using the before and after psuedo element, use must use the content property or else it will default to none.
+
+
+
+### Content
+
+
+#### Text
+```css
+p::before {
+  content: "Hello";
+}
+```
+
+
+#### Image
+```css
+p::before {
+  content: url(//unsplash.it/100/100);
+}
+```
+
+
+#### Open and Close quote
+```css
+p::before {
+  content: open-quote;
+}
+
+p::before {
+  content: close-quote;
+}
+```
+
+
+#### Fetch attribute's data
+```css
+p::before {
+  content: attr(data-tool-tip);
+}
+```
+The content of data-tool-tip is fetched into content. 
+
+
+#### You can use fontawesome content code
+```css
+p::before {
+  content: "f35d";
+}
+```
+You must import/link font awesome first
+
+
+### Tooltip
+You can use the before or after as a tooltip, set position to absolute e.t.c
+
+
+### Counters
+You can turn anything into an order list
+
+- `counter-reset: name` - You need to give the your counter reset a name. 
+
+The reason you'd want to use a counter reset is that, every time it encounters a particular selector (maybe a container).
+e.g. 
+```css
+.counters {
+  counter-reset: my-counter-name; 
+}
+```
+
+  
+```css
+.subhead::before {
+  counter-increment: my-counter-name;
+  content: counter(my-counter-name) ". ";
+}
+```
+
+
+### box-sizing
+```css
+*, *::after, *::before {
+  box-sizing: border-box; 
+}
+```
+
+
+
+## inset
+Inset is a short for top, left, bottom and right. 
+```css 
+p::before {
+  inset: 0;
+  position: absolute;
+}
+```
+
+
+## Psuedo Elements
+A CSS psuedo element is a keyword added to a selector that lets you style a specific part of the selected element(s).
+
+Syntax
+```css 
+seletor::psuedo-element {
+  property: value;
+}
+```
+
+### Common Psuedo Element
+- ::after
+- ::before
+- ::cue
+- ::first-letter
+- ::first-line
+- ::placeholder
+- ::selection
+
+
+## CSS Responsive Design Concepts 
+
+### 1. Meta viewport
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+```
+
+
+### 2. Media Queries
+#### You can check widths (min-width, max-width)
+```css
+@media (min-width: 400px) {
+ body {
+  background: red;
+ }
+}
+```
+
+#### You can check orientations (orientation: landscape, orientation: portrait)
+```css 
+@media (orientation: landscape) {
+ body {
+  background: red;
+ }
+}
+```
+
+#### You can check aspect-ratio
+```css 
+@media (min-aspect-ratio: 1/2) {
+ body {
+  background: red;
+ }
+}
+```
+
+
+#### Using <=, >=, <, > (71% browser support)
+```css 
+@media (min-width: 400px) {
+ body {
+  background: red;
+ }
+}
+```
+
+The code above can be rewritten as:
+```css 
+@media (width >= 400px) {
+ body {
+  background: red;
+ }
+}
+```
+
+Example 2
+```css 
+@media (max-width: 400px) and (min-width: 600px) {
+ body {
+  background: red;
+ }
+}
+```
+
+
+This media query works when we are between 100px and 400px
+```css 
+@media (100 <= width >= 400px) {
+ body {
+  background: red;
+ }
+}
+```
+
+
+### Container Queries
+Example: 
+```css
+.box, .card {
+  container-type: inline-size;
+}
+
+@container (width >= 400px) {
+  .box {
+    background: red;
+  }
+}
+
+```
+
+### Custom Media Queries (No Browser Support Yet)
+
+```css 
+@custom-media --medium (width >= 400);
+
+@media (--medium) {
+ body {
+  background: red;
+ }
+}
+```
+
+
+> YOU CAN USE POST CSS TO CONVERT NON COMPATIBLE CSS PROPERTISE, THE ONES THAT ARE COMPTIBLE
+
+
+## More 
+- Check out dvh, svh, lvh
+
+
+
 ## Search
 - padding-block ✅
 - Logical property (Kevin Powell)
