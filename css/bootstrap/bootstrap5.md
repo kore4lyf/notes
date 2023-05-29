@@ -332,6 +332,26 @@ Example
 
 
 
+## Jumbotron
+
+Jumbotron was introduce in bootstrap 3 as a big padded box for calling extra attention to some spectial content or information. 
+
+
+> Jumbotrons are no longer supported in bootstrap 5.
+
+But you can use div use div and add some special helper classes with a color class to achieve the same effect.
+
+```html
+<div class="container bg-secondary text-white rounded mt-4 p-3">
+    <h1>Bootstrap Tutorial</h1>
+    <p>Bootstrap is the most popular HTML, CSS...</p>
+  </div>
+</div>
+```
+
+
+
+
 
 
 
