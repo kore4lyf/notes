@@ -49,6 +49,65 @@ Use the `.container-fluid` class to create a full width container, that will alw
 
 
 
+## Grids
+Bootstrap's grid system is built with flexbox and allows up to 12 columns across the page.
+
+If you do not want to use all 12 columns individually, you can group the columns together to create wider columns. 
+
+The grid system is responsive, and the columns will re-arrange automatically depending on the screen size.
+
+Make sure that the sum adds up to 12 or fewer (it is not required that you use all 12 available columns).
+
+
+
+### Grid Classes
+The Bootstrap 5 grid system has 6 classes:
+
+- .col- (extra small devices - screen width less than 576px)
+- .col-sm- (small devices - screen width equal to or greater than 576px)
+- .col-md- (medium devices - screen width equal to or greater than 768px)
+- .col-lg- (large devices - screen width equal to or greater than 992px)
+- .col-xl- (xlarge devices - screen width equal to or greater than 1200px)
+- .col-xxl- (xxlarge devices - screen width equal to or greater than 1400px)
+
+
+
+```html
+<div class="row">
+  <div class="col" style="background-color:lavender;">.col</div>
+  <div class="col" style="background-color:orange;">.col</div>
+  <div class="col" style="background-color:lavender;">.col</div>
+</div>
+```
+
+### Responsive Columns
+The following example shows how to create four equal-width columns starting at tablets and scaling to extra large desktops. On mobile phones or screens that are less than 576px wide, the columns will automatically stack on top of each other:
+
+Example
+```html
+<div class="row">
+  <div class="col-sm-3">.col-sm-3</div>
+  <div class="col-sm-3">.col-sm-3</div>
+  <div class="col-sm-3">.col-sm-3</div>
+  <div class="col-sm-3">.col-sm-3</div>
+</div>
+```
+
+By specifing .col-sm-X  each `col-sm` expands into a column on small screen. X represents the number of grids each `.col` within the `.row` will occupy
+
+You can use `col` without sm, md, lg, xl, xxl. eg col 
+Example
+```html
+<div class="row">
+  <div class="col-1">.col-1</div>
+  <div class="col-2">.col-2</div>
+  <div class="col-3">.col-3</div>
+  <div class="col-4">.col-4</div>
+</div>
+```
+
+
+
 
 
 
