@@ -1841,3 +1841,73 @@ Example
 ```
 
 
+
+
+
+## Carousel
+
+
+### Carousel / Slideshow
+The Carousel is a slideshow for cycling through elements.
+
+### How To Create a Carousel
+The following example shows how to create a basic carousel with indicators and controls:
+
+Example
+```html 
+<!-- Carousel -->
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+  <!-- Indicators/dots -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+  </div>
+
+  <!-- The slideshow/carousel -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="la.jpg" alt="Los Angeles" class="d-block w-100">
+    </div>
+    <div class="carousel-item">
+      <img src="chicago.jpg" alt="Chicago" class="d-block w-100">
+    </div>
+    <div class="carousel-item">
+      <img src="ny.jpg" alt="New York" class="d-block w-100">
+    </div>
+  </div>
+
+  <!-- Left and right controls/icons -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+```
+
+
+Explanation - 
+- .carousel -	Creates a carousel
+
+- .carousel-indicators -	Adds indicators for the carousel. These are the little dots at the bottom of each slide (which indicates how many slides there are in the carousel, and which slide the user are currently viewing)
+
+- .carousel-inner -	Adds slides to the carousel
+
+- .carousel-item -	Specifies the content of each slide
+
+- .carousel-control-prev -	Adds a left (previous) button to the carousel, which allows the user to go back between the slides
+
+- .carousel-control-next -	Adds a right (next) button to the carousel, which allows the user to go forward between the slides
+
+- .carousel-control-prev-icon -	Used together with .carousel-control-prev to create a "previous" button
+
+- .carousel-control-next-icon -	Used together with .carousel-control-next to create a "next" button
+
+- .slide -	Adds a CSS transition and animation effect when sliding from one item to the next. Remove this class if you do not want this effect
+
+
+
+
