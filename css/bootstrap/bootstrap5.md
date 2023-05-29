@@ -651,5 +651,54 @@ Use the `.badge` class together with a contextual class (like `.bg-secondary`) w
 
 
 
+## Contextual Badges
+Use any of the contextual classes (`.bg-*`) to change the color of a badge:
+
+Example
+```html
+<span class="badge bg-primary">Primary</span>
+<span class="badge bg-secondary">Secondary</span>
+<span class="badge bg-success">Success</span>
+<span class="badge bg-danger">Danger</span>
+<span class="badge bg-warning">Warning</span>
+<span class="badge bg-info">Info</span>
+<span class="badge bg-light">Light</span>
+<span class="badge bg-dark">Dark</span>
+```
+
+
+
+
+### Pill Badges
+Primary Secondary Success Danger Warning Info Light Dark
+Use the` .rounded-pill` class to make the badges more round:
+
+Example
+```html
+<span class="badge rounded-pill bg-primary">Primary</span>
+<span class="badge rounded-pill bg-secondary">Secondary</span>
+<span class="badge rounded-pill bg-success">Success</span>
+<span class="badge rounded-pill bg-danger">Danger</span>
+<span class="badge rounded-pill bg-warning">Warning</span>
+<span class="badge rounded-pill bg-info">Info</span>
+<span class="badge rounded-pill bg-light">Light</span>
+<span class="badge rounded-pill bg-dark">Dark</span>
+``` 
+
+
+
+### Badge inside an Element
+An example of using a badge inside a button:
+
+Example
+```html
+<button type="button" class="btn btn-primary">
+  Messages <span class="badge bg-danger">4</span>
+</button>
+```
+
+
+
+
 
 
