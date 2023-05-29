@@ -110,5 +110,58 @@ Example
 
 
 
+## Text/Typography
+
+
+### Bootstrap Default Settings
+Bootstrap 4 uses a default font-size of 16px, and its line-height is 1.5.
+
+The default font-family is "Helvetica Neue", Helvetica, Arial, sans-serif.
+
+In addition, all `<p>` elements have margin-top: 0 and margin-bottom: 1rem (16px by default).
+
+
+### Display Headings
+Display headings are used to stand out more than normal headings (larger font-size and lighter font-weight), and there are four classes to choose from: `.display-1`, `.display-2`, `.display-3`, `.display-4`.
+
+```html
+<div>
+  <h1 class="display-1">Display 1</h1>
+  <h1 class="display-2">Display 2</h1>
+  <h1 class="display-3">Display 3</h1>
+  <h1 class="display-4">Display 4</h1>
+</div>
+```
+
+
+
+### More Typography Classes
+
+| Class |	Description |
+| :--- | :--- |
+| .lead | Makes a paragraph stand out	 |
+| .small | Indicates smaller text (set to 80% of the size of the parent)	 |
+| .text-start | Indicates left-aligned text	 |
+| .text-break | Prevents long text from breaking layout	 |
+| .text-center | Indicates center-aligned text	 |
+| .text-decoration-none | Removes the underline from a link	 |
+| .text-end |	Indicates right-aligned text	 |
+| .text-nowrap | Indicates no wrap text	 |
+| .text-lowercase | Indicates lowercased text	 |
+| .text-uppercase | Indicates uppercased text	 |
+| .text-capitalize | Indicates capitalized text	 |
+| .initialism | Displays the text inside an `<abbr>`element in a slightly smaller font size	 |
+| .list-unstyled | Removes the default list-style and left margin on list items (works on both `<ul>` and `<ol>`). This class only applies to immediate children list items (to remove the default list-style from any nested lists, apply this class to any nested lists as well) |	
+| .list-inline | Places all list items on a single line (used together with .list-inline-item on each `<li>` elements)	 |
+| .pre-scrollable | Makes a `<pre>` element scrollable |
+
+
+
+
+
+
+
+
+
 
 
