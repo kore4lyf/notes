@@ -159,6 +159,43 @@ Display headings are used to stand out more than normal headings (larger font-si
 
 
 
+## Colors
+
+### Text Colors
+Bootstrap 4 has some contextual classes that can be used to provide "meaning through colors".
+
+The classes for text colors are: 
+- .text-muted
+- .text-primary 
+- .text-success
+- .text-info 
+- .text-warning 
+- .text-danger 
+- .text-secondary
+- .text-white 
+- .text-dark 
+- .text-body (default body color/often black)
+- .text-light
+
+
+### Background Colors
+The classes for background colors are: 
+- .bg-primary 
+- .bg-success 
+- .bg-info 
+- .bg-warning 
+- .bg-danger 
+- .bg-secondary 
+- .bg-dark 
+- .bg-light
+
+
+> The class above don't work well with text except you specify a color you prefer using .text-color 
+
+
+
+
+
 
 
 
