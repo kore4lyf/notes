@@ -319,7 +319,7 @@ Example
 ### Responsive Images
 Images come in all sizes. So do screens. Responsive images automatically adjust to fit the size of the screen.
 
-Create responsive images by adding an .img-fluid class to the <img> tag. The image will then scale nicely to the parent element.
+Create responsive images by adding an .img-fluid class to the `<img>` tag. The image will then scale nicely to the parent element.
 
 The .img-fluid class applies max-width: 100%; and height: auto; to the image:
 
@@ -385,12 +385,12 @@ Add the alert-link class to any links inside the alert box to create "matching c
 
 ### Closing Alerts
 × Click on the "x" symbol to the right to close me.
-To close the alert message, add a `.alert-dismissible `class to the alert container. Then add `class="close" and data-dismiss="alert"` to a link or a button element (when you click on this the alert box will disappear).
+To close the alert message, add a `.alert-dismissible `class to the alert container. Then add `class="close" and data-bs-dismiss="alert"` to a link or a button element (when you click on this the alert box will disappear).
 
 Example
 ```html
 <div class="alert alert-success alert-dismissible">
-  <button type="button" class="btn-close" data-bs-dismiss="alert">&times;</button>
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   <strong>Success!</strong> Indicates a successful or positive action.
 </div>
 ```

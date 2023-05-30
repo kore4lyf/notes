@@ -625,8 +625,9 @@ Example:
 
 
 
+## Some uncommon CSS properties 
 
-## ::maker 
+### ::maker 
 Is used to style a list's bullet or number (i.e. `<ol>`, `<ul>`).
 
 ```css
@@ -646,10 +647,7 @@ The code above will change the bullets of an unordered list or an ordered list t
 > ::marker is targeted on lists 
 
 
-
-
-
-## caret-color 
+### caret-color 
 Is used to change the color of the beeping cursor in a form.
 
 ```css
@@ -659,6 +657,14 @@ form {
 ```
 
 
+
+### accent-color 
+This will change the color of checkboxes and select options
+```css 
+::root {
+accent-color: crimson;
+}
+```
 
 
 ## Search
