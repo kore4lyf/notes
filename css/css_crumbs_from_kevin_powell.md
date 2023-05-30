@@ -649,6 +649,17 @@ The code above will change the bullets of an unordered list or an ordered list t
 
 
 
+## caret-color 
+Is used to change the color of the beeping cursor in a form.
+
+```css
+form {
+  caret-color: red;
+}
+```
+
+
+
 
 ## Search
 - padding-block ✅
