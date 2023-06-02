@@ -85,4 +85,27 @@ found!
 - It's mostly better to write a function the does a specific task than trying to combine another functionality in one function.
 
 
-##
+## String methods
+
+###  padStart
+It takes the desired length and padding character as arguments.
+```js
+console.log(String(6).padStart(3, "0"));
+// → 006
+``` 
+
+
+### repeat
+A string can be repeated with the repeat method.
+which creates a new string containing multiple copies of the original string, glued together.
+
+```js 
+console.log("LA".repeat(3));
+// → LALALA
+``` 
+
+
+
+
+
+
