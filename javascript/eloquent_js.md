@@ -153,3 +153,130 @@ console.log(arrayToList([10, 20,30,40,50]));
 
 
 
+## Taking function as a parameter
+```js 
+function repeat(n, action) {
+for (let i = 0; i < n; i++) {
+action(i);
+}
+}
+repeat(3, console.log);
+// → 0
+// → 1
+// → 2
+
+let labels = [];
+repeat(5, i => {
+labels.push(`Unit ${i + 1}`);
+});
+console.log(labels);
+// → ["Unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
+```
+
+
+## Higher-order functions
+Functions that operate on other functions, either by taking them as arguments or by returning them, are called higher-order functions. 
+
+Higher-order functions allow us to abstract over actions, not just values. They come in several forms. For example, we can have functions that create new functions.
+```js
+function greaterThan(n) {
+return m => m > n;
+}
+let greaterThan10 = greaterThan(10);
+console.log(greaterThan10(11));
+// → true
+``` 
+
+And we can have functions that change other functions.
+```js 
+function noisy(f) {
+return (...args) => {
+console.log("calling with", args);
+let result = f(...args);
+console.log("called with", args, ", returned", result);
+return result;
+};
+}
+noisy(Math.min)(3, 2, 1);
+// → calling with [3, 2, 1]
+// → called with [3, 2, 1] , returned 1
+```
+
+
+
+## Strings and character codes 
+JavaScript strings are encoded as a sequence of 16-bit numbers. UTF-16 is generally considered a bad idea today. 
+UTF-16, the format used by JavaScript strings describes most common characters using a single 16-bit code unit but uses a pair of two such units for others.
+Unfortunately, obvious operations on JavaScript strings, such as getting their length through the length property and accessing their content using square brackets, deal only with code units.
+
+```js
+// Two emoji characters, horse and shoe
+let horseShoe = "🐴👟";
+console.log(horseShoe.length);
+// → 4
+console.log(horseShoe[0]);
+// → (Invalid half-character)
+console.log(horseShoe.charCodeAt(0));
+// → 55357 (Code of the half-character)
+console.log(horseShoe.codePointAt(0));
+// → 128052 (Actual code for horse emoji)
+```
+
+JavaScript’s charCodeAt method gives you a code unit, not a full character code. The codePointAt method, added later, does give a full Unicode character. 
+
+
+Like codePointAt, this type of loop was introduced at a time where people were acutely aware of the problems with UTF-16.
+When you use it to loop over a string, it gives you real characters, not code units.
+```js
+let roseDragon = "🌹🐉";
+for (let char of roseDragon) {
+console.log(char);
+}
+// → 🌹
+// → 🐉
+```
+
+If you have a character (which will be a string of one or two code units), you can use codePointAt(0) to get its code.
+
+
+## Encapsulation
+The core idea in object-oriented programming is to divide programs into smaller pieces and make each piece responsible for managing its own state.
+This way, some knowledge about the way a piece of the program works can be kept local to that piece. Someone working on the rest of the program does not have to remember or even be aware of that knowledge. Whenever these local details change, only the code directly around it needs to be updated.
+Different pieces of such a program interact with each other through interfaces, limited sets of functions or bindings that provide useful functionality at a more abstract level, hiding their precise implementation.
+
+> It is also common to put an underscore (_) character at the start of property names to indicate that those properties are private.
+
+Separating interface from implementation is a great idea. It is usually called **encapsulation**.
+
+
+## Prototypes
+```js
+let empty = {};
+console.log(empty.toString);
+// → function toString()…{}
+console.log(empty.toString());
+// → [object Object]
+``` 
+
+A prototype is another object that is used as a fallback source of properties. When an object gets a request for a property that it does not have, its prototype will be searched for the property, then the prototype’s prototype, and so on.
+```js
+console.log(Object.getPrototypeOf({}) ==
+
+Object.prototype);
+
+// → true
+console.log(Object.getPrototypeOf(Object.prototype));
+// → null
+```
+
+Many objects don’t directly have Object.prototype as their prototype but instead have another object that provides a different set of default properties. Functions derive from Function.prototype, and arrays derive from Array.prototype.
+```js
+console.log(Object.getPrototypeOf(Math.max) ==
+Function.prototype);
+// → true
+console.log(Object.getPrototypeOf([]) ==
+Array.prototype);
+// → true
+```
+
+
