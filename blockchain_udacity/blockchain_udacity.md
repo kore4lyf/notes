@@ -259,57 +259,41 @@ Neo uses dBFT.
 ### Lesson 02: Blockchain Transactions
 Identify various wallet types, private/public key generation between non-deterministic, sequential deterministic, and hierarchical deterministic wallets.
 
-#### Interview: Blockchain Identity
 
 
+By the end of this lesson you will:
 
+- Understand the mechanics of a simple transaction between 2 entities (e.g. Joe and Jessica) using private keys, public keys, wallets, and public blockchain.
+- Determine and generate the appropriate wallet type for the needs of a given situation. (Non-deterministic, Sequential Deterministic, and Hierarchical Deterministic)
+- Create and restore a bitcoin wallet using private keys.
+- Recognize signing transactions as a part of the transaction lifecycle and can describe its purpose and process.
 
 #### Blockchain Identity
 
+Only a person with money should have access to spend it and our transaction should be done in a way that makes it untraceable.
+
+It should also be possible to share this identity with people so they transact with you. - All these are solved in bitcoin using wallets.
+
+A bitcoin wallet, establishes our identity on the blockchain. Our wallet is obtained via **(Private Key -> Public -> Wallet Address)**.
+
+The **wallet address** is a unique identifier for your wallet. 
+To generate a wallet address, you need to have a private key.
+**Private Key** (Secret Key) - A secret number that allows you to spend bitcoin from your wallet.
+
+> A private key should not be shared with anyone.
+
+The next step is to generate a public key.
+**Public Key** - The public key is derived from the private key. It is a publicly shareable key that cannot be used to spent a coin. 
+It can be shared with anyone, and it is usually used to recieve coin/bitcoin.
+
+> You can share your public key without thinking about the security of your private key.
+
+i.e. The private key can only be used to generate the public key, but the public key cannot be used to generate the private key.
+
+> In bitcoin a public key is created by passing a private key into ECDSA (Eliptic Curve Digital Signature Algorithm). The ECDSA is a one way function. 
 
 
-
-#### Wallet Overview
-
-
-
-
-#### Wallet Types
-
-
-
-
-#### Private Keys
-
-
-
-
-#### Get Your Own Wallet
-
-
-
-
-#### Restoring Blockchain Identity
-
-
-
-
-#### Sign a Transaction
-
-
-
-
-#### Blockchain Transaction Lifecycle
-
-
-
-
-#### Interview: Blockchain Identity
-
-
-
-
-#### Course Recap
+Wallet address is made from a public key using **HASH256()** i.e. **RIPEMD160(SHA256())**, which generates a 160-bit values, to make the values readable, we take the 160-bit values and pass them to a **BASE58CHECK()**, which is the actuall wallet address.
 
 
 
