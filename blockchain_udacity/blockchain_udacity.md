@@ -296,5 +296,30 @@ i.e. The private key can only be used to generate the public key, but the public
 Wallet address is made from a public key using **HASH256()** i.e. **RIPEMD160(SHA256())**, which generates a 160-bit values, to make the values readable, we take the 160-bit values and pass them to a **BASE58CHECK()**, which is the actuall wallet address.
 
 
+#### Wallet Overview
+
+Blockchain identities are made up of a few important tools like wallets, addresses, and keys. Not only are there a few of these different tools creating our identity, it's also possible to implement them in different ways.
+
+
+##### Wallet Types
+There are two main categories of a wallet.
+1. Deterministic Wallets
+2. Non-deterministic Wallets
+
+
+| Wallet Types | Non-Deterministic Wallet | Sequential Deterministic Wallet | Hierarchical Deterministic Wallet |
+| :--- | :--- | :--- | :--- |
+| Description | Randomly generated private keys | Derived sequentially from a single seed and can be used back to that seed. | Derived in a tree structure. Parent key derives children keys, children keys derive grandchildren keys etc. |
+| How to get a new private key? | Private key = randomly **generated between 1 and 2^256** | Private key = SHA256(seed + n). where seed = 128 purely random bits. | Private key = SHA256(address(publicKey(seed) + n)) |
+
+
+##### Key Terms
+Non-deterministic Wallet: (random wallets) A wallet where private keys are generated from random numbers.
+
+**Deterministic Wallet**: A wallet where addresses, private keys, and public keys can be traced back to their original seed words.
+
+**Hierarchical Deterministic Wallet**: An advanced type of deterministic wallet that contains keys derived in a tree structure.
+
+
 
 
