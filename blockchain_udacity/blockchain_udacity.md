@@ -321,5 +321,53 @@ Non-deterministic Wallet: (random wallets) A wallet where private keys are gener
 **Hierarchical Deterministic Wallet**: An advanced type of deterministic wallet that contains keys derived in a tree structure.
 
 
+#### Wallet Types
+
+In this section, we'll do a deep dive on these 2 main types of wallets. This will inform decisions you make later on about the wallets you'll use personally or when building your own applications.
+
+
+
+##### Non-Deterministic Wallets
+First, lets take a closer look at non-deterministic wallets.
+In Non-deterministic wallets, private keys are generated manually. i.e A **Random number** generate a **private Key** which in turn generaes a **public Key** and then a **wallet address**, and there are no ways for us to know they were derived.
+
+Non-deterministic wallets can be thought of as a collection of a randomly generated private keys or a random number is used to generate a private key, which is then used to generate a public key. 
+
+For privacy it's best to generate new wallet addresses for each transaction, so no one can track links between addresses. 
+
+Based on this logic every time a new key is generated, one need to backup the wallet, so as not to lose the newly generated private key.
+
+But in a deterministic wallet, all addresses, private keys, and public keys can be traced back to the original seed. So, there's a purpose behind each of these IDs and nothing is random, because they can be determined.
+
+
+##### Deterministic Wallets
+There are two types of deterministic wallet. 
+1. **Sequential Deterministic Wallet**: A random number is used to generate a seed. The seed is then put through a mathematical function which then derives a series of private keys.
+The is **mnemonic phrases are combine** to generate a master private key which is then **appends a counter with an incrementing value(every time a new private key is generated) to generate new private keys that can be used to generate it's own public key**.
+   
+
+1. **Hierachical Deterministic Wallet**: The HD wallet contain keys derived in a tree structure. A **Master Key** is generated from a **Seed** and a **Child Key** is generated from a **Master Key**. A **Master Key** can generate many **Child Keys** and a **Child Key** can generate many **Grandchild Keys**.  
+   
+HD wallet came about in the bitcoin improvement proposal 32 also known as BIP32(view able online in BIP32 Github Repo).
+The HD wallet was described in the proposals abstract like this **"This document describes hierarchical deterministic wallets (or "HD Wallets"): wallets which can be shared partially or entirely with different systems, each with or without the abilty to spend coins."**
+
+> What this means is that with HD wallet it is possible to derive **sub public keys** from public keys and **sub private keys** from private keys.
+
+HD wallets in application is useful for businesses that want to seperate out different departmental spendings. i.e Each private key generated from the master Key can represent a departments(e.g Accounting, Engineering) private key, and many public keys/wallets can be generated from that single private key(members of the department).
+
+> The downside is that HD Wallets require the down side of that master key, because ever other is mathematically generated from that key.
+
+**Each wallet has a situational use case**. Wallets continue to evolve depending on situational use cases that arise. So it is important to know the advantages and disadvantages for each type.
+
+> No one type of wallet fit all situation.
+
+Another **senerio**, Hierarchical Deterministic wallets can be used: Imagine  a webserver is doing content monetization, Each time a user clicks on an ad on a webpage, they get paid. Then in this case they need one key per page. In other word each page is a transaction. The webserver can share the public key, just by deriving billion and billions of public keys from one initial public key.
+And it would be possible to see public information about these transactions if you know the public key. 
+But the private which is used to unlock sensitive data may never be revealed.
+
+
+
+
+
 
 
