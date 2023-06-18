@@ -464,6 +464,31 @@ When you sweep a private key, you add a private key from a source wallet into th
 This is a little different than importing because it completely removes the funds from the original wallet. You’ll now only be using this new wallet to make future transactions.
 
 
+#### Sign a Transaction
+
+After creating a transaction there's a few things to consider.
+
+
+- How do we know it's valid?
+- Who owns the transaction?
+
+We validate transactions and assign ownership using what's known as a digital signature. These signatures are an important piece underlying the security of the blockchain. In this video, we'll explore this idea further to discuss how signing a transaction works.
+
+
+**Signature**: A digital signature establishes a proof of ownership of each transaction on the blockchain.
+
+Transactions are secured with the help of signatures. Signture proof the identity of the person sending the bitcoin by signing the transaction by the owners personal identity before it is sent over the network.
+
+The is signature is the wallet owners private key. This signature is used to perform a transaction (Just like signing a cheque in real life). 
+
+Once **transaction is sent** it goes from the sender to the reciever **as a transaction message**. In Bitcoin the transaction message is sent as an unspent transaction output known as UTXO.
+
+> Only this transaction outpust can be used as inputs to an accepted transaction.
+
+Each of these UTXO's contains conditions, regarding the proof of ownership to transact with those funds. This proofs of ownership are derived from your private key.
+
+
+
 
 
 
