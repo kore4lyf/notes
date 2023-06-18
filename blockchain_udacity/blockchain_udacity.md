@@ -366,6 +366,64 @@ And it would be possible to see public information about these transactions if y
 But the private which is used to unlock sensitive data may never be revealed.
 
 
+#### Private Keys
+
+**Private Key**: A 256-bit random number between 1 and 2^256.
+
+
+**Entropy**: Lack of order or predictability. The degree of disorder or randomness in the system.
+
+##### What's the purpose of a private key?
+A private key is a 256-bit random number between 1 and 2^256. 
+It can be represented in different formats e.g. Hex (256bits in Hex is 32 bytes (nuber 0-9 & A-F)), WIF(Base58Check) and WIF-Compressed(Base58Check added suffix 0x01 before encoding)
+
+##### What makes a private key secure?
+A private key can be any number between 1 and 2^25 6 (1.1579208923731619542357098500869e+77). That number is huge and it gives us an incredible amount of possibilities. There are about 7 Quintillion grains of sand on planet Earth which is not even close to 2^256 possible private keys.
+
+##### How to generate a private key?
+The exact method you use doesn't matter. You can use a number generated randomly. 
+To go about it programmatically you'll need to find a source of entropy. 
+
+**Entropy**: Lack of order or predictability. It's the degree of disorder or randomness in the system.
+
+This means we will have to find a vary secured random number generator. 
+
+Don't try to create a random number generator on your own.  
+
+> Creating a cryptographically secure random number generator is by no means an easy task. Even cyrptographic experts have a hard time creating ones that are unhackable. Instead use an industry established peer reviewed and vetted cryptographically secure random number generator.
+
+Most programming language have a source of entropy or a library with a cryptographically secure number generator. e.g. Python has the random library and Java has the SecureRandom class.
+
+There also bitcoin bitcoin address generating websites, that use their own underlaying system random number generators to produce a 256 bit random number.
+
+
+
+##### Generating Private Keys
+- Private keys generate the public keys and wallet addresses.
+- Private keys allow us to interact with the blockchain. 
+
+- Private keys need to be cryptographycally secure.
+
+[Bitaddress.org](bitaddress.org) is an open source javascript client-side bitcoin wallet generator. It is an online service that allow one to generate random Bitcoin address and associated private key. 
+To be secured when generating a private key, it best that you do this offline(This way all the activities you do is local to your computer and cannot be traced online.)
+
+**Step 1**: Firstly save the [Bitaddress.org](bitaddress.org) to your computer so that you can access the page locally.
+
+**Step 2**: Disconnect from the internet.
+
+**Step 3**: Once your wallet has achieved full random.
+
+
+The methods in which you can  generat private key:
+1. Paper, pencil, coin, dice.
+2. OS with source of entropy or library with cryptographic secure number generator.
+3. Bitcoin address generating websites. 
+4. Software wallets.
+
+
+
+
+
 
 
 
