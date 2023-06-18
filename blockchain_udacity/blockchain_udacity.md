@@ -421,7 +421,9 @@ The methods in which you can  generat private key:
 4. Software wallets.
 
 
+#### Get Your Own Wallet
 
+Download **ELECTRUM** it is available for different OS both mobile and desktop.
 
 
 
