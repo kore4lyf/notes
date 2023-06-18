@@ -426,6 +426,44 @@ The methods in which you can  generat private key:
 Download **ELECTRUM** it is available for different OS both mobile and desktop.
 
 
+#### Restoring Blockchain Identity
+
+
+
+##### Ways to Restore a Wallet
+If you ever need to restore your wallet, there are 2 ways to do it. You can do it with the wallet words you saved, or with the private keys from when you first created your wallet.
+
+
+###### Use a Seed
+One way to restore a wallet is using a seed. The ‘seed’ is the 12 words you were given when creating your wallet. If you can remember these words, you can use them to restore your wallet!
+The benefit of restoring your identity using the seed is that it can be much simpler than using the private key.
+
+The hardest part to any of this is safely storing or remembering this information for when you need it. Anybody else who discovers the list of words can access the wallet and any funds tied to it.
+
+So be VERY careful!
+
+
+
+###### Use a Private Key
+Another way to restore a wallet is with a private key.
+
+When restoring a wallet using a private key, there are 2 ways to do it. You can either import or sweep this key, and it’s useful to understand the difference.
+
+**Import a Private Key**: 
+When importing a private key, you'll have a source wallet and a destination wallet. The destination wallet is likely filled with a group of private keys already. To import the key you move the private key from the source wallet to the destination wallet.
+
+This results in you getting access to both the source wallet AND the destination wallet.
+
+The downside to importing is that the private key from the source wallet is essentially compromised since it was shared. If someone gets access to the private key from the source wallet, they can access those bitcoins.
+
+
+
+**Sweep a Private Key**
+When you sweep a private key, you add a private key from a source wallet into the destination wallet. All the bitcoins that belong to that private key are swept from the source wallet over into the destination wallet.
+
+This is a little different than importing because it completely removes the funds from the original wallet. You’ll now only be using this new wallet to make future transactions.
+
+
 
 
 
