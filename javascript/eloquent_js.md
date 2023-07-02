@@ -249,7 +249,10 @@ Different pieces of such a program interact with each other through interfaces, 
 Separating interface from implementation is a great idea. It is usually called **encapsulation**.
 
 
-## Prototypes
+
+
+## Object
+### Prototypes
 ```js
 let empty = {};
 console.log(empty.toString);
@@ -278,5 +281,215 @@ console.log(Object.getPrototypeOf([]) ==
 Array.prototype);
 // → true
 ```
+
+
+### Methods
+
+Methods are nothing more than properties that hold function values.
+
+This is a simple method:
+```js 
+let rabbit = {};
+
+rabbit.speak = function(line) {
+  console.log(`The rabbit says '${line}'`);
+};
+rabbit.speak("I'm alive.");
+// → The rabbit says 'I'm alive.'
+```
+
+Such a prototype object will itself have a prototype, often Object.
+prototype, so that it still indirectly provides methods like toString.
+
+> You can use Object.create to create an object with a specific prototype.
+
+```js
+let protoRabbit = {
+speak(line) {
+console.log(`The ${this.type} rabbit says '${line}'`);
+}
+};
+let killerRabbit = Object.create(protoRabbit);
+killerRabbit.type = "killer";
+killerRabbit.speak("SKREEEE!");
+// → The killer rabbit says 'SKREEEE!'
+```
+
+A property like speak(line) in an object expression is a shorthand way of defining a method. It creates a property called speak and gives it a function as its value.
+The “proto” rabbit acts as a container for the properties that are shared by all rabbits. An individual rabbit object, like the killer rabbit,
+contains properties that apply only to itself—in this case its type—and derives shared properties from its prototype.
+
+
+
+###  Classes
+A class defines the shape of a type of object—what methods and properties it has.
+Such an object is called an instance of the class.
+
+So to create an instance of a given class, you have to make an object that derives from the proper prototype, but you also have to make sure it, itself, has the properties that instances of this class are supposed to
+have. This is what a constructor function does.
+
+```js
+function makeRabbit(type) {
+  let rabbit = Object.create(protoRabbit);
+  rabbit.type = type;
+  return rabbit;
+}
+```
+
+If you put the keyword new in front of a function call, the function is treated as a constructor. This means that an object with the right prototype is automatically created, bound to this in the function, and returned at the end of the function.
+The prototype object used when constructing objects is found by taking the prototype property of the constructor function.
+
+```js
+function Rabbit(type) {
+this.type = type;
+}
+Rabbit.prototype.speak = function(line) {
+console.log(`The ${this.type} rabbit says '${line}'`);
+};
+let weirdRabbit = new Rabbit("weird");
+```
+
+Constructors (all functions, in fact) automatically get a property named prototype, which by default holds a plain, empty object that derives from Object.prototype. You can overwrite it with a new object if you want. Or you can add properties to the existing object, as the example does.
+By convention, the names of constructors are capitalized so that they can easily be distinguished from other functions.
+
+The actual prototype of a constructor is Function. prototype since constructors are functions. Its prototype property holds the prototype used for instances created through it.
+
+```js
+console.log(Object.getPrototypeOf(Rabbit) ==
+Function.prototype);
+// → true
+console.log(Object.getPrototypeOf(weirdRabbit) ==
+Rabbit.prototype);
+// → true
+``` 
+
+
+### Class notation
+So JavaScript classes are constructor functions with a prototype property. That is how they work, and until 2015, that was how you had to write them. These days, we have a less awkward notation.
+
+```js
+class Rabbit {
+constructor(type) {
+this.type = type;
+}
+speak(line) {
+console.log(`The ${this.type} rabbit says '${line}'`);
+}
+}
+let killerRabbit = new Rabbit("killer");
+let blackRabbit = new Rabbit("black");
+```
+
+The class keyword starts a class declaration, which allows us to define a constructor and a set of methods all in a single place. Any number of methods may be written inside the declaration’s braces. 
+The one named constructor is treated specially. It provides the actual constructor function, which will be bound to the name Rabbit. The others are packaged into that constructor’s prototype. Thus, the earlier class declaration is equivalent to the constructor definition from the previous section. It just looks nicer.
+
+
+### Overriding derived properties
+When you add a property to an object, whether it is present in the prototype or not, the property is added to the object itself. If there was already a property with the same name in the prototype, this property
+will no longer affect the object, as it is now hidden behind the object’s own property.
+
+```js
+Rabbit.prototype.teeth = "small";
+console.log(killerRabbit.teeth);
+// → small
+killerRabbit.teeth = "long, sharp, and bloody";
+console.log(killerRabbit.teeth);
+// → long, sharp, and bloody
+console.log(blackRabbit.teeth);
+// → small
+console.log(Rabbit.prototype.teeth);
+// → small
+```
+
+
+
+### Maps 
+A map (noun) is a data structure that associates values (the keys) with other values. For example, you might want to map names to ages.
+
+It is possible to use objects for this.
+let ages = {
+Boris: 39,
+Liang: 22,
+Júlia: 62
+};
+console.log(`Júlia is ${ages["Júlia"]}`);
+// → Júlia is 62
+console.log("Is Jack's age known?", "Jack" in ages);
+// → Is Jack's age known? false
+console.log("Is toString's age known?", "toString" in ages);
+// → Is toString's age known? true
+
+Here, the object’s property names are the people’s names, and the property values are their ages. But we certainly didn’t list anybody named toString in our map. Yet, because plain objects derive from Object.prototype, it looks like the property is there.
+As such, using plain objects as maps is dangerous. There are several possible ways to avoid this problem. First, it is possible to create objects with no prototype. If you pass null to Object.create, the resulting object will not derive from Object.prototype and can safely be used as a map.
+
+```js
+console.log("toString" in Object.create(null));
+// → false
+```
+
+Object property names must be strings. If you need a map whose keys can’t easily be converted to strings—such as objects—you cannot use an object as your map.
+Fortunately, JavaScript comes with a class called Map that is written for this exact purpose. It stores a mapping and allows any type of keys.
+
+```js
+let ages = new Map();
+ages.set("Boris", 39);
+ages.set("Liang", 22);
+ages.set("Júlia", 62);
+console.log(`Júlia is ${ages.get("Júlia")}`);
+// → Júlia is 62
+console.log("Is Jack's age known?", ages.has("Jack"));
+// → Is Jack's age known? false
+console.log(ages.has("toString"));
+// → false
+``` 
+
+If you do have a plain object that you need to treat as a map for some reason, it is useful to know that Object.keys returns only an object’s own keys, not those in the prototype. As an alternative to the in operator, you can use the hasOwnProperty method, which ignores theobject’s prototype.
+
+```js
+console.log({x: 1}.hasOwnProperty("x"));
+// → true
+console.log({x: 1}.hasOwnProperty("toString"));
+// → false
+``` 
+
+
+
+### Checking If a value exists in a object 
+```js 
+let ages = {
+Boris: 39,
+Liang: 22,
+Júlia: 62
+};
+console.log(`Júlia is ${ages["Júlia"]}`);
+// → Júlia is 62
+console.log("Is Jack's age known?", "Jack" in ages);
+// → Is Jack's age known? false
+console.log("Is toString's age known?", "toString" in ages);
+// → Is toString's age known? true 
+``` 
+
+As an alternative to the in operator, you can use the hasOwnProperty method, which ignores theobject’s prototype.
+
+```js
+console.log({x: 1}.hasOwnProperty("x"));
+// → true
+console.log({x: 1}.hasOwnProperty("toString"));
+// → false
+``` 
+
+
+### Polymorphism
+When you call the String function (which converts a value to a string) on an object, it will call the toString method on that object to try to create a meaningful string from it. I mentioned that some of the standard prototypes define their own version of toString so they can create a string that contains more useful information than "[object Object]". You can also do that yourself.
+```js
+Rabbit.prototype.toString = function() {
+return `a ${this.type} rabbit`;
+};
+console.log(String(blackRabbit));
+// → a black rabbit
+``` 
+
+
+
 
 
