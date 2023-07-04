@@ -180,7 +180,7 @@ export default App;
 
 
 #### Virtual DOM
-**Virtual DOM** - Virtual DOMs are objects that describe real DOM nodes. When we call React.createElement() the element will not be rendered until we call **ReactDOM.render(){}**.
+**Virtual DOM** - Virtual DOMs are objects that describe real DOM nodes. When we call React.createElement() the element will not be rendered until we call **ReactDOM.render()**.
 
 
 #### React createElement to JSX
@@ -197,3 +197,168 @@ If we have two sibling elements that are both at the root level (e.g. `<h1>` and
 Since we know that JSX is really just a syntax extension for .createElement(), this makes sense; .createElement() takes in only one tag name (as a string) as its first argument.
 
 
+#### Intro to Components
+
+Components refer to reusable pieces of code ultimately responsible for returning HTML to be rendered onto the page. More often than not, you'll see React components written with JSX.
+
+
+Since React's main focus is to streamline building our app's UI, there is only one method that is absolutely required in any React component class: **render()**.
+
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const people = [
+  { name: 'Tyler' },
+  { name: 'Karen' },
+  { name: 'Richard' }
+]
+
+const element = <ol>
+  {people.map(person => (
+    <li key={person.name}> {person.name}</li>
+  ))}
+</ol>
+
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+)
+```
+
+The code above can be written as a component like this.
+```js
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
+class ContactList extends Component {
+  constructor() {
+    super();
+    this.people = [
+      { name: 'Tyler' },
+      { name: 'Karen' },
+      { name: 'Richard' }
+    ] 
+  }
+  
+  render() {
+    return (<ol>
+      {this.people.map(person => (
+        <li key={person.name}> {person.name}</li>
+      ))}
+    </ol>);
+  }
+}
+  
+ReactDOM.render(
+  <ContactList/>,
+  document.getElementById('root')
+)
+```
+
+
+#### Declaring Components in React
+1.  We can import React
+```js
+import React from 'react';
+class ContactList extends React.Component {}
+```
+  OR
+
+2. import Componet from react
+```js
+import React, { Component } from 'react';
+class ContactList extends Component {}
+```
+
+
+#### Summary
+React is only concerned with the View layer of our app. You'll use a syntax extension to describe what your UI should look like. This syntax extension is known as JSX, and just looks similar to plain HTML written right into a JavaScript file. The JSX gets transpiled to React's .createElement() method that outputs HTML to be rendered in the browser. 
+A great mindset to have when building React apps is to think in components. Components represent the modularity and reusability of React. You can think of your component classes as factories that produce instances of components. These component classes should follow the single responsibility principle and just "do one thing". If it manages too many different tasks, it may be a good idea to decompose your component into smaller subcomponents.
+
+
+
+### Create React App
+
+#### Scaffolding Your React App
+JSX is awesome, but it does need to be transpiled into regular JavaScript before reaching the browser. We typically use a transpiler like **Babel** to accomplish this for us. We can run Babel through a build tool, like **Webpack** which helps bundle all of our assets (JavaScript files, CSS, images, etc.) for web projects.
+
+Install Create React App (through the command-line with npm), and then we can walk through what makes it so great.
+
+```sh
+npm install -g create-react-app
+```
+
+ Note that to find out where global packages are installed, you can run `npm list -g` in your console
+
+
+react-script contains alot of libraries like 
+1. **Babel** - So we can use the latest javaScript syntax and JSX.
+2. **Webpack** - So we can generate the build.
+3. **Webpack dev server** - Which supports auto reload when code is changed while running. 
+
+> You can use `yarn start` to start the development server. Yarn is a package manager that's similar to NPM. Yarn was created from the ground up by Facebook to improve on some key aspects that are slow or lacking in NPM. If you don't want to install Yarn, you don't have to! What's great about it is that almost every use of yarn can be swapped with npm and everything will work just fine! So if the command is `yarn start`, you can use `npm start` to run the same command.
+
+
+
+### Composing With Components
+
+```js
+//using Props in class component
+const myelement = <Car brand="Ford"/>;
+```
+
+Use the brand attribute in the component:
+```js
+class Car extends React.Component {
+  render() {
+    return <h2>I am a {this.props.brand}!</h1>;
+  }
+}
+```
+
+
+```js
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
+class ContactList extends Component {
+  render() {
+    return (<ol>
+      {this.props.contact.map(person => (
+        <li key={person.name}> {person.name}</li>
+      ))}
+    </ol>);
+  }
+}
+  
+const workContact = [
+  { name: 'Tyler' },
+  { name: 'Karen' },
+  { name: 'Richard' }
+];
+
+const friendContact = [
+  { name: 'Korede' },
+  { name: 'Dozie' },
+  { name: 'Faith' }
+];
+
+ReactDOM.render(
+  <div>
+    <ContactList contact={workContact} />
+    <ContactList contact={friendContact}/>
+  </div>, 
+  document.getElementById('root')
+  ) 
+```
+
+
+#### Favor Composition Over Inheritance
+You might have heard before that it’s better to “favor composition over inheritance”. This is a principle that I believe is difficult to learn today. Many of the most popular programming languages make extensive use of inheritance, and it has carried over into popular UI frameworks like the Android and iOS SDKs.
+
+In contrast, React uses composition to build user interfaces. Yes, we extend React.Component, but we never extend it more than once. Instead of extending base components to add more UI or behavior, we compose elements in different ways using nesting and props. You ultimately want your UI components to be independent, focused, and reusable.
+
+So if you’ve never understood what it means to “favor composition over inheritance” you’ll definitely learn using React!
