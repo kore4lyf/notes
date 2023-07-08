@@ -681,7 +681,7 @@ age: 27
 
 
 ### Required Props
-Any PropType validation can be made required by adding .required to the end of it. These are all required:
+Any PropType validation can be made required by adding .isRequired to the end of it. These are all required:
 
 ```
 PropTypes.bool.isRequired
@@ -792,8 +792,7 @@ count is pretty self-explanatory: it returns the number of items in children.
 
 - **React.Children.only**(children)
 only returns the single child, or throws an exception if there is more than one child.
-  
-- **React.Children.toArray**(children)
+1- **React.Children.toArray**(children)
 toArray is similarly intuitive: it converts children into a flat array, whether it was an array or not.
 
 
@@ -840,17 +839,6 @@ header:
 ```
 
 Using the children prop, the Nav component can do things like insert a separator between each item:
-
-
-
-
-
-## 
-
-
-
-
-
 
 **NB:** STATE: 
 If you write a function within a class component (container) it doesn't automatically bind unless the function is an arrow function.

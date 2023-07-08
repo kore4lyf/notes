@@ -1,8 +1,156 @@
 # React JS UDACITY
 
+## 1. Why React
+
+### What is Composition
+
+Composition means to combine simple functions to build more complicated ones.
+
+Composition is built from simple functions. Let's look at an example:
+```js
+function getProfileLink (username) {
+ return 'https://github.com/' + username
+}
+```
+
+This function is ridiculously simple, isn't it? It's just one line! Similarly, the getProfilePic function is also just a single line:
+```js
+function getProfilePic (username) {
+ return 'https://github.com/' + username + '.png?size=200'
+}
+```
+
+These are definitely simple functions, so to compose them, we'd just combine them together inside another function:
+```js
+function getProfileData (username) {
+ return {
+ pic: getProfilePic(username),
+ link: getProfileLink(username)
+ }
+}
+```
+
+Now we could have written getProfileData without composition by providing the data directly:
+```js
+function getProfileData (username) {
+ return {
+ pic: 'https://github.com/' + username + '.png?size=200',
+ link: 'https://github.com/' + username
+ }
+}
+```
+here's nothing technically wrong with this at all; this is entirely accurate JavaScript code. But this isn't composition.
+There are also a couple of potential issues with this version that isn't using composition. If the user's link to GitHub is needed somewhere else, then duplicate code would be needed. A good function should follow the "DOT" rule:
+
+**Do One Thing**
+
+In the composed version, each function just does one thing:
+
+**getProfileLink** – just builds up a string of the user's GitHub profile link
+**getProfilePic** – just builds up a string the user's GitHub profile picture
+**getProfileData** – returns a new object
 
 
-##  1. React Fundamentals 
+#### React & Composition
+Here are three different components:
+```js
+<Page />
+<Article />
+<Sidebar />
+```
+Now let's take these simple components, combine them together, and create a more complex component (aka, composition in action!):
+```js
+<Page>
+ <Article />
+ <Sidebar />
+</Page>
+```
+
+Composition occurs when simple functions are combined together to create more complex functions. Think of each function as a single building block that does one thing (DOT). When you combine these simple functions together to form a more complex function, this is composition.
+
+
+
+#### What is Declarative Code
+
+**Imperative Code**: A lot of JavaScript is imperative code.  According to the dictionary, "imperative" means: **expressing a command; commanding**.
+
+When JavaScript code is written imperatively, we tell JavaScript exactly what to do and how to do it. Think of it as if we're giving JavaScript commands on exactly what steps it should take. 
+For example, I give you the humble for loop:
+```js
+const people = ['Amanda', 'Farrin', 'Geoff', 'Karen', 'Richard', 'Tyler']
+const excitedPeople = []
+
+for (let i = 0; i < people.length; i++) {
+ excitedPeople[i] = people[i] + '!'
+}
+```
+
+**Declarative Code**: In contrast to imperative code, we've got declarative code. With declarative code, we don't code up all of the steps to get us to the end result. Instead, we declare what we want done, and JavaScript will take care of doing it. This explanation is a bit abstract, so let's look at an example. Let's take the imperative for loop code we were just looking at and refactor it to be more declarative.
+```js
+const people = ['Amanda', 'Farrin', 'Geoff', 'Karen', 'Richard', 'Tyler']
+
+// The end goal
+//["Amanda!", "Farrin!", "Geoff!", "Karen!", "Richard!", "Tyler!"]
+
+// To get us from the starting point to the end, we'll just use JavaScript's .map() function to declare what we want done.
+
+const excitedPeople = people.map(name => name + '!')
+```
+
+Ex:
+```js
+const people = ['Amanda', 'Farrin', 'Geoff', 'Karen', 'Richard', 'Tyler']
+const longNames = people.filter(name => name.length > 6)
+```
+
+#### React is Declarative
+We'll get to writing React code very soon, but let's take another glimpse at it to show how it's declarative.
+```js
+<button onClick={activateTeleporter}>Activate Teleporter</button>
+```
+Notice that there's just an onClick attribute on the button…we aren't using .addEventListener() to set up event handling with all of the steps involved to set it up. Instead, we're just declaring that we want the activateTeleporter function to run when the button is clicked.
+
+
+### Unidirectional Data Flow
+Front-end frameworks like Angular and Ember make use of two-way data bindings. In two-way data binding, the data is kept in sync throughout the app no matter where it is updated. If a model changes the data, then the data updates in the view. Alternatively, if the user changes the data in the view, then the data is updated in the model. Two-way data binding sounds really powerful, but it can make the application harder to reason about and know where the data is actually being updated.
+
+#### React's Data-flow
+Data moves differently with React's unidirectional data flow. **In React, the data flows from the parent component to a child component**.
+
+> Data flows down from parent component to child component. Data updates are sent to the parent component where the parent performs the actual change.
+
+
+The data lives in the parent component and is passed down to the child component. Even though the data lives in the parent component, both the parent and the child components can use the data. However, if the data must be updated, then only the parent component should perform the update. If the child component needs to make a change to the data, then it would send the updated data to the parent component where the change will actually be made. Once the change is made in the parent component, the child component will be passed the data (that has just been updated!).
+
+
+> In React, data flows in only one direction, from parent to child. If data is shared between sibling child components, then the data should be stored in the parent component and passed to both of the child components that need it.
+
+
+
+### React Is “just JavaScript”
+React does't re-create functionality you can already do in Javascript.
+
+#### It's Just JavaScript
+One of the great things about React is that a lot of what you'll be using is regular JavaScript. To make sure you're ready to move forward, please take a look at the following code:
+```js
+const shelf1 = [{name: 'name1', shelf: 'a'},{name: 'name2', shelf: 'a'}];
+const shelf2 = [{name: 'name3', shelf: 'b'},{name: 'name4', shelf: 'b'}];
+const allBooks = [...shelf1, ...shelf2];
+
+const filter = books => shelf => books.filter(b => {
+  return b.shelf === shelf;
+});
+
+const filterBy = filter(allBooks);
+const booksOnShelf = filterBy('b');
+```
+
+
+
+
+
+
+##  2. React Fundamentals 
 
 ### Rendering UI with React
 React uses JavaScript objects to create React elements. We'll use these React elements to describe what we want the page to look like, and React will be in charge of generating the DOM nodes to achieve the result.
@@ -362,3 +510,7 @@ You might have heard before that it’s better to “favor composition over inhe
 In contrast, React uses composition to build user interfaces. Yes, we extend React.Component, but we never extend it more than once. Instead of extending base components to add more UI or behavior, we compose elements in different ways using nesting and props. You ultimately want your UI components to be independent, focused, and reusable.
 
 So if you’ve never understood what it means to “favor composition over inheritance” you’ll definitely learn using React!
+
+
+
+
