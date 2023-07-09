@@ -553,6 +553,77 @@ that will produce output like this.
 
 **Function composition** is a mathematical concept that allows you to combine two or more functions into a new function.
 
+You can turn any function into a composable function by currying the function. 
+You might do html stuff, so that’s a good point to start. Let’s make a tag. (I’m going to be working with strings here, but you could also do this with React).
+
+```js
+const tag = t => contents => `<${t}>${contents}</${t}>`
+tag('b')('this is bold!') 
+> <b>this is bold!</b>
+```
+
+We also want a function to handle tags with attributes like `<div class="title">...</ddiv`. So I’ll add another function to handle this use case.
+```js
+const encodeAttribute = (x = '') =>
+  x.replace(/"/g, '&quot;')
+
+const toAttributeString = (x = {}) =>
+  Object.keys(x)
+    .map(attr => `${encodeAttribute(attr)}="${encodeAttribute(x[attr])}"`) 
+    .join(' ')
+
+const tagAttributes = x => c =>
+  `<${x.tag}${x.attr?' ':''}${toAttributeString(x.attr)}>${c}</${x.tag}>` 
+```
+Sprinkle in a little refactoring to combine it all into these four functions…
+
+```js 
+const encodeAttribute = (x = '') =>
+  x.replace(/"/g, '&quot;')
+
+const toAttributeString = (x = {}) =>
+  Object.keys(x)
+    .map(attr => `${encodeAttribute(attr)}="${encodeAttribute(x[attr])}"`) 
+    .join(' ')
+
+const tagAttributes = x => (c = '') =>
+  `<${x.tag}${x.attr?' ':''}${toAttributeString(x.attr)}>${c}</${x.tag}>`
+
+const tag = x =>
+  typeof x === 'string'
+    ? tagAttributes({ tag: x })
+    : tagAttributes(x) 
+```
+Now we can call tag with a string or an object.
+
+```
+const bold = tag('b')
+
+bold('this is bold!')
+// <b>this is bold!</b>
+
+tag('b')('this is bold!')
+// <b>this is bold!</b>
+
+tag({ tag: 'div', attr: { 'class': 'title' }})('this is a title!') 
+// <div class="title">this is a title!</div>
+```
+
+#### Organizing Your Code
+Organizing your code is also very important. This involves separating your functions into multiple files.
+
+I like to create a file called functional.js and this is where I put compose and related functional functions.
+
+All of the functions we created above I would put in html.js.
+
+I am also creating a dom.js for DOM manipulation (you will see in the codepen.)
+
+Breaking our code out into multiple library files allows us to reuse these functions in other projects.
+
+Now when we write the main program in main.js, there will be very little code.
+
+> Functions with multiple inputs must be curried.
+
 
 ### B. Compose and Pipe in JavaScript by Gianmarco Ebeling
 
