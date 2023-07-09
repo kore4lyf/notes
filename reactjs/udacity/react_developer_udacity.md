@@ -149,7 +149,6 @@ const booksOnShelf = filterBy('b');
 
 
 
-
 ##  2. React Fundamentals 
 
 ### Rendering UI with React
@@ -513,4 +512,137 @@ So if you’ve never understood what it means to “favor composition over inher
 
 
 
+
+## Extra Note:
+
+###  A. Functional JavaScript: Function Composition For Every Day Use. by Joel Thoms
+You will learn how to write as well as organize your files, so you can write short, clean and functional code like this.
+
+```js 
+import { listGroupPanel } from './lib/html'
+import { setInnerHtml }   from './lib/dom'
+
+const content = document.getElementById('content')
+const main = e => compose(setInnerHtml(e), listGroupPanel)
+
+const list = [
+  'Cras justo odio',
+  'Dapibus ac facilisis in',
+  'Morbi leo risus',
+  'Porta ac consectetur ac',
+  'Vestibulum at eros'
+]
+
+main(content)(list)
+```
+that will produce output like this. 
+
+```js 
+<div class="panel panel-default">
+  <div class="panel-body">
+    <ul class="list-group">
+      <li class="list-group-item">Cras justo odio</li>
+      <li class="list-group-item">Dapibus ac facilisis in</li>
+      <li class="list-group-item">Morbi leo risus</li>
+      <li class="list-group-item">Porta ac consectetur ac</li>
+      <li class="list-group-item">Vestibulum at eros</li>
+    </ul>
+  </div>
+</div>
+```
+
+**Function composition** is a mathematical concept that allows you to combine two or more functions into a new function.
+
+
+### B. Compose and Pipe in JavaScript by Gianmarco Ebeling
+
+#### Compose
+In algebra, function composition allows you to apply one function to the output of another function.
+i.e **g(f(x)**
+In **g(f(x)**, the function g is applied to the result of applying the function f to x. As we can see, function composition works from right to left.
+
+The same result can be achieved in JavaScript with compose:
+```js
+const compose = (g,f) => x => g(f(x))
+// Same as **g(f(x)**
+``` 
+
+For example:
+Let’s suppose we want to get the name of a user and uppercase it. First of all, we have to write a function that extracts the name of the user:
+```js
+const user = {name: 'Gianmarco', password: 1234}
+const getUserName = (user) => user.name
+getUserName(user)
+// 'Gianmarco'
+```
+
+And then a function that uppercases strings:
+```js
+const upperCase = (string) => string.toUpperCase()
+upperCase('Gianmarco')
+// 'GIANMARCO'
+``` 
+
+Now we can compose the two functions to have just one function that executes both actions: Get the name and uppercase it.
+
+We can use the implementation of compose() that we saw before:
+```js
+const compose = (g, f) => x => g(f(x));
+// 'x' in compose() 
+const user = {name: 'Gianmarco', password: 1234}
+// function 'f' in compose()
+const getUserName = (user) => user.name
+// function 'g' in compose()
+const upperCase = (string) => string.toUpperCase()
+const getUserNameAndUpperCase = compose(upperCase, getUserName)
+getUserNameAndUpperCase(user); 
+//'GIANMARCO'
+```
+The problem with this implementation of compose() is that it takes as parameters just two functions (in our example, upperCase()and getUserName()).
+
+Let’s suppose we want to add another function that returns the first four characters of a string:
+```js
+const firstFour = (string) => string.substring(0,4)
+firstFour(‘GIANMARCO’);
+// 'GIAN'
+``` 
+How can we compose more than two functions at a time?
+We can use Compose and the reduceRight() method:
+```js
+const compose = (...functions) => x => functions.reduceRight((acc, fn) => fn(acc), x);
+``` 
+
+In this implementation, compose() takes rest parameters (any number of parameters — in this example, any number of functions) and returns a function that takes the initial value x. It then uses the reduceRight() method to iterate from right to left over each function fn in functionsand apply it, in turn, to the accumulated value acc.
+
+With this new implementation of compose(), we can now create a function that gets the name of the user, uppercases it, and returns just its first four characters:
+```js 
+const compose = (...functions) => x => functions.reduceRight((acc, fn) => fn(acc), x);
+const user = {name: 'Gianmarco', password: 1234}
+const getUserName = (user) => user.name
+const upperCase = (string) => string.toUpperCase()
+const firstFour= (string) => string.substring(0,4)
+compose (firstFour, upperCase, getUserName) (user);
+// 'GIAN'
+```
+
+### Pipe
+Pipe is exactly like compose(), but it works left to right. I personally prefer it over compose() because you can think of it as a sequence of events.
+
+If we want to recreate our compose() function above but with pipe(), we can use this implementation:
+```js
+const pipe = (...functions) => x => functions.reduce((acc, fn) => fn(acc), x);
+```
+As you noticed, we now use reduce() instead of reduceRight(), as the function iterates left to right.
+
+Our final result will be:
+```js
+const pipe = (…functions) => x => functions.reduce((acc, fn) => fn(acc), x);
+const user = {name: 'Gianmarco', password: 1234}
+const getUserName = (user) => user.name
+const upperCase = (string) => string.toUpperCase()
+const firstFour= (string) => string.substring(0,4)
+pipe (getUserName, upperCase, firstFour) (user);
+```
+
+As a sequence of events, pipe() applies getUserName() to our initial data, then it applies upperCase() to the result of applying getUserName() to our initial data. Finally, it will applyfirstFour() to the output from applying upperCase() to the result of applying getUserName() to our initial data.
 
