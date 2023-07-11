@@ -5023,7 +5023,7 @@ console.warn("This is a warning!");
 ```
 
 **Syntax**
-```
+```js
 console.warn(message)
 ```
 
@@ -5595,3 +5595,94 @@ isNaN("Hello");       // returns true
 ```
 
 
+## NodeList and HTMLCollection 
+> JavaScript NodeList is an interface that defines a read-only list of Node objects. 
+
+When you use methods like **getElementsByName** or **querySelectorAll**, to access elements in JavaScript, what is returned is a **NodeList**. 
+
+A NodeList is a collection of HTML DOM nodes representing the HTML elements that met the criteria. At first glance, a NodeList looks like an array, but it is not. 
+
+Using the Nodelist.forEach method and for loop: 
+```js
+const options = document.querySelectorAll('li');
+
+options.forEach(option => {
+  option.addEventListener('click', () =>{
+    console.log(option.textContent);
+    if(option.textContent === "Sorted"){
+      option.style.color = "green";
+    }else{
+      option.style.color = "red";
+      for(let i = 0; i <= options.length; i++){
+        if(options[i].textContent === "Sorted"){
+           options[i].style.color = "green";
+        }
+      }
+    }
+  })
+})
+```
+
+Another approach would be to convert the NodeList into an array uusing`array.from`. If you want to select an element at a particular position, then you can use the `NodeList.item` method.
+
+The item(index) method will let you obtain a node at a specific position in the list.
+
+This is its syntax:
+```js
+nodeItem = nodeList.item(index)
+```
+> However, the method does not throw exceptions, provided you specify arguments. 
+
+If the index is out of range, this method will return the null value, and it will throw a TypeError if you do not provide an argument.
+
+Alternate JS NodeList Syntax
+Syntax:
+```js
+nodeItem = nodeList[index]
+```
+
+it is easier to think of a NodeList object as a read-only JS array. That’s why some developers may use the notation Node[] (a Node array) rather than NodeList. The best example here is the `Element.getElementsByTagName()` method that is listed as returning a Node[] instead of a NodeList object.
+
+
+
+#### NB
+- `document.getElementsByClassName()` - returns a NodeList Object.
+- `document.querySelectorAll()` - returns a NodeList Object.
+- `document.getElementsByTagName()` - returns a NodeList Object.
+- All browsers will return a NodeList object for the property `childNodes`.
+- `querySelectorAll()` - returns a node list Object.
+
+> A NodeList is not an Array; nevertheless, you can iterate over it with the JavaScript NodeList foreach() method. Similarly, you can convert it to a real array using the array.from(). Keep in mind, however, that older browsers do not have the NodeList.forEach() and array.from() methods, making it impossible to implement.
+
+### NodeList Methods 
+1. `NodeList.item()`: evaluates an item in the list by its index. If the index is out of bounds, it returns a null. Alternatively, you can access the NodeList via nodeList[i], which returns undefined when [i] is out-of-bounds. This method is useful for non-JavaScript DOM implementations.
+2. `NodeList.entries()`:  this method returns an iterator, allowing a code to go through all value/key pairs in the collection. Here, keys are numbers starting from zero, and the values are nodes.
+3. `NodeList.forEach()`: JavaScript NodeList foreach() method executes a function provided once per NodeList element, and it presents the element as an argument to the function.
+4. `NodeList.keys()`: the NodeList.keys() method evaluates to an iterator, letting a code pass through all the keys of key or value pairs within the collection. Again, here keys are numbers beginning from zero.
+5. `NodeList.values()`: this method returns an iterator that allows a code to pass through all nodes/values of a key or value pairs in that collection.
+
+
+#### Live and Static NodeLists
+The two varieties of NodeLists are static and live, so let’s look at them more closely:
+
+`Live NodeLists`: In js live NodeLists, changes in the DOM automatically update the collection. A typical example of live NodeList is the `node.childNodes`.
+
+`Static NodeLists`: in this category of NodeLists, changes in the DOM do not affect the collection’s content. The method, `document.querySelectorAll()` returns a static NodeList. So, when choosing how to iterate over the items in a NodeList, keep this distinction in mind.
+
+
+#### JavaScript NodeList Properties
+There is only one property:
+
+- `NodeList.length`: it returns the number of nodes in the NodeList. If you want to know the length of the NodeList, use the length property. Also, the length property is very important when looping through a NodeList.
+
+### HTMLCollection vs. NodeList
+Items in both NodeList and HTMLCollection refer to HTML elements, making them nearly the same. However, HTMLCollection is a body of HTML elements, while a NodeList is an assembly of element nodes.
+
+NodeList and HTMLCollection have length properties to display the number of items within a collection, and you can use their index number to access each one of them. Nevertheless, you can also access HTMLCollection items by their name and ID, a feature not in JavaScript NodeList.
+
+A JS collection can have both attribute and text nodes, a feature not found in HTMLCollection. But both NodeList and HTMLCollection are not arrays. Therefore, they will not work with array methods.
+
+
+ > NodeList is pretty similar to HTMLCollection; however, you can only access the JS NodeList items with their index number, while you can access the HTMLCollection item with a name, ID, or an index number 
+ 
+** The fundamental methods you can use to turn a NodeList into an array are array.from(), Spread Operator, and array.prototype.slice() Method. **
