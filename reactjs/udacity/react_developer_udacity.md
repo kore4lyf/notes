@@ -717,3 +717,58 @@ pipe (getUserName, upperCase, firstFour) (user);
 
 As a sequence of events, pipe() applies getUserName() to our initial data, then it applies upperCase() to the result of applying getUserName() to our initial data. Finally, it will applyfirstFour() to the output from applying upperCase() to the result of applying getUserName() to our initial data.
 
+
+### Currying 
+Currying in JavaScript is a process in functional programming in which you can transform a function with multiple arguments into a sequence of nesting functions. It returns a new function that expects the next argument inline.  
+
+In other words, instead of a function taking all arguments at one time, it takes the first one and returns a new function, which takes the second one and returns a new function, which takes the third one, and so on, until all arguments have been fulfilled.
+
+Currying in JavaScript transforms a function with multiple arguments into a nested series of functions, each taking a single argument. Currying helps you avoid passing the same variable multiple times, and it helps you create a higher order function.
+
+That is, when we turn a function call sum(1,2,3) into sum(1)(2)(3). 
+
+The number of arguments a function takes is also called arity.
+
+```js 
+function sum(a, b) {
+    // do something
+}
+function _sum(a, b, c) {
+    // do something
+}
+```
+
+The function sum takes two arguments (two-arity function) and _sum takes three arguments (three-arity function).
+
+> Curried functions are constructed by chaining closures and by defining and immediately returning their inner functions simultaneously.
+
+#### Why Is Currying in JavaScript Useful?
+- Currying helps you avoid passing the same variable again and again.
+- It helps to create a higher order function.
+
+Currying transforms a function with multiple arguments into a sequence/series of functions, each taking a single argument.
+
+For example:
+
+function sum(a, b, c) {
+    return a + b + c;
+}
+sum(1,2,3); // 6
+As you can see, this is a function with full arguments. Let’s create a curried version of the function and see how we would call the same function (and get the same result) in a series of calls:
+```js
+function sum(a) {
+    return (b) => {
+        return (c) => {
+            return a + b + c
+        }
+    }
+}
+console.log(sum(1)(2)(3)) // 6
+```
+We could even separate this sum(1)(2)(3) to understand it better:
+```js
+const sum1 = sum(1);
+const sum2 = sum1(2);
+const result = sum2(3);
+console.log(result); // 6
+```
