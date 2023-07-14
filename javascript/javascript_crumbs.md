@@ -5686,3 +5686,60 @@ A JS collection can have both attribute and text nodes, a feature not found in H
  > NodeList is pretty similar to HTMLCollection; however, you can only access the JS NodeList items with their index number, while you can access the HTMLCollection item with a name, ID, or an index number 
  
 ** The fundamental methods you can use to turn a NodeList into an array are array.from(), Spread Operator, and array.prototype.slice() Method. **
+
+
+## Array.from()
+The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object.
+
+```js 
+console.log(Array.from('foo'));
+// Expected output: Array ["f", "o", "o"]
+
+console.log(Array.from([1, 2, 3], x => x + x));
+// Expected output: Array [2, 4, 6] 
+``` 
+
+syntax
+```js
+Array.from(arrayLike)
+Array.from(arrayLike, mapFn)
+Array.from(arrayLike, mapFn, thisArg)
+```
+
+### Difference between append and appendChild methods in JavaScript 
+1. **append:** The append method is used to insert either Node objects or DOMStrings (basically a string or text) into the DOM, while the appendChild method can only be used to insert Node objects into the DOM.
+For example, with the append method, you can do:
+
+```js
+let div = document.createElement("div")
+
+//insert a DOM node
+let p = document.createElement("p");
+div.append(p);
+console.log(div) //<div><p></p></div>
+
+//insert a DOMString
+div.append(‘<p>Hello</p>’)
+console.log(div) //<div><p>Hello</p></div>
+``` 
+
+With the appendChild method,
+```js
+let div = document.createElement("div")
+
+//insert a DOM node
+let p = document.createElement("p");
+div.appendChild(p);
+console.log(div) //<div><p></p></div>
+
+//insert a DOMString
+div.appendChild(‘<p>Hello</p>’) //This results in an Uncaught TypeError: Failed to execute 'appendChild' on 'Node'
+``` 
+The append method can insert multiple items at once, but the appendChild method can’t.
+```js
+div.append(child, childTwo); // Works fine
+div.appendChild(child, childTwo,); // Works fine, but adds the first element and ignores the rest  
+```
+
+
+

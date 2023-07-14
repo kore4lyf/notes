@@ -469,7 +469,7 @@ console.log("Is toString's age known?", "toString" in ages);
 // → Is toString's age known? true 
 ``` 
 
-As an alternative to the in operator, you can use the hasOwnProperty method, which ignores theobject’s prototype.
+As an alternative to the in operator, you can use the hasOwnProperty method, whaich ignores theobject’s prototype.
 
 ```js
 console.log({x: 1}.hasOwnProperty("x"));
