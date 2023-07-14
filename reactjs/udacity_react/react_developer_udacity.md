@@ -1143,5 +1143,227 @@ So if you’ve never understood what it means to “favor composition over inher
 
 
 
+## 3. State Management
+
+
+
+### Introduction 
+We's introduce three new concepts to you in react.
+1. **Props**: Props allow you to pass data into your components.
+2. **Functional Components**: Are alternative, and probabl more intuitive approach to creating components.
+3. **Controlled Components**: Allow you to hook up the forms in your application to your component state.
+   
+
+### Passing Data into Components with props
+For example: 
+```js
+class User extend react.component {
+  render(){
+    return (
+      <p> Username: {this.props.username}</p>
+    )
+  }
+}
+
+ReactDOM.render(
+  <User username="Tyler"/>,
+  document.querySelector("root")
+)
+```
+In the code above, `username` is the prop and the string 'Tyler' is the value.
+
+All props are stored on the this.props object. So to access this `username` prop from inside the component, we'd use `this.props.username`.
+
+### Mapping over array
+```js
+return (
+  <ol className="contact-list">
+    {this.props.contacts.map(contact => (
+      <li key={contact.id}>
+        {contact.name}
+      </li>
+    ))}
+  </ol>
+)
+```
+The reason we need to add a key is becaus eventually one of those list items may change, and by having a unique key attribute on each list item. React is able to performantly know which list item has changed and can update just that item rather than having to recreate the entire list every time.
+
+
+### Functional Components
+If your component does not keep track of internal state (i.e., all it really has is just a render() method), you can declare the component as a Stateless Functional Component.
+
+```js
+class Email extends React.Component {
+ render() {
+   return (
+     <div>
+       {this.props.text}
+     </div>
+   );
+ }
+}
+```
+like this.
+```js
+const Email = (props) => (
+ <div>
+   {props.text}
+ </div>
+);
+```
+
+
+
+### Add State to a component
+**props** refer to attributes from parent components. In the end, props represent "read-only" data that are immutable.
+
+A component's **state**, on the other hand, represents mutable data that ultimately affects what is rendered on the page. State is managed internally by the component itself and is meant to change over time, commonly due to user input (e.g., clicking on a button on the page).
+
+With React your two concerns are: 
+- Which state is in my application.
+- How does my UI change based off of that state.
+
+**Class Fields**
+
+```js
+class User extends React.Component {
+state = {
+username: 'Tyler'
+}
+}
+```
+
+**OR**
+
+```js
+class User extends React.Component {
+ constructor(props) {
+   super(props);
+   this.state = {
+     username: 'Tyler'
+   };
+ }
+}
+```
+Having state outside the constructor() means it is a class field, which is a proposal for a new change to the language. It currently isn't supported by JavaScript, but thanks to Babel's fantastic powers of transpiling, we can use it!
+
+
+###  Props in Initial State 
+When defining a component's initial state, avoid initializing that state with props. This is an error-prone anti-pattern, since state will only be initialized with props when the component is first created.
+```js
+this.state = {
+ user: props.user
+}
+```
+In the above example, if props are ever updated, the current state will not change unless the component is "refreshed." Using props to produce a component's initial state also leads to duplication of data, deviating from a dependable "source of truth."
+
+
+By having a component manage its own state, any time there are changes made to that state, React will know and automatically make the necessary updates to the page.
+
+> This is one of the key benefits of using React to build UI components: when it comes to re-rendering the page, we just have to think about updating state. We don't have to keep track of exactly which parts of the page change each time there are updates. We don't need to decide how we will efficiently re-render the page. React compares the previous output and new output, determines what has changed, and makes these decisions for us. This process of determining what has changed in the previous and new outputs is called **Reconciliation**.
+
+
+### Update state with setState()
+Your natural intuition might be to update the state directly.
+```js
+// ⚠ This is wrong ⚠
+this.state.username = 'james';
+```
+Unfortunately, that's not going to work. The reason is because by mutating the state directly. React will have no idea that the state of your component actually changed.
+
+**setState()**
+To solve this problem. React gives you a helper method called setState(). There are two ways to use setState.
+- **setState function** - Used when new state is based on previous state.
+- **setState object** - Used when new state dosen't depend on previous state.
+
+The first way is by passing setState a function
+```js
+// setState passing a function
+this.setState(prevState => ({// <- Implicit return
+  count: prevState.count + 1
+}))  
+```
+This function will be passed the previous the previous state as its first argument.
+
+The second pattern is to pass an object, which will be merged with the current state to form the new state of the component.
+
+```js 
+// setState passing an object
+this.setState({
+  username: 'james'
+})
+```
+
+
+### PropTypes
+PropTypes is a great way to validate intended data types in our React app.
+
+Consider this component:
+```js
+import PropTypes from 'prop-types';
+
+class Email extends React.Component {
+  render() {
+    return (
+      <h3>Message: {this.props.text}</h3>
+    );
+  }
+}
+
+Email.propTypes = {
+  text: // ???
+};
+```
+
+We want to validate that a text prop is indeed being passed in, and that its data type is a string. What should the value of the above object's text key be?
+
+Answer: 
+**PropTypes.string.isRequired**
+
+
+
+### Controlled Components
+Forms in a web app, lives inside of the DOM, React solves this problem with what is Controlled components. 
+
+Controlled components are components which render a form, but the source of truth for the form state lives inside of the component state rather than inside of the DOM.
+
+The reason they are called controlled components is because React is controlling the state of the form. 
+For example:
+
+```js
+Class NameForm extends React.Component {
+  state = {email: ""}
+
+  handleChange = (event) => {
+    this.setState({email: event.target.value})
+  }
+
+  render() {
+    return {
+      <form>
+        <input type="text" value={this.state.email} onChange={this.handleChange} />
+      </form>
+    }
+  }
+}
+```
+`value={this.state.email}` ensures that the value of the input form will all be the value stored in state.
+
+if we want the input to change we can create a handle chage function that update state as user enters data.
+
+
+Although controlled components require a little bit more typing, they do have some benefits. 
+1. They support instant input validation.
+2. They allow you to conditionally disable or enable form buttons.
+3. They enforce input formats.
+
+> Controlled components refer to components that render a form, but the "source of truth" for that form state lives inside of the component state rather than inside of the DOM.
+
+
+### React Developer Tools
+While building React apps, it may be tricky at times to see exactly what is going on in your components. After all, with so many props being passed and accessed, numerous nested components, and all the JSX yet to be rendered as HTML, it can be tough to put things into perspective!
+
+React Developer Tools allows you to inspect your component hierarchy along with their respective props and states. Once you install the Chrome extension, open the Chrome console and check out the React tab. For a detailed overview, feel free to check out the official documentation.
+
 
 
