@@ -5742,4 +5742,38 @@ div.appendChild(child, childTwo,); // Works fine, but adds the first element and
 ```
 
 
+## localCompare() 
+The localeCompare() method compares two strings in the current locale.
 
+The localeCompare() method returns sort order -1, 1, or 0 (for before, after, or equal).
+
+The current locale is based on the language settings of the browser.
+
+### Syntax 
+```js
+string.localeCompare(compareString)
+```
+
+### Parameters
+Parameter	Description
+compareString	Required.
+The string to compare with.
+
+
+### Return value
+Type  Description
+     A number	One of 3 values:
+-1   if the string is sorted before the compareString
+ 0   if the two strings are equal
+ 1   if the string is sorted after the compareSequal
+ 
+ 
+More Examples 
+```js
+let text1 = "ab";
+let text2 = "ab";
+let result = text1.localeCompare(text2);
+let text1 = "A";
+let text2 = "a";
+let result = text1.localeCompare(text2);
+```
