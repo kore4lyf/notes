@@ -233,13 +233,13 @@ Another approach is to place the text cursor within the word you want to search 
 `ZZ` - Save and exit.
 
 ## Sustituting string
-`:%s/char(s) (to be replaced)/ char(s) (new string)/g` - e.g. :%s/korede/faith/g 
+`:%s/char(s) (to be replaced)/ char(s) (new string)/g` - e.g. :%s/korede/dozie/g 
 The example above replaces korede with faith.
 > % here means entire line
 
 To do this on a single line or highlighted lines.
 remove the % symbol
-`:s/korede/faith/g`
+`:s/korede/dozie/g`
 
 ## Repeating commands
 `.` - Repeats the last command.

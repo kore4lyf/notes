@@ -5776,4 +5776,24 @@ let result = text1.localeCompare(text2);
 let text1 = "A";
 let text2 = "a";
 let result = text1.localeCompare(text2);
-```
+``` 
+
+
+## Using Object.setPrototypeOf
+```js
+let bestFood= {
+  food() {
+    return (this.food1 + " & " + this.food2);
+  }
+}
+
+let foods= {
+  food1: "Beans",
+  food2: "Rice"
+}
+
+Object.setPrototypeOf(foods, bestFood)
+console.log(foods.food())
+// Beans & Rice 
+``` 
+
