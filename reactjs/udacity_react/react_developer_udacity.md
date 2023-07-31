@@ -1479,4 +1479,157 @@ componentWillUnmount()
 
 
 
+## 5. React Router
+
+When javascript is used inside of the browser to render the UI of a website, it's called a single page application. In SPA javascript handles the transition between pages from the single initial page server from the server. 
+
+**React Router** is a tool, that lets us use react to build a SPA.
+
+
+#### Single-Page Apps
+Single-page applications can work in different ways. 
+1. One way a single-page app loads is by downloading the entire site's contents all at once. This way, when you're navigating around on the site, everything is already available to the browser, and it doesn't need to refresh the page. 
+2. Another way single-page apps work is by downloading everything that's needed to render the page the user requested. Then when the user navigates to a new page, asynchronous JavaScript requests are made for just the content that was requested.
+
+- Another key factor in a good single-page app is that the URL controls the page content. Single-page applications are highly interactive, and users want to be able to get back to a certain state using just the URL. 
+Why is this important? Bookmarkability! (pretty sure that's not a word…yet) When you bookmark a site, that bookmark is only a URL, it doesn't record the state of that page.
+
+Have you noticed that any of the actions you perform in the app do not update the page's URL? We need to create React applications that offer bookmarkable pages!
+
+
+#### React Router
+React Router turns React projects into single-page applications. It does this by providing a number of specialized components that manage the creation of links, manage the app's URL, provide transitions when navigating between different URL locations, and so much more.
+
+According to the React Router website:
+React Router is a collection of navigational components that compose declaratively with your application.
+
+
+
+
+### Dynamically Render Pages
+Using state and short-circuiting 
+
+```js
+return(
+  {this.state.screen === 'list' && (
+    <ListContacts
+    contacts={this.state.contacts}
+    onDeleteContact={this.removeContact}
+    />
+  )};
+  
+  {this.state.screen === 'create' && (
+    <CreateContact />
+  )}
+)
+```
+If you try using state to control what content displays to the user. Things will break down, when you try to use the back button. we tried our attempt at using state to control what content displays to the user. We saw things break down, though, when we used the back button.
+
+When the user presses the 'back' button in the browser, they will probably have to refresh the page to see the proper content at that location. This isn't the best experience for our user! When we update location, we can update the app as well using JavaScript. This is where React Router comes in.
+
+
+### The BrowserRouter Component
+
+#### Install React Router
+To use React Router in our app, we need to install react-router-dom.
+```js
+npm install --save react-router-dom
+```
+The first component we'll be looking at in react-router-dom is the browser router.
+
+#### BrowserRouter Component
+It listens for changes in the url and make sure the correct screen shows up when ever the url changes.
+```js
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <BrowserRouter>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>
+);
+```
+By wrapping `<App/>` within `<BrowserRouter/>`, we can now use other components that comes with react-router-dom in our `<App/>`. When ever the url changes, the routing componet will be notified about it.
+
+What's nice about React Router is that everything is just a component. This makes using it nice, but it also makes diving into the code more convenient as well. Let's take a look at what exactly BrowserRouter is doing under the hood.
+
+Here is the code straight from the React Router repository.
+```js
+class BrowserRouter extends React.Component {
+  static propTypes = {
+    basename: PropTypes.string,
+    forceRefresh: PropTypes.bool,
+    getUserConfirmation: PropTypes.func,
+    keyLength: PropTypes.number,
+    children: PropTypes.node
+  }
+
+  history = createHistory(this.props)
+
+  render() {
+    return <Router history={this.history} children={this.props.children} />
+  }
+}
+```
+
+For React Router to work properly, you need to wrap your whole app in a BrowserRouter component. Also, BrowserRouter wraps the history library which makes it possible for your app to be made aware of changes in the URL.
+
+
+#### Replace Anchor Links With The Link Component
+Link is a straightforward way to provide declarative, accessible navigation around your application. By passing a to property to the Link component, you tell your app which path to route to.
+```js
+<Link to="/about">About</Link>
+```
+
+If you're experienced with routing on the web, you'll know that sometimes our links need to be a little more complex than just a string. For example, you can pass along query parameters or link to specific parts of a page. What if you wanted to pass state to the new route? To account for these scenarios, instead of passing a string to Links to prop, you can pass it an object like this,
+```js
+<Link to={{
+ pathname: '/courses',
+ search: '?sort=name',
+ hash: '#the-hash',
+ state: { fromDashboard: true }
+}}>
+ Courses
+</Link>
+```
+You won't need to use this feature all of the time, but it's good to know it exists.
+
+
+### The Route Component
+`<Route/>` takes a path that would matches a url. If the Route path matches a url then it would render some UI.
+
+```js
+<Route
+  path="/create"
+  element={<componentName/>}
+/>
+```
+
+```js
+<Routes>
+  <Route
+    exact
+    path="/"
+    element={<componentName/>}
+  />
+  <Route
+    path="/create"
+    element={<componentName/>}
+  />
+</Routes>
+
+```
+
+In summary, the Route component is a critical piece of building an application with React Router because it's the component which is going to decide which components are rendered based on the current URL path.
+
+
+### Serialize The Form Data
+we'll use the form-serialize package to output this information as a regular JavaScript object for the app to use.
+
+```js
+npm install --save form-serialize
+```
+
+
+
 
