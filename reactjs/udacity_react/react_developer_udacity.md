@@ -1632,4 +1632,474 @@ npm install --save form-serialize
 
 
 
+ ## 6. React & Redux
+
+### Managing State
+
+Remember that the main goal of Redux is to make the state management of an application more predictable. Let's see what that might look like:
+
+#### The Store
+In this example, the app appears exactly the same to the end user, however, it's functioning quite differently under the hood. All of the data is stored outside of the UI code and is just referenced from the UI code.
+
+With a change like this, if the data needs to be modified at all, then all of the data is located in one place and needs to be only changed once. Then the areas of the app that are referencing pieces of data, will be updated since the source they're pulling from has changed.
+
+
+#### State Tree
+One of the key points of Redux is that all of the data is stored in a single object called the state tree. But what does a **state tree** actually look like? Good question! Here's an example:
+```js
+{
+  recipes: [
+    { … },
+    { … },
+    { … }
+  ],
+  ingredients: [
+    { … },
+    { … },
+    { … },
+    { … },
+    { … },
+    { … }
+  ],
+  products: [
+    { … },
+    { … },
+    { … },
+    { … }
+  ]
+}
+```
+
+#### The Store
+Now that we have decided that, we will  be putting our data in a place called the state tree. 
+If we are going to build a real application with our state tree, there are 3 ways in which we can interface with it.
+
+1. Getting the state
+2. Listening for changes
+3. Updating the state
+
+The Store = The State Tree + 3 ways we can interact with it.
+
+
+
+### Create Store: Getting and Listening
+So this is what we're going to do in this lesson - we're going to actually create the store code ourselves, from scratch.
+
+In the following video, we'll start with a blank index.js file and create a factory function that creates store objects. Then we'll have the store keep track of the state, and we'll write the method to get the state from the store.
+
+
+#### Getting the State
+```js
+function createStore() {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state
+  // 3. Listen to changes on the state
+  // 4. Update the state
+
+  // 1. The state
+  let state
+
+  // 2. Get state
+  const getState = () => state
+
+  return {
+    getState
+  }
+}
+```
+
+#### Listening To Changes
+Listeners are functions that are called when the state changes.
+The subscribe function, used to add a function to listeners.
+```js
+function createStore() {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state
+  // 3. Listen to changes on the state
+  // 4. Update the state
+
+
+  let state
+  let listeners = []
+
+
+  const getState = () => state
+
+  const subscribe = (listener) => {
+    listeners.push(listener)
+    return () => {
+      // returns a function that unsubscribes the listener
+      listeners = listeners.filter((l) => l !== listener)
+    }
+  }
+
+  return {
+    getState
+  }
+}
+```
+
+
+#### Updating the State
+The goal here is to be able to predict the predictability of our application. 
+We can allow allow any thing to update the state, if we did, it will drastically decrease predictability.
+
+**Rule #1:** Only an event can change the state of the store.
+
+Lets see an example of this kind of event: 
+If you are building a ToDo app, an event could be adding a ToDo.
+
+##### Intro to Actions
+When an event takes place in a Redux application, we use a plain JavaScript object to keep track of what the specific event was. This object is called an Action.
+
+That object(ToDo) might look like this
+```js
+// An object with a type property that indicates 
+// the type of event that occured;
+{
+  type: "ADD_TODO"
+}
+
+// We can now add any information we want, just by 
+// adding a property to the object
+{
+  type: "ADD_TODO",
+  todo: {
+    id: 0,
+    name: "Learn Redux",
+    complete: false
+  }
+}
+```
+
+What if we remove the todo what event might this be?
+```js 
+// We can remove a todo by passing an event that signifys that we want to remove a todo and specifying the ID of the ToDo we want to remove
+{
+  type: "REMOVE_TODO",
+  id: 0
+}
+```
+
+If we want to Toggle the state of the a ToDo, we can have.
+```js
+// Event or action is toggle todo
+{
+  type: "TOGGLE_TODO",
+  id: 0
+}
+```
+
+If we want the user to be able to add a goal
+```js
+{
+  type: "ADD_GOAL",
+  goal: {
+    id: 0,
+    name: "Run a Marathon"
+  }
+}
+```
+
+If we want the user to be able to remove a goal
+```js
+{
+  type: "REMOVE_GOAL",
+  id:0 
+}
+```
+
+> All actions must have a type property (Redux will throw an error if it is missing)
+
+By creating the actions that can change the state of our app, if a value in state changes, we will know that one of those actions occured.
+
+
+
+### Update State
+Redux is a predictable state container for JavaScript apps.
+
+
+#### Predictable Functions
+So we have the entire state of the application in the state tree, and we also know about all the possible action that can change the applictions state.
+
+We need something to tie this two data together(A way to update our state base on the action that occured). 
+
+We can use a function, the function will take in a state and an action, and return a new state. But the function must be predictable(i.e the function must be a pure function).
+
+
+#### Pure Functions
+Pure functions are defined by 3 characteristics.
+1. Return the same result if the same arguments are passed in.
+2. Depend solely on the arguments passed into them
+3. Do not produce side effects
+
+If a function doesn't pass any of the characteristics listed above then it's not a pure function.
+
+Let’s check out an example of a pure function, `square()`:
+```js
+// `square()` is a pure function
+const square = x => x * x;
+```
+square() is a pure function because it outputs the same value every single time, given that the same argument is passed into it. There is no dependence on any other values to produce that result, and we can safely expect just that result to be returned (no side effects).
+
+
+On the other hand, let’s check out an example of an impure function, `calculateTip()`:
+```js
+// `calculateTip()` is an impure function
+const tipPercentage = 0.15;
+const calculateTip = cost => cost * tipPercentage;
+```
+`calculateTip()` calculates and returns a number value. However, it relies on a variable (tipPercentage) that lives outside the function to produce that value. Since it fails one of the requirements of pure functions, `calculateTip()` is an impure function. However, we could convert this function to a pure function by passing in the outside variable, tipPercentage, as a second argument to this function!
+```js
+const calculateTip = (cost, tipPercentage = 0.15) => cost * tipPercentage;
+```
+
+
+#### The Reducer Function
+todos here is called a reducer, because it takes a state and an action and returns a new state
+```js
+function todos (state = [], action) {
+  if (action.type === "ADD_TODO") {
+    return state.concat([action.todo])
+  }
+}
+
+// Using the todos function above
+state = [];
+action = {
+  type: "ADD_TODO",
+  todo: {id:0, name:"Learn Redux", completed: false}
+}
+
+// A call to the reducer
+const newState = todos(state, action);
+consolel.log(newState); 
+// [{id:0, name:"Learn Redux", completed: false}]
+```
+
+> A reducer must always be a pure function.
+
+Example 2: 
+```js
+/* Create A Reducer
+ *
+ * You need to create a reducer called "appReducer" that accepts two arguments:
+ * - First, an array containing information about ice cream 
+ * - Second, an object with a 'DELETE_FLAVOR' `type` key
+ * (i.e., the object contains information to delete the flavor from the state)
+ *
+ * The action your reducer will receive will look like this:
+ * { type: 'DELETE_FLAVOR', flavor: 'Vanilla' }
+ *
+ * And the initial state will look something like this (as such, refrain 
+ * from passing in default values for any parameters!):
+ * [{ flavor: 'Chocolate', count: 36 }, { flavor: 'Vanilla', count: 210 }];
+*/
+
+let state = [
+  { flavor: 'Chocolate', count: 36 },
+  { flavor: 'Vanilla', count: 210 }
+];
+
+function appReducer(state, action) {
+  // return an empty array if state is undefined
+  if (state == undefined) return [];
+
+  if (action.type === "DELETE_FLAVOR") {
+    return state.map((item) => {
+      if (item.flavor === action.flavor) item.count -= 1;
+      return item;
+    });
+  }
+}
+
+console.log(appReducer(state, { type: 'DELETE_FLAVOR', flavor: 'Vanilla' }));
+
+/*
+ [
+  { flavor: 'Chocolate', count: 36 },
+  { flavor: 'Vanilla', count: 209 }
+  ]
+ */
+
+```
+
+
+
+#### Dispatch 
+There 3 parts to our app 
+1. Action
+2. Reducer
+3. store (createStore())
+
+createStore() must have:
+1. State Tree
+2. Getting the state
+3. Listening for changes 
+4. Updating the state (This can be achieved by creating a dispatch function)
+
+
+Dispatch is responsible for updating the state in our store
+
+```js
+const dispatch = (action) => {
+  // todos here is a reducer
+  state = todos(state, action);
+
+  // We also need to make sure our listeners are also called
+  listeners.foreach((listener) => listener());
+  }
+```
+
+##### Putting it all together
+**Our store**
+```js
+/* We can think of our createStore() as a libray code.
+  */
+// Libray code
+function createStore(reducer) {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state
+  // 3. Listen to changes on the state
+  // 4. Update the state
+
+
+  let state
+  let listeners = []
+
+  const getState = () => state
+
+  const subscribe = (listener) => {
+    listeners.push(listener)
+    return () => {
+      // returns a function that unsubscribes the listener
+      listeners = listeners.filter((l) => l !== listener)
+    }
+  }
+
+  const dispatch = (action) => {
+  // todos here is a reducer
+  state = reducer(state, action);
+
+  // We also need to make sure our listeners are also called
+  listeners.forEach((listener) => listener());
+  }
+
+  return {
+    getState,
+    subscribe,
+    dispatch
+  }
+}
+
+
+// App Code 
+function todos (state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.concat([action.todo])
+  }
+
+  return state
+}
+
+// Usage
+const store = createStore(todos);
+
+store.subscribe(() => {
+  console.log('The new state is: ', store.getState());
+})
+
+store.dispatch({
+  type: "ADD_TODO",
+  todo: {
+    id: 1,
+    name: "Learn Redux",
+    complete: false
+  }
+})
+```
+
+> The Store contains the state tree and provides ways to interact with the state tree.
+
+we created a function called `createStore()` that returns a store object
+`createStore()` must be passed a "reducer" function when invoked
+the store object has three methods on it:
+`.getState()` - used to get the current state from the store
+`.subscribe()` - used to provide a listener function the store will call when the state changes
+`.dispatch()` - used to make changes to the store's state
+the store object's methods have access to the state of the store via closure
+
+
+> Up until this point, we've been building out the createStore() function, piece by piece. In this section, we put all of those pieces together to create a fully functioning project. Then we took that code and demoed it working in the console. We showed that subscribing to the store returned a function we could use to unsubscribe later. We also dispatched an action and saw how the state was updated as a result.
+
+There are still a couple more actions that our app is supposed to be able to handle:
+
+- the `REMOVE_TODO` action
+- the `TOGGLE_TODO` action
+
+
+```js
+function todos(state = [], action) {
+  if (action.type === "ADD_TODOS") {
+    return state.concat([action.todo])
+  } elese if (action.type === "REMOVE_TODO") {
+    return state.filter((todo) => todo.id !== action.id)
+  } else if (action.type === "TOGGLE_TODO") {
+    return state.map((todo) => todo.id !== action.id ? todo : 
+    Object.assign([], todo, {complete: !todo.complete}))
+  } else {
+    return state
+  }
+}
+```
+
+OR (You can use a Switch statement to make it easier to read)
+
+```js
+function todos(state = [], action) {
+  switch(action.type) {
+    case "ADD_TODOS": 
+      return state.concat([action.todo])
+
+    case "REMOVE_TODO": 
+      return state.filter((todo) => todo.id !== action.id)
+
+    case "TOGGLE_TODOS": 
+      return state.map((todo) => todo.id !== action.id ? todo : !todo.complete)
+    
+    default: 
+      return state
+  }
+}
+```
+
+
+**Adding Goals**
+To be able to add goals to the existing app, we need to create another reducer to handle goals.
+Let's make the app a bit more complicated and add in a second piece of state for our app to track - goals.
+
+```js
+function goals (state = [], action) {
+  switch(action.type) {
+    case "ADD_GOAL":
+      return state.concat([action.goal]);
+    case "REMOVE_GOAL":
+      return state.filter((goal) => goal.id !== action.id)
+    default: 
+      return state
+  }
+}
+```
+
+We now have two reducer functions:
+- todos
+- goals
+However, the `createStore()` function we built can only handle a single reducer function.
+
+To be able to use multiple reducers, we need to create a root reducer, to handle calls the appropriate/correct reducer.
+
+
 
