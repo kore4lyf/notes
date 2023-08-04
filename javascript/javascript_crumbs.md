@@ -5797,3 +5797,50 @@ console.log(foods.food())
 // Beans & Rice 
 ``` 
 
+
+## Objects in JavaScript 
+Object-Oriented Programming is a programming style based on classes and objects. These group data (properties) and methods (actions) inside a box.
+
+OOP was developed to make code more flexible and easier to maintain.
+
+JavaScript is prototype-based procedural language, which means it supports both functional and object-oriented programming.
+
+```js
+class Student{
+ // Data (Properties)
+ Name
+ Age
+ Standard
+    
+ // Methods (Action)
+ study(){
+ // Study
+ }
+    
+ Play(){
+ // Play
+ }
+    
+ doHomeWork(){
+ // Do Home Work
+ }
+    
+}
+```
+
+### Encapsulation 
+Encapsulation means keeping properties and methods private inside a class, so that they are not accessible from outside that class.
+
+This will keep code that's outside the class from accidentally manipulating internal methods and properties.
+
+Even though the language doesn’t have this distinction built in, JavaScript programmers are successfully using this idea. Typically, the available interface is described in documentation or comments. It
+is also common to put an underscore (_) character at the start of property names to indicate that those properties are private.
+Separating interface from implementation is a great idea. It is usually called encapsulation.
+
+### Abstraction 
+Abstraction means hiding certain details that don't matter to the user and only showing essential features or functions.
+
+
+
+
+## IndexDB
