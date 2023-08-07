@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/javascript" src="./res/redux.js"></script>
   <script src="./res/react.development.js"></script>
-  <script src="./res/react-dom.develop
-    ment.js"></script>
+  <script src="./res/react-dom.development.js"></script>
   <script src="./res/babel.min.js"></script>
   
   <title>Document</title>
@@ -218,6 +217,12 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
   })
   </script>
   
+  
+  
+  
+  
+  
+  
   <script type="text/babel">
     const List = props => {
       return (
@@ -228,10 +233,30 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
     };
 
     class Todos extends React.Component {
+      constructor(props) {
+        super(props);
+        this.store = this.props.store;
+      }
+      generateId = () => Math.floor(Math.random() * 100 + 1);
+      
+      addItem = e => {
+        e.preventDefault();
+        const name = this.todoInput.value;
+        this.store.dispatch(
+          addTodoAction({
+            name,
+            complete: false,
+            id: this.generateId()
+          })
+        )
+      }
+      
       render() {
         return (
           <div>
-            Todos
+            <h2>Todos</h2>
+            <input type="text" ref={input => this.todoInput = input}/>
+            <button onClick={this.addItem}> Add Todo </button>
             <List />
           </div>
         );
@@ -242,7 +267,7 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
       render() {
         return (
           <div>
-            Goals
+            <h2>Goals</h2>
             <List />
           </div>
         );
@@ -250,21 +275,28 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
     }
 
     class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.store = this.props.store;
+      }
+      
       render() {
         return (
           <div>
-            <Todos />
-            <Goals />
+            <h1> Apps </h1>
+            <Todos store={this.store}/>
+            <Goals store={this.store}/>
           </div>
         );
       }
     }
     
-    const root = ReactDOM.creatRoot(document.getElementById('app'))
+    const root = ReactDOM.createRoot(document.getElementById('app'));
+    
     root.render(
       <React.StrictMode>
-        <App />
-      <React.StrictMode>);
+        <App store={store}/>
+      </React.StrictMode>);
   </script>
 </body>
 </html>
