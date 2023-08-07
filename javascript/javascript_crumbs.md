@@ -5770,12 +5770,25 @@ Type  Description
  
 More Examples 
 ```js
-let text1 = "ab";
-let text2 = "ab";
+let text1 = "a";
+let text2 = "b";
 let result = text1.localeCompare(text2);
-let text1 = "A";
-let text2 = "a";
-let result = text1.localeCompare(text2);
+console.log(result);
+// -1
+
+
+text1 = "b";
+text2 = "a";
+result = text1.localeCompare(text2);
+console.log(result);
+// 1
+
+
+text1 = "a";
+text2 = "a";
+result = text1.localeCompare(text2);
+console.log(result);
+// 0
 ``` 
 
 
