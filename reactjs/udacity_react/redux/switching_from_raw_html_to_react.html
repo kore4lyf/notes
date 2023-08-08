@@ -224,10 +224,20 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
   
   
   <script type="text/babel">
-    const List = props => {
+    const List = ({type, items, store}) => {
+      console.log(items)
       return (
         <ul>
-          <li>List</li>
+          {items.length > 0 && items.map(
+            item => (
+              <li key={item.id}> 
+                <span>{item.name}</span>
+                 { type === "todo" ? 
+                   <button onClick={() => store.dispatch(removeTodoAction(item.id))}> X </button> :
+                   <button onClick={() => store.dispatch(removeGoalAction(item.id))}> X </button>
+                 }
+              </li>)
+            )}
         </ul>
       );
     };
@@ -239,9 +249,11 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
       }
       generateId = () => Math.floor(Math.random() * 100 + 1);
       
-      addItem = e => {
+      addTodo = e => {
         e.preventDefault();
         const name = this.todoInput.value;
+        this.todoInput.value = "";
+        
         this.store.dispatch(
           addTodoAction({
             name,
@@ -252,23 +264,47 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
       }
       
       render() {
+        const {todos} = this.store.getState();
         return (
           <div>
             <h2>Todos</h2>
-            <input type="text" ref={input => this.todoInput = input}/>
-            <button onClick={this.addItem}> Add Todo </button>
-            <List />
+            <input type="text" placeholder="Add Todo" ref={input => this.todoInput = input}/>
+            <button onClick={this.addTodo}> Add Todo </button>
+            <List type="todo" items={todos} store={this.store} />
           </div>
         );
       }
     }
 
     class Goals extends React.Component {
+      constructor(props) {
+        super(props)
+        this.store = this.props.store;
+        this.goals = this.store.goals;
+      }
+      generateId = () => Math.floor(Math.random() * 100 + 1);
+      
+      addGoal = (e) => {
+        e.preventDefault();
+        const name = this.goalInput.value;
+        this.goalInput.value = "";
+        
+        this.props.store.dispatch(
+          addGoalAction({
+            name,
+            id: this.generateId()
+          })
+        );
+      }
+      
       render() {
+        const {goals} = this.store.getState();
         return (
           <div>
             <h2>Goals</h2>
-            <List />
+            <input type="text" placeholder="Add goal" ref={input => this.goalInput = input}/>
+            <button onClick={this.addGoal}> Add Goal </button>
+            <List type="goal" items={goals} store={this.store}/>
           </div>
         );
       }
@@ -278,6 +314,10 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
       constructor(props) {
         super(props);
         this.store = this.props.store;
+      }
+      
+      componentDidMount() {
+        this.store.subscribe(() => this.forceUpdate());
       }
       
       render() {
@@ -296,7 +336,8 @@ store.subscribe(() => console.log("The current state is: " + store.getState()))
     root.render(
       <React.StrictMode>
         <App store={store}/>
-      </React.StrictMode>);
+      </React.StrictMode>
+    );
   </script>
 </body>
 </html>
