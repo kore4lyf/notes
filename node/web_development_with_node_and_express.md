@@ -64,6 +64,137 @@ Lastly, if you find yourself writing your own packages, you should be a good cit
 
 
 
+## Chapter 2. Getting Started with Node 
+
+### npm
+npm is the ubiquitous package manager for Node packages (and is how we’ll get and install Express). npm is not an acronym (which is why it isn’t capitalized); rather, it is a recursive abbreviation for “npm is not an acronym.” Broadly speaking, a package manager’s two primary responsibilities are installing packages and managing dependencies. npm is a fast, capable, and painless package manager. 
+
+> **NOTE**: There is a popular competing package manager called Yarn that uses the same package database that npm does.
+
+npm is installed when you install Node, so if you followed the steps listed earlier, you’ve already got it. 
+The primary command you’ll be using with npm (unsurprisingly) is install. For example, to install nodemon (a popular utility to automatically restart a Node program when you make changes to the source code), you would issue the following command (on the console):
+
+`npm install -g nodemon`
+
+The `-g` flag tells npm to install the package globally, meaning it’s available globally on the system. This distinction will become clearer when we cover the package.json files.
+
+
+### A Simple Web Server with Node 
+Node offers a different paradigm than that of a traditional web server: the app that you write is the web server. Node simply provides the framework for you to build a web server.
+“But I don’t want to write a web server,” you might be saying! It’s a natural response: you want to be writing an app, not a web server.
+However, Node makes the business of writing this web server a simple affair (just a few lines, even), and the control you gain over your application in return is more than worth it.
+So let’s get to it. You’ve installed Node, you’ve made friends with the terminal, and now you’re ready to go.
+
+#### Hello World 
+In your favorite editor, create a file called helloworld.js (ch02/00-helloworld.js in the companion repo):
+
+```js
+const http = require('http')
+const port = process.env.PORT || 3000
+const server = http.createServer((req, res) => {
+res.writeHead(200, { 'Content-Type': 'text/plain' })
+res.end('Hello world!')
+})
+server.listen(port, () => console.log(`server started on port ${port}; ` +
+'press Ctrl-C to terminate....'))
+```
+
+This particular one doesn’t serve HTML; rather, it just displays the message “Hello world!” in plain text to your browser. If you want, you can experiment with sending HTML instead: just change text/plain to text/html and change 'Hello world!' to a string containing valid HTML. I didn’t demonstrate that, because I try to avoid writing HTML inside JavaScript for reasons that will be discussed in more detail in Chapter 7.
+
+
+### Event-Driven Programming
+The core philosophy behind Node is that of event-driven programming. What that means for you, the programmer, is that you have to understand what events are available to you and how to respond to them. 
+In the previous code example, the event is implicit: the event that’s being handled is an HTTP request. The `http.createServer` method takes a function as an argument; that function will be invoked every time an HTTP request is made. Our simple program just sets the content type to plain text and sends the string “Hello world!"
+
+Once you start thinking in terms of event-driven programming, you start seeing events everywhere. One such event is when a user navigates from one page or area of your application to another. How your application responds to that navigation event is referred to as **routing**.
+
+
+### Routing 
+Routing refers to the mechanism for serving the client the content it has asked for. For web-based client/server applications, the client specifies the desired content in the URL; specifically, the path and querystring
+
+```js 
+const http = require('http')
+
+const port = process.env.PORT || 3000
+
+const server = http.createServer((req,res) => {
+  // normalize url by removing querystring, optional
+  // trailing slash, and making it lowercase
+  const path = req.url.replace(/\/?(?:\?.*)?$/, '').toLowerCase()
+  switch(path) {
+    case '':
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.end('Homepage')
+    break 
+    
+    case '/about':
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.end('About')
+    break 
+    
+    default:
+    res.writeHead(404, { 'Content-Type': 'text/plain' })
+    res.end('Not Found')
+    } 
+})
+server.listen(port, () => console.log(`server started on port ${port}; ` +
+'press Ctrl-C to terminate....'))
+```
+
+If you run this, you’ll find you can now browse to the home page(http://localhost:3000) and the About page (http://localhost:3000/about). Any querystrings will be ignored (so http://localhost:3000/?foo=bar will serve the home page), and any other URL (http://localhost:3000/foo) will serve the Not Found page.
+
+
+### Serving Static Resources
+Now that we’ve got some simple routing working, let’s serve some real HTML and a logo image. These are called static resources because they generally don’t change (as opposed to, for example, a stock ticker: every
+time you reload the page, the stock prices may change).
+
+
+> Serving static resources with Node is suitable for development and small projects, but for larger projects, you will probably want to use a proxy server such as NGINX or a CDN to serve static resources.
+
+
+If you’ve worked with Apache or IIS, you’re probably used to just creating an HTML file, navigating to it, and having it delivered to the browser automatically. Node doesn’t work like that: we’re going to have
+to do the work of opening the file, reading it, and then sending its contents along to the browser. So let’s create a directory in our project called public
+(why we don’t call it static will become evident in the next chapter). In that directory, we’ll create home.html, about.html, 404.html, a subdirectory called img, and an image called img/logo.png. I’ll leave that
+up to you; if you’re reading this book, you probably know how to write an HTML file and find an image. In your HTML files, reference the logo thusly: `<img src="/img/logo.png" alt="logo">`.
+Now modify helloworld.js (ch02/02-helloworld.js in the companion repo):
+```js
+const http = require('http')
+const fs = require('fs')
+const port = process.env.PORT || 3000
+function serveStaticFile(res, path, contentType, responseCode = 200) {
+  fs.readFile(__dirname + path, (err, data) => {
+    if(err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' })
+      return res.end('500 - Internal Error')
+    }
+  
+    res.writeHead(responseCode, { 'Content-Type': contentType })
+    res.end(data)
+  })
+}
+const server = http.createServer((req,res) => {
+  // normalize url by removing querystring, optional trailing slash, and
+  // making lowercase
+  const path = req.url.replace(/\/?(?:\?.*)?$/, '').toLowerCase()
+  switch(path) {
+    case '':
+      serveStaticFile(res, '/public/home.html', 'text/html')
+      break 
+    case '/about':
+      serveStaticFile(res, '/public/about.html', 'text/html')
+      break
+    case '/img/logo.png':
+      serveStaticFile(res, '/public/img/logo.png', 'image/png')
+      break
+    default:
+      serveStaticFile(res, '/public/404.html', 'text/html', 404)
+  }
+})
+server.listen(port, () => console.log(`server started on port ${port}; ` +
+'press Ctrl-C to terminate....'))
+```
+
+
 
 
 
