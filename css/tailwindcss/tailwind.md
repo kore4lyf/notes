@@ -63,6 +63,32 @@ or
 npm init -y 
 ``` 
 create a package.
+and edit it. 
+
+```json 
+{
+  "name": "lesson2",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./build/css/style.css --watch",
+    "prettier": "npx prettier --write **/*.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "prettier-plugin-tailewindcss": "^0.5.2"
+  }
+}
+```
+
+
+**RUN TAILWIND** 
+```sh 
+npm run tailwind
+```
 
 ## 8. Link your generated style to your webpage 
 ```sh 
@@ -76,4 +102,24 @@ npm -i -D prettier-plugin-tailwindcss
 ``` 
 It will be listed as a dev dependency in the package.json 
 
-Prettier is used for arrange the class order. Tailwindcss provided the plug-in, because they gave recommended order that class order of classes.
+Prettier is used for arrange the class order. Tailwindcss provided the plug-in, because they recommended the order that classes will be listed in. 
+
+When prettier is run, it will automatically format the class in the appropriate order.
+
+If prettier-plugin-tailwindcss was installed as a dev dependency it will be automatically add in package.json.
+
+You can also install globally but you have to manually type it as a dev dependency.
+```json
+devDependencies": {
+    "prettier-plugin-tailewindcss": "^0.5.2"
+  }
+``` 
+
+
+
+## Organize classes 
+When you are done with your project you shoild run prettier, to help you organise the classes.
+
+```sh
+npm run prettier
+```
