@@ -2103,3 +2103,113 @@ To be able to use multiple reducers, we need to create a root reducer, to handle
 
 
 
+
+
+
+# others
+#### ref
+Refs provide a way to access DOM nodes or React elements created in the render method.
+
+The docs outline a few good use cases for refs:
+
+- Managing focus, text selection, or media playback.
+- Triggering imperative animations.
+- Integrating with third-party DOM libraries.
+
+Let’s take a look at a similar example:
+```js
+class Color extends React.Component {
+  alertTextInput = e => {
+    e.preventDefault();
+    alert(this.colorElement.value);
+  };
+
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Add Input"
+          ref={(inputElement) => this.colorElement = inputElement}
+        />
+
+        <button onClick={this.alertTextInput}>Alert Input</button>
+      </div>
+    );
+  }
+}
+``` 
+
+In the line `ref={(inputElement) => this.colorElement = inputElement}`, `inputElement` is a reference to the input DOM element.
+
+We are storing a reference to the `input` DOM element in the `colorElement` instance property of the `Color` class.
+
+> React will call the ref callback with the DOM element when the component mounts, and call it with null when it unmounts. Refs are guaranteed to be up-to-date before componentDidMount or componentDidUpdate fires.
+
+we can add the state into the App component and forceUpdate on state change.
+```js
+// force-load-app
+class App extends React.Component {
+  componentDidMount() {
+    const { store } = this.props;
+
+    store.subscribe(() => this.forceUpdate());
+  }
+  render() {
+    const { store } = this.props;
+    const { todos, goals } = store.getState();
+    return (
+      <div className="row">
+        <Todos todos={todos} store={this.props.store} />
+        <Goals goals={goals} store={this.props.store} />
+      </div>
+    );
+  }
+}
+```
+
+#### componentDidMount()
+`componentDidMount()` is invoked immediately after a component is mounted (inserted into the tree)
+
+If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
+
+
+#### forceUpdate()
+By default, when your component’s state or props change, your component will re-render.
+
+If your render() method depends on some other data, you can tell React that the component needs re-rendering by calling `forceUpdate()`.
+
+Calling `forceUpdate()` will cause render() to be called on the component, skipping shouldComponentUpdate(). This will trigger the normal lifecycle methods for child components, including the shouldComponentUpdate() method of each child. React will still only update the DOM if the markup changes.
+
+
+
+
+
+### Asynchronous Redux
+
+#### Introduction 
+In this lesson, we're going to be working with a (simulated) remote database. We'll use a provided API to interact with this database.
+
+The important skill that you'll be learning in this lesson is how to make asynchronous requests in Redux. If you recall, the way Redux works right now is:
+
+- `store.dispatch()` calls are made 
+- If the Redux store was set up with any middleware, those functions are run 
+- Then the reducer is invoked
+
+But how do we handle the case where we need to interact with an external API to fetch data. For example, what if our Todos app had a button that would load existing Todos from a database? If we dispatch that action, we currently do not have a way to wait for the list of remote Todo items to be returned.
+
+After going through this lesson, you'll be able to make asynchronous requests and work with remote data in a Redux application.
+
+
+
+#### External Data 
+We're going to use a database to interact with our Todos application. We're simulating the database to keep that aspect of the project less complex.
+
+
+Since the API is Promise-based, we can use `Promise.all()` to wait until all Promises have resolved before displaying the content to the user.
+
+
+
+
+
+ 
