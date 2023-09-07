@@ -42,7 +42,7 @@ You can use `module.exports = {var1, var2}` to export variables in a file, or yo
 
 ### Export as you go method 
 ```js 
-module.exports.items ['items1', 'items2']
+module.exports.items = ['items1', 'items2']
 const person = {
   name: 'bob
 }
@@ -228,7 +228,6 @@ readFile('./content/first.txt', 'utf8', (err, result) => {
   })
 })
 console.log('starting next task')
-Welcome to Gboard clipboard, any text that you copy will be saved here.
 ``` 
 
 One way to avoid call back hell is to use promise, another is async await. 
@@ -404,20 +403,128 @@ start()
 
 
 
-## Events Emitter
+## Events Emitter / Event-driving programming 
+Example:
+
+```js 
+const  EventEmitter = requie('event') 
+
+// If you to create sth custom you need to extend ye class 
+// But if you want to emit an event and listen for it just create the instance 
+
+const customEmmiter = new EventEmitter()
+
+// METHODS 
+// on - listen for event 
+// emit - emit an event 
+ 
+customEmitter.on('respond', () => {
+  console.log('Data Recieved`)
+})
+
+customEmitter.emit('response');
+``` 
+Result: 
+Data Decieved
+
+We can also pass the using the same event multiple times 
+```js 
+const  EventEmitter = requie('event') 
+
+// If you to create sth custom you need to extend ye class 
+// But if you want to emit an event and listen for it just create the instance 
+
+const customEmmiter = new EventEmitter()
+
+// METHODS 
+// on - listen for event 
+// emit - emit an event 
+
+customEmitter.on('respond', () => {
+  console.log('Data Recieved`)
+})
+ 
+customEmitter.on('respond', () => {
+  console.log('Some other logic here`)
+})
+
+customEmitter.emit('response');
+``` 
+Result: 
+Data Decieved
+Some other logic here
 
 
+
+Passing parameters and arguments to Event
+```js 
+const  EventEmitter = requie('event') 
+
+// If you to create sth custom you need to extend ye class 
+// But if you want to emit an event and listen for it just create the instance 
+
+const customEmmiter = new EventEmitter()
+
+// METHODS 
+// on - listen for event 
+// emit - emit an event 
+ 
+customEmitter.on('respond', (name, id) => {
+  console.log('Data Recieved user ${name} with id:${id}`)
+})
+ 
+customEmitter.on('respond', () => {
+  console.log('Some other logic here`)
+})
+
+customEmitter.emit('response', 'john', 24);
+``` 
+Result: 
+Data Recieved user John with id:24
+Some other logic here
+
+
+> The order matters you must first listen for an event before you can emit it.
+
+
+The server (`http.createServer()`) has a method called `on`. We can create an event an listen for it. 
+
+```js 
+const http = require('http') 
+
+const server = createServer() 
+
+server.on('request', (req, res) => {
+  res.end('Welcome')
+})
+
+server.listen(5000)
+``` 
+
+This simple means that the server has a request event. 
+
+
+> You may not be setting up events on you own, alot of built-in modules relay heavily on the concept of events. 
 
 
 
 
 ## Streams 
+Streams are used to read or write sequentially. 
+It's handy when u are dealing with large files.
+
+**4 Different Types of Streams**
+- Writeable (Use to **write data** sequentially)
+- Readable (Used to **read data** sequentially)
+- Duplex (Use to both **read and write data** sequentially)
+- Transform (Where data can be **modified** when writing or reading) 
+
+> Just like event, many built-in module implement stream interface. Stream extends event emitters class which means we can use events on streams.
 
 
 
 
-
-
+In our previous chapter we learned about readFile, readFileSync, writeFile and writeFileSync. these file system method read the entire data at once, which is not appropriate for a very large file because such file will occupy a large part of the computer memory. 
 
 
 
