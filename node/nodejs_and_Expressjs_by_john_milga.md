@@ -528,3 +528,416 @@ In our previous chapter we learned about readFile, readFileSync, writeFile and w
 
 
 
+```js 
+const { createReadStream } = require('fs')
+
+// default 64kb
+// last buffer - remainder
+// highWaterMark - control size of file read
+// const stream = createReadStream('./content/big.txt', { highWaterMark: 90000 })
+// const stream = createReadStream('../content/big.txt', { encoding: 'utf8' })
+const stream = createReadStream('./content/big.txt')
+
+stream.on('data', (result) => {
+  console.log(result)
+})
+stream.on('error', (err) => console.log(err))
+
+```
+
+
+
+HTTP stream 
+```js 
+var http = require('http')
+var fs = require('fs')
+
+http.createServer(function (req, res) {
+    // const text = fs.readFileSync('./content/big.txt', 'utf8')
+    // res.end(text)
+    const fileStream = fs.createReadStream('./content/big.txt', 'utf8')
+    fileStream.on('open', () => {
+      fileStream.pipe(res)
+    })
+    fileStream.on('error', (err) => {
+      res.end(err)
+    })
+  })
+  .listen(5000)
+```
+
+
+### Other Info in Node 
+- req.method ( Based on current request e.g GET, POST )
+- req.url e.g /, /about
+
+
+**setting
+
+
+## Express 
+
+### http basics 
+```js 
+const http = require('http')
+
+const server = http.createServer((req, res) => {
+  // console.log(req.method)
+  const url = req.url
+  // home page
+  if (url === '/') {
+    res.writeHead(200, { 'content-type': 'text/html' })
+    res.write('<h1>home page</h1>')
+    res.end()
+  }
+  // about page
+  else if (url === '/about') {
+    res.writeHead(200, { 'content-type': 'text/html' })
+    res.write('<h1>about page</h1>')
+    res.end()
+  }
+  // 404
+  else {
+    res.writeHead(404, { 'content-type': 'text/html' })
+    res.write('<h1>page not found</h1>')
+    res.end()
+  }
+})
+
+server.listen(5000)
+```
+
+- We must specify a status code for the pages we want our users to access. 
+- Other other that cannot be accessed will lead to a 404 status code. 
+- `content-type: text/plain` will return `res.write()` data as a text, event if it contains an html, it will render as a text.
+
+
+### Requesting Resources 
+```js 
+const http = require('http')
+const { readFileSync } = require('fs')
+
+// get all files
+const homePage = readFileSync('./navbar-app/index.html')
+const homeStyles = readFileSync('./navbar-app/styles.css')
+const homeImage = readFileSync('./navbar-app/logo.svg')
+const homeLogic = readFileSync('./navbar-app/browser-app.js')
+
+const server = http.createServer((req, res) => {
+  // console.log(req.method)
+  const url = req.url
+  console.log(url)
+  // home page
+  if (url === '/') {
+    res.writeHead(200, { 'content-type': 'text/html' })
+    res.write(homePage)
+    res.end()
+  }
+  // about page
+  else if (url === '/about') {
+    res.writeHead(200, { 'content-type': 'text/html' })
+    res.write('<h1>about page</h1>')
+    res.end()
+  }
+  // styles
+  else if (url === '/styles.css') {
+    res.writeHead(200, { 'content-type': 'text/css' })
+    res.write(homeStyles)
+    res.end()
+  }
+  // image/logo
+  else if (url === '/logo.svg') {
+    res.writeHead(200, { 'content-type': 'image/svg+xml' })
+    res.write(homeImage)
+    res.end()
+  }
+  // logic
+  else if (url === '/browser-app.js') {
+    res.writeHead(200, { 'content-type': 'text/javascript' })
+    res.write(homeLogic)
+    res.end()
+  }
+  // 404
+  else {
+    res.writeHead(404, { 'content-type': 'text/html' })
+    res.write('<h1>page not found</h1>')
+    res.end()
+  }
+})
+
+server.listen(5000)
+``` 
+
+- In node files cannot be directly requested directly, it must be read first and displayed. 
+- The problem with using node is that you must also read all the local resources that your file/document/webpage needs to functions and write them back. You can use the `res.url` 
+
+
+### Using Express 
+
+```js 
+const express = require('express')
+const app = express()
+
+app.get('/', (req, res) => {
+  console.log('user hit the resource')
+  res.status(200).send('Home Page')
+})
+
+app.get('/about', (req, res) => {
+  res.status(200).send('About Page')
+})
+
+app.all('*', (req, res) => {
+  res.status(404).send('<h1>resource not found</h1>')
+})
+
+app.listen(5000, () => {
+  console.log('server is listening on port 5000...')
+})
+
+// app.get
+// app.post
+// app.put
+// app.delete
+// app.all
+// app.use - Responsible for Middleware
+// app.listening
+```
+
+
+### Loading HTML file with and it resources  
+```js 
+const express = require('express')
+const path = require('path')
+
+const app = express()
+
+// setup static and middleware
+app.use(express.static('./public'))
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))
+})
+
+app.all('*', (req, res) => {
+  res.status(404).send('resource not found')
+})
+
+app.listen(5000, () => {
+  console.log('server is listening on port 5000....')
+})
+```
+
+You can remove `app.get('/', (req, res) => { res.sendFile(path.resolve(__dirname, './navbar-app/index.html')) })` and place your index.html file in /public.
+
+> by using express.static('./public'), all static file like css JavaScript etc must be placed in the public folder.
+
+
+### API vs SSR (Server Side Rendering )
+When using express, you will mostly use it to setup an API or Templates with server side rendering. 
+
+#### API 
+Involves setting up an HTTP interface to interact with out data. 
+Data is sent using JSON. 
+In order to send our response we will `res.JSON()`
+
+- API - JSON 
+- SEND DATA 
+- res.json() 
+
+
+#### SSR 
+We will set-up templates and set back an entire HTML, CSS, and JavaScript. 
+We'd do that using `res.render()`
+
+- SRR - TEMPLATE 
+- SEND TEMPLATE
+- res.render() 
+
+
+
+### API 
+```js 
+const express = require('express')
+const app = express()
+const { products } = require('./data')
+app.get('/', (req, res) => {
+  res.json(products)
+})
+
+app.listen(5000, () => {
+  console.log('Server is listening on port 5000....')
+})
+``` 
+
+The page server above return a json when localhost:5000 is entered in the browser. 
+
+
+
+#### Modifying JSON based on Request 
+```js 
+const express = require('express')
+const app = express()
+const { products } = require('./data')
+
+app.get('/', (req, res) => {
+  res.send('<h1> Home Page</h1><a href="/api/products">products</a>')
+})
+app.get('/api/products', (req, res) => {
+  const newProducts = products.map((product) => {
+    const { id, name, image } = product
+    return { id, name, image }
+  })
+
+  res.json(newProducts)
+})
+app.get('/api/products/:productID', (req, res) => {
+  // console.log(req)
+  // console.log(req.params)
+  const { productID } = req.params
+
+  const singleProduct = products.find(
+    (product) => product.id === Number(productID)
+  )
+  if (!singleProduct) {
+    return res.status(404).send('Product Does Not Exist')
+  }
+
+  return res.json(singleProduct)
+})
+
+app.get('/api/products/:productID/reviews/:reviewID', (req, res) => {
+  console.log(req.params)
+  res.send('hello world')
+})
+
+app.get('/api/v1/product', (req, res) => {
+  // console.log(req.query)
+  const { search, limit } = req.query
+  let sortedProducts = [...products]
+
+  if (search) {
+    sortedProducts = sortedProducts.filter((product) => {
+      return product.name.startsWith(search)
+    })
+  }
+  if (limit) {
+    sortedProducts = sortedProducts.slice(0, Number(limit))
+  }
+  if (sortedProducts.length < 1) {
+    // res.status(200).send('no products matched your search');
+    return res.status(200).json({ sucess: true, data: [] })
+  }
+  res.status(200).json(sortedProducts)
+})
+
+app.listen(5000, () => {
+  console.log('Server is listening on port 5000....')
+})
+```
+
+See how `req.params` is used to get a value from the url. 
+To set variable, in url use `:variableName` e.g. localhost:5000/product/:userId/ 
+This way one will be able to get the userId from Params.
+
+
+
+#### Obtaining data from Query Strings 
+
+```js 
+
+``` 
+
+NB: For example http://hn.algolia.com/api/v1/search?query=foo&tags=story.
+Here if you `console.log(req.search)` you will get an object `{query: 'foo', tags: 'story'}`.
+
+```js 
+app.get('/api/v1/query?)
+
+```
+
+
+> If You have multiple responses (e.g. res.send(), res.json() e.t.c ) it's better to return the response calls before the last one, to prevent he code from running 
+
+
+### middleware 
+Middleware are functions that execute during the request to the server. 
+
+```js 
+const express = require('express')
+const app = express()
+
+//  req => middleware => res
+
+const logger = (req, res, next) => {
+  const method = req.method
+  const url = req.url
+  const time = new Date().getFullYear()
+  console.log(method, url, time)
+  next()
+}
+
+app.get('/', logger, (req, res) => {
+  res.send('Home')
+})
+app.get('/about', logger, (req, res) => {
+  res.send('About')
+})
+
+app.listen(5000, () => {
+  console.log('Server is listening on port 5000....')
+})
+``` 
+
+> The logger function is used as a Middleware. an express middleware has access to the following parameters (req, res, next)
+
+
+NB: If you noticed `logger` was added between each get request to the server. This could be a serious problem of we configure many routes to the server. 
+We can use `app.use()` to apply a Middleware to all route. 
+
+There `app.use(logger)` will apply the logger middleware to all route. 
+
+We can also specify a path for a Middleware, in the `use()` method. 
+e.g `app.use('/api', logger)`
+NB: The Middleware will be applied to the specified path and any path that includes the specified path and it subpath e.g. /api/product/
+
+
+If you want to execute multiple Middleware in express.js you must enclose them in an array 
+e.g `app.use([logger, authorise])`
+
+```
+app.get('/about', [logger, authorise], (req, res) => {
+  res.send('About')
+```
+
+```js
+const express = require('express')
+const app = express()
+const logger = require('./logger')
+const authorize = require('./authorize')
+//  req => middleware => res
+app.use([logger, authorize])
+// api/home/about/products
+app.get('/', (req, res) => {
+  res.send('Home')
+})
+app.get('/about', (req, res) => {
+  res.send('About')
+})
+app.get('/api/products', (req, res) => {
+  res.send('Products')
+})
+app.get('/api/items', (req, res) => {
+  console.log(req.user)
+  res.send('Items')
+})
+
+app.listen(5000, () => {
+  console.log('Server is listening on port 5000....')
+})
+``` 
+
+
+
+
+
