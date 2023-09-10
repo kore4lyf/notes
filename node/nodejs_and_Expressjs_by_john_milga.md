@@ -610,7 +610,7 @@ server.listen(5000)
 - We must specify a status code for the pages we want our users to access. 
 - Other other that cannot be accessed will lead to a 404 status code. 
 - `content-type: text/plain` will return `res.write()` data as a text, event if it contains an html, it will render as a text.
-
+- Http status code 201 is used to show that post request is successful.
 
 ### Requesting Resources 
 ```js 
@@ -935,9 +935,285 @@ app.get('/api/items', (req, res) => {
 app.listen(5000, () => {
   console.log('Server is listening on port 5000....')
 })
+```
+
+
+#### Express Built-in Middleware 
+And example is: `express.static` Which fetches static files from the a folder e.g. public
+```js
+app.use(express.static('./public'))
 ``` 
 
 
 
 
+### Using HTTP Methods 
+- GET - Read Data 
+- POST - Insert Data 
+- PUT - Update Data 
+- DELETE - Delete Data 
+
+
+#### POST 
+```js 
+app.use(express.urlencoded({ extended: false }))
+// NB: express.urlencoded encoded is a Middleware that allows us to access post data passed to the body of the request 
+app.post ('/login', (req, res) => {
+  console.log(req.body) // contains data passed 
+  const {name} = req.body
+  // If name data is passed to body
+  if(name) {
+    return res.status(200).send(`Welcome, ${name}`)
+  }
+  res.status(401).send('Kindly login')
+})
+```
+
+
+#### Using JavaScript to send a POST request 
+You can use axios to make a psot request and also pass data along while doing that.
+```js 
+const { data } = await axio.post('/api/people', { name: nameValue })
+```
+
+#### Using express.json middleware parse incoming data 
+```js 
+app.use()
+``` 
+
+
+```js 
+const express = require('express')
+const app = express()
+let { people } = require('./data')
+
+// static assets
+app.use(express.static('./methods-public'))
+// parse form data
+app.use(express.urlencoded({ extended: false }))
+// parse json
+app.use(express.json())
+
+app.get('/api/people', (req, res) => {
+  res.status(200).json({ success: true, data: people })
+})
+
+app.post('/api/people', (req, res) => {
+  const { name } = req.body
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: 'please provide name value' })
+  }
+  res.status(201).json({ success: true, person: name })
+})
+
+app.post('/api/postman/people', (req, res) => {
+  const { name } = req.body
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: 'please provide name value' })
+  }
+  res.status(201).json({ success: true, data: [...people, name] })
+})
+
+app.post('/login', (req, res) => {
+  const { name } = req.body
+  if (name) {
+    return res.status(200).send(`Welcome ${name}`)
+  }
+
+  res.status(401).send('Please Provide Credentials')
+})
+
+app.put('/api/people/:id', (req, res) => {
+  const { id } = req.params
+  const { name } = req.body
+
+  const person = people.find((person) => person.id === Number(id))
+
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `no person with id ${id}` })
+  }
+  const newPeople = people.map((person) => {
+    if (person.id === Number(id)) {
+      person.name = name
+    }
+    return person
+  })
+  res.status(200).json({ success: true, data: newPeople })
+})
+
+app.delete('/api/people/:id', (req, res) => {
+  const person = people.find((person) => person.id === Number(req.params.id))
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `no person with id ${req.params.id}` })
+  }
+  const newPeople = people.filter(
+    (person) => person.id !== Number(req.params.id)
+  )
+  return res.status(200).json({ success: true, data: newPeople })
+})
+
+app.listen(5000, () => {
+  console.log('Server is listening on port 5000....')
+})
+```
+
+
+### Using express.Router 
+Here you will create a new directory called route, create new .js file for each unique path ( e.g. people.js for /people/api and auth.js landing page for users.
+Add all your path/route (i.e. app.get() app.post()) 
+to the files. and export each route.
+
+Import them in your code and use app.use() to specify the path and use the import variable name as response to the route.
+
+```js 
+const express = require('express')
+const app = express()
+
+const people = require('./routes/people')
+const auth = require('./routes/auth')
+
+// static assets
+app.use(express.static('./methods-public'))
+// parse form data
+app.use(express.urlencoded({ extended: false }))
+// parse json
+app.use(express.json())
+
+app.use('/api/people', people)
+app.use('/login', auth)
+
+app.listen(5000, () => {
+  console.log('Server is listening on port 5000....')
+})
+
+``` 
+
+
+To make our code cleaner we can create a controller folder that keeps all the call back function in a file with it's unique path.
+
+route/people.js 
+```js 
+const express = require('express')
+const router = express.Router()
+
+const {
+  getPeople,
+  createPerson,
+  createPersonPostman,
+  updatePerson,
+  deletePerson,
+} = require('../controllers/people')
+
+// router.get('/', getPeople)
+// router.post('/', createPerson)
+// router.post('/postman', createPersonPostman)
+// router.put('/:id', updatePerson)
+// router.delete('/:id', deletePerson)
+
+router.route('/').get(getPeople).post(createPerson)
+router.route('/postman').post(createPersonPostman)
+router.route('/:id').put(updatePerson).delete(deletePerson)
+
+module.exports = router
+```
+
+
+/route/auth.js
+```js 
+const express = require('express')
+const router = express.Router()
+
+router.post('/', (req, res) => {
+  const { name } = req.body
+  if (name) {
+    return res.status(200).send(`Welcome ${name}`)
+  }
+
+  res.status(401).send('Please Provide Credentials')
+})
+
+module.exports = Router 
+``` 
+
+
+
+
+
+/controller/people.js 
+```js 
+let { people } = require('../data')
+
+const getPeople = (req, res) => {
+  res.status(200).json({ success: true, data: people })
+}
+
+const createPerson = (req, res) => {
+  const { name } = req.body
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: 'please provide name value' })
+  }
+  res.status(201).send({ success: true, person: name })
+}
+
+const createPersonPostman = (req, res) => {
+  const { name } = req.body
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: 'please provide name value' })
+  }
+  res.status(201).send({ success: true, data: [...people, name] })
+}
+
+const updatePerson = (req, res) => {
+  const { id } = req.params
+  const { name } = req.body
+
+  const person = people.find((person) => person.id === Number(id))
+
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `no person with id ${id}` })
+  }
+  const newPeople = people.map((person) => {
+    if (person.id === Number(id)) {
+      person.name = name
+    }
+    return person
+  })
+  res.status(200).json({ success: true, data: newPeople })
+}
+
+const deletePerson = (req, res) => {
+  const person = people.find((person) => person.id === Number(req.params.id))
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `no person with id ${req.params.id}` })
+  }
+  const newPeople = people.filter(
+    (person) => person.id !== Number(req.params.id)
+  )
+  return res.status(200).json({ success: true, data: newPeople })
+}
+
+module.exports = {
+  getPeople,
+  createPerson,
+  createPersonPostman,
+  updatePerson,
+  deletePerson,
+}
+```
 
