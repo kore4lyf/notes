@@ -94,7 +94,7 @@ crypto-js has alot of hashfunction.
 A block is a container that holds a list of transactions to be added to the blockchain. It is a shared digital ledger that records a list of transactions.
 As transactions are made they are bundled together into a block.
 
-> Blocks also holds information call the Block Header.
+> Blocks also holds information called the Block Header.
 
 **The Block header** contains information such as Previous Block hash, Time, Merkle Root and Nonce.
 
@@ -152,7 +152,7 @@ The blockchain also distributed. A **Distributed Network** is a network that all
 The **memory pool** (also known as the mempool) is the waiting place for transactions before they enter the blockchain.
 When you start making transactions on the blockchain you will notice that it doesn't happen instantly, for the transaction to be complete, it needs to be confirmed or by the network (This is done by miners on the blockchain).
 
-Since ther are so many transcation happening, not every thing can be picked up immediately. Transaction needs to wait inline (in the mempoo) before they get valide.
+Since there are so many transcation happening, not every thing can be picked up immediately. Transaction needs to wait inline (in the mempoo) before they get validated.
 
 **Which of these are valid reasons a Transaction would leave the Mempool?**
 
@@ -203,7 +203,7 @@ Finding a solution to this problem (Proof-of-Work) can take a lot of computer po
 Miner are constantly trying to find the nonce for every new block. 
 PoW = SHA256(Block Data & Nonce)
 
-The number of leading zeros is known as block difficulty. In bitcoin, the block difficulty is adjusted every 10minutes to ensure that blocks are created every 10min. If blocks are created to fast the block difficulty will increase.
+The number of leading zeros is known as block difficulty. In bitcoin, the block difficulty is adjusted every 10minutes to ensure that blocks are created every 10min. If blocks are created too fast the block difficulty will increase.
 
 
 **Problems with Proof-of-Work**
@@ -223,7 +223,7 @@ In Proof-of-Stake there are no minners instead there are validators. These inves
 
 **In order to be able to validate transaction and create blocks, validator put up their own coin as stake.** You can think of it as if they are placing a bet, if they validate a frudster's transaction, they lose their Holding as well as their right to participate as a validator in the future.
 
-The greater the stake of an investor, the higher their chances of being picked to validate the next block. A node with 400 coins has 4 times the chance of being chosen to put a block in the blockchain compared to a block with 400 coins. 
+The greater the stake of an investor, the higher their chances of being picked to validate the next block. A node with 400 coins has 4 times the chance of being chosen to put a block in the blockchain compared to a block with 100 coins. 
 
 
 **Nothing at Stake problem** prevents investor from betting on multiple blocks at a time.
@@ -283,7 +283,7 @@ To generate a wallet address, you need to have a private key.
 > A private key should not be shared with anyone.
 
 The next step is to generate a public key.
-**Public Key** - The public key is derived from the private key. It is a publicly shareable key that cannot be used to spent a coin. 
+**Public Key** - The public key is derived from the private key. It is a publicly shareable key that cannot be used to spend a coin. 
 It can be shared with anyone, and it is usually used to recieve coin/bitcoin.
 
 > You can share your public key without thinking about the security of your private key.
@@ -297,7 +297,6 @@ Wallet address is made from a public key using **HASH256()** i.e. **RIPEMD160(SH
 
 
 #### Wallet Overview
-
 Blockchain identities are made up of a few important tools like wallets, addresses, and keys. Not only are there a few of these different tools creating our identity, it's also possible to implement them in different ways.
 
 
@@ -343,7 +342,7 @@ But in a deterministic wallet, all addresses, private keys, and public keys can 
 ##### Deterministic Wallets
 There are two types of deterministic wallet. 
 1. **Sequential Deterministic Wallet**: A random number is used to generate a seed. The seed is then put through a mathematical function which then derives a series of private keys.
-The is **mnemonic phrases are combine** to generate a master private key which is then **appends a counter with an incrementing value(every time a new private key is generated) to generate new private keys that can be used to generate it's own public key**.
+The is **mnemonic phrases are combined** to generate a master private key which is then **appends a counter with an incrementing value(every time a new private key is generated) to generate new private keys that can be used to generate it's own public key**.
    
 
 1. **Hierachical Deterministic Wallet**: The HD wallet contain keys derived in a tree structure. A **Master Key** is generated from a **Seed** and a **Child Key** is generated from a **Master Key**. A **Master Key** can generate many **Child Keys** and a **Child Key** can generate many **Grandchild Keys**.  
@@ -355,7 +354,7 @@ The HD wallet was described in the proposals abstract like this **"This document
 
 HD wallets in application is useful for businesses that want to seperate out different departmental spendings. i.e Each private key generated from the master Key can represent a departments(e.g Accounting, Engineering) private key, and many public keys/wallets can be generated from that single private key(members of the department).
 
-> The downside is that HD Wallets require the down side of that master key, because ever other is mathematically generated from that key.
+> The downside is that HD Wallets require the down side of that master key, because every other key is mathematically generated from that key.
 
 **Each wallet has a situational use case**. Wallets continue to evolve depending on situational use cases that arise. So it is important to know the advantages and disadvantages for each type.
 
@@ -489,8 +488,56 @@ Each of these UTXO's contains conditions, regarding the proof of ownership to tr
 
 
 
+#### Verify Message Signature 
+
+##### Why sign and verify messages?
+This process allows non-repudiation which means the person who sent the message had to be in possession of the private key in order to send the message, and as a result, anyone on the network can use this information to verify the transaction.
+
+##### How it works
+The sender generates a private key and a public key, using a wallet address.
+1. The sender then signs the message with the signature, and sends their public key, the signature and the message to the network.
+2. The receiving node then checks using the verification algorithm that the message has been signed by the sender, which can only be done by the holder of the private key to the public key that is sent.
+3. Signing a transaction helps to prove ownership of these transactions and to prove that transaction and blockchain identity were not tampered with.
+
+
+##### Step 1: Generate a Private Key and a Public Key using a Wallet addresse 
+- There are different ways to generate a private key and a wallet address.
+For this course, we already demonstrated using Electrum which helps us generate private keys and wallet Addresses 
+
+
+##### Step 2: Sign a Message
+**To sign a message: **
+The **private key and message are passed through a signing algorithm which produces a unique digital signature**.
+If the private key or the wallet address or the signature or the message has been were altered, a different digital signature would be produced and hence the authentication will fail.
+
+
+** A digital signature ensures: **
+Authentication - A valid digital signature proves to the recipient, that the message was sent by a known sender.
+Integrity - The recipient and sender can prove the message was not altered in transmission.
+Non-repudiation - The Sender cannot deny sending the message.
+The bitcoinjs-message library contains a function `sign()` that takes in a private key and message and returns a signature.
 
 
 
 
+##### Step 3: Verify a Message
+Once a Message has been signed, you can again use the `bitcoinjs-message` library to verify the user who claims to have signed it.
 
+This library has an existing Verification Algorithm called `verify()``, that takes in a Wallet Address, the Signature, and a Message, and verifies whether or not the given Wallet Address was used to sign the given Transaction (or Message).
+
+
+An example to demonstrate the verification process
+```js 
+// Setup libraries
+
+const bitcoinMessage = require('bitcoinjs-message')
+
+// Verify a Bitcoin message
+const address = '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN'
+
+const signature = 'HJLQlDWLyb1Ef8bQKEISzFbDAKctIlaqOpGbrk3YVtRsjmC61lpE5ErkPRUFtDKtx98vHFGUWlFhsh3DiW6N0rE'
+
+const message = 'This is an example of a signed message.'
+
+console.log(bitcoinMessage.verify(message,address,signature));
+```
