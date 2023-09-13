@@ -46,7 +46,7 @@ module.exports.items = ['items1', 'items2']
 const person = {
   name: 'bob
 }
-module.exports.simglePerson = person
+module.exports.singlePerson = person
 ```
 
 If you want to include a file in your working file, just use, don't export any variable because you do, it's the variable that will be imported instead of the entire code. If you run a function in the order file, it run in your current file if you require the file.
@@ -333,7 +333,10 @@ npx stands for execute its a package tht was introduced in npm 5.2. It allow you
 npm uninstall <moduleName>
 ```
 
-
+### Install a particular version
+```sh 
+npm i <moduleName>@version
+```
 
 ## Event Loop 
 The event loop is what allows Node.js to perform non-blocking I/O operations, despite the fact that JavaScript is single threaded, by offloading operations to the system kernel whenever possible. 
@@ -501,7 +504,7 @@ server.on('request', (req, res) => {
 server.listen(5000)
 ``` 
 
-This simple means that the server has a request event. 
+This simply means that the server has a request event. 
 
 
 > You may not be setting up events on you own, alot of built-in modules relay heavily on the concept of events. 
@@ -556,7 +559,7 @@ http.createServer(function (req, res) {
     // const text = fs.readFileSync('./content/big.txt', 'utf8')
     // res.end(text)
     const fileStream = fs.createReadStream('./content/big.txt', 'utf8')
-    fileStream.on('open', () => {
+    fileStream.on('open', (res) => {
       fileStream.pipe(res)
     })
     fileStream.on('error', (err) => {
@@ -608,7 +611,7 @@ server.listen(5000)
 ```
 
 - We must specify a status code for the pages we want our users to access. 
-- Other other that cannot be accessed will lead to a 404 status code. 
+- Others that cannot be accessed will lead to a 404 status code. 
 - `content-type: text/plain` will return `res.write()` data as a text, event if it contains an html, it will render as a text.
 - Http status code 201 is used to show that post request is successful.
 
@@ -701,7 +704,7 @@ app.listen(5000, () => {
 // app.delete
 // app.all
 // app.use - Responsible for Middleware
-// app.listening
+// app.listen
 ```
 
 
