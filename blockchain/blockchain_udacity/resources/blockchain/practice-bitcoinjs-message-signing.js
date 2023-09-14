@@ -1,7 +1,7 @@
 const bitcoin = require('bitcoinjs-lib')
 const bitcoinMessage = require('bitcoinjs-message')
-const { ECPair } = require('ecpair');
 // Signing a transaction
+console.log(bitcoin)
 var keyPair = bitcoin.ECPair.fromWIF('L2JLikJnciPiSmf46Ysg9ctrxWpf7WWxTFRyXYXS3AJWUZf6hsNA')
 var privateKey = keyPair.privateKey
 // let num = 0xff2a30b5c87e
