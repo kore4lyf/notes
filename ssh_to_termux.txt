@@ -1,0 +1,20 @@
+# SSH INTO TERMUX 
+
+## ON REMOTE: 
+To start ssh
+```sh
+sshd
+```
+
+ON LOCAL:
+```sh 
+ssh u0_a274@0.0.0.0 -p 8022
+``` 
+
+or 
+
+use ifconfig on remote machine to check network ip addr 
+
+```sh 
+ssh u0_a274@192.168.211.129 -p 8022
+```
