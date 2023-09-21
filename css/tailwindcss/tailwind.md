@@ -102,7 +102,7 @@ npm -i -D prettier-plugin-tailwindcss
 ``` 
 It will be listed as a dev dependency in the package.json 
 
-Prettier is used for arrange the class order. Tailwindcss provided the plug-in, because they recommended the order that classes will be listed in. 
+Prettier is used for arranging the class order. Tailwindcss provided the plug-in, because they recommended the order that classes will be listed in. 
 
 When prettier is run, it will automatically format the class in the appropriate order.
 
