@@ -1,0 +1,22 @@
+@mixin message($bg: darkslategray) {
+  background: $bg;
+  color: white;
+  padding: 1.5rem;
+  margin-block: 2rem;
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+ 
+  &:hover {
+    background: gray;
+  }
+}
+
+.message {
+  @include message;
+  
+  &-info {
+    @include message(teal);
+  }
+}

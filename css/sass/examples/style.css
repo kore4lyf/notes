@@ -1,0 +1,26 @@
+.message {
+  background: darkslategray;
+  color: white;
+  padding: 1.5rem;
+  margin-block: 2rem;
+}
+.message h3 {
+  font-size: 1.5rem;
+}
+.message:hover {
+  background: gray;
+}
+.message-info {
+  background: teal;
+  color: white;
+  padding: 1.5rem;
+  margin-block: 2rem;
+}
+.message-info h3 {
+  font-size: 1.5rem;
+}
+.message-info:hover {
+  background: gray;
+}
+
+/*# sourceMappingURL=style.css.map */
