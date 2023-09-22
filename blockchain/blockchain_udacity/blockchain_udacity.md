@@ -541,3 +541,662 @@ const message = 'This is an example of a signed message.'
 
 console.log(bitcoinMessage.verify(message,address,signature));
 ```
+
+
+
+
+## 3. Blockchain Data
+
+
+### Lesson 1: Blockchain Data Overview
+
+#### Blockchain Vs Traditional 
+A database is a collection of information organised to allow easier access and management.  
+A blockchain is a type of database. How do you know when to use the blockchain or a traditional database. 
+
+##### Traditional Database Characteristics 
+
+|         |    Traditional Database   |
+| :---    |    :---                   |
+| Network | Centralised |
+| Function | Create, Read, Update Delete (CRUD) |
+| Mutability| Mutable | 
+| Authorization| Centralised | 
+| Transparency | Low | 
+
+
+- Centralised Network: 
+  - Remains with authority 
+  - Requires Authentication 
+
+- Functions
+  - Create 
+  - Read 
+  - Delete 
+  - Update 
+  - 
+- Mutability: Data in a traditional database is immutable
+- 
+- Authorization: The Central Authority manages th data.
+
+- Transparency: The central authority determines what functions can be done on the network. 
+
+
+##### Blockchain Characteristics 
+Blockchains are a Data Storage System.
+
+|         | Traditional Database  | Blockchain|
+
+| :---    | :---  | :--- |
+
+| Network | Centralised | Distributed |
+| Function | CRUD | Read, Append & Validate|
+| Mutability| Mutable | Immutable |
+| Authorization| Centralised | Distributed |
+| Transparency | Low | High |
+
+Blockchains are supported by a distributed network. 
+
+Blockchain is decentralised: 
+- pro: No single entity can regulate the data on the database.
+- con: No central authority to help determine whoch information is accurate. 
+
+
+Functions: 
+- Read 
+- Append 
+- Validate data 
+Blockchain do not allow people to delete data, rather that deleting or overiding data blockchains create a new record. 
+
+Immutability: Thr blockchain is immutable. 
+- Pro: Permanent historical storage. 
+- con: Storage space 
+
+
+Authorization: 
+- Pro: Extremely secured and not controlled by any single entity. 
+- con: Difficult to resolve disputes. 
+
+
+Transparency: 
+- pro: Everyone can access.
+- con: No permission control 
+
+
+
+#### Do you need a blockchain
+
+Question to ask your self 
+
+
+|  | Yes | No | 
+| :--- |  :--- |  :--- | 
+| Do you need a database? | | | 
+| Does it require shared write access? | | | 
+| Will you need to create the trust between users| | | 
+| Can you operate without trust 3rd parties| | |
+| Can you operate without control permission| | | 
+
+If your response is yes  to most of the questions, then a blockchain might me a good fit. 
+
+
+once you decide that a blockchain is the right solution, it's time to decide which type of blockchain the most effective. 
+There are 3 types of blockchain **public**, **private** and **hybrid**.
+
+
+#### Blockchain Types 
+1. Public Blockchain 
+2. Private Blockchain 
+3. Hybrid Blockchain 
+
+
+**Public Blockchain**: On a public watch everything is open for the entire network anyone can join and get access to add verify transactions. 
+**Bitcoin** is in example of a public watching a private match in his busy really opposite of a public blockchain.
+
+**Private Blockcchain**: it's the opposite of a public blockchain. Access is restricted to some people, rather than allowing anyone to join, permission is assigned to specific users. 
+
+Just like the internet vs intranet.
+
+**Hybrid Blockchain**: Is a mix of both private and public blockchain. 
+Like company, that wants to keep some information private and some othe information public.
+
+
+They all functions the same way, but they differ by access/restrictions.
+
+
+To be certain about Which one to use:
+- Will transactions e public?  Public Blockchain 
+- Will other companies need access to your data? Private Blockchain 
+- Should some information be public while other information is restricted? Hybrid Blockchain 
+
+
+
+#### P2P Network vs Client-Server Model 
+A client server model is an application structure yhat breaks up, tasks between service providers (Servers) and service requester (client). 
+ 
+The server is a centralised resource that contains all the information the computer wants to access. 
+
+Client Server Model 
+- Client makes requests 
+- Server responds to client (web servers serve web files and a file server serve computer files)
+
+
+
+Peer-to-peer Network: 
+Is a network of computers that share access to gile with eachother.  
+In a Peer-to-peer network every node is both a server and a client. 
+The peer-to-peer model allows us to a decentralised system. 
+
+
+
+#### Practice Block Data 
+There are a few libraries you can use to explore the block data in Bitcoin. For this exercise, we are going to use the library provided by BlockExplorer **blockexplorer**.js.
+
+This library allows to do some important operations through the network like:
+- blockexplorer.block(hash) - Get block info by hash
+- blockexplorer.rawBlock(hash) - Get raw block info by hash
+- blockexplorer.blockIndex(height) - Get block hash by height
+
+
+"Install 
+```sh
+npm i blockexplorer --save
+```
+
+example 
+```js
+// require the module
+const be = require('blockexplorer')
+ 
+// get the genesis block hash
+be.blockIndex(0)
+  .then((result) => {
+    console.log(result)
+  })
+  .catch((err) => {
+    throw err
+  })
+```
+
+API
+- blockexplorer.block(hash)
+Get block info by hash
+Returns Promise 
+
+- blockexplorer.rawBlock(hash)
+Get raw block info by hash
+Returns Promise 
+
+- blockexplorer.blockIndex(height)
+Get block hash by height
+Returns Promise 
+
+- blockexplorer.tx(txid)
+Get transaction by txid
+Returns Promise
+
+- blockexplorer.rawTx(txid)
+Get raw transaction by txid
+Returns Promise
+
+- blockexplorer.addrValidate(address)
+Validate address
+Returns Promise 
+
+- blockexplorer.addr(address, [options])
+Get address info
+```js 
+// Default options
+{
+  noTxList: false,
+  noCache: false
+}
+``` 
+
+Pass an Array as first parameter to get info on multiple addresses
+Returns Promise 
+
+- blockexplorer.balance(address)
+Get address balance
+Returns a Promise 
+
+- blockexplorer.totalReceived(address)
+Get address received funds
+Returns a Promise 
+
+- blockexplorer.totalSent(address)
+Get address sent funds
+Returns a Promise
+
+- blockexplorer.unconfirmedBalance(address)
+Get address unconfirmed balance
+Returns a Promise
+
+- blockexplorer.utxo(address, [options])
+Get address unspent outputs
+```js 
+// Default options
+{
+  noCache: false
+}
+```
+Pass an Array as first parameter to get info on multiple addresses
+Returns a Promise
+
+- blockexplorer.txsBlock(hash)
+Get transactions by hash
+Returns a Promise
+
+- blockexplorer.txsAddress(address, [options])
+Get transactions by address
+```js
+// Default options
+{
+  from: '',
+  to: ''
+} 
+``` 
+
+Pass an Array as first parameter to get info on multiple addresses
+Returns a Promise 
+
+- blockexplorer.txSend(rawtx)
+Broadcast signed trasaction in hex format rawtx
+Returns a Promise 
+
+- blockexplorer.getInfo()
+Get blockchain info
+Returns a Promise 
+
+- blockexplorer.getBlockCount()
+Get block count
+Returns a Promise 
+
+- blockexplorer.getDifficulty()
+Get difficulty
+Returns a Promise 
+
+- blockexplorer.getBestBlockHash()
+Get best block hash
+Returns a Promise 
+
+- blockexplorer.getLastBlockHash()
+Get last block hash
+Returns a Promise 
+
+- blockexplorer.sync()
+Get historic blockchain data sync status
+Returns a Promise
+
+- blockexplorer.peer()
+Get live network p2p data sync status
+Returns a Promise  
+
+- blockexplorer.estimateFee([nbBlocks = 2])
+Get fee estimate
+Returns a Promise
+
+
+
+
+#### Explore Bitcoin's Codebase
+
+Bitcoin's Codebase
+Now that we've seen the data that exists in a blockchain, it's helpful to understand how these ideas are built and managed. Luckily, many blockchains are open source, and in particular Bitcoin has an enormous open source codebase that we can use to study and understand these blockchain concepts. 
+
+[Bitcoin](https://github.com/bitcoin/bitcoin) 
+
+
+
+#### BIPs and Forks 
+##### Bitcoin Improvement Proposals
+we'll look at what a Bitcoin Improvement Proposal is and how it help make decisions about the codebase. 
+
+BIPs are documents used to issue changes to the Bitcoin core client.
+
+BIP39 - is where deterministic wallet were introduced. 
+
+BIPs are written by community members who believe they can improve the bitcoin protocol. The proposal is sent out to tr network and published publicly. 
+The proposal then goes through a voting process done by the miners in the network. If the proposal gets a majority vote from the miners, it will be Implemented and if other it won't. 
+
+Depending on how significant a change is on a network, it can be really difficult to get everyone on the same side. In a case where there is a 50/50 vote, the network will have to split and this split is called a **fork**.
+
+
+##### Hardforks
+There are different types of forks that can happen based on how a Bitcoin Improvement Proposal is implemented. The different types of forks are hardforks, softforks, and source code forks.
+
+These are all implemented in a similar way, but the outcome can be drastically different depending on which type of fork it is. In the next video, we'll look specifically at a hardfork.
+
+|  | Hardfork | Softfork | Source Code Fork | 
+| :--- | :--- | :--- | :--- | 
+| Change | Large | small | Small or Large |
+| Copies Original codebase | Yes | Yes | Yes |
+| Backward Compatibility | No | Yes | No |
+| Split | Permanent | Temporary | Permanent | 
+| Example | Bitcash | Segwit | LiteCoin |
+
+
+
+Hardfork: A hardfork is a large change to the that conflict with existing protocol, leading to a completely new software. Once a hardfork is made, it creates an entirely new network existing users will need to choose whether they'd like to stay or switch.
+
+In hardfork software developers create an exact copy of the protocol this is possible only if the codebase of the blockchain is open source. 
+Once the protocol is copied, they write their new code into the software. 
+Next they next to specify when they will do this. This is done by specifying a block number e.g. at block 215, at this point some nodes will continue with the original version while others will switch to the hardfork and only add blocks to that chain. 
+
+Even though the Hardfork and the original version are not compatible, they will have the same shared history i.e. All the transactions that has happened before the fork are valid on both chains.
+If you switched to the new chain you will still retain your coins in the same value as of the original chain.
+
+
+
+
+##### Softforks 
+Softforks are a small change to the blockchain protocol. In softforks the changes made to the software are compatible with the original version. In a soft fork there is no permanent split in the chain. There may be a temporary split which is to allow time for the changes to propagate through the network. Once every one has upgraded to the updated protocol, the updated version of the network will be the only one that exists.  
+
+An Example is **Segwit**, known as **Segregated Witness** . Segwit is a softfork of bitcoin that is meant to increase block size limit in a block. 
+It allows a block to hold more transactions by removing signature data from a transaction. 
+If your wallet doesn't implement segwit, you will still receive transactions from wallets that do, but you won't be able to validate the transaction.  
+
+
+
+##### Source Code Forks 
+is the term used to when one copies an existing codebase to a new project with no connection to the original blockchain.  
+
+
+
+
+
+### Bitcoin Core Testnet 
+#### Bitcoin Core Overview 
+Bitcoin: Network of bitcoin users creating and validating transactions
+
+Bitcoin Core: Implementation of bitcoin that encompasses all of the software behind bitcoin. aka Bitcoin-QT / Satoshi Client.
+
+Debug Console: Tool that allows you to interact with data on the bitcoin blockchain
+
+
+FEATURES OF BITCOIN CORE:
+- Connect to network (Transactions verification engine allows you to verify transactions.)
+- Validate Blockchain 
+- Wallet (Send and Receive Bitcoin)
+
+
+#### Bitcoin Core - Networks 
+- Bitcoin Mainnet: Primary Network where live transactions take place
+- Bitcoin Testnet: Alternative Bitcoin blockchain that provides a test environment for applications. Testnet allows you to develop application in a sandbox environment without spending real bitcoin. It allows you to interact with peers on the network that totally separate from the mainnet.
+Testnet still operates as a network, things like creating new blocks and validating transactions still have to be done in the network. This can really slow down testing time, if one must wait for a block or transaction to complete it's life cycle.
+To help address some ofbhis concerns and speed up test, Regnet was created.
+
+- Bitcoin Regnet (Regression Test Mode): Alternative test network for testing bitcoin applications. 
+Like testnet you don't spend real Bitcoins. On a regnet, you no longer have a network of peers to work with, you can instantaneously create new blocks and have control over the environment you are testing it.
+
+
+| - | Mainet | Testnet | Regnet | 
+| :--- | :--- | :--- | :--- | 
+| Purpose | Live | Testing | Testing |
+| Coins | Value | No value | No value |
+| Peers | Yes | Yes | No |
+
+
+
+#### Mainnet vs Testnet 
+| - | Mainet | Testnet |
+| :--- | :--- | :--- |
+| Purpose | Production | Testing |
+| Environment | Public | Public |
+| Peers | Entire Network | Testers |
+| Size | -200GB | -40GB |
+| Block Creation | 10Mins | 10Mins |
+| Value | Full Value | No Value |
+| Public Key Prefix | 1 | m or n |
+| Block Difficulty | Full | Half of Mainnet |
+
+
+
+
+
+#### Testnet vs Mainnet 
+| - | Testnet | Regnet |
+| :--- | :--- | :--- |
+| Purpose | Testing | Testing |
+| Environment | Public | Private |
+| Peers | Testers | None |
+| Size | -40GB | -0GB |
+| Block Creation | 10Mins | Instantly |
+| Value | No Value | No Value |
+| Public Key Prefix | m or n | m or n |
+| Block Difficulty | Half of Mainnet | None |
+
+
+
+
+#### Data Warnings and Bitcoin.config Setup 
+Access Networks
+- Access testnet: testnet = 1 in bitcoin.conf file
+- Access regnet: regtest = 1 in bitcoin.conf file
+
+
+> Visit [live.blockcypher.com](https://live.blockcypher.com ), a block explorer that allows one to view transactions on Bitcoin testnet. 
+
+
+
+
+
+### Bitcoin Debug Console 
+#### Debugging Console 
+Bitcoin debug console  command categories:
+
+== Blockchain ==
+== Control ==
+== Generating ==
+== Mining ==
+== Network ==
+== Rawtransactions ==
+== Util ==
+== Wallet ==
+== Zmq ==
+
+
+You can always use the `help` command to get more information on a particular command.
+```sh 
+help getblockchaininfo
+``` 
+
+#### Blockchain Commands  
+
+- getblockchaininfo 
+- getblockcount 
+- verifychain 
+
+**getblockchaininfo** - returns various state information about the blockchain processing. It can also show hardforks and softforks and their bip numbers, version rejection status.
+
+**getblockcount** - Returns the number of blocks in the blockchain. 
+
+**verifychain** - Verifies tr blockchain's database. 
+i.e the chain is valid. 
+
+
+#### Hash Command 
+- getblockhash 
+- getnetworkhashps 
+- getbestblockhas 
+
+
+**getblockhash** - 
+Returns hash of a block at the block number(block height) provided. 
+```
+getblockhash 279
+```
+returns the 279th block in the blockchain.
+
+
+**getnetworkhashps** - Returns an estimated network hashes per second based on specified number of recent blocks. 
+```
+getnetworkhashps <number of last X(e.g. 120) blocks>
+```
+
+**getbestblockhash** - Returns the hash of the best block (i.e. Most recent block that you have synced )
+```
+getbestblockhash 
+```
+
+
+#### Block Commands 
+- getblock 
+- getblockheader 
+- generate  
+
+
+**getblock** - Returns details of a blocks information (If a block hash is provided).
+``` 
+#getblock a384bc9a0f....  (verbosity)
+#getblock a384bc9a0f....  2
+```
+If verbosity is 0, returns a string that is serialised, hex-encoded data for block 'hash'.
+
+If verbosity is 1, returns an Object with information about block 'hash' 
+
+If verbosity is 2, returns object with information about block 'hash' and **Information about each transaction**.
+
+
+**getblockheader** - 
+Returns information about the block header (If a block hash is provided).
+``` 
+getblockheader a384bc9a0f.... 
+```
+
+**generate** - Immediately mines the number of blocks to an address in the wallet. 
+This command is useful on the regnet. It's a way to create blocks that you can interact with on the blockchain.
+
+```
+# generate (number)
+generate 100 (generates 100 blocks)
+```
+
+
+
+#### Wallet Command 
+- getwalletinfo 
+- listwallet 
+- walletpassphrasechange 
+
+**getwalletinfo** - returns an object containing various information about a wallet'e state. 
+
+
+**listwallet** - Returns a list of currently loaded wallets.
+
+**walletpassphrasechange** - changes the wallet passphrase from an old passphrase to a new passphrase.
+``` 
+walletpassphrasechange "oldpassphrase" "newpassphrase"
+```
+
+
+#### Mempool Command 
+- getmempoolinfo 
+- getrawmempool 
+- getmempoolentry 
+
+
+**getmempoolinfo** - Returns details on the state of the transaction memory pool.
+
+**getrawmempool** - Returns all transaction ids in the memory pool.
+
+**getmempoolentry** - Returns mempool data for a given transaction in the mempool.
+``` 
+getmempoolentry 'hash'
+```
+
+
+#### Transaction Commands 
+- getchaintxstats
+- getrawtransaction 
+- listtransactions
+
+
+**getchaintxstats** - Compute statistics about the total number and rate of transactions in the chain
+
+**getrawtransaction**: Returns raw transaction data (@ mempool) 
+```
+getrawtransaction 'hash @ mempool'
+``` 
+
+**listtransactions**: Returns a list of transactions for a given account (default is your account)
+
+
+
+
+#### Signature Commands
+- signrawtransaction 
+- signmessage
+
+
+
+**signrawtransaction** - Sign inputs for a raw transaction.
+
+**signmessage** - Sign message with the private key of an address
+
+
+
+#### Network Commands 
+- getnetworkinfo 
+- getpeerinfo 
+- getconnectioncount
+
+**getnetworkinfo** - Returns information about the state of the peer-to-peer network.
+
+**getpeerinfo** - Returns data about each connection network node.
+
+**getconnectioncount** - Returns the number of connections to other nodes.
+
+
+#### Mining Commands 
+- getmininginfo
+- getblocktemplate 
+- prioritisetransaction
+
+**getmininginfo** - Returns an object that contains mining-related information.
+
+**getblocktemplate** - Returns data needed to construct a block.
+
+**prioritisetransaction** - Accepts the transaction into mined blocks at a higher or lower priority.
+
+
+
+#### Bitcoin-CLI
+
+
+
+
+
+
+
+
+
+
+
+
+## 4. Blockchain Data
+
+
+### Lesson 1: Blockchain Basics
+
+
+#### Concept 01: Lesson Introduction
+
+
+
+
+
+
+
+## 5. Blockchain Data
+
+
+### Lesson 1: Blockchain Basics
+
+
+#### Concept 01: Lesson Introduction
+
+
+
+
+

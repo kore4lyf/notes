@@ -1,7 +1,12 @@
 {
   "dependencies": {
-    "bitcoinjs-lib": "^6.1.3",
-    "crypto-js": "^4.1.1"
+    "bitcoin-address": "^0.3.0",
+    "bitcoinjs-lib": "^6.1.5",
+    "bitcore-lib": "^10.0.11",
+    "bs58check": "^3.0.1",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "elliptic": "^6.5.4"
   },
   "name": "blockchain",
   "version": "1.0.0",

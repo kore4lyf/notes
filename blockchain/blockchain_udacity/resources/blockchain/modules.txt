@@ -1,0 +1,7 @@
+# Modules I used during the Blockchain course 
+
+- cryptojs: contains Hash functions 
+- bs58check: for performing base58check 
+- blockexplorer: exploring Blocks in Bitcoin. 
+- Hapi 
+- sails 
