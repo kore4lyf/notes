@@ -42,7 +42,7 @@ How to search forward and backward
 ## How to quit vi with out saving changes 
 `:q!`
 
-## Move cursor to the beginning of the line
+## Move cursor to the begining of the line
 `0`
 
 ## Move cursor to the end of line
