@@ -520,19 +520,17 @@ $color: cyan;
 /* #{ transparentize($color, .9)} -> rgba(0, 255, 255, .1)*/
 /* #{ lighten($color, 30%)} -> #99ffff */
 /* #{ darken($color, 20%)} -> #806666 */
-
 ```
 
 
 ## Compile SASS to CSS 
-```sh 
 ```sh 
 sass style.scss style.css
 ```
 
 
 ## Making SASS compile automatically  
-```sh 
+```sh
 sass --watch stylesheet.scss:stylesheet.css
 ``` 
 When saving your .scss file, it'll automatically update the .css file.
@@ -541,4 +539,9 @@ You might also consider
 ```sh 
 sass --watch stylesheet.scss:stylesheet.css --style expanded --sourcemap=none 
 ``` 
-to keep the .css file readable.
+to keep the .css file readable.  
+
+To compress 
+```sh  
+sass ./sass/main.scss:./public/css/style.css -w --style compressed
+```

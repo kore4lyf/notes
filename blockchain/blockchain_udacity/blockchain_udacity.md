@@ -1161,20 +1161,260 @@ getrawtransaction 'hash @ mempool'
 
 
 
-#### Bitcoin-CLI
+### Blockchain Data 
+By the End of This Lesson…
+You will be able to…
+
+- Recognize the data structure of blocks and transactions.
+- Recognize the purpose of Bitcoin Script opcodes that are commonly used in the input and output parts of a transaction process.
+- Explore the limitations and best practices of embedding data in blockchain transactions.
+
+
+#### Block Data Model Recap
+- **Block Header** -
+Previous Block’s Hash - The hash value for the block that comes directly before a given block in the chain. This is what links blocks in the blockchain together
+Time - The time the block was created is also held in the header 
+
+- **Merkle Root** - The merkle root is a hash that represents every transaction included inside the block. To get the merkle root, pairs of transactions within a block are repeatedly hashed together. Each pair results in a single hash. Then the hash of 2 pairs of transactions are again hashed together, over and over again until you are left with a single hash value. Given that final hash value, known as the merkle root, you can now use the hash to search the original transactions or hash values that created them. This searching allows you to find the original transactions that made up the block when starting from this single hash value.
+
+- ** Nonce** - A nonce (stands for “number only used once") is a number used in bitcoin mining. The blockchain miners are solving for the nonce what when added to a hashed block, and those 2 values are rehashed, will solve the mining puzzle.
+
+- The body of a block contains transactions.
+
+
+#### Transactions - Inputs and Outputs 
+**Transaction** is a data structure that encodes a transfer of value from a source of funds called an “input” to a destination called an “output”.
+
+
+**Inputs** are unspent outputs from another transaction. All input refer to an output. 
+
+When a user receives bitcoin that amount is recorded in the blockchain as Unspent Transaction Output (UTxO) if a user receives many Bitcoin from people, each of these transactions have their UTxO. 
+
+In Bitcoin UTxOs are attached to users, there js no such thing as q stored balance for an account or Bitcoin address. 
+
+
+#### Transaction Data Models 
+On the blockchain transactions are stored in a double hash form. i.e Transaction data is put through SHA256 Twice. 
+
+This is a Raw Transaction: 
+0100000001f3f6a909f8521adb57d898d2985834e632374e770fd9e2b98656f1bf1fdfd427010000006b48304502203a776322ebf8eb8b58cc6ced4f2574f4c73aa664edce0b0022690f2f6f47c521022100b82353305988cb0ebd443089a173ceec93fe4dbfe98d74419ecc84a6a698e31d012103c5c1bc61f60ce3d6223a63cedbece03b12ef9f0068f2f3c4a7e7f06c523c3664ffffffff0260e31600000000001976a914977ae6e32349b99b72196cb62b5ef37329ed81b488ac063d1000000000001976a914f76bc4190f3d8e2315e5c11c59cfc8be9df747e388ac00000000
+
+
+Transaction in the bitcoin blockchain are stored in a double-hashed form:
+
+SHA256(SHA256(01000…)) = b138360800cdc72248c3ca8dfd06de85913d1aac7f41b4fa54eb1f5a4a379081
+
+
+1. **Bitcoin Version Number**: 01000000
+
+2. **Input Count**: 01
+
+3. **Input Info**: ( 
+  - Where input is coming from? 
+  - Checks if input can be used )
+f3f6a909f8521adb57d898d2985834e632374e770fd9e2b98656f1bf1fdfd427010000006b48304502203a776322ebf8eb8b58cc6ced4f2574f4c73aa664edce0b0022690f2f6f47c521022100b82353305988cb0ebd443089a173ceec93fe4dbfe98d74419ecc84a6a698e31d012103c5c1bc61f60ce3d6223a63cedbece03b12ef9f0068f2f3c4a7e7f06c523c3664ffffffff
+
+4. **Output Count**: 02
+
+5. **Output Info**: (
+  - How much BTC is outputted? 
+  - Conditions for future spending )
+60e31600000000001976a914977ae6e32349b99b72196cb62b5ef37329ed81b488ac063d1000000000001976a914f76bc4190f3d8e2315e5c11c59cfc8be9df747e388ac
+
+6. Locktime: 00000000
+  - Earliest time a Tx can be added to the blockchain. 
+  - If <500 million, it is read as blockheight 
+  - If >500 million, it is read as a Unix Timestamp)
+
+Lock time is usually 0 i.e confirm as soon as possible.
+
+
+
+A Transaction input contains an Unlocking script, while a Tx output contains a Locking Script.
+The script is a computer program that is executed if the transaction is Valid. 
+
+If thr transaction is valid it means the unlocking script has the requirements that unlocks the locking Script.
+
+Scripts allow us to express complex conditions.
+Just like in smart contract.
+Smart contract is a series of conditions that most be met for an action to occur and the parameters that meets those conditions. 
+
+
+| Block Header | 
+| :---  | 
+| Previous Block Hash | 
+| Time (Time of creation) | 
+| Merkel Root |
+| Nonce | 
+
+
+
+| Transaction | 
+| :---  | 
+| Version | 
+| Input Count | 
+| Input Info - Unlocking Script |
+| Output Count | 
+| Output Info - Locking Scripts |
+| Locktime | 
+
+
+
+#### Bitcoin Scripts 
+**Script**- a script is a list of instructions recorded in each transaction that when executed determines if the transaction is valid and the Bitcoin can be spent. 
+Bitcoin Scripts are written in a scripting language called **Scripts**.
+
+**Scripting Language**: is a simple lightweight Language designed to be limited in scope and executable ona range of hardware. 
+
+##### Script 
+Bitcoin Script 
+- Is a stack-based language. 
+- (The stack) Store Numbers (Data Constants)
+- Use Opcodes (to interact with information in the stack)
+  - push (Add
+  - Pop (Remove) 
+  - Etc.
+
+- Executes from left to right 
+
+
+##### Lock Scripts and Unlocking Scripts 
+The locking and unlocking script work together Like a puzzle. 
+> For a transaction to be Valid the Unlocking script will solve the locking script. 
+
+The Locking script is like a puzzle that specifies the conditions that must be met before a Bitcoin can be spent. 
+
+The Unlocking script contains the correct solution that solves the puzzle and evaluates the locking script to true. 
+
+``` Script
+<sig> <pubkey> OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+```
+
+`<sig> <pubkey>` - Unlocking Script 
+
+`OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG` - locking Script
+
+
+The Locking script of a transaction will interact with the unlocking script of a future transaction.
+
+**Locking Script** - Places a lock on an output by specifing the conditions that must me met inorder to spend the output in the future.
+e.g. Assuming an we have an output that is only payable to whomever can present a signature from the  key corresponding to sb's public address.
+
+> The hash locking script is stored in a variable `scriptPubKey`
+
+The Unlocking script is the solution that will solve the puzzle, it satisfies the condition of the locking script and allows the output to be spent. 
+A common way it is implemented is that it contains a digital signature product by the users wallet from their private key that will unlock the locking script.
+
+> The hash unlocking script is stored in a variable `scriptSig` because it's usually contains a signature.  The term unlocking script is used because not all unlocking script must be a signature. 
+
+
+- Version - All transactions include information about the Bitcoin Version number so we know which rules this transaction follows.
+
+- Input Count - Which is how many inputs were used for this transaction
+
+##### Data stored in Input information:
+- Previous output hash - All inputs reference back to an output (UTXO). This points back to the transaction containing the UTXO that will be spend in this input. The hash value of this UTXO is saved in a reverse ordered here.
+- Previous output index - The transaction may have more than one UTXO which are referenced by their index number. The first index is 0.
+- Unlocking Script Size - This is the size of the Unlocking Script in bytes.
+- Unlocking Script - This is the hash of the Unlocking Script that fulfills the conditions of the UTXO Locking Script.
+- Sequence Number - This s a deprecated feature of bitcoin Currently set to ffffffff by default.
+- Output Count - which tells us how many outputs were produced from this transaction.
+
+
+##### Data stored in Output Information:
+- Amount - The amount of Bitcoin outputted in Satoshis (the smallest bitcoin unit). 10^8 Satoshis = 1 Bitcoin.
+- Locking Script Size - This is the size of the Locking Script in bytes.
+- Locking Script - This is the hash of the Locking Script that specifies the conditions that must be met to spend this output.
+Locktime - The locktime field indicates the earliest time or the earliest block a transaction can be added to the blockchain.
+If the locktime is non-zero and less than 500 million, it is interpreted as a block height and miners have to wait until that block height is reached before attempting to add it to a block. If the locktime is above 500 million, it is read as a unix timestamp which means the number of seconds since the date January 1st 1970. It is usually 0 which means confirm as soon as possible.
+
+
+
+### Script Opcodes 
+Script is a stack based language. 
+
+**OP_ADD** - Pops two Items on top of the stack add them and push the result back unto the stack.
+
+**OP_EQUAL** - Is a conditional operator, that pops two items off the stack and compares whether they are equal and returns true or false unto the stack. 
+
+EXAMPLE: 
+```Script 
+2 6 OP_ADD 8 OP_EQUAL
+``` 
+
+Remember in script code is read from left to right, 
+1. 2 is pushed into the stack 
+2. 6 is pushed into the stack 
+3. OP_ADD: 6 & 2 popped of the stack and added together. The result (8) is pushed back to the stack. 
+4. 8 is pushed into the stack 
+5. OP_EQUAL: 8 and 8 are pushed off the stack and compared with eachother and the result (True) is pushed back into the stack 
+
+
+Using the example above: 
+When compared to locking and unlocking Script, here is a simplified case. 
+2 - is the Unlocking script 
+`6 OP_ADD 8 OP_EQUAL` - is the locking script. 
+
+Later on, you will see scripts that uses **signatures and public keys** to unlock a locking script.
+
+``` Script
+<sig> <pubkey> OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+```
+
+**OP_DUP** - Duplicates the top stack item. 
+**OP_CHECKSIG** - Checks the signature for the top two stack items.
+
+For more Script opcodes visit [List of Bitcoin opcodes](https://en.bitcoin.it/wiki/Script). 
+
+
+
+#### Standard Script Notation
+Let’s discuss standard script notation using this example,
+`<sig><pubKey> OP_CHECKMULTISIG`
+
+- Bracketed values are data to be pushed to the stack.
+For example, <sig>.
+
+- Non-bracketed words are opcodes.
+For example, OP_CHECKMULTISIG
+
+- Sometimes you may see the OP prefix omitted.
+For example,
+`<sig><pubKey> OP_CHECKMULTISIG` may be abbreviated to `<sig><pubKey> CHECKMULTISIG`
+
+
+An example 
+```Script
+OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKMULTISIG
+```  
+
+OR 
+
+```Script
+DUP HASH160 <pubKeyHash> EQUALVERIFY CHECKMULTISIG
+```  
+
+
+
+### Attributes of Script 
+#### Turing Completeness 
+One major attribute of script is that it is not turning complete.
+i.e. 
+- No loops or flow control 
+- Completely deterministic
+- Provides simplicity and security
+
+
+#### Stateless Verification  
+All information needed to execute the script is within the script. i.e. 
+- No state is saved prior to or after the script executes 
+- Script is self-contained
+- Provides predictability no matter where script is executed
 
 
 
 
-
-
-
-
-
-
-
-
-## 4. Blockchain Data
+## 4. Blockchain Web Services 
 
 
 ### Lesson 1: Blockchain Basics
@@ -1188,7 +1428,7 @@ getrawtransaction 'hash @ mempool'
 
 
 
-## 5. Blockchain Data
+## 5. Identity and Smart Contracts
 
 
 ### Lesson 1: Blockchain Basics
