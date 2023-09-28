@@ -8,7 +8,7 @@ What is Node Js?
 - Full-stack 
 
 ### Global Variables
-Global variables are variables thatcan be accessed anywhere in an application. 
+Global variables are variables that can be accessed anywhere in an application. 
 - __dirname - path to current directory
 - __filename - filename 
 - require - function to use modules (commonJS) e.t.c 
@@ -234,7 +234,7 @@ One way to avoid call back hell is to use promise, another is async await.
 
 
 ```js 
-const { readFile, writeFile } = require('fs').promises
+const { readFile, writeFile } = require('fs')
 
 const start = async () => {
   try {
@@ -280,8 +280,6 @@ server.listen(5000)
 
 ## NPM 
 NPM means Node Package manager.
-
-
 - npm i <packageName> // Install local dependency 
 - npm install -g <packageName> // Install dependency globally 
 - package.json // A manifest file (stores important info about project/package) 
@@ -341,7 +339,7 @@ npm i <moduleName>@version
 ## Event Loop 
 The event loop is what allows Node.js to perform non-blocking I/O operations, despite the fact that JavaScript is single threaded, by offloading operations to the system kernel whenever possible. 
 
-- JavaScript is synchronous and single thread. i.e. It reads code line by line.  
+- JavaScript is synchronous and single threaded. i.e. It reads code line by line.  
 
 The event loop is responsible for preventing a running request from delaying other requests. The event loop registers the callback running other blocking request and runs the registered request when the .
 
@@ -575,7 +573,7 @@ http.createServer(function (req, res) {
 - req.url e.g /, /about
 
 
-**setting
+
 
 
 ## Express 
@@ -855,7 +853,7 @@ NB: For example http://hn.algolia.com/api/v1/search?query=foo&tags=story.
 Here if you `console.log(req.search)` you will get an object `{query: 'foo', tags: 'story'}`.
 
 ```js 
-app.get('/api/v1/query?)
+app.get('/api/v1/query?')
 
 ```
 
