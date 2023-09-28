@@ -1043,7 +1043,7 @@ getbestblockhash
 #### Block Commands 
 - getblock 
 - getblockheader 
-- generate  
+- generatetoaddress
 
 
 **getblock** - Returns details of a blocks information (If a block hash is provided).
@@ -1064,12 +1064,12 @@ Returns information about the block header (If a block hash is provided).
 getblockheader a384bc9a0f.... 
 ```
 
-**generate** - Immediately mines the number of blocks to an address in the wallet. 
+**generatetoaddress** - Immediately mines the number of blocks to an address in the wallet. 
 This command is useful on the regnet. It's a way to create blocks that you can interact with on the blockchain.
 
 ```
-# generate (number)
-generate 100 (generates 100 blocks)
+# generatetoaddress (number) (wallet Address)
+generatetoaddress 101 (generates 101 blocks) a27b0f.....
 ```
 
 
@@ -1158,6 +1158,135 @@ getrawtransaction 'hash @ mempool'
 **getblocktemplate** - Returns data needed to construct a block.
 
 **prioritisetransaction** - Accepts the transaction into mined blocks at a higher or lower priority.
+
+
+
+#### Other Command 
+**getnewaddress** - Creates a new address in your wallet.
+```
+getnewaddress <addressLabel: optional>
+``` 
+
+**listunspent** shows all the unspent confirmed inputs in your wallet.
+```
+listunspent
+``` 
+
+
+**gettxout** - View details about Specific UTXO
+```
+gettxout <txid> <n>
+``` 
+Arguments:
+- "txid" (string, required) The transaction id
+- "n" (numeric, required) vout number 
+
+n reps the vout number of the transaction. A transaction can have multiple txoutput, n is the index of that output whih begins/starts from 1.
+
+
+**createrawtransaction** - 
+```
+createrawtransaction '[{"txid":"TXID","vout": VOUT}]’’{“to_address”:amount1, “from_address”:amount2}’
+``` 
+
+
+Build Out Command 
+
+txid: e787a27bda32c8b54ee501be46d2cfcd47c1566c8ef6ee339bdb7cd5c82b701c
+
+vout: 0
+
+to_address: 2NFK8YHKT6hPPTDKTPP3c5bx7oPGrYhzj2y
+
+from_address: 2Mzxx8wGAmQQyCCrb2vXP4yxaYY9s9nepfy
+
+amount1: .030 BTC being sent to "to_address"
+
+amount2: 0.0195 BTC being sent back to the "from_address"
+
+Execute Commands 
+```
+createrawtransaction '[{"txid": "e787a27bda32c8b54ee501be46d2cfcd47c1566c8ef6ee339bdb7cd5c82b701c", "vout":0}]' '{"2NFK8YHKT6hPPTDKTPP3c5bx7oPGrYhzj2y":0.030, "2Mzxx8wGAmQQyCCrb2vXP4yxaYY9s9nepfy":0.0195}'
+```
+
+
+Result (hex string)
+```
+02000000011c702bc8d57cdb9b33eef68e6c56c147cdcfd246be01e54eb5c832da7ba287e70000000000ffffffff02c0c62d000000000017a914f20fe211102535e3c37bb0e659099387ddc035b58730c11d000000000017a91454ad1e8953876c90d3fc15798c687835ab3d3aee8700000000
+``` 
+
+
+To confirm that everything processed correctly, we can use the by `decoderawtransaction` command.
+
+> NB: The transaction is not signed 
+
+
+**decoderawtransaction** - decode a raw transaction into JSON.
+
+Command Parameters:
+decoderawtransaction "hexstring"
+
+Arguments:
+1. "hexstring"      (string, required) The transaction hex string
+Execute command
+
+
+**signrawtransactionwithwallet** - is used for  Signing a Raw Transaction
+
+Explanation
+You may have noticed that in the output of decodetransaction, the scriptSig field is empty:
+
+``` 
+signrawtransactionwithwallet "hexstring" 
+```
+
+
+Arguments:
+
+- "hexstring" (string, required) The transaction hex string from the "createrawtransaction" step
+
+Execute Command
+Note: If your wallet is encrypted, you will be asked to unlock it before you can sign a transaction.
+
+```
+signrawtransactionwithwallet 02000000011c702bc8d57cdb9b33eef68e6c56c147cdcfd246be01e54eb5c832da7ba287e70000000000ffffffff02c0c62d000000000017a914f20fe211102535e3c37bb0e659099387ddc035b58760e316000000000017a91454ad1e8953876c90d3fc15798c687835ab3d3aee8700000000 
+``` 
+
+Note: If you have a version of Bitcoin core that is older than 0.17, you might have to use command.
+
+Result
+{
+"hex": "020000000001011c702bc8d57cdb9b33eef68e6c56c147cdcfd246be01e54eb5c832da7ba287e70000000017160014c794ee65db89222f408dfe1728d214f2496d7a72ffffffff02c0c62d000000000017a914f20fe211102535e3c37bb0e659099387ddc035b58730c11d000000000017a91454ad1e8953876c90d3fc15798c687835ab3d3aee8702483045022100dbf89096427b02c27a799a1d42fca9066bb1706d6874e7255a89084d7c39054c02203c792d0590e068d932966a3d5a84a099492d6975d8fe76b0ca191e20d2a76e800121039c508c50597896b7d67efadf03864d3cee14941253fea08a7abc596479036f8000000000",
+  "complete": true
+}
+
+
+
+
+**sendrawtransaction** - 
+```
+sendrawtransaction "hexstring" ( allowhighfees )
+``` 
+
+Arguments:
+1. "hexstring" (string, required) The hex string of the raw transaction)
+2. allowhighfees (boolean, optional, default=false) Allow high fees
+Result:
+
+"hex"             (string) The transaction hash in hex
+Execute Command
+sendrawtransaction 020000000001011c702bc8d57cdb9b33eef68e6c56c147cdcfd246be01e54eb5c832da7ba287e70000000017160014c794ee65db89222f408dfe1728d214f2496d7a72ffffffff02c0c62d000000000017a914f20fe211102535e3c37bb0e659099387ddc035b58730c11d000000000017a91454ad1e8953876c90d3fc15798c687835ab3d3aee8702483045022100dbf89096427b02c27a799a1d42fca9066bb1706d6874e7255a89084d7c39054c02203c792d0590e068d932966a3d5a84a099492d6975d8fe76b0ca191e20d2a76e800121039c508c50597896b7d67efadf03864d3cee14941253fea08a7abc596479036f8000000000
+
+It returns the transaction id. 
+
+To inspect the transaction
+``` 
+gettransaction <Txid>
+```
+
+
+
+
 
 
 
@@ -1410,6 +1539,18 @@ All information needed to execute the script is within the script. i.e.
 - No state is saved prior to or after the script executes 
 - Script is self-contained
 - Provides predictability no matter where script is executed
+
+
+
+
+### Private Blockchains 
+#### Public vs Private Blockchain 
+| - | Mainet | Testnet |
+| :--- | :--- | :--- |
+| Permissions | Permissionless | Permissioned |
+| Scalability | More Difficult | Simpler |
+| Vulnerability | Less Vulnerable | More Vulnerable |
+| Compliance | More Difficult | Simpler |
 
 
 
