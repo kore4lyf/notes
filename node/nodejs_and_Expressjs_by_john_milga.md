@@ -1218,3 +1218,17 @@ module.exports = {
 }
 ```
 
+
+
+
+## patch vs put 
+`patch` is used for partial update (only the properties passed in will be updated.)
+`put` is used replacing existing (Only the properties you pass in will be updated, while the rest will be overwritten if available or removed if not provided in new update. (An unprovided data may show up if it has a default in it's schema)) 
+
+```js
+const task = await taskfindOneAndUpdate({_id: taskID}, req.body, {
+      new: true, 
+      runValidators: true,
+      overwrite: true
+    })
+```
