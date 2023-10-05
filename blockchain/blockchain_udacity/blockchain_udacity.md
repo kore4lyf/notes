@@ -1548,9 +1548,52 @@ All information needed to execute the script is within the script. i.e.
 | - | Mainet | Testnet |
 | :--- | :--- | :--- |
 | Permissions | Permissionless | Permissioned |
-| Scalability | More Difficult | Simpler |
+| Scalability of transactions| More Difficult | Simpler |
 | Vulnerability | Less Vulnerable | More Vulnerable |
-| Compliance | More Difficult | Simpler |
+| Compliance (governance) | More Difficult | Simpler |
+
+
+
+#### Public and Private Blockchain Interaction
+At first it seems impossible to communicate with a permissioned (Private Blockchain) and a permissionless system (Public Blockchain). 
+
+If our private blockchain need to log bitcoin or a public blockchain transaction activities, our logger services will monitor new blocks added to the blockchain. The transactions within the block will be logged in our blockchain, utilizing transaction hash as a link between public and private Blockchains. 
+To store a private blockchain data into our public blockchain we wil need to reference the options available to us by referencing the documentation. In this case we will use Bitcoin Core. 
+
+`OP_RETURN` - Allows us to store hash value less than 40bytes. 
+Stores up to 40 bytes 
+
+A hash e.g. SHA 256 is 256 bits long 
+- SHA256 Hash = 256 bits 
+
+To reduce the size under 40 bytes we can encode the data to binary to 8 bits per byte.
+- Binary encoding = 8 bits per byte 
+
+- 256 bits / 8 bits = 32 bytes 
+
+`OP_RETURN` allow us to store a hash value that references our private blockchain datasets. 
+
+Therefore Hashes allow us to link or connect data between blockchains.  
+
+
+Connecting data between blockchain is also known as **cross chain functionality**
+
+**Cross Chain Functionality** - Allows a series of protocols that work in harmony to deliver decentralised applications.  
+
+We are entering an age where new projects are focusing on ways to do the cross chain protocol that tackles the task of Interacting between chains.
+A project example is polkadot, polkadot is positioning itself as an intermediary between blockchains. Polkadot uses a multi chain approach with a Blockchain called **Relay** which coordinates transactions and concensus delivery between blockchains. Polkadot also uses another blockchain called parachains which gathers and processes transactions. Binding both solutions together creating a bridge between blockchains with their own concensus.
+
+
+
+
+
+### Building Your Own Private Blockchains 
+
+
+
+
+
+
 
 
 
