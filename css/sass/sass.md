@@ -532,6 +532,8 @@ sass style.scss style.css
 ## Making SASS compile automatically  
 ```sh
 sass --watch stylesheet.scss:stylesheet.css
+OR
+sass  stylesheet.scss:stylesheet.css -w --style=compressed
 ``` 
 When saving your .scss file, it'll automatically update the .css file.
 
