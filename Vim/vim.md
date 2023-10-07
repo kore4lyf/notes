@@ -222,6 +222,25 @@ Another approach is to place the text cursor within the word you want to search 
 `#` - Search backwards.
 `*` - Search forwards.
 
+
+`g*` & `g#` means that a match doesn't have to be a whole word (less strict), 
+whereas `*` & `#`only matches the whole word (more strict). 
+
+docs For example, using `g*` when the cursor is on the word test will result in the command `/test` which would match the first four letters in the word testing. 
+
+Using `*` will result in the command `/\<test\>`, notice the added angle brackets, which means it must match the whole word test therefore it will not match testing like `g*`
+
+
+### Search highlighted Text  
+
+You can yank the hightlighted text first. Then
+1. /
+2. Ctrl r
+3. "
+
+
+
+
 ## Mark apart within your document and jump to them
 `m` + `char` - to mark (e.g. ma)
 `'` + `char` - to jump to marked part (e.g. 'a)
@@ -261,7 +280,21 @@ It allows you to record a set of commands and apply it multiple times.
 
 `@` + `char` - e.g. @a to apply macro a on a line (Current).
 
-> Don't limit yourself, you can have a macro implement another macro or multiple macros.
+
+##### Pasting yanked text  
+`ctrl + r` + `"` - paste newly yanked text  
+
+`ctrl + r` + `1` - paste old yanked text  
+
+`ctrl + r` + `2` - paste older yanked text  
+
+`ctrl + r` + `....` - paste older yanked text  
+
+
+> Don't limit yourself, you can have a macro implement another macro or multiple macros. 
+
+
+
 
 ## Move line 
 `:m` + `line number` 
