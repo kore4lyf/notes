@@ -1441,3 +1441,74 @@ In the example above, we have used `<section>` as a container for related `<arti
 
 But, we could have used `<article>` as a container for articles as well.
 
+
+
+
+## tabindex atribute  (Make an element focusable + via tab button)
+To make any element focusable. Set tabindex attribute to the element. 
+
+```html 
+<p>Click anywhere in this pane, then try tabbing through the elements.</p>
+<label>First in tab order:<input type="text" /></label>
+<div tabindex="0">Tabbable due to tabindex.</div>
+<div>Not tabbable: no tabindex.</div>
+<label>Third in tab order:<input type="text" /></label>
+``` 
+
+
+It accepts an integer as a value, with different results depending on the integer's value: 
+
+1. A negative value (the exact negative value doesn't actually matter, usually tabindex="-1") means that the element is not reachable via sequential keyboard navigation. 
+
+> Note: tabindex="-1" may be useful for elements that should not be navigated to directly using the Tab key, but need to have keyboard focus set to them. Examples include an off-screen modal window that should be focused when it comes into view, or a form submission error message that should be immediately focused when an errant form is submitted.
+
+2. tabindex="0" means that the element should be focusable in sequential keyboard navigation. 
+
+3. A positive value means the element should be focusable in sequential keyboard navigation, with its order defined by the value of the number. That is, tabindex="4" is focused before tabindex="5" and tabindex="0", but after tabindex="3". If multiple elements share the same positive tabindex value, their order relative to each other follows their position in the document source. The maximum value for tabindex is 32767.
+
+4. If the tabindex attribute is included with no value set, whether the element is focusable is determined by the user agent.
+
+
+**Accessibility concerns**
+Avoid using the tabindex attribute in conjunction with non-interactive content to make something intended to be interactive focusable by keyboard input. An example of this would be using a `<div>` element to describe a button, instead of the `<button>` element.
+
+Interactive components authored using non-interactive elements are not listed in the accessibility tree. This prevents assistive technology from being able to navigate to and manipulate those components. The content should be semantically described using interactive elements (`<a>`, `<button>`, `<details>`, `<Input>`, `<select>`, `<textarea>`, etc.) instead. These elements have built-in roles and states that communicate status to the accessibility that would otherwise have to be managed by ARIA. 
+
+
+
+
+
+## contenteditable (attribute)
+Make an elements content editable. 
+```html 
+<blockquote contenteditable="true">
+  <p>Edit this content to add your own quote</p>
+</blockquote>
+<cite contenteditable="true">-- Write your own name here</cite>
+``` 
+
+The attribute must take one of the following values:
+- true or an empty string, which indicates that the element is editable.
+- false, which indicates that the element is not editable.
+- plaintext-only, which indicates that the element's raw text is editable, but rich text formatting is disabled.  
+
+
+If the attribute is given without a value, like `<label contenteditable>Example Label</label>`, its value is treated as an empty string.
+
+If this attribute is missing or its value is invalid, its value is inherited from its parent element: so the element is editable if its parent is editable.
+
+Note that although its allowed values include true and false, this attribute is an enumerated one and not a Boolean one.
+
+You can set the color used to draw the text insertion caret with the CSS caret-color property.
+
+
+
+### Using contentEditable  in JavaScript
+```js 
+Elem.contentEditable = true
+```
+
+### Checking if content is editable in JavaScript
+```js 
+let status = Elem.isContentEditable
+```
