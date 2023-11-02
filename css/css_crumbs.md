@@ -14,6 +14,7 @@ Download font file to your local storage
 ```css
 @font-face {
     src: url("typefaces/jumbo.tiff");
+    font-display: swap;
     font-family: "jumbo"; /* font-family is the name that will be used to identify the font */
 }
 ```

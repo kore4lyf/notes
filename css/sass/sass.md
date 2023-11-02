@@ -107,7 +107,7 @@ Example:
 
 
 ### 4. Partials 
-A key feature is sass is that it allows snippets kf files to be imported into other files, these are **known as partials**.
+A key feature of sass is that it allows snippets of files to be imported into other files, these are **known as partials**.
 
 - Start the name of a partial with **_**
 - **@use** is used to import the code 
@@ -205,7 +205,7 @@ Example:
   border: 0;
   
   &-primary {
-    @extend: btn;
+    @extend btn;
     background: #3ab5e9;
   }
   
