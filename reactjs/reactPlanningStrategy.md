@@ -1,4 +1,6 @@
 # React Planning Stage 
+## Build UI 
+- Build your reusable components 
 
 ## Step 1 - Identify Each View
 - Determine the look and functionality of each view in your app.
