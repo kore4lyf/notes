@@ -386,5 +386,31 @@ const someFunc = function(done) {
 };
 ```
 
+Create a person schema called personSchema with the following shape:
+- A required name field of type String
+- An age field of type Number
+- A favoriteFoods field of type [String]
 
+```js 
+require('dotenv').config();
+const mongoose = require('mongoose')
+const {Schema, model} = mongoose 
+
+let personSchema = new Schema({
+  name: {
+    type: String, 
+    required: true
+  }, 
+  age: Number, 
+  favoriteFoods: [String]
+}) 
+
+let Person = model('Person', personSchema);
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+```
+
+
+### Create and Save a Record of a Model
 
