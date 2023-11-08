@@ -185,6 +185,110 @@ clip-path: inset(5% 20% 15% 10%);
 ```
 
 
+## prefers-color-scheme 
+The prefers-color-scheme CSS media feature is used to detect if a user has requested light or dark color themes. A user indicates their preference through an operating system setting (e.g. light or dark mode) or a user agent setting.
+```html 
+<div class="box theme-a">Theme A (initial)</div>
+<div class="box theme-a adaptive">Theme A (changed if dark preferred)</div>
+<br />
+
+<div class="box theme-b">Theme B (initial)</div>
+<div class="box theme-b adaptive">Theme B (changed if light preferred)</div>
+```
+
+Theme A (brown) uses a light color scheme by default, but will switch to a dark scheme based on the media query:
+```css 
+.theme-a {
+  background: #dca;
+  color: #731;
+}
+@media (prefers-color-scheme: dark) {
+  .theme-a.adaptive {
+    background: #753;
+    color: #dcb;
+    outline: 5px dashed #000;
+  }
+}
+```
+
+Using prefers color scheme on svg 
+```html 
+<div>
+  <img />
+</div>
+
+<div style="color-scheme: light">
+  <img />
+</div>
+<div style="color-scheme: dark">
+  <img />
+</div>
+
+<!-- Embed an SVG for all <img> elements -->
+<script>
+  for (let img of document.querySelectorAll("img")) {
+    img.alt = "circle";
+    img.src =
+      "data:image/svg+xml;base64," +
+      btoa(`
+      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          :root { color: blue }
+          @media (prefers-color-scheme: dark) {
+            :root { color: purple }
+          }
+        </style>
+        <circle fill="currentColor" cx="16" cy="16" r="16"/>
+      </svg>
+    `);
+  }
+</script>
+```
+
+## Vertical Text  
+```css 
+  writing-mode: vertical-lr;
+```
+
+## Flip an Image 
+### Vertically 
+```css 
+ transform: scaleY(-1); 
+```
+
+### Horizontally 
+```css 
+ transform: scaleX(-1); 
+```
+
+
+## Resizable div or comtainer 
+
+### Vertically and Horizontally
+```css 
+  overflow: auto; 
+  resize: both;
+```
+
+### Vertically
+```css 
+  overflow: auto; 
+  resize: vertically;
+```
+
+
+### Gradient Text 
+```css 
+background: linear-gradient(to right, red, blue);
+-webkit-background-clip: transparent;
+-webkit-text-fill-color: transparent;
+```
+
+### Horizontally
+```css 
+  overflow: auto; 
+  resize: horizontally;
+```
 
 
 ## Others
