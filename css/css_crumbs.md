@@ -282,12 +282,18 @@ Using prefers color scheme on svg
 background: linear-gradient(to right, red, blue);
 -webkit-background-clip: transparent;
 -webkit-text-fill-color: transparent;
-```
+``` 
 
 ### Horizontally
 ```css 
   overflow: auto; 
   resize: horizontally;
+```
+
+## Pointer-events  
+Prevent an selection of an element.
+```css 
+ pointer-events: none;
 ```
 
 
