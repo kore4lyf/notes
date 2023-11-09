@@ -728,6 +728,22 @@ The structure of a CLI command consists of the following three parts:
 In this module, you learn about class libraries, and write code that calls methods in the .NET Class Library. You learn the characteristics of methods, and why methods of the .NET Class Library are designed and implemented differently across the .NET Class Library. Most importantly, you write code that uses the .NET Library methods to achieve a specific programming task. Finally, you'll use built-in tools and online documentation to help you gather information about the methods you want to work with. 
 
 
+### .NET Class Library 
+The .NET Class Library is a collection of thousands of classes containing tens of thousands of methods. 
+For example, the .NET Class Library includes the Console class for developers working on console applications. The Console class includes methods for input and output operations such as `Write()`, `WriteLine()`, `Read()`, `ReadLine()`, and many others. For example, you may already be familiar with the following code:
+```cs 
+Console.WriteLine("Hello, World!")
+```
+You can think of a class as a container for Methods. 
+
+There's also several families of classes that enable you to build native desktop applications. Another subset of classes and methods enable you to access a database. There are lots of classes in the .NET Class Library that support specific types of applications. 
+
+
+#### Even data types are part of the .NET Class Library
+C# data types (such as string and int) are actually made available through classes in the .NET Class Library. 
+
+
+
 
 
 
