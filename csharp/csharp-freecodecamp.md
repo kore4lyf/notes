@@ -703,4 +703,31 @@ Console.WriteLine($"\nFinal GPA:\t\t\t {leadingDigit}.{firstDigit}{secondDigit}"
 
 
 
-## 
+## Create and run simple C# console applications
+
+### Check to see if .NET is already installed 
+1. Open the Windows Command Prompt app or another application that displays a terminal command prompt.
+2. At the command prompt, type: `dotnet --version` and then press the Enter key. 
+
+
+ During this training, you use .NET CLI commands to create new console applications, build your project code, and run your applications.
+
+For example, the following .NET CLI command will create a new console application in the specified folder location:
+
+```sh
+dotnet new console -o ./CsharpProjects/TestProject
+```
+The structure of a CLI command consists of the following three parts: 
+- The driver: `dotnet` in this example.
+- The command: `new console` in this example.
+- The command arguments: `-o ./CsharpProjects/TestProject` in this example.
+
+
+
+### Call Methods From the .NET Class Library Using C#
+In this module, you learn about class libraries, and write code that calls methods in the .NET Class Library. You learn the characteristics of methods, and why methods of the .NET Class Library are designed and implemented differently across the .NET Class Library. Most importantly, you write code that uses the .NET Library methods to achieve a specific programming task. Finally, you'll use built-in tools and online documentation to help you gather information about the methods you want to work with. 
+
+
+
+
+
