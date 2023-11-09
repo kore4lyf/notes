@@ -395,6 +395,209 @@ Console.WriteLine($"{russianMessage}:\n\t\t{russianLocation}\n");
 ```
 
 
+## Perform basic operations on numbers 
+```cs 
+int firstNumber = 12;
+int secondNumber = 7;
+Console.WriteLine(firstNumber + secondNumber);
+```
+Output
+19 
+
+
+### Mix data types to force implicit type conversions
+What happens if you try to use the + symbol with both string and int values? 
+```cs 
+string firstName = "Bob";
+int widgetsSold = 7;
+Console.WriteLine(firstName + " sold " + widgetsSold + " widgets.");
+```
+Run the code and you'll see the following result in the output console:
+
+Output
+Bob sold 7 widgets.
+
+> It attempts to implicitly convert the int variable widgetsSold into a string temporarily so it can concatenate it to the rest of the string. The C# compiler tries to help you when it can, but ideally, you would be explicit about your intentions.
+
+Add parentheses to clarify your intention to the compiler
+Modify the code you wrote to match the following code:
+```cs 
+string firstName = "Bob";
+int widgetsSold = 7;
+Console.WriteLine(firstName + " sold " + (widgetsSold + 7) + " widgets.");
+``` 
+
+Run the code and you'll see the following result in the output console:
+
+Output
+Bob sold 14 widgets.
+
+
+
+#### Math Operations 
+```cs 
+int sum = 7 + 5;
+int difference = 7 - 5;
+int product = 7 * 5;
+int quotient = 7 / 5;
+
+Console.WriteLine("Sum: " + sum);
+Console.WriteLine("Difference: " + difference);
+Console.WriteLine("Product: " + product);
+Console.WriteLine("Quotient: " + quotient);
+```
+Run the code. You should see the following output:
+
+Output
+Sum: 12
+Difference: 2
+Product: 35
+Quotient: 1
+
+
+
+- + is the addition operator
+- - is the subtraction operator
+- * is the multiplication operator
+- / is the division operator
+
+> However, the resulting quotient of the division example may not be what you may have expected. The values after the decimal are truncated from the quotient since it is defined as an int, and int cannot contain values after the decimal.
+
+```cs 
+decimal decimalQuotient = 7.0m / 5;
+Console.WriteLine($"Decimal quotient: {decimalQuotient}");
+``` 
+Run the code. You should see the following output:
+
+Output
+Decimal quotient: 1.4
+
+
+For this to work, the quotient (left of the assignment operator) must be of type decimal and at least one of numbers being divided must also be of type decimal (both numbers can also be a decimal type).
+
+Here are two additional examples that work equally well: 
+```cs 
+decimal decimalQuotient = 7 / 5.0m;
+decimal decimalQuotient = 7.0m / 5.0m;
+``` 
+
+However, the following lines of code won't work (or give inaccurate results):
+```cs
+int decimalQuotient = 7 / 5.0m;
+int decimalQuotient = 7.0m / 5;
+int decimalQuotient = 7.0m / 5.0m;
+decimal decimalQuotient = 7 / 5;
+``` 
+
+#### Type Casting
+To cast int to decimal, you add the cast operator before the value. You use the name of the data type surrounded by parentheses in front of the value to cast it. In this case, you would add (decimal) before the variables first and second.
+
+```cs 
+int first = 7;
+int second = 5;
+decimal quotient = (decimal)first / (decimal)second;
+Console.WriteLine(quotient);
+``` 
+
+Run the code. You should see the following output:
+
+Output
+1.4
+
+> You've seen three uses for the parenthesis operator: method invocation, order of operations and casting. 
+
+#### Modulus (remainder after integer division)
+The modulus operator `%` tells you the remainder of int division.
+```cs 
+Console.WriteLine($"Modulus of 200 / 5 : {200 % 5}");
+Console.WriteLine($"Modulus of 7 / 5 : {7 % 5}");
+```
+Run the code. You should see the following output:
+
+Output
+Modulus of 200 / 5 : 0
+Modulus of 7 / 5 : 2 
+
+
+#### Order of operations
+As you learned in the previous exercise, you can use the () symbols as the order of operations operators. However, this isn't the only way the order of operations is determined.
+
+In math, **PEMDAS** is an acronym that helps students remember the order of operations. The order is:
+
+- Parentheses (whatever is inside the parenthesis is performed first)
+- Exponents
+- Multiplication and Division (from left to right)
+- Addition and Subtraction (from left to right)
+
+> C# follows the same order as PEMDAS except for exponents. While there's no exponent operator in C#, you can use the `System.Math.Pow method`. The module "Call methods from the .NET Class Library using C#" will feature this method and others.
+
+```cs 
+int value1 = 3 + 4 * 5;
+int value2 = (3 + 4) * 5;
+Console.WriteLine(value1);
+Console.WriteLine(value2);
+```
+Output
+23
+35 
+
+
+
+### Increment and decrement values 
+```cs 
+int value = 0;     // value is now 0.
+value = value + 5; // value is now 5.
+value += 5;        // value is now 10. 
+```
+The ++ operator increments the value of the variable by 1. So, lines two and three in the following code snippet are the same:
+
+```cs 
+int value = 0;     // value is now 0.
+value = value + 1; // value is now 1.
+value++;           // value is now 2.
+``` 
+
+
+> Operators like +=, -=, *=, ++, and -- are known as compound assignment operators because they compound some operation in addition to assigning the result to the variable. The += operator is specifically termed the addition assignment operator. 
+
+
+### Position the increment and decrement operators
+Both the increment and decrement operators have an interesting quality — depending on their position, they perform their operation before or after they retrieve their value. In other words, if you use the operator before the value as in ++value, then the increment will happen before the value is retrieved. Likewise, value++ will increment the value after the value has been retrieved.
+
+```cs 
+int value = 1;
+value++;
+Console.WriteLine("First: " + value);
+Console.WriteLine($"Second: {value++}");
+Console.WriteLine("Third: " + value);
+Console.WriteLine("Fourth: " + (++value));
+```
+Run the code. You should see the following output:
+
+Output
+First: 2
+Second: 2
+Third: 3
+Fourth: 4
+
+Notice this line of code:
+```cs
+Console.WriteLine($"Second: {value++}");
+``` 
+There's two steps to this line:
+Retrieve the current value of the variable value and use that in the string interpolation operation.
+Increment the value.
+
+
+
+# Convert Fahremheit to Celsius 
+```cs 
+int fahrenheit = 94;
+decimal celsius = (fahrenheit - 32m) * (5m / 9m);
+Console.WriteLine("The temperature is " + celsius + " Celsius.");
+``` 
+
+
 
 
 
