@@ -744,6 +744,113 @@ C# data types (such as string and int) are actually made available through class
 
 
 
+### Call the methods of a .NET Class 
+From your previous experience with the Console.WriteLine() method, you should already know the basics:
+
+- Start by typing the class name. In this case, the class name is Console.
+- Add the member access operator, the . symbol.
+- Add the method's name. In this case, the method's name is WriteLine.
+- Add the method invocation operator, which is a set of parentheses ().
+- Finally, specify the arguments that are passed to the method, if there are any, between the parentheses of the method invocation operator. In this case, you specify the text that you want the Console.WriteLine() method to write to the console (for example, "Hello World!"). 
+
+```cs 
+Random dice = new Random();
+int roll = dice.Next(1, 7);
+Console.WriteLine(roll);
+``` 
+
+This code simulates a dice roll using the `Random.Next()` method to generate a number, and the `Console.WriteLine()` method to display the value.
+
+On the third code line, you include a reference to the Console class and call the `Console.WriteLine()` method directly. However, you use a different technique for calling the `Random.Next()` method. The reason why you're using two different techniques is because some methods are stateful and others are stateless. Your next step is to examine the difference between stateful and stateless methods. 
+
+> Next is a statefull method 
+
+
+#### Stateful versus stateless methods
+In software development projects, the term state is used to describe the condition of the execution environment at a specific moment in time. As your code executes line by line, values are stored in variables. At any moment during execution, the current state of the application is the collection of all values stored in memory.
+
+Some methods don't rely on the current state of the application to work properly. In other words, **stateless methods** are implemented so that they can work without referencing or changing any values already stored in memory. **Stateless methods are also known as static methods**.
+
+For example, the Console.WriteLine() method doesn't rely on any values stored in memory. It performs its function and finishes without impacting the state of the application in any way. 
+
+Stateful (instance) methods keep track of their state in fields, which are variables defined on the class. Each new instance of the class gets its own copy of those fields in which to store state.
+
+> A single class can support both stateful and stateless methods. However, when you need to call stateful methods, you must first create an instance of the class so that the method can access state.
+
+#### Creating an instance of a class
+An instance of a class is called an object. To create a new instance of a class, you use the new operator. Consider the following line of code that creates a new instance of the Random class to create a new object called dice:
+
+```cs 
+Random dice = new Random(); 
+``` 
+
+The new operator does several important things:
+- It first requests an address in the computer's memory large enough to store a new object based on the Random class.
+- It creates the new object, and stores it at the memory address.
+- It returns the memory address so that it can be saved in the dice variable. 
+
+> To create the illusion of randomness, the developers of the Next() method decided to capture the date and time down to the fraction of a millisecond and use that to seed an algorithm that produces a different number each time. While not entirely random, it suffices for most applications. The state that is captured and maintained through the lifetime of the dice object is the seed value. 
+
+To use the Random.Next() method, however, you don't have to understand how it works. The important thing to know is that some methods require you to create an instance of a class before you call them, while others do not.
+
+#### How can you determine whether you need to create an instance of a class before calling its methods?
+- One approach for determining whether a method is stateful or stateless is to consult the documentation. The documentation includes examples that show whether the method must be called from the object instance or directly from the class.
+- As an alternative to searching through product documentation, you can attempt to access the method directly from the class itself. If it works, you know that it's a stateless method. 
+
+
+
+> **Recap**
+  >> To call methods of a class in the .NET Class Library, you use the format ClassName.MethodName(), where the . symbol is the member access operator to access a method defined on the class, and the () symbols are the method invocation operators.
+  >> When calling a stateless method, you don't need to create a new instance of its class first.
+  >> When calling a stateful method, you need to create an instance of the class, and access the method on the object.
+  >> Use the new operator to create a new instance of a class.
+  >> An instance of a class is called an object.
+
+
+### Return values and input parameters of methods 
+#### Return values
+Some methods are designed to complete their function and end "quietly". In other words, they don't return a value when they finish. They are referred to as void methods.
+
+Other methods are designed to return a value upon completion. The return value is typically the result of an operation.
+
+#### Input parameters
+The information consumed by a method is called a parameter. A method can use one or more parameters to accomplish its task, or none at all.
+
+> Often times, the terms 'parameter' and 'argument' are used interchangeably. However, 'parameter' refers to the variable that's being used inside the method. An 'argument' is the value that's passed when the method is called.
+
+
+
+#### Overloaded methods
+Many methods in the .NET Class Library have overloaded method signatures. Among other things, this enables you to call the method with or without parameters.
+
+An overloaded method is defined with multiple method signatures. Overloaded methods provide different ways to call the method or provide different types of data.
+
+In some cases, overloaded versions of a method are used to accept an input parameter using different data types. For example, the Console.WriteLine() method has 19 different overloaded versions. Most of those overloads allow the method to accept different types and then write the specified information to the console. Consider the following code:
+
+```cs 
+int number = 7;
+string text = "seven";
+
+Console.WriteLine(number);
+Console.WriteLine();
+Console.WriteLine(text);
+``` 
+
+For example, the Random.Next() method has three different overloaded versions. 
+
+```cs
+Random dice = new Random();
+int roll1 = dice.Next();
+int roll2 = dice.Next(101);
+int roll3 = dice.Next(50, 101);
+
+Console.WriteLine($"First roll: {roll1}");
+Console.WriteLine($"Second roll: {roll2}");
+Console.WriteLine($"Third roll: {roll3}");
+``` 
+
+
+
 
 
 
