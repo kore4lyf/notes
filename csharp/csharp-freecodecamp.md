@@ -984,7 +984,7 @@ else
 ``` 
 
 
-### Complete a challenge activity to apply business rules 
+#### Complete a challenge activity to apply business rules 
 ```cs 
 Random random = new Random();
 int daysUntilExpiration = random.Next(12);
@@ -1014,5 +1014,172 @@ if (discountPercentage > 0)
     Console.WriteLine($"Renew now and save {discountPercentage}%.");
 }
 ```  
+
+
+
+### Store and Iterate Through Sequences of Data Using Arrays and the foreach Statement in C# 
+
+#### Get started with array basics 
+##### Declare a new array
+To declare a new array of strings that can hold three elements, enter the following code:
+
+```cs 
+string[] fraudulentOrderIDs = new string[3];
+``` 
+
+The new operator creates a new instance of an array in the computer's memory that can hold three string values. For more information about the new keyword, see the module "Call methods from the .NET Class Library using C#".
+
+Notice that the first set of square brackets [] merely tells the compiler that the variable named fraudulentOrderIDs is an array, but the second set of square brackets [3] indicates the number of elements that the array can hold. 
+
+```cs 
+string[] fraudulentOrderIDs = new string[3];
+
+fraudulentOrderIDs[0] = "A123";
+fraudulentOrderIDs[1] = "B456";
+fraudulentOrderIDs[2] = "C789"; 
+```  
+
+##### Attempt to use an index that is out of bounds of the array 
+dotnet build and then press Enter.
+
+You should see the following message:
+
+Output 
+```
+Build succeeded.        
+    0 Warning(s)        
+    0 Error(s)
+```
+At the Terminal command prompt, to run your code, type dotnet run and then press Enter.
+
+
+When you run the app, you get the following runtime error message:
+Output 
+``` 
+Unhandled exception. System.IndexOutOfRangeException: Index was outside the bounds of the array.     
+   at Program.< Main >$(String[] args) in C:\Users\someuser\Desktop\CsharpProjects\TestProject\Program.cs:line 6
+``` 
+
+Notice the following parts of the error:
+- Error message: System.IndexOutOfRangeException: Index was outside the bounds of the array.
+- Error location: Program.cs:line 6
+
+##### Reinitialising 
+```cs 
+string[] fraudulentOrderIDs = new string[3];
+
+fraudulentOrderIDs[0] = "A123";
+fraudulentOrderIDs[1] = "B456";
+fraudulentOrderIDs[2] = "C789";
+// fraudulentOrderIDs[3] = "D000";
+
+Console.WriteLine($"First: {fraudulentOrderIDs[0]}");
+Console.WriteLine($"Second: {fraudulentOrderIDs[1]}");
+Console.WriteLine($"Third: {fraudulentOrderIDs[2]}");
+
+fraudulentOrderIDs[0] = "F000";
+
+Console.WriteLine($"Reassign First: {fraudulentOrderIDs[0]}");
+``` 
+
+Output
+First: A123
+Second: B456
+Third: C789
+Reassign First: F000
+
+
+##### Initialize an array
+You can initialize an array during declaration just like you would a regular variable.  
+
+```cs 
+string[] fraudulentOrderIDs = { "A123", "B456", "C789" };
+``` 
+
+Ensure that your code matches the following example:
+```cs 
+/*
+string[] fraudulentOrderIDs = new string[3];
+
+fraudulentOrderIDs[0] = "A123";
+fraudulentOrderIDs[1] = "B456";
+fraudulentOrderIDs[2] = "C789";
+// fraudulentOrderIDs[3] = "D000";
+*/
+
+string[] fraudulentOrderIDs = { "A123", "B456", "C789" };
+
+Console.WriteLine($"First: {fraudulentOrderIDs[0]}");
+Console.WriteLine($"Second: {fraudulentOrderIDs[1]}");
+Console.WriteLine($"Third: {fraudulentOrderIDs[2]}");
+
+fraudulentOrderIDs[0] = "F000";
+
+Console.WriteLine($"Reassign First: {fraudulentOrderIDs[0]}"); 
+```
+
+
+##### Use the Length property of an array
+Depending on how the array is created, you may not know in advance how many elements an array contains. To determine the size of an array, you can use the Length property. 
+
+```cs 
+Console.WriteLine($"There are {fraudulentOrderIDs.Length} fraudulent orders to process."); 
+``` 
+There are 3 fraudulent orders to process. 
+
+
+
+
+####  Implement the foreach statement 
+```cs 
+string[] names = { "Rowena", "Robin", "Bao" };
+foreach (string name in names)
+{
+    Console.WriteLine(name);
+} 
+``` 
+
+Output
+Rowena
+Robin
+Bao
+
+
+```cs 
+int[] inventory = { 200, 450, 700, 175, 250 };
+int sum = 0;
+foreach (int items in inventory)
+{
+    sum += items;
+}
+
+Console.WriteLine($"We have {sum} items in inventory."); 
+``` 
+
+
+#### Complete a challenge activity for nested iteration and selection statements 
+```cs 
+string[] orderIDs = { "B123", "C234", "A345", "C15", "B177", "G3003", "C235", "B179" };
+
+foreach (string orderID in orderIDs)
+{
+    if (orderID.StartsWith("B"))
+    {
+        Console.WriteLine(orderID);
+    }
+} 
+``` 
+
+
+
+### Create readable code with conventions, whitespace, and comments in C#  
+In this module, you'll learn how to choose names for your variables that describe their purpose and intent. You'll learn how to add code comments that document the higher-level requirements and your approach in code, as well as to temporarily instruct the compiler to ignore lines of code. Finally, you'll learn how whitespace can be used to help convey the relationship of individual lines of code.
+
+#### Choose variable names that follow rules and conventions
+
+
+
+
+
 
 
