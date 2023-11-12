@@ -1176,6 +1176,260 @@ foreach (string orderID in orderIDs)
 In this module, you'll learn how to choose names for your variables that describe their purpose and intent. You'll learn how to add code comments that document the higher-level requirements and your approach in code, as well as to temporarily instruct the compiler to ignore lines of code. Finally, you'll learn how whitespace can be used to help convey the relationship of individual lines of code.
 
 #### Choose variable names that follow rules and conventions
+Not only does the name of a variable have to follow certain syntax rules, it should also be used to make the code more human-readable and understandable. That's a lot to ask of one line of code!. 
+
+##### Variable name rules 
+- Variable names can contain alphanumeric characters and the underscore character. Special characters like the pound #, the dash -, and the dollar sign $ are not allowed.
+- Variable names must begin with an alphabetical letter or an underscore, not a number. Developers use the underscore for a special purpose, so try to not use that for now.
+- Variable names must NOT be a C# keyword. For example, these variable name declarations won't be allowed: float float; or string string;.
+- Variable names are case-sensitive, meaning that string MyValue; and string myValue; are two different variables.
+
+
+#### Variable name conventions 
+- Variable names should use camel case. For example: `string thisIsCamelCase;`
+- Variable names should be descriptive and meaningful in your application. You should choose a name for your variable that represents the kind of data it will hold (not the data type). >For example: bool orderComplete;, NOT bool isComplete;.
+- Variable names should be one or more entire words appended together. Don't use contractions because the name of the variable may be unclear to others who are reading your code. >For example: decimal orderAmount;, NOT decimal odrAmt;.
+- Variable names shouldn't include the data type of the variable. You might see some advice to use a style like string strMyValue;. It was a popular style years ago. However, most developers don't follow this advice anymore and there are good reasons not to use it. 
+
+
+#### Variable name examples
+Here's a few examples of variable declarations (using common data types):
+
+```cs
+char userOption;
+
+int gameScore;
+
+float particlesPerMillion;
+
+bool processedCustomer;
+``` 
+
+
+#### Create effective code comments 
+A code comment is an instruction to the compiler to ignore everything after the code comment symbols in the current line. 
+
+This may not seem useful at first, however it's useful in three situations:
+- When you want to leave a note about the intent of a passage of code. It can be helpful to include code comments that describe the purpose or the thought process when you're writing a particularly challenging set of coding instructions. Your future self will thank you.
+- When you want to temporarily remove code from your application to try a different approach, but you're not yet convinced your new idea will work. You can comment out the code, write the new code, and once you're convinced the new code will work the way you want it to, you can safely delete the old (commented code).
+- Adding a message like TODO to remind you to look at a given passage of code later. While you should use this judiciously, it's a useful approach. You may be working on another feature when you read a line of code that sparks a concern. Rather than ignoring the new concern, you can mark it for investigation later. 
+
+
+> Code comments should be used to say what the code cannot. Often, developers update their code but forget to update the code comments. It's best to use comments for higher-level ideas and not to add comments about how an individual line of code works.
+
+
+```cs 
+string firstName = "Bob";
+int widgetsPurchased = 7;
+// Testing a change to the message.
+// int widgetsSold = 7;
+// Console.WriteLine($"{firstName} sold {widgetsSold} widgets.");
+Console.WriteLine($"{firstName} purchased {widgetsPurchased} widgets."); 
+``` 
+
+
+##### Random random = new Random();
+```cs 
+string[] orderIDs = new string[5];
+// Loop through each blank orderID
+for (int i = 0; i < orderIDs.Length; i++)
+{
+    // Get a random value that equates to ASCII letters A through E
+    int prefixValue = random.Next(65, 70);
+    // Convert the random value into a char, then a string
+    string prefix = Convert.ToChar(prefixValue).ToString();
+    // Create a random number, pad with zeroes
+    string suffix = random.Next(1, 1000).ToString("000");
+    // Combine the prefix and suffix together, then assign to current OrderID
+    orderIDs[i] = prefix + suffix;
+}
+// Print out each orderID
+foreach (var orderID in orderIDs)
+{
+    Console.WriteLine(orderID);
+} 
+```  
+
+
+To add a comment that explains the higher-level purpose of your code, update your code as follows:
+
+```cs 
+/*
+  The following code creates five random OrderIDs
+  to test the fraud detection process.  OrderIDs 
+  consist of a letter from A to E, and a three
+  digit number. Ex. A123.
+*/
+Random random = new Random();
+string[] orderIDs = new string[5];
+
+for (int i = 0; i < orderIDs.Length; i++)
+{
+    int prefixValue = random.Next(65, 70);
+    string prefix = Convert.ToChar(prefixValue).ToString();
+    string suffix = random.Next(1, 1000).ToString("000");
+
+    orderIDs[i] = prefix + suffix;
+}
+
+foreach (var orderID in orderIDs)
+{
+    Console.WriteLine(orderID);
+} 
+```
+
+
+#### Use whitespace to make your code easier to read 
+What is whitespace?
+The term "whitespace" refers to individual spaces produced by the space bar, tabs produced by the tab key, and new lines produced by the enter key. The C# compiler ignores whitespace
+
+```cs 
+// Example 1:
+Console
+.
+WriteLine
+(
+"Hello Example 1!"
+)
+;
+
+// Example 2:
+string firstWord="Hello";string lastWord="Example 2";Console.WriteLine(firstWord+" "+lastWord+"!"); 
+```  
+
+Output
+Hello Example 1!
+Hello Example 2!
+
+
+
+```cs 
+// Example 1 
+Random dice = new Random();
+int roll1 = dice.Next(1, 7);
+int roll2 = dice.Next(1, 7);
+int roll3 = dice.Next(1, 7);
+int total = roll1 + roll2 + roll3;
+Console.WriteLine($"Dice roll: {roll1} + {roll2} + {roll3} = {total}");
+if ((roll1 == roll2) || (roll2 == roll3) || (roll1 == roll3)) {
+    if ((roll1 == roll2) && (roll2 == roll3)) {
+        Console.WriteLine("You rolled triples!  +6 bonus to total!");
+        total += 6; 
+    } else {
+        Console.WriteLine("You rolled doubles!  +2 bonus to total!");
+        total += 2;
+    }
+} 
+
+
+
+// Example 2 
+Random dice = new Random();
+
+int roll1 = dice.Next(1, 7);
+int roll2 = dice.Next(1, 7);
+int roll3 = dice.Next(1, 7);
+
+int total = roll1 + roll2 + roll3;
+Console.WriteLine($"Dice roll: {roll1} + {roll2} + {roll3} = {total}");
+
+if ((roll1 == roll2) || (roll2 == roll3) || (roll1 == roll3)) {
+    if ((roll1 == roll2) && (roll2 == roll3)) {
+        Console.WriteLine("You rolled triples!  +6 bonus to total!");
+        total += 6; 
+    } else {
+        Console.WriteLine("You rolled doubles!  +2 bonus to total!");
+        total += 2;
+    }
+} 
+
+
+
+
+
+// Exaple 3 
+
+Random dice = new Random();
+
+int roll1 = dice.Next(1, 7);
+int roll2 = dice.Next(1, 7);
+int roll3 = dice.Next(1, 7);
+
+int total = roll1 + roll2 + roll3;
+Console.WriteLine($"Dice roll: {roll1} + {roll2} + {roll3} = {total}");
+
+if ((roll1 == roll2) || (roll2 == roll3) || (roll1 == roll3)) 
+{
+    if ((roll1 == roll2) && (roll2 == roll3)) 
+    {
+        Console.WriteLine("You rolled triples!  +6 bonus to total!");
+        total += 6; 
+    } 
+    else 
+    {
+        Console.WriteLine("You rolled doubles!  +2 bonus to total!");
+        total += 2;
+    }
+}
+``` 
+
+
+#### Code readability challenge
+In this challenge, you'll use the techniques you learned in this module to improve the readability of a code sample. You are provided with a code sample that is poorly styled and commented. Your goal is to update the code using style guidelines for variable names, code comments, and whitespace to improve code readability. 
+
+// Ex1 poor commented, name & white space
+```cs 
+string str = "The quick brown fox jumps over the lazy dog.";
+// convert the message into a char array
+char[] charMessage = str.ToCharArray();
+// Reverse the chars
+Array.Reverse(charMessage);
+int x = 0;
+// count the o's
+foreach (char i in charMessage) { if (i == 'o') { x++; } }
+// convert it back to a string
+string new_message = new String(charMessage);
+// print it out
+Console.WriteLine(new_message);
+Console.WriteLine($"'o' appears {x} times."); 
+```
+
+// Ex2 Solution 
+```cs 
+/*
+   This code reverses a message, counts the number of times 
+   a particular character appears, then prints the results
+   to the console window.
+ */
+
+string originalMessage = "The quick brown fox jumps over the lazy dog.";
+
+char[] message = originalMessage.ToCharArray();
+Array.Reverse(message);
+
+int letterCount = 0;
+
+foreach (char letter in message)
+{
+    if (letter == 'o')
+    {
+        letterCount++;
+    }
+}
+
+string newMessage = new String(message);
+
+Console.WriteLine(newMessage);
+Console.WriteLine($"'o' appears {letterCount} times.");
+```
+
+
+### Develop foreach and if-elseif-else structures to process array data in C#
+
+
+
+
+
 
 
 
