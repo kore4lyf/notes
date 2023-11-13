@@ -1998,6 +1998,158 @@ else
 
 
 
+#### Branch the flow of code using the switch-case construct in C#
+A switch statement is a control flow structure that allows you to execute a block of code based on the value of a variable or expression. It is a more concise and readable alternative to an if-elseif-else construct when you have a variable that can take on multiple values.
+
+Here is the basic syntax of a switch statement:
+
+```cs 
+switch (expression)
+{
+    case value1:
+        // Code to execute if expression equals value1
+        break;
+    case value2:
+        // Code to execute if expression equals value2
+        break;
+    // ...
+    default:
+        // Code to execute if expression does not equal any of the values
+}
+``` 
+
+ 
+
+They are more concise, readable, and maintainable than if-elseif-else constructs. When you have a variable or expression that can take on multiple values, you should consider using a switch statement to implement your branching logic. 
+
+
+**Benefits of Using Switch Statements**
+There are several benefits to using switch statements over if-elseif-else constructs:
+
+- Switch statements are more concise and readable. This is because you do not have to write multiple if statements and else clauses.
+- Switch statements are easier to maintain. This is because you can easily add or remove case blocks without having to modify the rest of the code.
+- Switch statements are more expressive. This is because they make it clear which code will be executed for each value of the expression.
+
+
+
+#### How Switch works 
+default is optional.
+```cs 
+switch (fruit)
+{
+    case "apple":
+        Console.WriteLine($"App will display information for apple.");
+        break;
+
+    case "banana":
+        Console.WriteLine($"App will display information for banana.");
+        break;
+
+    case "cherry":
+        Console.WriteLine($"App will display information for cherry.");
+        break;
+} 
+``` 
+
+
+```cs 
+int employeeLevel = 200;
+string employeeName = "John Smith";
+
+string title = "";
+
+switch (employeeLevel)
+{
+    case 100:
+        title = "Junior Associate";
+        break;
+    case 200:
+        title = "Senior Associate";
+        break;
+    case 300:
+        title = "Manager";
+        break;
+    case 400:
+        title = "Senior Manager";
+        break;
+    default:
+        title = "Associate";
+        break;
+}
+
+Console.WriteLine($"{employeeName}, {title}"); 
+``` 
+
+
+> The break keyword tells the runtime to stop evaluating case patterns and prevents execution of other cases in the switch Construct. 
+
+
+> The default keyword acts as the matching value when none of the supplied values is a match. 
+
+
+#### Solution to Exercise 
+```cs 
+// SKU = Stock Keeping Unit
+string sku = "01-MN-L";
+
+string[] product = sku.Split('-');
+
+string type = "";
+string color = "";
+string size = "";
+
+switch (product[0])
+{
+    case "01":
+        type = "Sweat shirt";
+        break;
+    case "02":
+        type = "T-Shirt";
+        break;
+    case "03":
+        type = "Sweat pants";
+        break;
+    default:
+        type = "Other";
+        break;
+}
+
+switch (product[1])
+{
+    case "BL":
+        color = "Black";
+        break;
+    case "MN":
+        color = "Maroon";
+        break;
+    default:
+        color = "White";
+        break;
+}
+
+switch (product[2])
+{
+    case "S":
+        size = "Small";
+        break;
+    case "M":
+        size = "Medium";
+        break;
+    case "L":
+        size = "Large";
+        break;
+    default:
+        size = "One Size Fits All";
+        break;
+}
+
+Console.WriteLine($"Product: {size} {color} {type}"); 
+``` 
+
+
+
+
+
 
 
 
