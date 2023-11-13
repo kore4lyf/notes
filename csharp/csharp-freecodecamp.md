@@ -1712,12 +1712,162 @@ Console.ReadLine();
 ```
 
 
+## Add Logic to C# Console Applications 
+
+### Evaluate Boolean expressions to make decisions in C# 
+#### Evaluate an expression
+
+What is an expression?
+An expression is any combination of values (literal or variable), operators, and methods that return a single value. A statement is a complete instruction in C#, and statements are comprised of one or more expressions. For example, the following if statement contains a single expression that returns a single value:
+
+```cs 
+if (myName == "Luiz")
+``` 
+
+Developers refer to this type of expression as a Boolean expression. When your code includes a Boolean expression, return value is always a single true or false value.
+
+#### Evaluating equality and inequality 
+- equality operator `==`
+- inequality operator `!=`
+
+
+#### Evaluating comparisons
+When working with numeric data types, you may want to determine if a value is larger or smaller than another value. Use the following operators to perform these types of comparisons:
+
+- Greater than >
+- Less than <
+- Greater than or equal to >=
+- Less than or equal to <=
+
+Naturally, the == and != operators that you used to compare string values above will also work when comparing numeric data types.
+
+
+```cs 
+Console.WriteLine(1 > 2);
+Console.WriteLine(1 < 2);
+Console.WriteLine(1 >= 1);
+Console.WriteLine(1 <= 1);
+``` 
+
+You should see the following output:
+Output
+False
+True
+True
+True
+
+
+#### Methods that return a Boolean value
+Some methods return a Boolean value (true or false). In the following exercise, you'll use a built-in method of the String class to determine whether or not a larger string contains a specific word or phrase that's significant to your application.
+
+ Note
+
+> Some data types have methods that perform helpful utility tasks. The String data type has many of these. Several return a Boolean value including `Contains()`, `StartsWith()`, and `EndsWith()`. You can learn more about them in the Microsoft Learn module "Manipulate alphanumeric data using String class methods in C#".
+
+```cs 
+string pangram = "The quick brown fox jumps over the lazy dog.";
+Console.WriteLine(pangram.Contains("fox"));
+Console.WriteLine(pangram.Contains("cow"));
+```
+You should see the following output.
+
+Output
+True
+False
+
+
+#### What is logical negation?
+The term "Logical Negation" refers to the ! operator. Some people call this operator the "not operator". When you place the ! operator before a conditional expression (or any code that's evaluated to either true or false), it forces your code to ensure that the expression is false.
+```cs
+string pangram = "The quick brown fox jumps over the lazy dog.";
+Console.WriteLine(!pangram.Contains("fox"));
+Console.WriteLine(!pangram.Contains("cow"));
+```
+
+#### Implement the conditional operator (aka Ternary Operator)
+**What is the conditional operator?**
+The conditional operator, also known as the ternary operator, is a shorthand way of writing a simple if-else statement in C#. It evaluates a Boolean expression and returns one of two results based on whether the expression is true or false.
+
+Basic form of the conditional operator:
+```cs
+<evaluate this condition> ? <if condition is true, return this value> : <if condition is false, return this value>
+``` 
+
+Example of using the conditional operator:
+```cs 
+int saleAmount = 1001;
+int discount = saleAmount > 1000 ? 100 : 50;
+Console.WriteLine($"Discount: {discount}");
+``` 
+
+This code snippet calculates the discount amount for a purchase based on the purchase amount. If the purchase amount is greater than $1000, the discount is $100; otherwise, the discount is $50.
+
+
+#### Review the solution to the conditional operator challenge activity
+The following code is one possible solution for the challenge from the previous unit.
+
+```cs 
+Random coin = new Random();
+int flip = coin.Next(0, 2);
+Console.WriteLine((flip == 0) ? "heads" : "tails");
+```
+This code is merely "one possible solution". You could have eliminated the temporary variable flip by calling the Next() inside of the Boolean expression like so:
+
+```cs 
+Random coin = new Random();
+Console.WriteLine((coin.Next(0, 2) == 0) ? "heads" : "tails");
+``` 
+However, this code is packed densely and it might be more difficult to understand what the code is doing.
 
 
 
+#### Solution to the Boolean expressions challenge 
+
+```cs 
+string permission = "Admin|Manager";
+int level = 53;
+
+if (permission.Contains("Admin"))
+{
+    if (level > 55)
+    {
+        Console.WriteLine("Welcome, Super Admin user.");
+    }
+    else
+    {
+        Console.WriteLine("Welcome, Admin user.");
+    }
+}
+else if (permission.Contains("Manager"))
+{
+    if (level >= 20)
+    {
+        Console.WriteLine("Contact an Admin for access.");
+    }
+    else
+    {
+        Console.WriteLine("You do not have sufficient privileges.");
+    }
+}
+else
+{
+    Console.WriteLine("You do not have sufficient privileges.");
+}
+```
 
 
 
+### Control variable scope and logic using code blocks in C# 
+**Selection and iteration statements:**
+Code blocks are used to group together code lines for execution, skipping, or iteration.
+Code blocks can also control or limit variable accessibility.
+Variable scope refers to the portion of an application where a variable is accessible.
+
+**Variable scope issues:**
+Reusing variable names in different parts of an application can lead to unexpected results and errors.
+Declaring variables inside and outside code blocks can affect their accessibility.
+
+#### 
 
 
 
