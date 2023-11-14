@@ -2147,6 +2147,114 @@ Console.WriteLine($"Product: {size} {color} {type}");
 ``` 
 
 
+### Iterate Through a Code Block Using the for Statement in C# 
+
+#### Create and configure for iteration loops 
+A for statement is a control flow structure that allows you to execute a block of code a specific number of times. It is a more concise and readable alternative to an if-elseif-else construct when you know the number of times you need to iterate through a block of code.
+
+Here is the basic syntax of a for statement:
+```cs 
+for (initialization; condition; iterator)
+{
+    // Code to execute
+}
+``` 
+
+The for keyword is followed by three parts, separated by semicolons:
+
+- **Initialization**: This part initializes the loop variable.
+- **Condition**: This part specifies the condition that determines whether the loop should continue iterating.
+- **Iterator**: This part specifies what happens after each iteration.
+
+The code block enclosed in curly braces is executed for each iteration of the loop. The loop continues iterating as long as the condition is true.
+
+Example
+The following code snippet iterates through the numbers from 0 to 9 and prints each number to the console:
+```cs 
+for (int i = 0; i < 10; i++)
+{
+    Console.WriteLine(i);
+}
+```  
+
+##### Common Uses for For Statements
+
+For statements are commonly used to iterate through arrays and collections. For example, the following code snippet iterates through an array of strings and prints each string to the console:
+
+```cs 
+string[] names = { "John", "Jane", "Peter", "Mary" };
+
+for (int i = 0; i < names.Length; i++)
+{
+    Console.WriteLine(names[i]);
+}
+``` 
+
+
+```cs 
+string[] names = { "Alex", "Eddie", "David", "Michael" };
+for (int i = names.Length - 1; i >= 0; i--)
+{
+    Console.WriteLine(names[i]);
+}
+```
+
+For statements can also be used to iterate through a range of numbers. For example, the following code snippet iterates through the numbers from 1 to 10 and prints the square of each number to the console:
+
+```cs 
+for (int i = 1; i <= 10; i++)
+{
+    Console.WriteLine(i * i);
+}
+``` 
+
+#### Use the break keyword to break the iteration statement
+What if we need to exit the iteration statement prematurely based on some condition? We can use the break keyword.
+
+Use the Visual Studio Code Editor to update your code as follows:
+
+```cs 
+for (int i = 0; i < 10; i++)
+{
+    Console.WriteLine(i);
+    if (i == 7) break;
+}
+``` 
+
+
+####  Iterate Through a Code Block Using the for Statemernt in C#
+##### Loop through each element of an array 
+```cs 
+string[] names = { "Alex", "Eddie", "David", "Michael" };
+for (int i = names.Length - 1; i >= 0; i--)
+{
+    Console.WriteLine(names[i]);
+} 
+```  
+
+##### Examine the limitation of the foreach statement 
+```cs 
+string[] names = { "Alex", "Eddie", "David", "Michael" };
+foreach (var name in names)
+{
+    // Can't do this:
+    if (name == "David") name = "Sammy";
+}
+```
+Output 
+Cannot assign to name because it is a 'foreach iteration variable'
+
+##### Overcoming the limitation of the foreach statement using the for statement 
+```cs 
+string[] names = { "Alex", "Eddie", "David", "Michael" };
+for (int i = 0; i < names.Length; i++)
+    if (names[i] == "David") names[i] = "Sammy";
+
+foreach (var name in names) Console.WriteLine(name); 
+``` 
+
+
+
 
 
 
