@@ -2255,12 +2255,366 @@ foreach (var name in names) Console.WriteLine(name);
 
 
 
+### Add Looping Logic to Your Code Using the do-while and while Statements in C# 
+
+**Introduction**
+The do-while and while statements are two looping constructs in C# that allow you to execute a block of code repeatedly until a condition is met. The main difference between the two is that the do-while statement will always execute its code block at least once, even if the condition is false at the start of the loop. The while statement, on the other hand, will only execute its code block if the condition is true at the start of the loop.
+
+**When to use each statement**
+The do-while statement is a good choice when you want to make sure that a certain block of code is executed at least once, even if the condition is false at the start of the loop. For example, you might use a do-while loop to accept user input until the user enters a valid value.
+
+The while statement is a good choice when you don't know how many times you need to execute a block of code. For example, you might use a while loop to continue generating random numbers until you get a number that is greater than 100.
+
+**Using the continue statement**
+The continue statement is a keyword that can be used to skip the rest of the code in a loop and go directly to the next iteration. For example, you might use the continue statement to skip over an iteration of a loop if the current value of a variable is not what you're looking for.
+
+> The continue statement is used to skip the rest of the code in a loop and go directly to the next iteration.
+
+
+
+#### Task 1: 
+Write a do-while loop that generates random numbers between 1 and 10 until it generates the number 7
+
+Code:
+
+```cs 
+Random random = new Random();
+int current = 0;
+
+do
+{
+    current = random.Next(1, 11);
+    Console.WriteLine(current);
+} while (current != 7);
+```
+Use code with caution. Learn more 
+
+Result:
+2
+5
+8
+2
+7
+
+
+Task 2: Write a while loop that iterates only while a random number is greater than or equal to 3
+
+```cs 
+Random random = new Random();
+int current = random.Next(1, 11);
+
+while (current >= 3)
+{
+    Console.WriteLine(current);
+    current = random.Next(1, 11);
+}
+Console.WriteLine($"Last number: {current}"); 
+``` 
+
+Result:
+5
+1
+6
+7
+Last number: 2
+
+
+
+#### Task 3: 
+Use the continue statement to skip over iterations of a do-while loop where the current value is greater than or equal to 8
+
+Code:
+```cs 
+Random random = new Random();
+int current = random.Next(1, 11);
+
+do
+{
+    current = random.Next(1, 11);
+    if (current >= 8) continue;
+    Console.WriteLine(current);
+} while (current != 7);
+``` 
+
+Result:
+
+5
+1
+6
+7
+
+
+
+
+#### Exercise - Complete a challenge activity using do and while iteration statements 
+
+```cs 
+int hero = 10;
+int monster = 10;
+
+Random dice = new Random();
+
+do
+{
+    int roll = dice.Next(1, 11);
+    monster -= roll;
+    Console.WriteLine($"Monster was damaged and lost {roll} health and now has {monster} health.");
+
+    if (monster <= 0) continue;
+
+    roll = dice.Next(1, 11);
+    hero -= roll;
+    Console.WriteLine($"Hero was damaged and lost {roll} health and now has {hero} health.");
+
+} while (hero > 0 && monster > 0);
+
+Console.WriteLine(hero > monster ? "Hero wins!" : "Monster wins!"); 
+``` 
+
+
+As you have seen, C# supports four types of iteration statements: for, foreach, do-while, and while. Microsoft's language reference documentation describes these statements as follows:
+
+The for statement: executes its body while a specified Boolean expression (the 'condition') evaluates to true.
+The foreach statement: enumerates the elements of a collection and executes its body for each element of the collection.
+The do-while statement: conditionally executes its body one or more times.
+The while statement: conditionally executes its body zero or more times. 
+
+
+#### Manage user input during this challenge
+When using a Console.ReadLine() statement to obtain user input, it's common practice to use a nullable type string (designated string?) for the input variable and then evaluate the value entered by the user. The following code sample uses a nullable type string to capture user input. The iteration continues while the user-supplied value is null:
+
+```cs 
+string? readResult;
+Console.WriteLine("Enter a string:");
+do
+{
+    readResult = Console.ReadLine();
+} while (readResult == null);
+``` 
+
+> It's common practice to use a nullable type string (designated string?) for the input variable and then evaluate the value entered by the user. 
+
+
+```cs 
+string? readResult;
+bool validEntry = false;
+Console.WriteLine("Enter a string containing at least three characters:");
+do
+{
+    readResult = Console.ReadLine();
+    if (readResult != null)
+    {
+        if (readResult.Length >= 3)
+        {
+            validEntry = true;
+        }
+        else
+        {
+            Console.WriteLine("Your input is invalid, please try again.");
+        }
+    }
+} while (validEntry == false); 
+``` 
+
+#### int.TryParse()
+The `int.TryParse()` method can be used to convert a string value to an integer. The method uses two parameters, a string that will be evaluated and the name of an integer variable that will be assigned a value. The method returns a Boolean value. The following code sample demonstrates using the `int.TryParse()` method:
+
+```cs 
+// capture user input in a string variable named readResult
+
+int numericValue = 0;
+bool validNumber = false;
+
+validNumber = int.TryParse(readResult, out numericValue); 
+``` 
+
+If the string value assigned to readResult represents a valid integer, the value will be assigned to the integer variable named numericValue, and true will be assigned to the Boolean variable named validNumber. If the value assigned to readResult doesn't represent a valid integer, validNumber will be assigned a value of false. For example, if readResult is equal to "7", the value 7 will be assigned to numericValue. 
+
+
+Here is a table summarizing the key differences between int.Parse() and int.TryParse():
+
+| Feature |	int.Parse()	| int.TryParse() |
+| :--- | :--- |:--- | 
+| Behavior | if string cannot be converted to integer	Throws an exception	| Returns a false value |
+| Robustness |	Less robust |	More robust |
+| Recommended | usage	Use only if you are sure the string can be converted to an integer	| Use in most cases | 
+
+
+
+#### How to remove characters from a string using Remove() in C#
+Removing characters in C# can be done through the Remove() method. It removes characters in a string and returns a new string without the removed characters.
+
+If a length is not specified, it removes all the characters from the beginning index until the end.  
+
+**syntax**
+```cs 
+str.Remove(index)
+or
+str.Remove(index, length)
+``` 
+
+**parameters**
+str: This is the string that calls the Remove() method.
+
+index: This is the index position of characters to start deletion from. It is an integer value.
+
+length: This is the length of characters to delete. 
+
+
+**Return value**
+The value returned is a new string without the removed characters.
+
+
+
+#### Substring() Method 
+Substring() is a string method. It is used to retrieve a substring from the current instance of the string. This method can be overloaded by passing the different number of parameters to it as follows:
+
+```cs 
+String.Substring(Int32) Method
+String.Substring(Int32, Int32) Method
+String.Substring Method (startIndex)
+``` 
+
+This method is used to retrieves a substring from the current instance of the string. The parameter “startIndex” will specify the starting position of substring and then substring will continue to the end of the string. 
+
+Input : str  = "GeeksForGeeks"
+        str.Substring(5);
+Output: ForGeeks
+
+Input : str  = "GeeksForGeeks"
+        str.Substring(8);
+Output: Geeks 
+
+
+
+#### Project 1 code 
+
+```cs 
+string? readResult;
+string valueEntered = "";
+int numValue = 0;
+bool validNumber = false;
+
+Console.WriteLine("Enter an integer value between 5 and 10");
+
+do
+{
+    readResult = Console.ReadLine();
+    if (readResult != null) 
+    {
+        valueEntered = readResult;
+    }
+
+    validNumber = int.TryParse(valueEntered, out numValue);
+
+    if (validNumber == true)
+    {
+        if (numValue <= 5 || numValue >= 10)
+        {
+            validNumber = false;
+            Console.WriteLine($"You entered {numValue}. Please enter a number between 5 and 10.");
+        }
+    }
+    else 
+    {
+        Console.WriteLine("Sorry, you entered an invalid number, please try again");
+    }
+} while (validNumber == false);
+
+Console.WriteLine($"Your input value ({numValue}) has been accepted.");
+
+readResult = Console.ReadLine(); 
+``` 
+
+#### Project 2 code
+
+```cs 
+string? readResult;
+string roleName = "";
+bool validEntry = false;
+
+do
+{                
+    Console.WriteLine("Enter your role name (Administrator, Manager, or User)");
+    readResult = Console.ReadLine();
+    if (readResult != null) 
+    {
+        roleName = readResult.Trim();
+    }
+
+    if (roleName.ToLower() == "administrator" || roleName.ToLower() == "manager" || roleName.ToLower() == "user") 
+    {
+        validEntry = true;
+    }
+    else
+    {
+        Console.Write($"The role name that you entered, \"{roleName}\" is not valid. ");
+    }
+
+} while (validEntry == false);
+
+Console.WriteLine($"Your input value ({roleName}) has been accepted.");
+readResult = Console.ReadLine(); 
+``` 
+
+
+#### Project 3 code 
+```cs 
+string[] myStrings = new string[2] { "I like pizza. I like roast chicken. I like salad", "I like all three of the menu choices" };
+int stringsCount = myStrings.Length;
+
+string myString = "";
+int periodLocation = 0;
+
+for (int i = 0; i < stringsCount; i++)
+{
+    myString = myStrings[i];
+    periodLocation = myString.IndexOf(".");
+
+    string mySentence;
+
+    // extract sentences from each string and display them one at a time
+    while (periodLocation != -1)
+    {
+
+        // first sentence is the string value to the left of the period location
+        mySentence = myString.Remove(periodLocation);
+
+        // the remainder of myString is the string value to the right of the location
+        myString = myString.Substring(periodLocation + 1);
+
+        // remove any leading white-space from myString
+        myString = myString.TrimStart();
+
+        // update the comma location and increment the counter
+        periodLocation = myString.IndexOf(".");
+
+        Console.WriteLine(mySentence);
+    }
+ 
+    mySentence = myString.Trim();
+    Console.WriteLine(mySentence);
+} 
+``` 
+
+
+
+#### Knowledge Check 
+1. A developer needs to iterate through an array of items. The number of items in the array is unknown. The code inside the iteration code block examines each item sequentially to select an item that matches specified criteria. The index number of the selected array element is not important. The selected item is referenced multiple times within the code block. Which type of iteration statement is best suited for this scenario? 
+
+Answer: foreach
+
+Correct! It's possible to use any of these iteration types for the conditions described, but a foreach is best suited for this scenario. The foreach is easy to implement when the number of array elements is unknown. The foreach is a good choice when the index number of the selected array element isn't important. The foreach might run faster when the selected item is used multiple times within the code block. 
+
+
+2. A developer needs to capture a list of items from the user. The user will enter the keyboard combination ctrl + Esc to exit. Which is the best iteration statement for this purpose? 
+
+Answer: do-while
+
+Correct! The do-while will allow the code to check each entry by the user until they enter the special keyboard combination to exit. 
 
 
 
 
 
-
-
-
-
+#### Add Looping Logic to Your Code Using the do-while and while Statements in C#
