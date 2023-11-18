@@ -22,7 +22,7 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-}
+  text-rendering: optimizeSpeed;
 /*
   5. Improve media defaults
 */
@@ -51,11 +51,3 @@ p, h1, h2, h3, h4, h5, h6 {
 ``` 
 
 
-```css 
-font-weight: 400;
-font-synthesis: none;
-text-rendering: optimizeLegibility;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
--webkit-text-size-adjust: 100%;
-```

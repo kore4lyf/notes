@@ -102,3 +102,24 @@ bool validNumber = false;
 validNumber = int.Parse(readResult, out numericValue);  
 ```  
 
+
+
+## What is a null value in C#?
+In C#, a null value represents the absence of a value. It is a special value that can be assigned to reference-type variables to indicate that the variable does not refer to any object. The default value of reference-type variables is null.
+
+For example, consider the following code snippet:
+```cs 
+string name = null;
+``` 
+Both null values and empty strings represent the absence of a value. However, there are some important differences between the two.
+
+- A null value is a special value that can be assigned to reference-type variables, while an empty string is a value that can be assigned to string variables.
+
+- A null value indicates that the variable does not refer to any object, while an empty string indicates that the string variable contains no characters. 
+
+- Null values can cause exceptions, such as NullReferenceException, if they are not handled properly. Empty strings do not typically cause exceptions.
+
+- Null values can make code more difficult to read and understand, while empty strings are typically easier to read and understand.
+
+
+
