@@ -3133,5 +3133,70 @@ ulong  : 0 to 18446744073709551615
 
 
 #### Discover floating-point types 
+**float**: float has approximately 6-9 digits of precision and is stored internally in a binary format. It is the most common floating-point type and is useful for storing large numbers using a small memory footprint. However, float should only be used when an approximation is useful.
+
+**double**: double has approximately 15-17 digits of precision and is also stored internally in a binary format. It is more precise than float but uses more memory. It should be used when a more precise answer is needed than what float can provide.
+
+**decimal**: decimal has approximately 28-29 digits of precision and is stored internally in a decimal format. It is the most precise of the three floating-point types but also uses the most memory. It should be used when working with financial data or any scenario where you need an accurate result from a calculation. 
+
+When choosing a floating-point type, you should consider the following factors:
+- **Precision**: How many digits of precision do you need?
+- **Memory footprint**: How much memory can you afford to use?
+- **Accuracy**: How accurate do you need your results to be? 
+
+In general, you should use the smallest data type that can represent the values you need to work with. This will help to save memory and improve the performance of your code.
 
 
+
+Use the MinValue and MaxValue properties for each signed float type 
+
+```cs 
+Console.WriteLine("");
+Console.WriteLine("Floating point types:");
+Console.WriteLine($"float  : {float.MinValue} to {float.MaxValue} (with ~6-9 digits of precision)");
+Console.WriteLine($"double : {double.MinValue} to {double.MaxValue} (with ~15-17 digits of precision)");
+Console.WriteLine($"decimal: {decimal.MinValue} to {decimal.MaxValue} (with 28-29 digits of precision)");
+```
+
+```cs
+Floating point types:
+float  : -3.402823E+38 to 3.402823E+38 (with ~6-9 digits of precision)
+double : -1.79769313486232E+308 to 1.79769313486232E+308 (with ~15-17 digits of precision)
+decimal: -79228162514264337593543950335 to 79228162514264337593543950335 (with 28-29 digits of precision)
+``` 
+
+**Deciphering large floating-point values**
+Because floating-point types can hold large numbers with precision, their values can be represented using "E notation", which is a form of scientific notation that means "times 10 raised to the power of." So, a value like 5E+2 would be the value 500 because it's the equivalent of 5 * 10^2, or 5 x 102. 
+
+
+> Which is the best data type to use to process banking deposits? 
+>> Answer: decimal
+Correct. Decimal, with ~28-29 digits of precision, has the precision required for many financial applications. 
+
+
+
+#### Discover reference types 
+The heap is a memory region that is shared across many applications running on the operating system at the same time. The .NET Runtime communicates with the operating system to determine what memory addresses are available, and requests an address where it can store the value. The .NET Runtime stores the value, and then returns the memory address to the variable. When your code uses the variable, the .NET Runtime seamlessly looks up the address stored in the variable, and retrieves the value that's stored there.
+
+There are three main types of reference types:
+- **Arrays**: Arrays are collections of elements of the same type.
+- **Classes**: Classes are blueprints for creating objects.
+- **Strings**: Strings are sequences of characters. 
+
+Reference types are different from value types in that they do not store the value of the data directly. Instead, they store a reference to the data. This means that two reference variables can refer to the same data.
+
+The new keyword is used to create a new instance of a reference type. When you create a new instance of a reference type, the .NET Runtime allocates memory for the instance in the heap. The new keyword then returns a reference to the instance.
+
+Here is an example of how to create a new instance of the int array type:
+
+```cs 
+int[] data = new int[3];
+``` 
+
+The string data type is also a reference type. However, you do not need to use the new keyword to create a new instance of the string data type. You can simply use the following syntax:
+
+```cs 
+string shortenedString = "Hello World!";
+Console.WriteLine(shortenedString);
+``` 
+This code creates a new instance of the System.String type and initializes it to the value "Hello World!".
