@@ -3080,7 +3080,58 @@ Simple value types include many of the data types that you may have used already
 
 
 
+#### Discover integral types 
+Integral types are simple value types that represent whole numbers with no fractional part. There are two main categories of integral types: signed and unsigned.
+
+Signed integral types use one bit to store the sign of the number, which means that they can represent both positive and negative numbers. 
+> The most common signed integral types are sbyte, short, int, and long.
+
+Unsigned integral types do not use a bit to store the sign of the number, so they can only represent positive numbers. 
+> The most common unsigned integral types are byte, ushort, uint, and ulong.
+
+To see the value ranges for the different integral types, you can use the MinValue and MaxValue properties of each type. For example, the following code displays the value ranges for the signed integral types:
+
+```cs 
+Console.WriteLine("Signed integral types:");
+Console.WriteLine($"sbyte  : {sbyte.MinValue} to {sbyte.MaxValue}");
+Console.WriteLine($"short  : {short.MinValue} to {short.MaxValue}");
+Console.WriteLine($"int    : {int.MinValue} to {int.MaxValue}");
+Console.WriteLine($"long   : {long.MinValue} to {long.MaxValue}");
+```
+
+Use the MinValue and MaxValue properties for each unsigned integral type
+Below the previous code passage, add the following code:
+
+```cs 
+Console.WriteLine("");
+Console.WriteLine("Unsigned integral types:");
+
+Console.WriteLine($"byte   : {byte.MinValue} to {byte.MaxValue}");
+Console.WriteLine($"ushort : {ushort.MinValue} to {ushort.MaxValue}");
+Console.WriteLine($"uint   : {uint.MinValue} to {uint.MaxValue}");
+Console.WriteLine($"ulong  : {ulong.MinValue} to {ulong.MaxValue}");
+```
+Save your code file, and then use Visual Studio Code to run your code.
+
+You should see the following output:
+
+```
+Signed integral types:
+sbyte  : -128 to 127
+short  : -32768 to 32767
+int    : -2147483648 to 2147483647
+long   : -9223372036854775808 to 9223372036854775807
+
+Unsigned integral types:
+byte   : 0 to 255
+ushort : 0 to 65535
+uint   : 0 to 4294967295
+ulong  : 0 to 18446744073709551615
+```
 
 
+
+
+#### Discover floating-point types 
 
 
