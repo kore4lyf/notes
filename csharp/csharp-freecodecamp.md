@@ -3524,6 +3524,22 @@ Divide value3 by value1, display the result as a float: 0.3583333
 
 
 
+#### Perform operations on arrays using helper methods in C# 
+The module will cover the following topics:
+**Sorting arrays**: You will learn how to sort arrays using the Sort() method. The Sort() method sorts the elements of an array in ascending order.
+- **Reversing arrays**: You will learn how to reverse the order of the elements in an array using the Reverse() method. The Reverse() method reverses the order of the elements in an array.
+- **Clearing arrays**: You will learn how to clear the elements of an array using the Clear() method. The Clear() method sets all of the elements of an array to their default values.
+- **Resizing arrays**: You will learn how to resize an array using the Array.Resize() method. The Array.Resize() method changes the size of an array to the specified size.
+- **Splitting strings**: You will learn how to split a string into an array of strings or characters using the Split() method. The Split() method splits a string into an array of substrings based on a specified delimiter.
+- **Joining arrays**: You will learn how to join the elements of an array into a single string using the Join() method. The Join() method combines the elements of an array into a single string separated by a specified delimiter.
+
+
+
+#### Discover Sort() and Reverse() 
+
+
+
+
 
 
 
