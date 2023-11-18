@@ -3259,6 +3259,34 @@ Console.WriteLine("New date: " + newDate);
 
 
 
+#### Convert Data Types Using Casting and Conversion Techniques in C# 
 
+**Casting**: Casting is the process of explicitly converting a value from one data type to another. The casting operator, (), is used to perform a cast. For example, the following code casts the value 10.5 to an int:
+```cs 
+int intValue = (int)10.5;
+``` 
 
+**Conversion**: Conversion is the process of implicitly or explicitly converting a value from one data type to another. There are two types of implicit conversions: widening conversions and narrowing conversions. 
+- **Widening conversions** occur when the new data type can store more information than the old data type. 
+- **Narrowing conversions** occur when the new data type can store less information than the old data type.
+
+**Guard against data loss**: When performing a narrowing conversion, it is possible to lose data. For example, the following code will lose the fractional part of the value 10.5:
+
+```cs 
+int intValue = 10.5;
+``` 
+
+To avoid data loss, you can use the `TryParse()` method to safely convert a string into a numeric data type. The `TryParse()` method returns true if the conversion is successful, and false if the conversion is not possible. For example, the following code safely converts the string "10.5" to a double:
+
+```cs 
+double doubleValue;
+if (double.TryParse("10.5", out doubleValue))
+{
+    Console.WriteLine(doubleValue); // Output: 10.5
+}
+else
+{
+    Console.WriteLine("The conversion was not successful.");
+} 
+```
 
