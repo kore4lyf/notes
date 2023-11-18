@@ -3464,7 +3464,39 @@ else
 Examine this line of code:
 ```cs 
 if (int.TryParse(value, out result))
-```
+``` 
+
+
+
+#### Complete a challenge to combine string array values as strings and as integers 
+```cs 
+string[] values = { "12.3", "45", "ABC", "11", "DEF" };
+string message = "";
+decimal total = 0m;
+
+foreach (string value in values)
+{
+    if (decimal.TryParse(value, out decimal numericValue))
+    {
+        total += numericValue;
+    }
+    else
+    {
+        message += value;
+    }
+}
+
+Console.WriteLine($"Message: {message}");
+Console.WriteLine($"Total: {total}");
+``` 
+
+
+This code will print the following output:
+Message: ABCDEF
+Total: 68.3
+
+
+
 
 
 
