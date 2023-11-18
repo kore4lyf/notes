@@ -3536,10 +3536,217 @@ The module will cover the following topics:
 
 
 #### Discover Sort() and Reverse() 
+```cs 
+string[] pallets = { "B14", "A11", "B12", "A13" };
+
+Console.WriteLine("Sorted...");
+Array.Sort(pallets);
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+}
+``` 
+Sorted...
+-- A11
+-- A13
+-- B12
+-- B14
+
+
+```cs 
+string[] pallets = { "B14", "A11", "B12", "A13" };
+
+Console.WriteLine("Sorted...");
+Array.Sort(pallets);
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+}
+
+Console.WriteLine("");
+Console.WriteLine("Reversed...");
+Array.Reverse(pallets);
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+}
+``` 
+Sorted...
+-- A11
+-- A13
+-- B12
+-- B14
+
+Reversed...
+-- B14
+-- B12
+-- A13
+-- A11
+
+
+Here's a few important ideas that you covered in this unit:
+- The Array class has methods that can manipulate the size and contents of an array.
+- Use the Sort() method to manipulate the order based on the given data type of the array.
+- Use the Reverse() method to flip the order of the elements in the array.
+
+
+#### Explore Clear() and Resize() 
+The Array.Clear() method is a method in the System.Array class in C# that clears the elements of an array. This means that it sets all of the elements in the array to their default values. For example, if you have an array of integers, calling Array.Clear() will set all of the elements in the array to 0.
+
+The Array.Clear() method takes three parameters:
+
+- array: The array to clear.
+- index: The starting index of the range of elements to clear.
+- length: The number of elements to clear.
+If you do not specify the index and length parameters, the entire array will be cleared.
+
+The `Array.Clear()` method is useful for clearing the contents of an array before you reuse it. For example, you might use it to clear an array of integers before you use it to store a new set of data. 
+
+Here is an example of how to use the Array.Clear() method:
+```cs 
+int[] numbers = { 1, 2, 3, 4, 5 };
+Array.Clear(numbers, 2, 3); 
+```
+
+This code will clear the elements of the numbers array from index 2 to index 4 (inclusive). This means that the elements at indexes 2, 3, and 4 will be set to 0. The other elements in the array will remain unchanged.
+
+The values that are replaced when you use the `Array.Clear()` method depend on the data type of the array. Here is a table that shows the default values for different data types:
+
+Data type -	Default value
+- int -	0
+- double -	0.0
+- bool -	false
+- char -	\0
+- string	- nullable
+
+
+```cs 
+int[] numbers = { 1, 2, 3, 4, 5 };
+Array.Clear(numbers);
+```
+This code will clear all of the elements in the numbers array. After the code is executed, all of the elements in the array will be equal to 0. 
+
+```cs
+string[] words = { "Hello", "world", "!" };
+Array.Clear(words);
+``` 
+This code will clear all of the elements in the words array. After the code is executed, all of the elements in the array will be equal to null.
+
+
+```cs 
+string[] pallets = { "B14", "A11", "B12", "A13" };
+Console.WriteLine("");
+
+Array.Clear(pallets, 0, 2);
+Console.WriteLine($"Clearing 2 ... count: {pallets.Length}");
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+}
+```
+
+Output
+Clearing 2 ... count: 4
+ -- 
+ -- 
+-- B12
+-- A13
+
+
+**Call a string helper method on a cleared element** 
+```cs 
+string[] pallets = { "B14", "A11", "B12", "A13" };
+Console.WriteLine("");
+
+Console.WriteLine($"Before: {pallets[0].ToLower()}");
+Array.Clear(pallets, 0, 2);
+Console.WriteLine($"After: {pallets[0].ToLower()}");
+
+Console.WriteLine($"Clearing 2 ... count: {pallets.Length}");
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+} 
+``` 
+Output 
+System.NullReferenceException: Object reference not set to an instance of an object.
+
+To avoid the error, add an if statement before accessing an array element that is potentially null.
+
+```cd 
+if (pallets[0] != null)
+    Console.WriteLine($"After: {pallets[0].ToLower()}")
+``` 
 
 
 
 
+
+
+The **Array.Resize()** method in C# is used to change the size of an array. It takes two parameters:
+
+- newSize: The new size of the array.
+- preserveOldContents: A Boolean value that specifies whether to preserve the old contents of the array. If preserveOldContents is true, the old contents of the array will be copied to the new array. If preserveOldContents is false, the new array will be filled with the default values for the data type of the array.
+For example, the following code will resize an array of integers from 5 elements to 8 elements:
+
+```cs
+int[] numbers = { 1, 2, 3, 4, 5 };
+Array.Resize(numbers, 8);
+``` 
+This code will create a new array of integers with 8 elements. The first 5 elements of the new array will be copied from the old array. The remaining 3 elements of the new array will be set to 0.
+
+
+The Array.Resize() method can also be used to shrink an array. For example, the following code will shrink an array of integers from 5 elements to 3 elements:
+
+```cs 
+int[] numbers = { 1, 2, 3, 4, 5 };
+Array.Resize(numbers, 3);
+``` 
+This code will create a new array of integers with 3 elements. The first 3 elements of the new array will be copied from the old array. The remaining 2 elements of the old array will be discarded.
+
+
+To preserve the existing content in Array.Resize, you should set the preserveOldContents parameter to true. This will ensure that the old contents of the array are copied to the new array.
+
+Here is an example of how to resize an array of integers while preserving the old contents:
+
+```cs
+int[] numbers = { 1, 2, 3, 4, 5 };
+Array.Resize(numbers, 8, true);
+``` 
+
+
+| Old size	| New size | Preserve old | contents	| Result |
+| :--- | :--- | :-- |:--- | :--- |
+| 5	| 8	| True |	[1, 2, 3, 4, 5, 0, 0, 0] |
+| 5 |	8	| False	| [0, 0, 0, 0, 0, 0, 0, 0] |
+| 5 |	3	| True |	[1, 2, 3] | 
+| 5	| 3	| False	| [0, 0, 0] |
+
+
+
+```cs 
+string[] pallets = { "B14", "A11", "B12", "A13" };
+Console.WriteLine("");
+
+Array.Clear(pallets, 0, 2);
+Console.WriteLine($"Clearing 2 ... count: {pallets.Length}");
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+}
+
+Console.WriteLine("");
+Array.Resize(ref pallets, 6);
+Console.WriteLine($"Resizing 6 ... count: {pallets.Length}");
+
+pallets[4] = "C01";
+pallets[5] = "C02";
+
+foreach (var pallet in pallets)
+{
+    Console.WriteLine($"-- {pallet}");
+} 
+``` 
 
 
 
