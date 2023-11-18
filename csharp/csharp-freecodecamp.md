@@ -3200,3 +3200,65 @@ string shortenedString = "Hello World!";
 Console.WriteLine(shortenedString);
 ``` 
 This code creates a new instance of the System.String type and initializes it to the value "Hello World!".
+
+
+
+
+#### Choose the right data type
+When choosing data types for your code, there are several considerations to keep in mind. Here are some of the most important factors to consider:
+
+- The boundary value range requirements of your application: Choose a data type that can store the largest and smallest values that you expect to encounter.
+- The data type to fit the data: Choose a data type that is large enough to store the data that you need to work with.
+- The input and output data types of library functions used: If you are using library functions, make sure that the data types you choose are compatible with the input and output parameters of those functions.
+- The impact on other systems: If your application will be interacting with other systems, such as a database, make sure that the data types you choose are compatible with those systems.
+
+In general, it is a good idea to start with the most basic data types and only use more specialized data types when you need them. This will make your code easier to read and write.
+
+Here are some specific recommendations for choosing data types:
+
+- Use `int` for most whole numbers.
+- Use `decimal` for numbers representing money.
+- Use `bool` for true or false values.
+- Use `string` for alphanumeric values.
+- Use `byte` when working with encoded data or different character sets.
+- Use `double` for scientific or geometric purposes.
+- Use `System.DateTime` for specific date and time values.
+- Use `System.TimeSpan` for spans of years, months, days, hours, minutes, seconds, or milliseconds.
+
+
+**DateTime & TimeSpan**
+```cs 
+//Creating a DateTime instance
+DateTime now = DateTime.Now;
+Console.WriteLine("Current date and time: " + now);
+
+
+// Example 2: Creating a DateTime instance from a specific date and time
+DateTime specificDate = new DateTime(2023, 11, 18, 10, 40, 0);
+Console.WriteLine("Specific date and time: " + specificDate);
+
+//This code creates a DateTime instance representing a specific date and time (November 18, 2023, 10:40:00 AM) by specifying the year, month, day, hour, minute, and second components using the DateTime constructor.  
+
+
+
+// Example 3: Calculating a time span between two DateTime instances
+
+DateTime startTime = new DateTime(2023, 11, 18, 8, 0, 0);
+DateTime endTime = new DateTime(2023, 11, 18, 12, 0, 0);
+TimeSpan elapsedTime = endTime - startTime;
+Console.WriteLine("Elapsed time: " + elapsedTime); 
+
+
+// Example 4: Adding a time span to a DateTime instance
+
+DateTime originalDate = new DateTime(2023, 11, 18, 10, 40, 0);
+TimeSpan timeToAdd = new TimeSpan(1, 0, 0, 0); // 1 hour
+DateTime newDate = originalDate + timeToAdd;
+Console.WriteLine("New date: " + newDate);
+```
+
+
+
+
+
+

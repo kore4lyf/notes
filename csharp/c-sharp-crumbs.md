@@ -123,3 +123,34 @@ Both null values and empty strings represent the absence of a value. However, th
 
 
 
+## DateTime & TimeSpan
+```cs 
+//Creating a DateTime instance
+DateTime now = DateTime.Now;
+Console.WriteLine("Current date and time: " + now);
+
+
+// Example 2: Creating a DateTime instance from a specific date and time
+DateTime specificDate = new DateTime(2023, 11, 18, 10, 40, 0);
+Console.WriteLine("Specific date and time: " + specificDate);
+
+//This code creates a DateTime instance representing a specific date and time (November 18, 2023, 10:40:00 AM) by specifying the year, month, day, hour, minute, and second components using the DateTime constructor.  
+
+
+
+// Example 3: Calculating a time span between two DateTime instances
+
+DateTime startTime = new DateTime(2023, 11, 18, 8, 0, 0);
+DateTime endTime = new DateTime(2023, 11, 18, 12, 0, 0);
+TimeSpan elapsedTime = endTime - startTime;
+Console.WriteLine("Elapsed time: " + elapsedTime); 
+
+
+// Example 4: Adding a time span to a DateTime instance
+
+DateTime originalDate = new DateTime(2023, 11, 18, 10, 40, 0);
+TimeSpan timeToAdd = new TimeSpan(1, 0, 0, 0); // 1 hour
+DateTime newDate = originalDate + timeToAdd;
+Console.WriteLine("New date: " + newDate);
+```
+
