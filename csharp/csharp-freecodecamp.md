@@ -3290,3 +3290,186 @@ else
 } 
 ```
 
+
+#### Explore data type casting and conversion 
+String + int (implicit type casting)
+```cs 
+int first = 2;
+string second = "4";
+int result = first + second;
+Console.WriteLine(result); 
+```
+Result: 24 
+
+Compilers make safe conversions: C# compiler doesn't implicitly perform the conversion from string to int for you.
+
+From the C# compiler's perspective, the safer operation would be to convert int into a string and perform concatenation instead.  
+
+```cs 
+int myInt = 3;
+Console.WriteLine($"int: {myInt}");
+
+decimal myDecimal = myInt;
+Console.WriteLine($"decimal: {myDecimal}");
+``` 
+
+Output
+int: 3
+decimal: 3
+
+
+The key to this example is this line of code:
+
+```cs 
+decimal myDecimal = myInt;
+```
+
+Since any int value can easily fit inside of a decimal, the compiler performs the conversion.
+
+The term **widening conversion** means that you're attempting to convert a value from a data type that could hold less information to a data type that can hold more information. In this case, a value stored in a variable of type int converted to a variable of type decimal, doesn't lose information.
+
+When you know you're performing a widening conversion, you can rely on implicit conversion. The compiler handles implicit conversions. 
+
+
+```cs 
+decimal myDecimal = 3.14m;
+Console.WriteLine($"decimal: {myDecimal}");
+
+int myInt = (int)myDecimal;
+Console.WriteLine($"int: {myInt}"); 
+``` 
+
+Output
+decimal: 3.14
+int: 3
+
+
+The key to this example is this line of code:
+```cs 
+int myInt = (int)myDecimal;
+``` 
+
+The variable myDecimal holds a value that has precision after the decimal point. By adding the casting instruction (int), you're telling the C# compiler that you understand it's possible you'll lose that precision, and in this situation, it's fine. You're telling the compiler that you're performing an intentional conversion, an explicit conversion.
+
+
+**Determine if your conversion is a "widening conversion" or a "narrowing conversion"** 
+The term narrowing conversion means that you're attempting to convert a value from a data type that can hold more information to a data type that can hold less information. In this case, you may lose information such as precision (that is, the number of values after the decimal point). An example is converting value stored in a variable of type decimal into a variable of type int. If you print the two values, you would possibly notice the loss of information.
+
+```cs 
+decimal myDecimal = 1.23456789m;
+float myFloat = (float)myDecimal;
+
+Console.WriteLine($"Decimal: {myDecimal}");
+Console.WriteLine($"Float  : {myFloat}"); 
+``` 
+
+Output
+Decimal: 1.23456789
+Float:   1.234568
+
+
+**Use ToString() to convert a number to a string**
+```cs 
+int first = 5;
+int second = 7;
+string message = first.ToString() + second.ToString();
+Console.WriteLine(message);
+```
+
+Output
+57
+
+
+**Convert a string to an int using the Parse() helper method** 
+```cs 
+string first = "5";
+string second = "7";
+int sum = int.Parse(first) + int.Parse(second);
+Console.WriteLine(sum);
+```
+
+Output
+12 
+
+
+**Convert a string to a int using the Convert class** 
+The Convert class has many helper methods to convert a value from one type into another. In the following code example, you convert a couple of strings into values of type int.
+
+```cs 
+string value1 = "5";
+string value2 = "7";
+int result = Convert.ToInt32(value1) * Convert.ToInt32(value2);
+Console.WriteLine(result); 
+```
+
+> you used the Convert.ToInt32() method with a string here, but you should probably use TryParse() when possible.
+So, when should you use the Convert class? The Convert class is best for converting fractional numbers into whole numbers (int) because it rounds up the way you would expect.
+
+
+
+**Compare casting and converting a decimal into an int** 
+```cs 
+int value = (int)1.5m; // casting truncates
+Console.WriteLine(value);
+
+int value2 = Convert.ToInt32(1.5m); // converting rounds up
+Console.WriteLine(value2);
+```
+
+Output
+1
+2
+
+
+
+#### Examine the TryParse() method 
+Because the string data type can hold a non-numeric value, it's possible that performing a conversion from a string into a numeric data type causes a runtime error.
+
+For example, the following code:
+```cs 
+string name = "Bob";
+Console.WriteLine(int.Parse(name));
+```
+causes the following exception:
+
+Output
+System.FormatException: 'Input string was not in a correct format.'
+
+To avoid a format exception, use the `TryParse()` method on the target data type.
+
+
+
+**Use TryParse()**
+The `TryParse()` method does several things simultaneously:
+- It attempts to parse a string into the given numeric data type.
+- If successful, it stores the converted value in an out parameter, explained in following section.
+- It returns a bool to indicate whether the action succeeded or failed.
+
+
+**Out parameters**
+Methods can return a value or return "void" - meaning they return no value. Methods can also return values through out parameters, which are defined just like an input parameter, but include the out keyword. 
+
+```cs 
+string value = "102";
+int result = 0;
+if (int.TryParse(value, out result))
+{
+  Console.WriteLine($"Measurement: {result}");
+}
+else
+{
+  Console.WriteLine("Unable to report the measurement.");
+} 
+``` 
+Examine this line of code:
+```cs 
+if (int.TryParse(value, out result))
+```
+
+
+
+
+
+
+
+
