@@ -1,6 +1,9 @@
 # C#
 
 ## Write your first C# code  
+> **What is null?**: 
+A value that indicates a variable points to nothing in memory. 
+
 ### Hello World 
 ```cs 
 Console.WriteLine("Hello World!"); 
@@ -3857,6 +3860,152 @@ Console.WriteLine(result);
 ```
 
 
+#### Format alphanumeric data for presentation in C# 
+**Composite formatting**
+To use composite formatting, you place placeholders in your string. The placeholders are then replaced with the values of the variables when the string is formatted. For example, the following code formats a string with the values of two variables:
+
+using string.Format()
+```cs 
+string name = "John Doe";
+int age = 30;
+
+string formattedString = string.Format("My name is {0} and I am {1} years old.", name, age);
+```  
+My name is John Doe and I am 30 years old
+
+Using Console.WriteLine() 
+```cs 
+string first = "Hello";
+string second = "World";
+Console.WriteLine("{1} {0}!", first, second);
+Console.WriteLine("{0} {0} {0}!", first, second);
+```
+Hello World!  
+Hello Hello Hello! 
+
+
+
+**String interpolation**
+To use string interpolation, you embed expressions in your string. The expressions are evaluated and the results are inserted into the string when it is formatted. For example, the following code formats a string with the values of two variables:
+
+```cs 
+string name = "John Doe";
+int age = 30;
+
+string formattedString = $"My name is {name} and I am {age} years old.";
+``` 
+
+**Formatting currency** 
+Composite formatting and string interpolation can be used to format values for display given a specific language and culture. In the following example, the :C currency format specifier is used to present the price and discount variables as currency. Update your code as follows:
+
+```cs 
+decimal price = 123.45m;
+int discount = 50;
+Console.WriteLine($"Price: {price:C} (Save {discount:C})"); 
+``` 
+If you executed this code on a computer that has its Windows display language set to "English (United States)", you observe the following output.
+
+Output
+Price: $123.45 (Save $50.00)
+
+
+**How the user's country/region and language affect string formatting**
+What if you execute the previous code on a computer in France that has its Windows Display Language set to French? In that case you would see the following output.
+
+Output
+Price: 123,45 € (Save 50,00 €)
+
+
+The reason for the previous "€" output is that the string currency formatting feature is dependent on the local computer setting for culture. In this context, the term "culture" refers to the country/region and language of the end user. The culture code is a five character string that computers use to identify the location and language of the end user. The culture code ensures certain information like dates and currency can be presented properly.
+
+For example:
+- the culture code of an English speaker in the USA is en-US.
+- the culture code of a French speaker in France is fr-FR.
+- the culture code of a French speaker in Canada is fr-CA.
+
+The culture affects the writing system, the calendar that's used, the sort order of strings, and formatting for dates and numbers (like formatting currency).
+
+
+
+**Formatting numbers** 
+When working with numeric data, you may want to format the number for readability by including commas to delineate thousands, millions, billions, and so on.
+
+The N numeric format specifier makes numbers more readable. Update your code as follows:
+
+```cs
+decimal measurement = 123456.78912m;
+Console.WriteLine($"Measurement: {measurement:N} units");
+```
+If you're viewing this from the en-US culture, you observe the following output.
+
+Output
+Measurement: 123,456.79 units
+
+
+By default, the N numeric format specifier displays only two digits after the decimal point.
+
+If you want to display more precision, you can do that by adding a number after the specifier. The following code will display four digits after the decimal point using the N4 specifier. Update your code as follows:
+
+```cs 
+decimal measurement = 123456.78912m;
+Console.WriteLine($"Measurement: {measurement:N4} units");
+``` 
+If you're viewing this from the en-US culture, you observe the following output.
+
+Output
+Measurement: 123,456.7891 units
+
+
+**Formatting percentages**
+Use the P format specifier to format percentages. Add a number afterwards to control the number of values displayed after the decimal point. Update your code as follows:
+
+```cs 
+decimal tax = .36785m;
+Console.WriteLine($"Tax rate: {tax:P2}"); 
+```
+Tax rate: 36.79 %
+
+
+
+| Format specifier |	Description |	Example | 
+| :--- | :--- | :--- | 
+| P |	Percentage |	"I saved 25% on my groceries." |
+| C |	Currency |	"The price of the item is $19.99." |
+| N	| Number | with decimals	"The average temperature was 23.4 degrees Celsius." |
+| D	| Decimal	| "I have 100 dollars." |
+| F |	Fixed-point number |	"The distance is 1.23 miles." |
+| E	| Scientific notation	| "The speed of light is 3E+8 meters per second." |
+| G |	General |	"The value is approximately 1.23." |
+| X	| Hexadecimal	| "The color is #FF0000." |
+| O |	Octal |	"The permission is 0755." |
+
+```cs 
+double percentage = 0.25;
+string formattedPercentage = percentage.ToString("P2");
+```
+
+
+```cs 
+int invoiceNumber = 1201;
+decimal productShares = 25.4568m;
+decimal subtotal = 2750.00m;
+decimal taxPercentage = .15825m;
+decimal total = 3185.19m;
+
+Console.WriteLine($"Invoice Number: {invoiceNumber}");
+Console.WriteLine($"   Shares: {productShares:N3} Product");
+Console.WriteLine($"     Sub Total: {subtotal:C}");
+Console.WriteLine($"           Tax: {taxPercentage:P2}");
+Console.WriteLine($"     Total Billed: {total:C}");
+```
+When you run the code, you should see the following output:
+
+Output
+Invoice Number: 1201
+Shares: 25.457 Product
+Sub Total: $2,750.00
+Tax: 15.83%
+Total Billed: $3,185.19
 
 
 
