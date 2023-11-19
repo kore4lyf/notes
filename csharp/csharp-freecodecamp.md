@@ -4072,3 +4072,52 @@ Magic Yield         12.75 %   $55,000,000.00
 Glorious Future     13.13 %   $63,000,000.00
 
 
+
+#### Modify the Content of Strings Using Built-In String Data Type Methods in C# 
+##### Use the string's IndexOf() and Substring() helper methods 
+```cs 
+string message = "Find what is (inside the parentheses)";
+
+int openingPosition = message.IndexOf('(');
+int closingPosition = message.IndexOf(')');
+
+Console.WriteLine(openingPosition);
+Console.WriteLine(closingPosition);
+``` 
+13
+36 
+
+
+
+#### Add code to retrieve the value between parenthesis
+
+```cs 
+string message = "Find what is (inside the parentheses)";
+
+int openingPosition = message.IndexOf('(');
+int closingPosition = message.IndexOf(')');
+
+// Console.WriteLine(openingPosition);
+// Console.WriteLine(closingPosition);
+
+int length = closingPosition - openingPosition;
+Console.WriteLine(message.Substring(openingPosition, length));
+```
+
+Output
+(inside the parentheses 
+
+
+```cs 
+string message = "What is the value <span>between the tags</span>?";
+
+const string openSpan = "<span>";
+const string closeSpan = "</span>";
+
+int openingPosition = message.IndexOf(openSpan);
+int closingPosition = message.IndexOf(closeSpan);
+
+openingPosition += openSpan.Length;
+int length = closingPosition - openingPosition;
+Console.WriteLine(message.Substring(openingPosition, length)); 
+``` 
