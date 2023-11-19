@@ -1,5 +1,18 @@
 # C# 
 
+## Verbatim Strung 
+```cs 
+// Preserves White Space 
+// Escape Characters don't work in ~
+string[] x = @"    Hey ";
+``` 
+
+## Interpolation String 
+```cs 
+int number = 1; 
+string talk = $" I am {x} years old";
+
+
 ## Arrays 
 **One Dimensional**
 ```cs 
@@ -154,3 +167,39 @@ DateTime newDate = originalDate + timeToAdd;
 Console.WriteLine("New date: " + newDate);
 ```
 
+
+
+## Reversing aa String 
+```cs 
+string pangram = "The quick brown fox jumps over the lazy dog"; 
+
+// Using ToCharArray() 
+    char[] toCharPangram = pangram.ToCharArray();
+    Array.Reverse(toCharPangram);
+    string reversedToCharPangram = new String(toCharPangram);
+
+    Console.WriteLine(reversedToCharPangram);
+
+// Using Split 
+    string[] splitPangram = pangram.Split(""); 
+    Array.Reverse(splitPangram); 
+    string reversedSplitPangram = String.Join("", splitPangram);
+    Console.WriteLine(reversedToCharPangram);
+``` 
+
+
+## Some String Method 
+- str.Contains("char/word") 
+- var x = String.Join(",", strArray) 
+- char[] x = str.toCharArray()
+- string[] x = str.split(",") 
+- str.StartsWith("char/word")
+- str.EndsWith("char/word")
+
+
+## Some Array Methods 
+- Array.Sort(arr) // Ascending order 
+- Array.Reverse(arr) // Descending order
+- Array.Resize(arr, newSize) // Resize an array
+- str.Remove(index, length) // Remove Characters from a string 
+- str.Substring(startIndex [, endIndex]) 
