@@ -196,6 +196,13 @@ string pangram = "The quick brown fox jumps over the lazy dog";
 - str.StartsWith("char/word")
 - str.EndsWith("char/word")
 
+Here's a brief list of categories of these built-in methods so you can get an idea of what's possible.
+- Methods that add blank spaces for formatting purposes (PadLeft(), PadRight())
+- Methods that compare two strings or facilitate comparison (Trim(), TrimStart(), TrimEnd(), GetHashcode(), the Length property)
+- Methods that help you determine what's inside of a string, or even retrieve just a part of the string (Contains(), StartsWith(), EndsWith(), Substring())
+- Methods that change the content of the string by replacing, inserting, or removing parts (Replace(), Insert(), Remove())
+- Methods that turn a string into an array of strings or characters (Split(), ToCharArray()) 
+
 
 ## Some Array Methods 
 - Array.Sort(arr) // Ascending order 
