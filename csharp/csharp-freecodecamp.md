@@ -3747,6 +3747,98 @@ foreach (var pallet in pallets)
     Console.WriteLine($"-- {pallet}");
 } 
 ``` 
+Clearing 2 ... count: 4
+-- 
+-- 
+-- B12
+-- A13
+
+Resizing 6 ... count: 6
+-- 
+-- 
+-- B12
+-- A13
+-- C01
+-- C02
+
+
+
+#### Discover Split() and Join()
+**Use the ToCharArray() to reverse a string to char**
+```cs 
+string value = "abc123";
+char[] valueArray = value.ToCharArray(); 
+``` 
+
+**Reverse, then combine the char array into a new string** 
+```cs 
+string value = "abc123";
+char[] valueArray = value.ToCharArray();
+Array.Reverse(valueArray);
+string result = new string(valueArray);
+Console.WriteLine(result); 
+``` 
+321cba
+
+
+
+**Combine all of the chars into a new comma-separated-value string using Join()** 
+```cs 
+string value = "abc123";
+char[] valueArray = value.ToCharArray();
+Array.Reverse(valueArray);
+// string result = new string(valueArray);
+string result = String.Join(",", valueArray);
+Console.WriteLine(result);
+```
+3,2,1,c,b,a
+
+
+**Split() the comma-separated-value string into an array of strings** 
+```cs 
+string[] items = result.Split(',');
+foreach (string item in items)
+{
+    Console.WriteLine(item);
+} 
+```
+
+
+```cs 
+string value = "abc123";
+char[] valueArray = value.ToCharArray();
+Array.Reverse(valueArray);
+// string result = new string(valueArray);
+string result = String.Join(",", valueArray);
+Console.WriteLine(result);
+
+string[] items = result.Split(',');
+foreach (string item in items)
+{
+    Console.WriteLine(item);
+}
+```
+
+When you run the code, you'll see the following output:
+Output
+3,2,1,c,b,a
+3
+2
+1
+c
+b
+a
+
+
+
+
+
+
+
+
+
+
+
 
 
 

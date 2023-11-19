@@ -202,4 +202,5 @@ string pangram = "The quick brown fox jumps over the lazy dog";
 - Array.Reverse(arr) // Descending order
 - Array.Resize(arr, newSize) // Resize an array
 - str.Remove(index, length) // Remove Characters from a string 
-- str.Substring(startIndex [, endIndex]) 
+- str.Substring(startIndex [, endIndex])  
+- 
