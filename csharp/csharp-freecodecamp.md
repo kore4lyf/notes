@@ -4242,3 +4242,27 @@ matching closing symbol
 
 
 
+
+#### Use the Remove() and Replace() methods
+```cs 
+string data = "12345John Smith          5000  3  ";
+string updatedData = data.Remove(5, 20);
+Console.WriteLine(updatedData); 
+``` 
+OUTPUT 
+123455000  3 
+
+
+```cs 
+string message = "This--is--ex-amp-le--da-ta";
+message = message.Replace("--", " ");
+message = message.Replace("-", "");
+Console.WriteLine(message);
+```
+
+You should see the following output:
+Output
+This is example data
+
+
+
