@@ -36,8 +36,18 @@ Known array size
 int[,] students = new int[5]; 
 ``` 
 
+Known value
+```cs 
+string[,] corporate = 
+{
+    {"Robert", "Bavin"}, {"Simon", "Bright"},
+    {"Kim", "Sinclair"}, {"Aashrita", "Kamath"},
+    {"Sarah", "Delucchi"}, {"Sinan", "Ali"}
+};
 
-Unknown array size 
+```
+
+known values
 ```cs 
 string[][] jaggedArray = new string[][]
 {
