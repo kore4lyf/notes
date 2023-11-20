@@ -4657,6 +4657,74 @@ Circumference = 150.79631999999998
 
 
 
+**Use value and reference type parameters** 
+Value types such as int, bool, float, double, and char directly contain values. Reference types such as string, array, and objects (such as instances of Random) don't store their values directly. Instead, reference types store an address where their value is being stored. 
+
+- Parameters passed by value and passed by reference 
+```cs 
+int a = 3;
+int b = 4;
+int c = 0;
+
+Multiply(a, b, c);
+Console.WriteLine($"global statement: {a} x {b} = {c}");
+
+void Multiply(int a, int b, int c) 
+{
+    c = a * b;
+    Console.WriteLine($"inside Multiply method: {a} x {b} = {c}");
+}
+``` 
+OUTPUT 
+inside Multiply method: 3 x 4 = 12
+global statement: 3 x 4 = 0
+
+
+
+```cs 
+int[] array = {1, 2, 3, 4, 5};
+
+PrintArray(array);
+Clear(array);
+PrintArray(array);
+
+void PrintArray(int[] array) 
+{
+    foreach (int a in array) 
+    {
+        Console.Write($"{a} ");
+    }
+    Console.WriteLine();
+}
+
+void Clear(int[] array) 
+{
+    for (int i = 0; i < array.Length; i++) 
+    {
+        array[i] = 0;
+    }
+}
+``` 
+
+
+```cs 
+string status = "Healthy";
+
+Console.WriteLine($"Start: {status}");
+SetHealth(status, false);
+Console.WriteLine($"End: {status}");
+
+void SetHealth(string status, bool isHealthy) 
+{
+    status = (isHealthy ? "Healthy" : "Unhealthy");
+    Console.WriteLine($"Middle: {status}");
+} 
+``` 
+Start: Healthy
+Middle: Unhealthy
+End: Healthy 
+
+
 ### Create C# Methods that Return Values
 
 
