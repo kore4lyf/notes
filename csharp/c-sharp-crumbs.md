@@ -210,4 +210,21 @@ Here's a brief list of categories of these built-in methods so you can get an id
 - Array.Resize(arr, newSize) // Resize an array
 - str.Remove(index, length) // Remove Characters from a string 
 - str.Substring(startIndex [, endIndex])  
-- 
+
+
+
+
+## Constant
+In C#, a constant is a variable whose value cannot be changed after it has been initialized. Constants are declared using the const keyword. The syntax for declaring a constant is as follows:
+
+```cs 
+const <data type> <constant name> = <initial value>;
+``` 
+
+```cs 
+const int pi = 3.14159;
+``` 
+
+
+
+
