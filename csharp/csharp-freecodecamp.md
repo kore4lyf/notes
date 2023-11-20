@@ -4121,3 +4121,124 @@ openingPosition += openSpan.Length;
 int length = closingPosition - openingPosition;
 Console.WriteLine(message.Substring(openingPosition, length)); 
 ``` 
+
+
+
+#### Use the string's IndexOfAny() and LastIndexOf() helper methods 
+```cs 
+string message = "(What if) I am (only interested) in the last (set of parentheses)?";
+int openingPosition = message.LastIndexOf('(');
+
+openingPosition += 1;
+int closingPosition = message.LastIndexOf(')');
+int length = closingPosition - openingPosition;
+Console.WriteLine(message.Substring(openingPosition, length)); 
+``` 
+set of parentheses 
+
+
+```cs 
+string message = "(What if) there are (more than) one (set of parentheses)?";
+while (true)
+{
+    int openingPosition = message.IndexOf('(');
+    if (openingPosition == -1) break;
+
+    openingPosition += 1;
+    int closingPosition = message.IndexOf(')');
+    int length = closingPosition - openingPosition;
+    Console.WriteLine(message.Substring(openingPosition, length));
+
+    // Note the overload of the Substring to return only the remaining 
+    // unprocessed message:
+    message = message.Substring(closingPosition + 1);
+}
+```
+
+Output
+What if
+more than
+set of parentheses
+
+
+
+
+The `IndexOfAny()` method is a method in the System.String class in C# that returns the index of the first occurrence of any of the specified characters in the string. If none of the specified characters are found in the string, the method returns -1.
+
+The IndexOfAny() method takes two parameters:
+- **chars**: An array of characters to search for.
+- **startIndex**: The starting index of the search. If startIndex is negative, the search starts from the beginning of the string. If startIndex is greater than the length of the string, the method returns -1.
+
+Here is an example of how to use the IndexOfAny() method:
+
+```cs 
+string myString = "Hello, world!";
+char[] chars = { 'l', 'o', 'd' };
+int index = myString.IndexOfAny(chars); 
+Console.WriteLine(index);
+```
+
+This code will print the following output:
+2
+
+
+```cs 
+string message = "(What if) I have [different symbols] but every {open symbol} needs a [matching closing symbol]?";
+
+// The IndexOfAny() helper method requires a char array of characters. 
+// You want to look for:
+
+char[] openSymbols = { '[', '{', '(' };
+
+// You'll use a slightly different technique for iterating through 
+// the characters in the string. This time, use the closing 
+// position of the previous iteration as the starting index for the 
+//next open symbol. So, you need to initialize the closingPosition 
+// variable to zero:
+
+int closingPosition = 0;
+
+while (true)
+{
+    int openingPosition = message.IndexOfAny(openSymbols, closingPosition);
+
+    if (openingPosition == -1) break;
+
+    string currentSymbol = message.Substring(openingPosition, 1);
+
+    // Now  find the matching closing symbol
+    char matchingSymbol = ' ';
+
+    switch (currentSymbol)
+    {
+        case "[":
+            matchingSymbol = ']';
+            break;
+        case "{":
+            matchingSymbol = '}';
+            break;
+        case "(":
+            matchingSymbol = ')';
+            break;
+    }
+
+    // To find the closingPosition, use an overload of the IndexOf method to specify 
+    // that the search for the matchingSymbol should start at the openingPosition in the string. 
+
+    openingPosition += 1;
+    closingPosition = message.IndexOf(matchingSymbol, openingPosition);
+
+    // Finally, use the techniques you've already learned to display the sub-string:
+
+    int length = closingPosition - openingPosition;
+    Console.WriteLine(message.Substring(openingPosition, length));
+} 
+``` 
+OUTPUT 
+What if
+different symbols
+open symbol
+matching closing symbol 
+
+
+
