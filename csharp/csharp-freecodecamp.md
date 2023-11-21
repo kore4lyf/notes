@@ -4796,13 +4796,530 @@ string[,] corporate =
 ```
 
 
-### Create C# Methods that Return Values
+
+##### Pass-by-Reference for Strings
+
+Despite being immutable, strings are still passed by reference to methods. This means that when you pass a string argument to a method, the method receives a reference to the memory location of the original string variable. However, since strings are immutable, any changes made to the string inside the method will not be reflected in the original string variable outside the method.
+
+Example
+```cs 
+string originalHealth = "Healthy";
+SetHealth(originalHealth);
+
+Console.WriteLine(originalHealth); // Output: Healthy
+``` 
+
+**Comparison with Other Data Types**
+
+To better understand the concept of immutability and pass-by-reference, let's compare strings to other data types:
+
+- **Integers**: Integers are mutable and passed by value. This means that when you pass an integer argument to a method, the method receives a copy of the original integer variable. Any changes made to the copy inside the method will not affect the original integer variable outside the method.
+
+- **Arrays**: Arrays are also mutable and passed by reference. This means that when you pass an array argument to a method, the method receives a reference to the memory location of the original array variable. Any changes made to the array elements inside the method will be reflected in the original array variable outside the method. 
+
+- **Objects**: Objects are also mutable and passed by reference. This means that when you pass an object argument to a method, the method receives a reference to the memory location of the original object variable. Any changes made to the object's properties or methods inside the method will be reflected in the original object variable outside the method.
 
 
+
+
+
+### Create C# Methods that Return Values 
+Methods can provide return values after performing their tasks. 
+
+Consider a game where the player must fight enemies. The game contains some code that determines if a character was hit whenever an Update() method is called. The code might contain the following methods:
+```cs 
+void Update();
+
+int[] GetEnemyCoordinates(string enemyId);
+int[] GetDistanceFromHero(string enemyId);
+int[] GetHeroCoordinates();
+
+bool EnemyCanHitHero(string enemyId);
+int GetEnemyDamageOutput(string enemyId);
+void UpdateHeroHP(int damage);
+``` 
+
+
+####  Understand return type syntax
+```cs 
+double total = 0;
+double minimumSpend = 30.00;
+
+double[] items = {15.97, 3.50, 12.25, 22.99, 10.98};
+double[] discounts = {0.30, 0.00, 0.10, 0.20, 0.50};
+
+for (int i = 0; i < items.Length; i++)
+{
+    total += GetDiscountedPrice(i);
+}
+
+total -= TotalMeetsMinimum() ? 5.00 : 0.00;
+
+Console.WriteLine($"Total: ${FormatDecimal(total)}");
+
+double GetDiscountedPrice(int itemIndex)
+{
+    return items[itemIndex] * (1 - discounts[itemIndex]);
+}
+
+bool TotalMeetsMinimum()
+{
+    return total >= minimumSpend;
+}
+
+string FormatDecimal(double input)
+{
+    return input.ToString().Substring(0, 5);
+}
+```
+
+
+####  Return numbers from methods
+
+####  Return strings from methods
+```cs 
+string input = "there are snakes at the zoo";
+
+Console.WriteLine(input);
+Console.WriteLine(ReverseSentence(input));
+
+string ReverseSentence(string input) 
+{
+    string result = "";
+    string[] words = input.Split(" ");
+    foreach(string word in words) 
+    {
+        result += ReverseWord(word) + " ";
+    }
+    return result.Trim();
+}
+
+string ReverseWord(string word) 
+{
+    string result = "";
+    for (int i = word.Length - 1; i >= 0; i--) 
+    {
+        result += word[i];
+    }
+    return result;
+}
+```
+
+
+
+####  Return Booleans from methods
+```cs 
+bool IsPalindrome(string word) 
+{
+    int start = 0;
+    int end = word.Length - 1;
+
+    while (start < end) 
+    {
+        if (word[start] != word[end]) 
+        {
+            return false;
+        }
+        start++;
+        end--;
+    }
+
+    return true;
+} 
+``` 
+
+Is it a palindrome?
+racecar: True
+talented: False
+deified: True
+tent: False
+tenet: True
+
+
+####  Return arrays from Methods 
+```cs 
+int target = 30;
+int[] coins = new int[] {5, 5, 50, 25, 25, 10, 5};
+int[,] result = TwoCoins(coins, target);
+
+if (result.Length == 0) 
+{
+    Console.WriteLine("No two coins make change");
+} 
+else 
+{
+    Console.WriteLine("Change found at positions:");
+    for (int i = 0; i < result.GetLength(0); i++) 
+    {
+        if (result[i,0] == -1) 
+        {
+            break;
+        }
+        Console.WriteLine($"{result[i,0]},{result[i,1]}");
+    }
+}
+
+int[,] TwoCoins(int[] coins, int target) 
+{
+    int[,] result = {{-1,-1},{-1,-1},{-1,-1},{-1,-1},{-1,-1}};
+    int count = 0;
+
+    for (int curr = 0; curr < coins.Length; curr++) 
+    {
+        for (int next = curr + 1; next < coins.Length; next++) 
+        {    
+            if (coins[curr] + coins[next] == target) 
+            {
+                result[count, 0] = curr;
+                result[count, 1] = next;
+                count++;
+            }
+            if (count == result.GetLength(0)) 
+            {
+                return result;
+            }
+        }
+    }
+    return (count == 0) ? new int[0,0] : result;
+} 
+``` 
+Change found at positions:
+0,3
+0,4
+1,3
+1,4
+3,6
+
+
+
+#### Review the solution to add methods to make the game playable
+```cs 
+Random random = new Random();
+
+Console.WriteLine("Would you like to play? (Y/N)");
+if (ShouldPlay()) 
+{
+    PlayGame();
+}
+
+bool ShouldPlay() 
+{
+    string response = Console.ReadLine();
+    return response.ToLower().Equals("y");
+}
+
+void PlayGame() 
+{
+    var play = true;
+
+    while (play) {
+        var target = GetTarget();
+        var roll = RollDice();
+
+        Console.WriteLine($"Roll a number greater than {target} to win!");
+        Console.WriteLine($"You rolled a {roll}");
+        Console.WriteLine(WinOrLose(roll, target));
+        Console.WriteLine("\nPlay again? (Y/N)");
+
+        play = ShouldPlay();
+    }
+}
+
+int GetTarget() 
+{
+    return random.Next(1, 6);
+}
+
+int RollDice() 
+{
+    return random.Next(1, 7);
+}
+
+string WinOrLose(int roll, int target) 
+{
+    if (roll > target) 
+    {
+        return "You win!";
+    }
+    return "You lose!";
+} 
+``` 
+
+Would you like to play? (Y/N)
+Y
+Roll a number greater than 2 to win!
+You rolled a 1
+You lose!
+
+Play again? (Y/N)
+Y
+Roll a number greater than 3 to win!
+You rolled a 5
+You win!
+
+Play again? (Y/N)
+Y
+Roll a number greater than 2 to win!
+You rolled a 3
+You win!
+
+Play again? (Y/N)
+N 
 
 ### Guided Project - Plan a Petting Zoo Visit
+```cd 
+using System;
+
+string[] pettingZoo = 
+{
+    "alpacas", "capybaras", "chickens", "ducks", "emus", "geese", 
+    "goats", "iguanas", "kangaroos", "lemurs", "llamas", "macaws", 
+    "ostriches", "pigs", "ponies", "rabbits", "sheep", "tortoises",
+};
+
+PlanSchoolVisit("School A");
+PlanSchoolVisit("School B", 3);
+PlanSchoolVisit("School C", 2);
+
+void PlanSchoolVisit(string schoolName, int groups = 6) 
+{
+    RandomizeAnimals(); 
+    string[,] group1 = AssignGroup(groups);
+    Console.WriteLine(schoolName);
+    PrintGroup(group1);
+}
+
+void RandomizeAnimals() 
+{
+    Random random = new Random();
+
+    for (int i = 0; i < pettingZoo.Length; i++) 
+    {
+        int r = random.Next(i, pettingZoo.Length);
+
+        string temp = pettingZoo[r];
+        pettingZoo[r] = pettingZoo[i];
+        pettingZoo[i] = temp;
+    }
+}
+
+string[,] AssignGroup(int groups = 6) 
+{
+    string[,] result = new string[groups, pettingZoo.Length/groups];
+    int start = 0;
+
+    for (int i = 0; i < groups; i++) 
+    {
+        for (int j = 0; j < result.GetLength(1); j++) 
+        {
+            result[i,j] = pettingZoo[start++];
+        }
+    }
+
+    return result;
+}
+
+void PrintGroup(string[,] groups) 
+{
+    for (int i = 0; i < groups.GetLength(0); i++) 
+    {
+        Console.Write($"Group {i + 1}: ");
+        for (int j = 0; j < groups.GetLength(1); j++) 
+        {
+            Console.Write($"{groups[i,j]}  ");
+        }
+        Console.WriteLine();
+    }
+} 
+```  
+
+School A
+Group 1: kangaroos  lemurs  pigs  
+Group 2: alpacas  sheep  chickens  
+Group 3: ducks  geese  capybaras  
+Group 4: ponies  iguanas  tortoises  
+Group 5: ostriches  llamas  rabbits  
+Group 6: macaws  goats  emus  
+School B
+Group 1: llamas  ducks  ponies  geese  chickens  goats
+Group 2: iguanas  capybaras  macaws  kangaroos  rabbits  sheep
+Group 3: lemurs  tortoises  alpacas  pigs  emus  ostriches
+School C
+Group 1: sheep  ducks  pigs  macaws  kangaroos  ostriches  rabbits  goats  lemurs
+Group 2: iguanas  capybaras  chickens  emus  tortoises  geese  ponies  alpacas  llamas 
+
 
 ### Challenge Project - Create a Mini-Game
+
+```cs 
+﻿using System;
+
+Random random = new Random();
+Console.CursorVisible = false;
+int height = Console.WindowHeight - 1;
+int width = Console.WindowWidth - 5;
+bool shouldExit = false;
+
+// Console position of the player
+int playerX = 0;
+int playerY = 0;
+
+// Console position of the food
+int foodX = 0;
+int foodY = 0;
+
+// Available player and food strings
+string[] states = {"('-')", "(^-^)", "(X_X)"};
+string[] foods = {"@@@@@", "$$$$$", "#####"};
+
+// Current player string displayed in the Console
+string player = states[0];
+
+// Index of the current food
+int food = 0;
+
+InitializeGame();
+while (!shouldExit) 
+{
+    if (TerminalResized()) 
+    {
+        Console.Clear();
+        Console.Write("Console was resized. Program exiting.");
+        shouldExit = true;
+    } 
+    else 
+    {
+        if (PlayerIsFaster()) 
+        {
+            Move(1, false);
+        } 
+        else if (PlayerIsSick()) 
+        {
+            FreezePlayer();
+        } else 
+        {
+            Move(otherKeysExit: false);
+        }
+        if (GotFood())
+        {
+            ChangePlayer();
+            ShowFood();
+        }
+    }
+}
+
+// Returns true if the Terminal was resized 
+bool TerminalResized() 
+{
+    return height != Console.WindowHeight - 1 || width != Console.WindowWidth - 5;
+}
+
+// Displays random food at a random location
+void ShowFood() 
+{
+    // Update food to a random index
+    food = random.Next(0, foods.Length);
+
+    // Update food position to a random location
+    foodX = random.Next(0, width - player.Length);
+    foodY = random.Next(0, height - 1);
+
+    // Display the food at the location
+    Console.SetCursorPosition(foodX, foodY);
+    Console.Write(foods[food]);
+}
+
+// Returns true if the player location matches the food location
+bool GotFood() 
+{
+    return playerY == foodY && playerX == foodX;
+}
+
+// Returns true if the player appearance represents a sick state
+bool PlayerIsSick() 
+{
+    return player.Equals(states[2]);
+}
+
+// Returns true if the player appearance represents a fast state
+bool PlayerIsFaster() 
+{
+    return player.Equals(states[1]);
+}
+
+// Changes the player to match the food consumed
+void ChangePlayer() 
+{
+    player = states[food];
+    Console.SetCursorPosition(playerX, playerY);
+    Console.Write(player);
+}
+
+// Temporarily stops the player from moving
+void FreezePlayer() 
+{
+    System.Threading.Thread.Sleep(1000);
+    player = states[0];
+}
+
+// Reads directional input from the Console and moves the player
+void Move(int speed = 1, bool otherKeysExit = false) 
+{
+    int lastX = playerX;
+    int lastY = playerY;
+    
+    switch (Console.ReadKey(true).Key) {
+        case ConsoleKey.UpArrow:
+            playerY--; 
+            break;
+		case ConsoleKey.DownArrow: 
+            playerY++; 
+            break;
+		case ConsoleKey.LeftArrow:  
+            playerX -= speed; 
+            break;
+		case ConsoleKey.RightArrow: 
+            playerX += speed; 
+            break;
+		case ConsoleKey.Escape:     
+            shouldExit = true; 
+            break;
+        default:
+            // Exit if any other keys are pressed
+            shouldExit = otherKeysExit;
+            break;
+    }
+
+    // Clear the characters at the previous position
+    Console.SetCursorPosition(lastX, lastY);
+    for (int i = 0; i < player.Length; i++) 
+    {
+        Console.Write(" ");
+    }
+
+    // Keep player position within the bounds of the Terminal window
+    playerX = (playerX < 0) ? 0 : (playerX >= width ? width : playerX);
+    playerY = (playerY < 0) ? 0 : (playerY >= height ? height : playerY);
+
+    // Draw the player at the new location
+    Console.SetCursorPosition(playerX, playerY);
+    Console.Write(player);
+}
+
+// Clears the console, displays the food and player
+void InitializeGame() 
+{
+    Console.Clear();
+    ShowFood();
+    Console.SetCursorPosition(0, 0);
+    Console.Write(player);
+} 
+```  
+
+
+
+## 
+
 
 
 
