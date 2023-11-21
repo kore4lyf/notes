@@ -5318,7 +5318,55 @@ void InitializeGame()
 
 
 
-## 
+## Debug C# Console Applications 
+### Review the Principles of Code Debugging and Exception Handling
+#### Testing, debugging, and exception handling !
+In C# development, the errors that occur while the application is running are referred to as exceptions. The term "exception handling" refers to the process that a developer uses to manage those runtime exceptions within their code. Errors that occur during the build process are referred to as errors, and aren't part of the exception handling process. 
+ 
+The following sections describe the developer's role in testing, debugging, and exception handling.
+
+**Software testing and developer responsibilities** 
+software testing has its own specialized discipline, and software testers play an important role in the development of large applications. There are even approaches to the software development process that are based on testing, such as test-driven development. 
+
+Software testing categories can be organized under the types of testing, the approaches to testing, or a combination of both. One way to categorize the types of testing is to split testing into Functional and Nonfunctional testing. The functional and nonfunctional categories each include subcategories of testing. For example, functional and nonfunctional testing could be divided into the following subcategories:
+
+Functional testing - Unit testing - Integration testing - System testing - Acceptance testing
+Nonfunctional testing - Security testing - Performance testing - Usability testing - Compatibility testing 
+
+
+Although most developers probably don't consider themselves to be testers, some level of testing is expected before a developer hands off their work. When developers are assigned a formal role in the testing process, it's often at the level of unit testing. 
+
+Generally speaking, the term debugging is reserved for runtime issues that aren't easy to isolate. Therefore, fixing syntax issues such as a missing ";" at the end of a code statement, isn't normally considered debugging.
+
+
+- Testing, debugging, and exception handling are all important tasks for software developers.
+- Testing can be categorized into functional and nonfunctional testing, and developers are expected to perform some level of testing.
+- Code debugging is the process of isolating issues and identifying ways to fix them, and it's a developer responsibility.
+- Exception handling is the process of managing errors that occur during runtime, and developers are responsible for handling exceptions by using "try" and "catch" statements in their code.
+
+
+ 
+
+### Implement the Visual Studio Code Debugging Tools for C#
+
+
+
+### Implement Exception Handling in C# Console Applications
+
+
+
+### Create and Throw Exceptions in C# Console Applications
+
+
+
+### Guided Project - Debug and Handle Exceptions in a C# Console Application Using Visual Studio Code
+
+
+
+### Challenge Project - Debug a C# Console Application Using Visual Studio Code
+
+
+
 
 
 
