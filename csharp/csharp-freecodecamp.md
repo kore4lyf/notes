@@ -5348,11 +5348,234 @@ Generally speaking, the term debugging is reserved for runtime issues that aren'
  
 
 ### Implement the Visual Studio Code Debugging Tools for C#
+#### Exception handling is implemented in C# using the try, catch, and finally keywords. 
 
+**Common scenarios that require exception handling**
+There are several programming scenarios that require exception handling. Many of these scenarios involve some form of data acquisition. Although some of the scenarios involve coding techniques that are outside the scope of this training, they're still worth noting.
+
+Common scenarios that require exception handling include:
+
+- **User input**: Exceptions can occur when code processes user input. For example, exceptions occur when the input value is in the wrong format or out of range.
+
+- **Data processing and computations**: Exceptions can occur when code performs data calculations or conversions. For example, exceptions occur when code attempts to divide by zero, cast to an unsupported type, or assign a value that's out of range.
+
+- **File input/output operations**: Exceptions can occur when code reads from or writes to a file. For example, exceptions occur when the file doesn't exist, the program doesn't have permission to access the file, or the file is in use by another process.
+
+- **Database operations**: Exceptions can occur when code interacts with a database. For example, exceptions occur when the database connection is lost, a syntax error occurs in a SQL statement, or a constraint violation occurs.
+
+- **Network communication**: Exceptions can occur when code communicates over a network. For example, exceptions occur when the network connection is lost, a timeout occurs, or the remote server returns an error.
+
+- **Other external resources**: Exceptions can occur when code communicates with other external resources. Web Services, REST APIs, or third-party libraries, can throw exceptions for various reasons. For example, exceptions occur due to network connections issues, malformed data, etc. 
+
+
+#### Exception handling keywords, code blocks, and patterns
+Exception handling in C# is implemented by using the try, catch, and finally keywords. Each of these keywords has an associated code block and can be used to satisfy a specific goal in your approach to exception handling. For example:
+
+```cs 
+try
+{   
+   // try code block - code that may generate an exception
+}
+catch
+{   
+   // catch code block - code to handle an exception
+}
+finally
+{   
+   // finally code block - code to clean up resources
+} 
+```
+
+
+
+#### Examine compiler-generated exceptions 
+- **ArrayTypeMismatchException**: Thrown when an array can't store a given element because the actual type of the element is incompatible with the actual type of the array.
+- **DivideByZeroException**: Thrown when an attempt is made to divide an integral value by zero.
+- **FormatException**: Thrown when the format of an argument is invalid.
+- **IndexOutOfRangeException**: Thrown when an attempt is made to index an array when the index is less than zero or outside the bounds of the array.
+- **InvalidCastException**: Thrown when an explicit conversion from a base type to an interface or to a derived type fails at runtime.
+- **NullReferenceException**: Thrown when an attempt is made to reference an object whose value is null.
+- **OverflowException**: Thrown when an arithmetic operation in a checked context overflows.
+
+
+
+```cs 
+try
+{
+    Process1();
+}
+catch
+{
+    Console.WriteLine("An exception has occurred");
+}
+
+Console.WriteLine("Exit program");
+
+static void Process1()
+{
+    try
+    {
+        WriteMessage();
+    }
+    catch
+    {
+        Console.WriteLine("Exception caught in Process1");
+    }
+
+}
+
+static void WriteMessage()
+{
+    double float1 = 3000.0;
+    double float2 = 0.0;
+    int number1 = 3000;
+    int number2 = 0;
+
+    Console.WriteLine(float1 / float2);
+    Console.WriteLine(number1 / number2);
+} 
+```
+
+
+
+#### Catch specific exception types
+Completed
+100 XP
+14 minutes
+Earlier in this module, you learned that the exception objects caught by your C# application are instances of an exception class. Generally speaking, your code will catch one of the following:
+
+An exception object that's an instance of the System.Exception base class.
+An exception object that's an instance of an exception type that inherits from the base class. For example, an instance of the InvalidCastException class.
+Examine exception properties
+System.Exception is the base class that all derived exception types inherit from. Each exception type inherits from the base class through a specific class hierarchy. For example, the class hierarchy for the InvalidCastException is as follows:
+
+Output
+
+Copy
+Object
+    Exception
+        SystemException
+            InvalidCastException
+Most of the exception classes that inherit from Exception don't add any additional functionality; they simply inherit from Exception. Therefore, examining the properties of the Exception class enables you to understand most exceptions, and how you might use an exception in your code.
+
+Here are the properties of the Exception class:
+
+Data: The Data property holds arbitrary data in key-value pairs.
+HelpLink: The HelpLink property can be used to hold a URL (or URN) to a help file that provides extensive information about the cause of an exception.
+HResult: The HResult property can be used to access to a coded numerical value that's assigned to a specific exception.
+InnerException: The InnerException property can be used to create and preserve a series of exceptions during exception handling.
+Message: The Message property provides details about the cause of an exception.
+Source: The Source property can be used to access the name of the application or the object that causes the error.
+StackTrace: The StackTrace property contains a stack trace that can be used to determine where an error occurred.
+TargetSite: The TargetSite property can be used to get the method that throws the current exception 
+
+
+```cs 
+// inputValues is used to store numeric values entered by a user
+string[] inputValues = new string[]{"three", "9999999999", "0", "2" };
+
+foreach (string inputValue in inputValues)
+{
+    int numValue = 0;
+    try
+    {
+        numValue = int.Parse(inputValue);
+    }
+    catch (FormatException)
+    {
+        Console.WriteLine("Invalid readResult. Please enter a valid number.");
+    }
+    catch (OverflowException)
+    {
+        Console.WriteLine("The number you entered is too large or too small.");
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+```
 
 
 ### Implement Exception Handling in C# Console Applications
+Exceptions can be thrown by your code when an issue or error condition is encountered. Exception objects that describe an error are created and then thrown with the throw keyword. When an exception is thrown by your code, the runtime searches for the nearest catch clause that can handle the exception. 
 
+```cs 
+string[][] userEnteredValues = new string[][]
+{
+            new string[] { "1", "2", "3"},
+            new string[] { "1", "two", "3"},
+            new string[] { "0", "1", "2"}
+};
+
+try
+{
+    Workflow1(userEnteredValues);
+    Console.WriteLine("'Workflow1' completed successfully.");
+
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine("An error occurred during 'Workflow1'.");
+    Console.WriteLine(ex.Message);
+}
+
+static void Workflow1(string[][] userEnteredValues)
+{
+    foreach (string[] userEntries in userEnteredValues)
+    {
+        try
+        {
+            Process1(userEntries);
+            Console.WriteLine("'Process1' completed successfully.");
+            Console.WriteLine();
+        }
+        catch (FormatException ex)
+        {
+            Console.WriteLine("'Process1' encountered an issue, process aborted.");
+            Console.WriteLine(ex.Message);
+            Console.WriteLine();
+        }
+    }
+}
+
+static void Process1(String[] userEntries)
+{
+    int valueEntered;
+
+    foreach (string userValue in userEntries)
+    {
+        bool integerFormat = int.TryParse(userValue, out valueEntered);
+
+        if (integerFormat == true)
+        {
+            if (valueEntered != 0)
+            {
+                checked
+                {
+                    int calculatedValue = 4 / valueEntered;
+                }
+            }
+            else
+            {
+                throw new DivideByZeroException("Invalid data. User input values must be non-zero values.");
+            }
+        }
+        else
+        {
+            throw new FormatException("Invalid data. User input values must be valid integers.");
+        }
+    }
+} 
+``` 
+
+'Process1' completed successfully.
+
+'Process1' encountered an issue, process aborted.
+Invalid data. User input values must be valid integers.
+
+An error occurred during 'Workflow1'.
+Invalid data. User input values must be non-zero values.
 
 
 ### Create and Throw Exceptions in C# Console Applications
