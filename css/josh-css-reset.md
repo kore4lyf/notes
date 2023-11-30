@@ -23,6 +23,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeSpeed;
+}
 /*
   5. Improve media defaults
 */

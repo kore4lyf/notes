@@ -1,6 +1,18 @@
 # CSS Guide from Kevin Powell
 
+## Css Tips from Kevin Powell
+1. Use Josh css preset 
+2. Use .flex-group utility 
+3. Use Custom properties for colours 
+4. Use Custom " in .grid-flex 
+5. Use Bem to show relationship between a component and its content.
+6. Use .sr-only to add more context to your documents for Screen readers.
+7. Learn about :is, :where. &:has 
+8. Use overflow-wrap: break-word;
+
+
 ## Responsive Tips And Tricks
+
 
 ### 1. Start Global
 When you start writting your CSS start global first. Don't worry about layouts first, work on your typography, background, colors e.t.c. Work on responsiveness of the page later.
