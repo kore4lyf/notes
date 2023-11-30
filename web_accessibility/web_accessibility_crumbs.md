@@ -60,7 +60,61 @@ ARIA - stand for Accessible Rich Internet Applications.
 ## Accessibility Fundamentals with Rob Dodson
 What is accessiblity - Given users with disabilities or impairment access to content.
 
-There are a lot of way to make a website accessible, but one is a Screen Reader. 
+There are a lot of way to make a website accessible, but one is a Screen Reader access. 
+
+When you think about screen reader access, have this notion of affordance in you head.
+
+AFFORDANCE - is anything that offers a person the opportunity to perform an action. 
+e.g. Teapot don't come with instructions manual, but you just know that you can hold it by it handle.
+Door handles -  provide affordance with their physical structure.
+
+We also try to add these affordances to our design too e.g 3 dimensional button.
+Id a user is non sighted how do we apply the same visual affordances. 
+
+### How chrome talks to a screen reader 
+1. HTML 
+|
+| Parse  
+|
+2. DOM 
+| 
+3. Accessiblity Tree 
+
+accessibility Tree - is similar to the DOM, but with only node that are only semantically interesting. e.g. DIVs are pruned out, button, likes e.t.c are added. 
+
+Accessiblity tree is accessible in chrome dev mode.
+
+
+WAI-ARIA - Web accessibility initiative - Accessible Tich Internet Applications specifications adds the ability **modify and enhance** the **semantic meaning of elements** in the DOM.  
+
+WAI-ARIA lets you add semantics to an element. 
+- ARIA dosen't change an elements behaviour, it changes what a screen reader is going to announce when your user.
+- ARIA lets you fill in the gaps(or missing pieces) in the accessibility tree. 
+
+
+### How can I lean ARIA 
+1. ARIA Specifications Manual 
+2. WAI-ARIA authoring Practices (ARIA Guide)[bit.ly/aria-guide] 
+
+
+Labels - Labels help users understand the purpose of a control. 
+- aria-label - overides any other native labelling mechanism m
+
+- aria-labelledby - a reference to an element (or elements) which will act as an accessible label. Overrides any other labelling mechanism including aria-label. 
+For example: 
+```html 
+<h2 id="lbl">  Men's Outerwear</h2>
+<button id="btn" aria-labelledby="lbl"> Shop Now</button>
+``` 
+Mens outerwear, shop now, button 
+
+### Tools & resource  
+a11y - means accessibility (11 letters in between)
+- allycasts - (a11ycasts)[bit.ly/a11ycasts] on YouTube 
+- (Web accessiblity by Google)[bit.ly/web-a11y]  - on  Udacity 
+- A text versions of the course "Web accessiblity by Google" is available. (Accessibility Fundamentals)[bit.ly/a11y-fundamentals].
+
+
 
 
 
