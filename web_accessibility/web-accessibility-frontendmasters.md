@@ -143,3 +143,29 @@ NOTE: Only required if there is relevant visual content that is not presented in
 
 
 
+
+
+## Accessible HTML
+### Semantic Elements
+Some elements have semantic meaning but no special functionality. Examples are:
+```html 
+<aside>
+<footer>
+<header>
+``` 
+
+Other's provide a lot of built-in functionality such as:
+```html 
+<button>
+<input>
+<textarea> 
+``` 
+
+
+- 1.3.1 Info and Relationships (Level A) 
+  - Semantic markup is used to designate headings (`<h1>`), regions/landmarks, lists (`<ul>, <ol>, and <di>`), emphasized or special text (`<strong>, <code>, <abbr>, <blockquote>`, for example), etc. Semantic markup is used appropriately.
+  - Tables are used for tabular data and data cells are associated with their headers. Data table captions, if present, are associated to data tables. 
+  - Text labels are associated with form input elements. Related form elements are grouped with fieldset/legend. ARIA labelling may be used when standard HTML is insufficient.
+
+
+
