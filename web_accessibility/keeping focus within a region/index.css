@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+input, button {
+  margin: 1rem;
+  padding: .5rem;
+}
+.click-me {
+  display: block;
+}
+
+.modal {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;   
+  justify-content: center;
+  align-items: center;
+  background: grey;
+  position: absolute;
+}
+
+form {
+  display: flex;

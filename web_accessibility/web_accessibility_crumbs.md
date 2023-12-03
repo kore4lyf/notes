@@ -104,17 +104,43 @@ Labels - Labels help users understand the purpose of a control.
 For example: 
 ```html 
 <h2 id="lbl">  Men's Outerwear</h2>
-<button id="btn" aria-labelledby="lbl"> Shop Now</button>
+<button id="btn" aria-labelledby="lbl  btn"> Shop Now</button>
 ``` 
 Mens outerwear, shop now, button 
 
 ### Tools & resource  
-a11y - means accessibility (11 letters in between)
+a11y - means accessibility (11 letters in between) 
+- Webaim.com 
 - allycasts - (a11ycasts)[bit.ly/a11ycasts] on YouTube 
 - (Web accessiblity by Google)[bit.ly/web-a11y]  - on  Udacity 
 - A text versions of the course "Web accessiblity by Google" is available. (Accessibility Fundamentals)[bit.ly/a11y-fundamentals].
 
 
+
+
+
+
+
+
+## Building Accessible forms 
+- Your form should always have an header 
+
+```html 
+<h1>  Contact Us </h1> 
+<form> 
+  <label for="name"> Name </label>
+  <input id="name" type="text"/>
+</form>
+```
+
+
+## Link with SVGs or Images 
+To make them accessible use `aria-label`.
+```html 
+<a href="./Facebook.com/idk" aria-label="Click to visit our Facebook page">
+  <svg> </svg>
+</a>
+```
 
 
 
