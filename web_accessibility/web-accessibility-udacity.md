@@ -94,13 +94,70 @@ You can skip ahead to Lesson 6 to learn how to change or remove the focus ring f
 
 You can manage the focus of a page with a A large nav links by settings a tab-index = -1 on it's header and using JavaScript to focus on the element.
  
+#### Linking within a page
+Text heavy sites often interlink within the same page to help users quickly jump to important sections.
+
+```html 
+<!-- Table of Contents -->
+<a href="#recipes">Recipes</a>
+<a href="#ingredients">Ingredients</a>
+
+<!-- Recipes Section -->
+<h2 id="recipes">Recipes</h1>
+<h3>Vegemite Cheesecake</h3>
+<p>
+    Vegemite cheesecake is delicious. We promise.
+    <a href="cheesecake.html">Read More</a>
+</p> 
+```
+ 
  
 ### Skip links 
+Skip links are invisible anchors which can only be reached via the keyboard. They allow users to “skip" navigation elements in order to jump straight into the content of a page and they can be extremely beneficial for keyboard and switch device users. 
+
+Without some sort of system for bypassing the long list of links, some users are at a huge disadvantage. Consider users with no arm movement, who use computers by tapping their heads on a switch or that use a stick in their mouth to press keyboard keys. Requiring users to perform any action perhaps 100s of times before reaching the main content is simply unacceptable.
+
+The idea is simple enough: provide a link at the top of the page that, when activated, jumps the user to the beginning of the main content area. 
+
+
+The link is the first item in the page. The anchor or target for the link (where the link will jump the user to) is the main content region.
+
+```html
+<body>
+<a href="#maincontent">Skip to main content</a>
+...
+<main id="maincontent">
+<h1>Heading</h1>
+<p>This is the first paragraph</p> 
+``` 
+
+The target is identified by its id attribute value matching the href value (minus the "#") of the skip link. When the skip link is activated, keyboard focus will go to the `<main>` element. Navigation and reading will proceed from this location in the page.
+
+
+#### Which wording is best?
+There are multiple ways that the skip link could be worded:
+
+- Skip navigation
+- Skip main navigation
+- Skip navigation links
+- Skip to main content
+- Skip to content 
+
+Any of these may be sufficient so long as the purpose of the link is clearly described. In general, we prefer "Skip to main content" as it explains where the user is navigating to versus what they are navigating past.
+
+#### Multiple skip links are usually unnecessary
+What if a page has multiple sections or multiple levels of navigational links? Should developers provide a skip navigation link to each of these sections or to skip over each level of navigational?
+
+In most cases, a single skip link is sufficient.
 
 
 
 ### Offscreen Content 
 To prevent Offscreen content from being focused, set it's `display to none` or `visibility to hidden` 
+
+#### Hiding elements
+There may be times when a user will be focused on an item that needs to be set to `visibility: hiddbe` or `display: none`. An example of this would be clickable items within a carousel. 
+
 
 
 ### Modals and Keyboard Traps 
@@ -108,6 +165,23 @@ To prevent Offscreen content from being focused, set it's `display to none` or `
 2.1.2 No Keyboard Trap
 A 2.0
 Keyboard focus is never locked or trapped at one particular page element. The user can navigate to and from all navigable page elements using only a keyboard. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
