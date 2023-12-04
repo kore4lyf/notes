@@ -73,3 +73,43 @@ The tab order corresponds to the DoM order.
 WebAIM checklist items: 
 1.3.2: http://webaim.org/standards/wcag/checklist#sc1.3.sc2
 
+
+1.3.2 Meaningful Sequence
+A 2.0
+The reading and navigation order (determined by code order) is logical and intuitive. 
+
+
+
+
+### Using Tabindex 
+
+
+#### Deciding whats in focus 
+Only use Tabindex on interactive elements. We should typically only add tabindex attributes to interactive elements, and not to our site content. 
+
+
+### Managing Focus
+
+You can skip ahead to Lesson 6 to learn how to change or remove the focus ring from an element. In this case, since we're managing focus and headers are typically not interactive it's probably OK to remove their focus ring. However, you should never remove the focus indicator from an interactive element unless you're going to replace it with something else. Otherwise a keyboard user might have no idea which element is currently focused!
+
+You can manage the focus of a page with a A large nav links by settings a tab-index = -1 on it's header and using JavaScript to focus on the element.
+ 
+ 
+### Skip links 
+
+
+
+### Offscreen Content 
+To prevent Offscreen content from being focused, set it's `display to none` or `visibility to hidden` 
+
+
+### Modals and Keyboard Traps 
+
+2.1.2 No Keyboard Trap
+A 2.0
+Keyboard focus is never locked or trapped at one particular page element. The user can navigate to and from all navigable page elements using only a keyboard. 
+
+
+
+
+
