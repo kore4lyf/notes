@@ -453,6 +453,183 @@ Another useful concept is tab trapping. Consider opening a modal on a page which
 
 
 
+##  Visual Considerations 
+
+### Color Contrast
+
+#### WebAIM
+To check color contrast online, use the WebAIM contrast checker.
+[WebAIM color checker](https://webaim.org/resources/contrastchecker/)
+
+#### Chrome DevTools
+Did you know the Chrome DevTools come with a built-in accessibility color checker?
+
+DevTools color checker
+
+
+####  Colors and forms
+An important consideration for colorblind users is making sure that color isn't the only way users can tell if there is an error with the form. For example, a red ring is not enough. Consider adding an icon or an error label. 
+
+
+- 1.4.1 Use of Color (Level A)
+  - Color is not used as the sole method of conveying content or distinguishing visual elenments. 
+  - Color alone is not used to distinguish links from surrounding text unless the contrast ratio between the link and the surrounding text is at least 3:1 and an additional distinction (e.g., it becomes underlined) is provided when the link is hovered over and receives focus.
+
+- 1.4.2 Audio Control (Level A)
+  - Mechanism is provided to stop, pause, mute, or adjust volume for audio that automatically plays on a page for more than 3 seconds.
+
+- 1.4.3 Contrast (Minimum) (Level AA)
+  - Text and images of text have a contrast ratio of at least 4.5:1.
+  - Large text - at least 18 point (typically 24px) or 14 point (typically 18.66px) and bold - has a contrast ratio of at least 3:1.
+
+
+#### Visual Impairments
+To simulate a number of visual impairments on any website, check out **NoCoffee** for Firefox
+
+##### NoCoffee simulator
+Proximity of notifications from what you're doing
+Helps neurological and also low vision (another curb cut example)
+
+##### Setting the language
+Remember to set the lang attribute both on the top level html tag as well as any sections where the language deviates from it.
+
+- 3.1.1 Language of Page (Level A) - 
+  - The language of the page is identified using the HTML lang attribute (e.g., `<html lang="en'>`).
+
+- 3.1.2 | Language of Parts (Level AA)
+  - The language of page content that is in a different language is identified using the lang attribute (e.g.. `<blockquote lang="es">`).
+
+- 3.1.3 Unusual Words (Level AAA) 
+  - Words that may be ambiguous, unfamiliar, or used in a very specific way are defined through adjacent text, a definition list, a glossary, or other suitable method. 
+
+- 3.1.4 Abbreviations (Level AAA) 
+  - The meaning of an unfamiliar abbreviation is provided by expanding it the first time it is used, using the `<abbr>` element, or linking to a definition or glossary. 
+
+- 3.1.5 Reading Level (Level AAA)
+  - More understandable alternative is provided for content that is more advanced than can be reasonably read by a person with roughly 9 years of primary education.
+
+
+
+#### Fix markup errors
+Although it won't always have a user facing effect, it is recommended that you find and fix and validation or parsing errors in your HTML.
+
+- 4.1.1 Parsing (Level A) 
+  - Significant HTML validation/parsing errors are avoided. Check at http://validator.w3.org 
+  
+- 4.1.2 Name, Role, Value (Level A)
+  - Markup is used in a way that facilitates accessibility. This includes following the HTML specifications and using forms, form labels, frame titles, etc. appropriately. 
+  - ARIA is used appropriately to enhance accessibility when HTML not sufficient.
+
+
+
+#### Neurocognitive
+
+##### Prefers Reduced Motion
+Users can set a "prefers reduced motion" setting in their operating system (Windows, Mac, Linux) and we can read that setting in CSS and swap out animations with more subtle effects.
+
+This is important both as a preference and also to avoid causing issues for users who may suffer from seizures.
+
+- 2.3.1 Three Flashes or Below Threshold (Level A)
+  - No page content flashes more than 3 times per second unless that flashing content is sufficiently small and the flashes are of low contrast and do not contain too much red. (See general flash and red flash thresholds).
+
+- 2.3.2 Three Flashes (Level AAA) 
+  - No page content flashes more than 3 times per second.
+
+- 2.3.3 Animation from Interactions (WCAG 2.1 Level AAA)
+  - Users can disable non-essential animation and movement that is triggered by user interaction.
+
+
+```html
+<div class="animation">animated box</div>
+``` 
+
+```css
+.animation {
+  animation: pulse 1s linear infinite both;
+}
+
+@media (prefers-reduced-motion) {
+  .animation {
+    animation-name: dissolve;
+  }
+} 
+``` 
+
+
+#### Prefers Color Scheme
+Another amazing API is one that allows us to detect if the user prefers a "light" or "dark" colorscheme.
+
+```html 
+<div class="wrapper">
+  ...
+</div> 
+```
+```css
+@media (prefers-color-scheme: dark) {
+  .wrapper {
+    background: black;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .wrapper {
+    background: white;
+  }
+}
+```
+
+
+
+#### Using Media Query in JavaScript 
+Supporting darkmode Finding out if dark mode is supported by the browser As dark mode is reported through a media query, you can easily check if the current browser supports dark mode by checking if the media query prefers-color-scheme matches at all. Note ow don't include any value, but purely check if the mnedia query alone matches. 
+
+```js 
+// check support for dark mode 
+if (window.matchMedia('(prefers-color-scheme)').media !== 'not all') {
+  console. log('* Dark mode is supported'):
+} 
+
+// Check whether current color scheme is light 
+const currentlyLightTheme = window.matchMedia("(prefers-color-scheme: light)") 
+// returns true if system prefer light color scheme
+``` 
+
+
+## Tooling
+### Linters
+[eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)
+[Angular Codelyzer](https://github.com/mgechev/codelyzer)
+[eslint-plugin-vuejs-accessibility](https://github.com/vue-a11y/eslint-plugin-vuejs-accessibility)
+
+### Accessible Design Systems
+[Adobe's React Spectrum](https://react-spectrum.adobe.com/react-spectrum/)
+[Google's Material Design](https://material.io/design)
+
+### Accessibility Developer Tools
+[Deque's axe DevTools](https://chrome.google.com/webstore/detail/axe-devtools-web-accessib/lhdoppojpmngadmnindnejefpokejbdd?hl=en-US)
+[Google's Lighthouse](https://developers.google.com/web/tools/Lighthouse)
+
+
+
+
+
+## Resources
+- [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+- [WebAIM](https://webaim.org/)
+- [Microsoft Inclusive Design](https://www.microsoft.com/design/inclusive/)
+- [Global Accessibility Awareness Day](https://globalaccessibilityawarenessday.org/)
+- [Accessibility in JavaScript Applications](https://frontendmasters.com/courses/javascript-accessibility/)
+- [Start Building Accessible Web Applications Today](https://egghead.io/courses/start-building-accessible-web-applications-today)
+- [Accessibility Tips & Tricks](https://egghead.io/courses/accessibility-tips-tricks-49286904)
+
+
+
+
+
+## Check out Internationallization 
+Changes content to another language. 
+- React Intl 
+
 
 
 
