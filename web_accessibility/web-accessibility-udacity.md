@@ -210,7 +210,47 @@ When one make a div look like a button and what it to act like one, on must syna
 
 
 
-##
+
+## Navigating Content  
+Many screen reader users rely on **headings**, to navigate within a page and find content on a webpage.
+
+one can navigate with 
+- Links (If the actual text of the link is meaningful)
+- Form Controls 
+- Headings 
+- Landmarks 
+
+
+### Link antipattern
+- A non-anchortag element with click event.
+- An anchor tag without a href attribute.
+
+A link with an image in it, should have an alt text as a discription of the image. 
+
+- 2.4.9 Link Purpose
+  - The purpose of each link (or form image button or image map hotspot) can be determined from the link text alone. 
+  
+
+An example of an uninformative link text is **learn more**.
+Which can better written as **learn more about xyz**.
+
+
+### Landmarks 
+- main - `<main>` the main content of a page. There should only be one main element in a webpage.
+- header 
+- footer 
+- nav - A section if a page that links to other pages. 
+- article - A self contained content like a blog entry. 
+- section - A generic section of a document or application.
+- aside - any content that is tangential related to the content around it.
+
+> Since an article or a section does not include what it's content might be, it best to have a header in it. 
+
+
+
+
+
+
 
 
 
