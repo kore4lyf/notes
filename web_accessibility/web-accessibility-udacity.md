@@ -252,11 +252,85 @@ Which can better written as **learn more about xyz**.
 
 ## ARIA 
 
+### Aria Label 
+- aria-label will always take precedence overtext with Elements e.g. The text within a button.
+
+### Aria Labelledby 
+- ~ can take multiple ID ref to compose a label out of multiple elements. 
+- It will always take precedence over aria-label 
+- ~ is a relationship attribute.
+
+### Aria Describedby 
 
 
 
+### More 
+- Don't redefine default semantics, native html elements have default semantics e.g. Don't add a role checkbox to an input with type checkbox because it already has that semantics. 
+- Some html elements roles cannot be overridden.
+
+### Role 
+- **banner** - header 
+- **navigation** - nav 
+- **search** - search input
+- **dialog** - dialog box 
+- **complementary** - aside 
+- **contentinfo** - footer 
+- **main** - main
 
 
+### Relationship Attributes 
+- **aria-activedescendant** | ID reference 
+- **aria-describedby** | ID reference list
+- **aria-labelledby** | ID reference list
+- **aria-owns** | ID reference list
+- **aria-posinset** | Integer 
+- **aria-setsize** | Integer  
+
+
+
+- aria-owns - is use to specify elements which are separate in the dom should be treated as a child of another element.  
+e.g. If a popup menu cannot be written within its calling cantainer due it how it would look visually, aria-owns can use to present the submenu as a child of the menu. 
+
+  - It can take a list of id references and can be used to specify the order of children.
+  - This makes assistive technologies like screen readers to restructure the content and make it/them accessible where they are being owned like the ref element(s) is/are it's child. 
+
+
+
+- aria-activedecendant - Just as the active element of a page is the one that has focus, setting the active descendant of an element allow us to tell assistive technology, that when it's parent has a focus ref descendant should be represented as the actual focused element. 
+e.g. An element with `role=listbox`, on parent we can set the activite listitem with `active-descendant="index7"`, if there is a menu item within the div witha menu item. 
+  - It make the currently selected item to appear to assistive technology as if they are being focused.
+
+
+
+- aria-describedby - allow one to provide an accessible description in the exact same way that an aria-label allows one to provide a label.
+  - It is used to provide an extra explanation to the user (both visual and auditory) e.g. Password field with a description of (password must be at least 12 characters). 
+
+
+
+- aria-posinset & aria-setsize 
+Are used to represent relationship between sibbling elements in a set. 
+aria-setsize - is used to specify the size of the set 
+aria-posinset - is used to specify the pos of an element in the set. 
+
+```html 
+<div role="listbox"> 
+  ...
+  ...
+  ...
+  <div 
+    role="option"
+    aria-posinset="135"
+    aria-setsize="200"> Item 135 </div> 
+    
+  <div 
+    role="option"
+    aria-posinset="138"
+    aria-setsize="200"> Item 138 </div> 
+  ...
+  ...
+  ...
+</div>
+```
 
 
 
