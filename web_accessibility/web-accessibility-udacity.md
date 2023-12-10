@@ -334,8 +334,92 @@ aria-posinset - is used to specify the pos of an element in the set.
 
 
 
+### Hidden from plain sight 
+There are several ways to ensure that only certain parts of the page are accessible by assistive technologies. 
+
+#### Hiding from visual and auditory 
+1. 
+```html 
+<button style="visibility: hidden;">
+``` 
+
+2. 
+```html 
+<div style="display: none">
+``` 
+
+3. 
+```html 
+<span hidden>
+``` 
 
 
+#### Hidding from visual 
+Hidden from Visual but accessible to the Assistive technologies. 
 
 
+#### Hidden from assistive technology
+`aria-Hidden="true/false"`
+
+
+### Aria live  
+~ allows a developer mark a part of the page as live, so that update will be communicated to users in a timely manner and when changed occur within the live region. 
+
+values 
+- off 
+- polite (Non-interuptive) not urgent
+- assertive (Instant update) urgent
+
+
+#### fine-tuning Aria live 
+- **aria-atomic**  - It determines whether the entire region should be called as a whole when committing updates. 
+
+| value | Description | 
+| :--- | :--- | 
+| true | Assertive technology will present the entire region as a whole. | 
+| false| A change within the region maybe processed by the assistive technology on its own.
+
+- **aria-relevant** - 
+Indicates what type of changes should be presented to the user. 
+
+| value | Description | 
+| :--- | :--- | 
+| additions | Elements nodes are added to the DOM within the live region | 
+| removals | Text or element nodes within the live region are removed from the DOM | 
+| text | Text is added to any DOM descendant nodes of the live region | 
+| all: | Equivalent to the combination of all the values, "additions removals text" | 
+| additions text (default): | Equivalent to the comnbination of values, "additions text" | 
+
+
+- `aria-relevant="additions"` - Means any element add to the libe region is significant. 
+
+If one appends an element e.g. `<span>` with the text "sure", assuming `aria-atomic` is false then, "sure" will be announced by the Screen Reader. 
+```html 
+<div aria-live="polite" 
+  aria-relevant="additions"
+  class="chat-history">
+  <span>sure</span>
+</div>
+```
+
+- `aria-relevant="text"` - Means the text content added to any decendant node is relevant, regadless of whether a new element is added.
+```html 
+<div aria-live="assertive" 
+  aria-relevant="text"
+  aria-atomic="true"
+  class="alertbar">
+  Could not connect! Retrying in 10 seconds ...
+</div>
+```  
+
+
+- `aria-relevant="removals"` - this implies that removing any text or any decendant element should trigger an announcement. 
+
+
+The default value for aria-relevant is `additions text`
+.
+
+- **aria-busy** - Notifies assistive technology to ignore changes to an element. 
+
+value - true or false
 
