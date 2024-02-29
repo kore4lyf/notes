@@ -551,10 +551,393 @@ You can read more about Shu Ha Ri here:
 
 
 
+### Agile Governance 
+
+#### What Is Agile Governance?
+Effective Agile Governance is about Making Decisions
+In order to enable effective Agile governance, the following needs to be kept in mind:
+
+- Tolerances Are Essential For Agile Governance.
+- Decentralized Decision Making Empowers The Team.
+- Agile Governance Delivers Goodwill and Trust.
+- Agile Promotes Light and Simple Governance.
+- Strategic and Long-Term Decisions Remain Centralized.
+
+Effective Agile governance ensures decisions are made in a simpler and lighter manner per the Agile Manifesto’s guidance to keep things simple. 
 
 
 
 
+### What Kills High Performing Teams 
+Pitfalls That High Performing Teams Should Avoid
+What Kills High-Performance Teams? 
+
+Pitfall #1: Conflicts are not managed effectively; it is important to regularly remind the Agile Team of the value of respectfully discussing differing opinions and suggestions.
+
+Pitfall #2: Blame game begins; there needs to be a tolerance for some failures since Agile Teams work in fast-paced situations. Such blame games and negative criticism quickly escalate to unhealthy conflict. The smarter and healthier outlook is to continue to keep the Agile Team on a learning mindset. 
+
+Pitfall#3: Rules of Engagement are not followed; the Facilitator must ensure the Agile Team honors the agreed-upon rules of engagement and that team communications are frequent and relevant to avoid a high performing Agile Team from commencing its decline.
+
+Pitfall #4: Spark or passion is dimmed; if the Agile Team starts to perceive that their work is not as valuable, it can annihilate motivation. When the product vision starts to get foggy, the Product Owner needs to quickly step in to clarify.
+
+
+
+
+
+## Agile Framework 
+
+## Why Agile Frameworks?
+Why Do Agile Frameworks Matter?
+Agile Frameworks Are A Vehicle for Practically Utilizing Agile
+Agile's principles related to simplicity, adaptability, and the ability to embrace change attract attention. For Agile to practically be utilized effectively, an Agile Framework, or a combination of frameworks, is usually adopted.
+
+Similarities Between Agile Frameworks:
+- Adhere to the Agile Mindset as being fundamental to the success of any Agile journey
+- Emphasize that being Agile is critical to successfully doing Agile.
+- The Agile Manifesto’s 4 paired core values and its associated 12 guiding principles set the foundation for all Agile Frameworks.
+- Provide guidance on how to bring the Agile Manifesto’s core values and principles to life.
+
+
+Scrum - can be used to balance priorities.
+Kanban - used to manage flow and WIP 
+XP - 
+
+
+While each Agile Framework has certain unique characteristics, they all adhere to iterative development and continuous feedback when creating a value-driven product. Agile Frameworks recommend creating and delivering solutions in small increments. 
+
+
+
+### How Experts Approach Agile Frameworks 
+Thinking About Agile Frameworks
+
+Agile Frameworks are Enablers that Bring to Fruition the Value of Agile
+
+This includes:
+
+- Focusing more on the individuals and interactions; ultimate determining factor for the success of a product are the resources on the Agile product delivery team.
+
+- Do not force Agile unnecessarily; Teams that are already performing well can be gradually introduced to additional Agile practices based on a specific Agile Framework.
+
+- Refined user stories are important; Agilists work with Product Owners to ensure the user stories have been sufficiently refined for the Agile Team to proceed.
+
+- Respect the backlog; Agilists focus on ensuring the Agile Team does not over-commit to what can be accomplished in each iteration, especially during the first few iterations.
+
+
+
+##### Implementing a Specific Agile Framework is a Fine Balancing Act
+Must adapt based on each organization’s unique culture and context.
+Experts have to regularly remind both leaders and the Agile Team to remember that there is no one way to execute Agile practices in an organization.
+Agile principles and practices are by their very nature to be adapted as needed.
+
+
+
+### Agile Frameworks
+What Are Agile Frameworks?
+Agile is an Umbrella Term for a Variety of Frameworks that Align with The Agile Manifesto
+Every Agile team's goal is to deliver value-driven functionality with built-in quality and to do it quickly. This is where Fail Fast and Learn is priceless. Agile teams who wish to deliver both amazing product features that delight customers, as well as do it fast, must learn to quickly change course when it is realized that a product feature is heading down the wrong path.
+
+#### The Agile Umbrella
+The Agile Umbrella has some key characteristics:
+
+- Deliver Value: An absolutely key driver behind anything Agile is to deliver value.
+- Continual Improvement: Agile promotes incremental improvement to minimize resistance from all who are involved.
+- Flexibility: Flexibility is one of the foundations of any Agile Framework.
+- Trust and Respect: Agile Frameworks promote trust and respect because such trust and respect motivate Agile teams.
+Cultivate Mastery: This built-in structure for Agile team members to hone their skills further motivates the Agile team.
+
+
+
+### Scrum
+#### What Is Scrum?
+**Scrum Framework**
+Scrum is by far the most common Agile Framework.
+- The features are delivered in iterations known as Sprints.
+- The Team conducts Daily Stand-Ups in which they provide updates to each other.
+- Retrospectives are conducted to identify opportunities for improvement at the end of each Sprint.
+- Specific roles, as well as certain Ceremonies, are recommended in the Scrum Framework.
+
+**Scrum Pillars**
+- **Transparency** - Transparency builds trust and openness both within the Agile Team, as well as with those stakeholders outside the Agile Team.
+- **Inspection** - Inspection involves the business users reviewing the Agile Team’s progress towards the defined goals.
+- **Adaptation** - Agile Teams adjust and adapt based on opportunities for improvement that are identified either by the Agile Team themselves or through feedback from others outside the team
+
+
+**Scrum Values** 
+5 Scrum Values
+- **Focus** - Everyone in the Team focuses on the work to be completed in order to deliver the Sprint goals.
+- **Courage** - Members of the Team need to have the courage to do what is right to ensure the Sprint goals are met.
+Openness - The Team and its stakeholders agree to a culture of openness.
+- **Commitment** - Commitments build trust within the Agile Team members, as well as with the business users and leaders.
+- Respect - Respect is a key in Scrum for a high-achieving Agile Team.
+
+
+**When Scrum Does Not Make Sense** 
+As shown in the Stacey diagram, an Agile Framework like Scrum works best with complex and complicated projects and products. There may not be much value in utilizing Agile principles
+
+- when there is a near certainty in both the requirements and process upfront.
+- when there is chaos. Scrum cannot bring value to an environment where there is no vision or clear roadmap.
+- when the project is simple and predictable and the need for iterative learning and adapting is of no value.
+
+
+
+
+### Scrum Ceremonies and Roles
+**Scrum Ceremonies, Project Vision, Daily Stand Up, and Sprint Planning**
+
+**Scrum Ceremonies**
+Scrum Ceremonies are focused meetings with a specific purpose. The recommended Scrum Ceremonies are:
+
+- Project Vision
+- Daily Stand Up
+- Sprint Planning
+- Sprint Review/Demo
+- Sprint Retrospective
+- Release Planning
+
+
+#### Project Vision
+- Project Vision Ceremony is where the business leaders identify the business need the project’s product deliverable is intended to achieve.
+- Agenda - Discuss the project goals, identify the sponsor, and outline the project vision, success criteria, assumptions, constraints, and risks.
+- Project Vision occurs once per project and is scheduled before the project launch.
+- Scrum recommends this ceremony be time-boxed to 1 hour.
+Outcome - Business leaders create a desired future state statement.
+
+
+#### Daily Stand Up or Scrum
+- The Daily Stand Up is used to synchronize activities and create a short-term plan for the next 24 hours.
+- It is time-boxed to 15 minutes and is held every day, throughout the whole scrum ceremonies, ideally at the same time daily.
+- Three questions are addressed by each Team member briefly:
+  - What did I do since the last time we met?
+  - What do I plan to accomplish today?
+  - What impediments am I encountering?
+- This is a very valuable Ceremony in which all Team members get an opportunity to report issues they are facing; cultivates transparency across the product development journey. 
+
+
+#### Sprint Planning
+- The Team self-organizes and plans out the work to be performed in the Sprint.
+- The work is prioritized by the Product Owner.
+- Time-boxed to not more than eight hours for a one-month Sprint.
+- Agile Team works with the PO and Scrum Master to address the following three questions:
+  a. What are we committing to deliver in the upcoming Sprint?
+  b. How will we complete the work required to achieve this commitment?
+  c. What are the respective estimates for each user story and associated tasks?
+- The Agile Team takes the prioritized backlog items and collaborates on how to carry out the work.
+
+Notes: the Daily Stand Up or Scrum is held daily, including the time between Sprint Planning and Sprint Review.
+
+
+
+#### Sprint Review/Demo, Retrospective, and Release Planning
+##### Sprint Review/Demo
+- The purpose is to generate feedback and nurture collaboration.
+- The Team demonstrates the Sprint’s incremental work to the PO and other business representatives.
+- The Team and PO transparently discuss accomplishments, as well as opportunities for improvement.
+- The PO determines if the Sprint deliverables are acceptable based on the Acceptance Criteria and Definition of Done.
+- Occurs once at the end of each Sprint with a time-box of 4 hours for a one-month Sprint. 
+
+
+##### Sprint Retrospective
+- The Team self-inspects its performance during the Sprint and identifies practical opportunities for improvement for subsequent Sprints.
+- Retrospectives are held after the Sprint Review; time-boxed to 3 hours for a one-month Sprint.
+- The Team also discusses what went well, as well as what to continue to doing that is working very well for the Agile Team in terms of delivering value.
+
+##### Release Planning
+- The Team develops a Release Plan that defines when a collection of functionality will be delivered to the customer base.
+- The agenda is to discuss critical dates and milestones, coordinate with dependent departments and systems, and balance business value vs quality.
+- Only occurs when there is a Release; time-boxed to 20 minutes.
+
+
+#### Scrum Roles
+Similar to other Agile Frameworks, there are 3 core roles in the Scrum Framework.
+
+- Product Owner, who is the voice of the customer.
+- Scrum Master, who is the key facilitator.
+- Agile Team, also known as the Scrum Team sometimes.
+
+#### Scrum Artifacts
+- **Product Increment** clarifies what is being delivered in each increment at the end of each Sprint.
+- The **Product Backlog** is the prioritized list of work to be delivered by the Team. The Backlog items are dynamic and evolving based on emergent needs of the business and customer demand.
+- The **Sprint Backlog** contains the prioritized items that the PO has designated for the Sprint.
+
+There are other useful information radiators that are commonly used by Agile teams to track and share progress. These information radiators include Burndown Charts, Burnup Charts, and Velocity Charts.
+
+
+
+
+
+
+
+### Kanban
+What is Kanban? 
+
+**Kanban Framework**
+Kanban has its origins in lean product development, an approach to product development inspired by lean manufacturing principles and practices at Toyota.
+
+**Lean Principles**
+Lean product development focuses on 7 fundamental principles:
+
+- Eliminate Waste - Anything that does not add value to the customer.
+- Build in Quality - Lean focuses on good practices to ensure integrity and prevent defects.
+- Create Knowledge - Lean encourages both training and peer-to-peer knowledge transfer.
+- Defer Commitment - Lean recommends the Agile Team wait until the "last responsible moment" to make a decision, which allows for additional time to innovate.
+- Deliver Fast - Lean encourages the Agile Team to create and deliver the product incrementally.
+- Respect People - The Team must feel trusted and valuable to think and solve problems for themselves.
+- Optimize the Whole - Lean encourages decreasing barriers to increase efficiencies by decreasing the amount of hand-offs and reducing WIP.
+
+
+
+
+**Five Principles of Kanban**
+Kanban is a lightweight Agile Framework with 5 principles:
+
+- Visualize the Flow - The Team visualizes the workflow, which helps in organizing, tracking, and optimizing the work.
+- Limit Work in Progress- Limiting WIP helps to smooth the flow of work, reduce lead times, improve quality and delivery more frequently.
+- Manage Flow - By Monitoring and measuring the flow of work, issues are identified as soon as possible, which improves delivery predictability.
+- Make Policies Explicit - Establishing policies provides the Agile Team with explicit understanding of the processes for discussions around issues.
+-Improve Collaboratively - The Agile Team must own the team’s work related processes and work collaboratively to improve the processes being utilized.
+
+> A Kanban Board plays a valuable role as an information radiator since it shows the work items in their various stages of the product development journey.
+
+
+#### Kanban Ceremonies, Core Roles and Artifacts 
+Kanban Ceremonies
+You will recall the 6 Scrum Ceremonies. In Kanban:
+
+- The Ceremonies are simplified.
+- There is no Sprint Planning Ceremony.
+- And there is no Sprint Retrospective.
+- Sprint Review/Demo is just called Review Demo.
+
+So, the 4 Kanban ceremonies align with 4 of the Scrum ceremonies.
+- Product Vision
+- Daily Stand Up 
+- Review/Demo 
+- Release timing
+
+**Where Does Kanban Make Sense?**
+- Since it focuses on the Agile Team’s workflow and throughput, Kanban is seen as a better Agile Framework option solution for projects where the work is likely to involve a large quantity of relatively small activities.
+- Kanban is also suitable for work that may arise on an ad-hoc basis.
+
+
+**Kanban Roles and Artifacts**
+Core Roles in Kanban
+- Product Owner - Seen as the voice of the customer.
+- Facilitator - Team's Servant Leader.
+- Agile Team - These are the resources that collaborate and work on the product deliverables.
+
+**Kanban Artifacts**
+- Kanban Board - A Kanban Board plays a valuable role since it articulates the work items in their various stages of the product development journey.
+- Cumulative Flow Diagram - A Cumulative Flow Diagram shows the total amount of WIP and how quickly projects are being completed. 
+
+
+
+### XP
+XP Values
+
+*XP Framework*
+Extreme Programming, also known as XP, is a powerful Agile Framework with its roots in software development. XP has a strong focus on technical excellence and best practices in software development.
+
+XP Values
+There are 5 XP Core Values. They are
+
+
+
+**XP Practices**
+The 5 XP core values discussed earlier set the tone for XP’s 13 core practices.
+
+**13 Core Practices**
+- Whole Team - The Whole Team practice encourages the entire XP team to be collocated when practically possible. Collaboration tools can be leveraged to follow the Whole Team practice for Remote Teams.
+- Planning Games - XP encourages creative approaches to planning. The two formal planning ceremonies in XP are Release Planning and Iteration Planning.
+- Small Releases - Small and frequent releases are encouraged in XP at both the iteration, as well as release level.
+- Customer Tests - In the Customer Tests practice, the PO works with the customer to describe one or more test criteria as part of defining the requested functionality. The team then ideally builds automated tests to confirm that the developed product’s acceptance criteria are met. 
+- Collective Code Ownership - No single developer owns a piece of work. This strengthens the product with a broader knowledge of the code across the team.
+- Code Standards - Everyone in the team codes to a consistent standard in XP.
+- Sustainable Pace - A consistently high level of productivity can only be maintained at a sustainable pace.
+- Metaphor - It is important to adhere to a set of easy-to-remember standard naming conventions for items such as variable names, class names, and methods to facilitate communication.
+- Continuous Integration - Software builds are regularly integrated by combining all the coding components together to verify that it compiles and works as a collective codebase.
+- Test-Driven Development - In TDD, the team writes the acceptance test before the actual coding is done.
+- Refactoring - The Team works to improve existing code to keep the design cleaner to maintain and develop new functionality on top of the existing codebase.
+- Simple Design - The optimal design is the simplest one that works.
+- Pair Programming - XP advises team members to work on product deliverables in pairs; data shows that this produces higher quality code and costs less in the long run.
+- 
+The XP Framework has a more stringent approach than many other Agile Frameworks. For example, Kanban is a lighter framework with room for flexibility.
+
+
+#### XP Core Role and Ceremonies 
+XP Roles
+XP has a much more stringent approach than many other Agile Frameworks. None of the practices are optional, and it is strongly oriented to software development.
+
+The XP Framework has 4 core roles, 3 of which are quite analogous to the 3 core roles in most Agile Frameworks:
+
+- Customer - Somewhat like the PO; the customer is the business representative.
+- Tester - Primarily responsible for quality assurance.
+- Coach - Acts as a mentor for the team; also a Facilitator for the team.
+- Programmers - Developers who build the product
+
+
+**XP Ceremonies and Artifacts**
+All XP ceremonies align with the Scrum Framework ceremonies discussed earlier. The names are a little different for some of the ceremonies.
+
+**XP Ceremony Names**
+- Iteration Planning
+- Iteration Review
+- Iteration Retrospective
+- Project Vision
+- Daily Stand Up
+- Release Planning
+
+
+**XP Artifacts**
+Since XP is a more thorough Agile Framework in terms of processes, all the artifacts covered in the Scrum Framework and Kanban Framework are included in XP.
+
+- Product Increment
+- Product Backlog
+- Iteration Backlog
+- Burndown Chart 
+- Velocity Chart
+- Cumulative Flow Diagram
+- XP Ceremonies are the same ceremonies as the ones in the Kanban framework 
+
+
+### Key Differences Between XP and Kanban
+In this exercise, you were asked to identify key differences between Kanban and XP.
+
+**Core Roles**
+Kanban Core Roles:
+- PO
+- Facilitator
+Agile Team
+
+XP Core Roles:
+- Customer, which is somewhat like the PO in Kanban.
+- Tester, which does not explicitly exist as a separate role in Kanban.
+- Coach, who is somewhat similar to the Facilitator role in Kanban.
+- Programmers, which is most closely related to the Agile Team role in Kanban.
+
+
+**Ceremonies**
+XP has two ceremonies, which do not need to take place in Kanban.
+
+- **Iteration Retrospective**, where there’s an opportunity for the Team to inspect itself and create a plan for improvements.
+- **Iteration Planning**, where the work to be performed in the iteration is planned.
+
+XP is more stringent. XP has 13 detailed practices whereas Kanban just focuses on flow and WIP. 
+
+
+
+
+### XP Doesn't Work For Every Team
+
+Challenges with XP
+While many organizations get excited when they read that XP brings in rigor alongside the typical benefits of Agile, Agile teams often encounter challenges with XP:
+
+- XP is software-centric - XP places emphasis on software development practices, unlike many other Agile Frameworks in which the emphasis is more on streamlining processes.
+
+- XP Coaches are Tough to Recruit - Recruiting experienced XP coaches is a challenge. XP coaches are expected to be familiar with software development, as well as have the right personality and temperament to facilitate ceremonies and difficult conversations.
+
+- XP is Complex - XP is complex to implement and often feels anti-Agile to some organizations and their leaders. With 13 defined practices, XP has considerably more practices than many other Agile Frameworks.
+
+Organizations who are thinking of XP need experienced XP Coaches, a willing and highly skilled team of programmers, and leaders who have the resilience to guide the organization through the initial transformation.
 
 
 
@@ -596,6 +979,41 @@ You can read more about Shu Ha Ri here:
 - VUCA: Volatility, Uncertainty, Complexity, Ambiguity
 - Waterfall Methodology: A methodology of product development that starts by breaking down project tasks into linear sequential phases or stages where each subsequent stage depends on the successful delivery of the previous ones
 - WIP (Work in Progress): The work that has been started but not yet completed 
+- Agile Umbrella: A term that refers to the various Agile Frameworks that follow the Agile Manifesto's values and principles 
+- Scrum: Scrum is one of the most popular Agile frameworks for developing complex products, with an emphasis on value delivery
+- Scrum Pillars: Transparency, Inspection, Adaptation
+- Scrum Values: Focus, Courage, Openness, Commitment, Respect
+- Sprint: A Sprint in Scrum is a repeatable fixed time-box iteration during which a minimum shippable product is delivered
+- Burndown Chart: A visual representation of work left to do versus time in an iteration
+- Burnup Chart: A visual representation of work completed versus time in an iteration
+- Ceremonies: Meetings that are leveraged to ultimately ensure that everyone associated with the project is in-sync
+- Daily Stand Up: A ceremony to create a short term plan for the next 24 hours
+- Definition of Done: The agreed-upon deliverables that must be completed before a user story can be completed
+- Product Backlog: A prioritized list of Features that an Agile team needs to work on to achieve a specific outcome
+- Product Increment: The collection of backlog items to be completed during an iteration
+- Project Vision Ceremony: A ceremony is where the business leaders identify the business need the project’s product deliverable is intended to achieve; the agenda is to discuss the project goals
+- Release Planning Ceremony: A ceremony where the Agile Team develops a Release Plan that defines when a collection of functionality will be delivered to the customer base
+- Sprint Backlog: The prioritized items that the PO has designated for the Sprint
+- Sprint Planning Ceremony: A ceremony is where the Agile Team self-organizes and plans out the work that has been prioritized by the Product Owner
+- Sprint Review/Demo: A ceremony where the Agile Team demonstrates the Sprint’s incremental work to the Product Owner, as well as possibly other business representatives
+- Velocity Chart: A chart that shows what the team has delivered in each iteration 
+- Cumulative Flow Diagram: A diagram that shows the total amount of WIP and how quickly projects are being completed
+- Flow: How work items in a process move through the various stages of development
+- Kanban Board: A visual representation of the Agile team's work at various stages with a separate column for each stage
+- Kanban: A lightweight Agile Framework that has its roots in Lean Principles
+- Lean Development: A process to eliminate Muda by leveraging innovative solutions to reduce cycle time and cost Continuous
+- Integration: A process that combines all of the coding components of a software build to verify that it compiles and works as a collective codebase
+- Iteration Backlog: A list of clearly defined user stories, which the Agile team has committed to delivering in the iteration
+- Metaphor: A set of easy-to-remember standard naming conventions used in XP to facilitate communication
+- Planning Games: Another name for planning in XP, including release planning and iteration planning
+- Test-Driven Development: A process where each small release is thoroughly tested prior to being released to production
+- XP (Extreme Programming): An Agile Framework with a strong focus on technical excellence and best practices in software development
+
+
+
+
+
+
 
 
 

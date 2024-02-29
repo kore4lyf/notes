@@ -209,7 +209,126 @@ The Facilitator should also be included in the value of n. So n=6. n(n-1)/2 = 6 
 - 10 
 - 5
 
-Answer: 
-15
+Answer: 15
 
+15. TRUE or FALSE: Agile Governance should mirror the Agile Manifesto principles, particularly the art of simplicity - maximizing the work not done is essential.
+
+Answer: True
+
+Using agile, governance is applied with a light touch. Agile teams should be empowered and self-organizing. However, this does not equate to a disorderly or chaotic approach. Accountability to deliver value within the defined governance models remains with an effective cross-functional Agile team
+
+
+16. Regarding Agile Governance, which of the following are TRUE?
+[x] It is important to understand what your organization requires from a governance and compliance perspective. 
+[x] A key prerequisite is to engage with stakeholders.
+[x] Business needs must be defined clearly. 
+[] There is a consistent governance model for all Agile organizations that is mandated by The Agile Manifesto.
+
+Answer: 
+- It is important to understand what your organization requires from a governance and compliance perspective. 
+- A key prerequisite is to engage with stakeholders.
+- Business needs must be defined clearly. 
+
+Your organization may already have a structured approach to governance with defined documentation and procedures. The business needs to be able to assess that the Agile project will align with the strategic objectives of your organization
+
+
+17. What kills the momentum of a high performing Agile team? 
+A. Any conflict
+B. Discussing opportunities for Improvement
+C. Following rules of engagement 
+D. When the Agile team does not have a view of the product vision
+
+answer: D. When the Agile team does not have a view of the product vision
+
+If Agile Team does not see value in their work, it kills motivation. It is important for the PO to ensure the team understands their work is delivering value to the organization. 
+
+
+18. TRUE or FALSE: Agile Frameworks promote a highly iterative process for Product Development.
+
+answer: True 
+
+All Agile Frameworks promote a highly iterative development process for Product Development. This allows for more flexibility. It is less costly to change scope and requirements.
+
+
+19. TRUE or FALSE: Agile is designed in a way so all parties can provide feedback as the software is developed in an efficient and effective manner.
+
+Answer: True 
+Key to success is rigorous validation of requirements and verification (including testing) of each version of the software against those requirements within each cycle of the mode
+
+
+20. Which of the following Agile Manifesto principles reflects the Agile focus on team empowerment in all Agile Frameworks? 
+A. Working software is the primary measure of progress
+B. Welcome changing requirements, even late in development 
+C. Simplicity - the art of maximizing the amount of work not done - is eessential
+D. Build projects around motivated individuals
+
+
+Answer: 
+D. Build projects around motivated individuals
+
+Give them the environment and support they need, and trust them to get the job done.
+
+
+21. In Scrum, the Definition of Done is created with the input of everyone EXCEPT the:
+A. Development Team
+B. Product Owner
+C. Scrum Master
+D. Process Owner 
+
+answer: 
+D. Process Owner
+
+The whole team, including the Development Team, Product Owner, and Scrum Master, is responsible for creating the shared Definition of Done. Process Owner is not a formal role in Scrum.
+
+21. What are the three pillars of Scrum?
+[x] Transparency
+[] Collaboration 
+[x] Inspection
+[x] Adaptation
+
+answer: 
+Transparency
+Inspection
+Adaptation
+
+
+22. The Kanban Framework has its roots in Lean Principles 
+
+answer: 
+True 
+
+
+23. The core values of XP include
+A. Courage, commitment and input 
+B. Simplicity, control and respect 
+C. Feedback, simplicity and communication 
+D. Solutions, feedback and control
+
+answer: 
+C. Feedback, simplicity and communication 
+
+24. Which of the 13 XP Practices encourages co-location when possible? 
+A. Whole Team
+B. Pair Programming
+C. Collective Code Ownership
+
+Answer: 
+A. Whole Team
+
+The whole team practice is the idea that the XP team is co-located when possible. If not, they leverage technology to build the environment of a single team. XP emphasizes the notion of generalizing specialists. So the roles are not reserved for people who specialize in one particular area. This practice also allows for more efficient communication and helps reduce the possibility that some resources will be idle or overstretched.
+
+
+25. What are some of the prevalent challenges with adopting XP?
+
+[Select all that apply]
+[x] It is software-centric 
+[x] XP is not an Agile Framework 
+[] XP coaches are tough to recruit
+[] XP is lightweight
+
+answer: 
+- It is software-centric 
+- XP is not an Agile Framework 
+
+Organizations that are thinking of adopting XP in software-centric teams need experienced XP Coaches, a willing and highly skilled team of programmers and leaders who can handle the complexity of XP. When done right, XP delivers tremendous value.
 
