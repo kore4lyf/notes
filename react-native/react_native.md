@@ -39,7 +39,7 @@ npx tsc --init // This command generates a tsconfig.json file in your project di
 
 // Configure tsconfig.json: Open the tsconfig.json file and configure it according to your project needs. You may need to adjust settings such as target, module, jsx, and outDir.
 
-// Rename files to TypeScript: Rename your .js files to .tsx files if they contain JSX/TSX syntax. For example, rename App.js to App.tsx.
+// Rename files to TypeScript: Rename your dot js files to dot tsx files if they contain JSX/TSX syntax. For example, rename App.js to App.tsx.
 
 // Start the development server: Run expo start or npm start to start the Expo development server. This will compile TypeScript files and start the development server.
 ```
@@ -75,7 +75,7 @@ In Android and iOS development, we employ a fundamental building block called **
 
 A view is a small rectangular element on the screen that can display text, images, or respond to user input.
 
-**Android** - views are written in Kotlin or Java
+**Android**-views are written in Kotlin or Java
 **iOS** - views are written in Swift or Objective-C
 **React Native** - views are written with JavaScript through React components.
 
@@ -188,6 +188,15 @@ export default function App() {
 ```
 
 > When using remote images it is necessary to specify the width and the height of the images, as for local images, React Native can infer the width and height from the image detail.
+
+#### Image Props
+
+**resizeMode** -
+
+**Values**:
+
+- contain
+- cover
 
 #### Setting Background Image
 
@@ -1155,5 +1164,852 @@ e.g.
 
 When `CustomButton` is imported in the App, the file that will be requested depends on the platform.
 
+## Lists
+
+Rendering lists is an essential aspect of mobile application development.
+
+Whether it's a list of contacts, products, or any other collection of items, lists are fundamental UI component.
+
+```js
+<SafeAreaView style={styles.container}>
+  <ScrollView style={style.scrollView}>
+    {pokemonList.map((pokemon) => (
+      <View key={pokemon.id}>
+        <Text>{pokemon.type}</Text>
+        <Text>{pokemon.name}</Text>
+      </View>
+    )
+    })}
+  </ScrollView>
+</SafeAreaView>
+```
+
+> Rendering list using the ScrollView component and the map function is not the preferred technique.
+
+The problem with this approach is that when there is a large data set it can lead to performance problems.
+
+The recommended approach is to use FlatList component which only renders component currently in view.
+
+## FlatList
+
+FlatList component renders only the items currently in view, making it highly performant for long lists.
+
+```js
+<SafeAreaView>
+  <FlatList data={pokemonList} renderItem={
+    ({item}) => (
+      <View style={styles.card} key={item.id}>
+        <Text style={styles.cardText}>{item.type}</Text>
+        <Text style={styles.cardText}>{item.type}</Text>
+      </View>
+    )
+  } />
+</SafeAreaView>
+```
+
+- To render list horizontally use `horizontal={true}`.
+- `keyExtracttor` - is a prop that takes an Item from the array and return a unique key for the item. It is used to identify the unique items in the list, similar to key props.
+
+By default it returns item.key, if that is not present, it returns item.id, if that is not also present, it uses the items index as key (index is available as a second argument)
+
+```js
+<FlatList 
+  data={}
+  renderItem={}
+  keyExtractor ={(item, index) => item.id.toString()}/>
+```
+
+- `ItemSeperatorComponent` - this prop accepts a react component rendering it between each item in a list, excluding the top and the bottom.
+
+```js
+<FlatList 
+  data={}
+  renderItem={}
+  ItemSeparatorComponent={<View style={{ height: 16 }}/>}
+  />
+```
+
+- `ListEmptyComponent` - It accepts a react prop and renders it when the list is empty.
+
+```js
+<FlatList 
+  data={}
+  renderItem={}
+  ListEmptyComponent={<Text>No items found </Text>}
+/>
+```
+
+- `ListHeaderComponent` - It accepts a react component and renders it at the top of the list.
+
+```js
+<FlatList 
+  data={}
+  renderItem={}
+  ListHeaderComponent={<Text style={styles.header}> Pokemon List </Text>}
+/>
+```
+
+- `ListFooterComponent` - It accepts a react component and render it at the end of the the list, it can be use to add a foot note, pagination controls, or a message indicating the end of the list.
+
+```js
+<FlatList 
+  data={}
+  renderItem={}
+  ListFooterComponent={<Text style={styles.footer}> End of List </Text>}
+/>
+```
+
+## SectionList
+
+A performant component designed for rendering sectioned lists.
+It is compulsory to have a `data` field value in the object that will be used.
+
+```js
+const groupedPokemonList = [
+  {
+    "type": "Grass",
+    "data": ["Bulbasaur", "Ivaysaur", "Venusaur"]
+  },
+  {
+    "type": "Fire",
+    "data": ["Chamander", "Charmeleon", "Charizard"]
+  },
+  {
+    "type": "Water",
+    "data": ["Squirtle", "Wartortle", "Blastoise"]
+  },
+  {
+    "type": "Electric",
+    "data": ["Pikachu", "Raichu"]
+  }
+]
+
+<SectionList
+  sections={grouptedPokemonList}
+  renderItem={({ item }) => {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.cardText}>{item}</Text>
+      </View>
+    )
+  }}
+  renderSectionHeader={({ section }) => (
+    <Text style={styles.sectionHead}>{section.type}</Text>
+  )}
+>
+```
+
+It accepts many of the FlatLists props and some extra ones.
+
+```js
+<SectionList
+  sections={grouptedPokemonList}
+  renderItem={({ item }) => {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.cardText}>{item}</Text>
+      </View>
+    )
+  }}
+  renderSectionHeader={({ section }) => (
+    <Text style={styles.sectionHead}>{section.type}</Text>
+  )}
+  ItemSeperatorComponent={() => <View style={{ height: 16 }} />}
+  SectionSeperatorComponent={() => <View style={{ height: 16 }} />}
+>
+```
+
+SectionList offers many more props refer to the Official Documentation for more details.
+
+## Inputs in React Native vs. Web
+
+In web development, we have lots of HTML elements at our disposal to capture user input.
+
+For example, input fields, text areas, dropdown menus, checkboxes, radio groups and many more.
+
+In react native our options are limited.
+The core React Native Library only provides TextInput and Switch.
+Expo expands our toolkit, offering additional components like check boxes and date pickers through the Expo SDK.
+
+### Forms in React Native
+
+- **Managing Form State**: Controlling the dynamic data within our forms.
+- **Handling Form Validation**: Ensuring the integrity and validity of the user's input.
+- **Displaying Validation Messages**: Communicating the results of validation to the user.
+- **Submitting Form Data**: Sending the collected information where it needs to go.
+
+```js
+import { useState } from 'react'
+import { View, Text, StatusBar, StyleSheet, SafeAreaView, TextInput } from 'react-native'
+
+export default function App() {
+  const [name, setName] = useState("")
+
+  return (
+    <SafeAreaView style={ styles.container }>
+      <TextInput style={ styles.input } value={name} onChangeText={setName} />
+      <Text> My name is {name} </Text>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: StatusBar.currentHeight
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5
+  }
+})
+```
+
+> In android the keyboard automatically show when the input form is active. On android to display the keyboard `cmd + shift + k`.
+
+To track the input value we can use a state variable.
+
+#### TextInput Props
+
+- **placeholder**
+
+```js
+<TextInput style={ styles.input } value={name} onChangeText={setName} placeholder="email@example.com" />
+```
+
+- **secureTextEntry** - Mask characters making them show as bullets. (Best for passwords)
+
+```js
+<TextInput style={ styles.input } value={name} onChangeText={setName} placeholder="email@example.com" /><TextInput style={ styles.input } value={name} onChangeText={setName} placeholder="email@example.com" /><TextInput style={ styles.input } value={name} onChangeText={setName} placeholder="email@example.com" />
+```
+
+- **keyboardType** - It allows one to specify the type of the keyboard that show up when the user interacts with the text input.
+**Values**:
+  - default
+  - url
+  - email-address
+  - numbers-and-punctuation
+  - visible-password
+  - decimal-pad
+  - numeric-pad
+  - name-phone-pad
+  - numeric
+  - e.t.c.
+
+- `autoCorrect={false}` (Enabled by default)
+- `autoCapitalize="none"` (Enabled by default)
+
+#### Multiline TextInput
+
+```js
+<TextInput style={ [styles.input, styles.multilineText] } value={name} onChangeText={setName} placeholder="email@example.com" multiline />
+
+const styles = StyleSheet.create({
+  multilineText: {
+    minHeight: 100,
+    textAlignVertical: "top"
+  }
+})
+```
+
+### Switch
+
+The Switch component serves as a valuable tool for integrating toggles into you app's user interface.
+
+It's particularly well-suited for scenarious where you require users to make binary choices, such as enabling or disabling specific app features.
+
+Switch component won't function as intended except it is connected with a state variable.
+
+```js
+<Switch value={isDarkMode}
+  onValueChange={() => setIsDarkMode((prev) => !prev)} />
+```
+
+- **trackColor** - to change the switch's track color.
+
+- **thumbColor** - to change the switch's thumb color.
+
+```js
+<Switch value={isDarkMode}
+  onValueChange={() => setIsDarkMode((prev) => !prev)} 
+  trackColor={{ false: "red", true:"green"}}
+  thumbColor="gray"
+/>
+```
+
+## Login Form
+
+```js
+import { useState } from 'react'
+import { SafeAreaView, View, Text, TextInput, Button, StyleSheet } from "react-native"
+
+export default function App() {
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.form}>
+        <Text style={styles.label}>Username</Text>
+        <TextInput style={styles.input} 
+          value={username}
+          onChangeText={setUsername}
+          placeholder="Enter your username" />
+
+        <Text style={styles.label}>Password</Text>
+        <TextInput style={styles.input} 
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Enter your password" secureTextEntry />
+
+        <Button title="Login" onPress={() => {}} />
+      </View>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    backgroundColor: "#f5f5f5",
+  },
+  form: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    fontWeight: "bold"
+  },
+  input: {
+    height: 40,
+    borderColor: "#ddd",
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 5
+  }
+
+})
+```
+
+### KeyboardAvoidingView
+
+Sometimes on iOS the TextInput goes below the keyboard, in order to prevent this behaviour one needs to use the `KeyboardAvoidingView` component.
+
+**behavior**:
+
+Values:
+
+- **padding** - Increases padding at the bottom matching the height of the bottom.
+
+**keyboardVerticalOffset**:
+
+Values: Numbers
+
+> This can be perfect for iOS users but it adds some extra unnecessary space for android users, and can be solved with the Platform component
+
+```js
+import { useState } from 'react'
+import { SafeAreaView, View, Text, 
+  TextInput, Button, StyleSheet,
+  Image, KeyboardAvoidingView, Platform
+} from "react-native"
+
+export default function App() {
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={Platform.OS == "ios" ? 100 : 0}>
+      <View style={styles.form}>
+        <Image source={require("./assets/adaptive-icon.png")} style={styles.image}/>
+
+        <Text style={styles.label}>Username</Text>
+        <TextInput style={styles.input} 
+          value={username}
+          onChangeText={setUsername}
+          placeholder="Enter your username" />
+
+        <Text style={styles.label}>Password</Text>
+        <TextInput style={styles.input} 
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Enter your password" secureTextEntry />
+
+        <Button title="Login" onPress={() => {}} />
+      </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    backgroundColor: "#f5f5f5",
+  },
+  form: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    fontWeight: "bold"
+  },
+  input: {
+    height: 40,
+    borderColor: "#ddd",
+    borderWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 5
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    marginBottom: 50
+  }
+})
+```
+
+### Form Validation
+
+```js
+const ValidateForm = () => {
+    let errors = {}
+
+    if  (!username) errors.username = "Username is required"
+    if  (!password) errors.password = "Password is required"
+
+    setErrors(errors)
+
+    return Object.keys(errors).length === 0
+
+  }
 
 
+// Using Text to show error
+{
+  errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null
+}
+
+{
+  errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null
+}
+```
+
+Final App
+
+```js 
+import { useState, useEffect } from 'react'
+import { SafeAreaView, View, StyleSheet, Text, 
+  StatusBar, FlatList, ActivityIndicator, Button } from 'react-native'
+
+export default function App() {
+  const [postList, setPostList] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
+
+  const [postTitle, setPostTitle] = useState("")
+  const [postBody, setPostBody] = useState("")
+  const [isPosting, setIsPosting] = useState(false)
+  const [error, setError] = useState("")
+
+  const addPost = async () => {
+    setIsPosting(true)
+
+    try{
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts", 
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: postTitle,
+          body: postBody
+        })
+      })
+      
+      
+      const newPost = await response.json()
+      setPostList([newPost, ...postList])
+      setPostTitle("")
+      setPostBody("")
+      setIsPosting(false)
+      setError("")
+    } catch(error) {
+      console.error("Error adding new post: ", error)
+      setError("Failed to add new post.")
+    }
+  }
+
+  const handleRefresh = () => {
+    setRefreshing(true)
+    fetchData(20)
+    setRefreshing(false)
+  }
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=10`)
+      
+      const data = await response.json()
+      setPostList(data)
+      setIsLoading(false)
+      setError("")
+    } catch (error) {
+    console.error("Error fetching data: ", error)
+    setIsLoading(false)
+    setError("Failed to fetch post list")
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  if(isLoading) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="0000ff" />
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    )
+  }
+
+  return (
+    <SafeAreaView style={StyleSheet.container}>
+      <StatusBar />
+      {error ? (
+        <View style={styles.container}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+        ):
+      (
+        <>
+      <View style={styles.inputContainer}>
+        <TextInput style={style.input}
+          placeholder="Post Title"
+          value={postTitle}
+          onChangeText={setPostTitle} />
+        
+        <TextInput style={style.input}
+          placeholder="Post Body"
+          value={postBody}
+          onChangeText={setPostBody} />
+
+        <Button title={isPosting ? "Adding..." : "Add Post"}
+          onPress={addPost}
+          disabled={isPosting} />
+      </View>
+
+
+      <View style={styles.listContainer}>
+        <Text>asdfasdfas</Text>
+        <FlatList data={postList}
+          ItemSeparatorComponent={() => {
+            <View style={{ height: 16 }}/>
+          }}
+          ListEmptyComponent={<Text>No Posts Found</Text>}
+          ListHeaderComponent={<Text style={styles.headerText}>Post Text</Text>}
+          ListFooterComponent={<Text style={styles.footerText}>End of list</Text>}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text style={styles.titleText}>{item.title}</Text>
+              <Text style={styles.bodyText}>{item.body}</Text>
+            </View>
+          )}
+          />
+      </View>
+      </>)}
+    </SafeAreaView>
+  )
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  listContainer: {
+    flex: 1,
+    paddingHorizontal: 16
+  },
+  card: {
+    backgroundColor: "white",
+    padding: 16,
+    borderRadius: 8,
+    borderWidth: 1
+  },
+  titleText: {
+    fontSize: 30
+  },
+  bodyText: {
+    fontSize: 24,
+    color: "#666666"
+  },
+  headerText: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 12
+  },
+  headerText: {
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 12
+  },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#F5F5F5",
+    paddingTop: StatusBar.currentHeight,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  inputContainer: {
+    backgroundColor: "white",
+    padding: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    margin: 16
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 8,
+    padding: 8,
+    borderRadius: 8
+  },
+  errorContainer: {
+    backgroundColor: "#FFC0CB",
+    padding: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    margin: 16,
+    alignItems: "center"
+  },
+  errorText: {
+    color: "#08000C",
+    fontSize: 16,
+    TextAlign: "center"
+  }
+})
+```
+
+
+## Networking
+
+Here we will cover the following.
+
+- Fetching and submitting data to an API
+- Loading States
+- Error handling
+- FlatList component to display our data
+
+```js
+
+```
+
+### Pull to Refresh on a FlatList
+
+```js
+const [refreshing, setRefreshing] = useState(false)
+
+const handleRefresh = () => {
+  setRefreshing(true)
+  fetchData(20)
+  setRefreshing(false)
+}
+
+<FlatList
+  refreshing={refreshing}
+  onRefresh={handleRefresh}
+/>
+```
+
+### POST (Making a Post Request)
+
+```js
+setIsPosting(true)
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", 
+    {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: postTitle,
+        body: postBody
+      })
+    })
+
+    const newPost = await response.json()
+    setPostList([newPost, ...postList])
+```
+
+### Error Handling (Handling errors when submitting data)
+
+```js
+const [error, setError] = useState("")
+
+  const addPost = async () => {
+    setIsPosting(true)
+
+    try{
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts", 
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: postTitle,
+          body: postBody
+        })
+      })
+      
+      
+      const newPost = await response.json()
+      setPostList([newPost, ...postList])
+      setPostTitle("")
+      setPostBody("")
+      setIsPosting(false)
+      setError("")
+    } catch(error) {
+      console.error("Error adding new post: ", error)
+      setError("Failed to add new post.")
+    }
+  }
+
+  const handleRefresh = () => {
+    setRefreshing(true)
+    fetchData(20)
+    setRefreshing(false)
+  }
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=10`)
+      
+      const data = await response.json()
+      setPostList(data)
+      setIsLoading(false)
+      setError("")
+    } catch (error) {
+    console.error("Error fetching data: ", error)
+    setIsLoading(false)
+    setError("Failed to fetch post list")
+  }
+
+
+
+
+  <SafeAreaView style={StyleSheet.container}>
+      <StatusBar />
+      {error ? (
+        <View style={styles.container}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+        ):
+      (
+        <>
+      <View style={styles.inputContainer}>
+        <TextInput style={style.input}
+          placeholder="Post Title"
+          value={postTitle}
+          onChangeText={setPostTitle} />
+        
+        <TextInput style={style.input}
+          placeholder="Post Body"
+          value={postBody}
+          onChangeText={setPostBody} />
+
+        <Button title={isPosting ? "Adding..." : "Add Post"}
+          onPress={addPost}
+          disabled={isPosting} />
+      </View>
+      )}
+    </SafeAreaView>
+```
+
+## Navigation
+Navigation is a mechanism that allows users to move across different screens, access features, and generally use your app effectively.
+
+A go-to solution for handling navigation is the React Navigation Library.
+
+Expo has its own built-in routing  feature exclusive to Expo Projects.
+
+React Navigation works both with or without Expo in React Native Apps.
+
+### React Navigation 
+It provides a variety of Navigators like **Stack**, **Drawer**, and **Tab** Navigators.
+
+Stack Navigator provides a way for your app to transition between screens where each new screen is placed on top a stack. 
+
+Drawer Navigator renders a navigation drawer on the side of the screen which can be opened and closed via gestures.
+
+A Tab Navigator at the bottom of your screen lets you easily switch between different routes.
+
+**INSTALL react-navigation/native as a dependency**:
+
+```sh
+npm install @react-navigation/native
+```
+
+Also install react-native-screen and react-native-safe-area-content.
+```sh
+npx expo install react-native-screens react-native-safe-area-context
+```
+
+After installation Wrap your code in NavigationContainer.
+
+```js
+import * as React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      {/* Rest of you app code */}
+    </NavigationContainer>
+  )
+}
+```
+
+#### Stack Navigations
