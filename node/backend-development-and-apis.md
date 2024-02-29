@@ -43,8 +43,8 @@ To allow an npm dependency to update to the latest PATCH version, you can prefix
 
 
 ### Use the Caret-Character to Use the Latest Minor Version of a Dependency 
-Caret (^) allows npm to install future updates as well. The difference is that the caret will allow both MINOR updates and PATCHes.
-If use the caret (^) as a version prefix instead, npm would be allowed to update to any 1.x.x version.
+Caret (`^`) allows npm to install future updates as well. The difference is that the caret will allow both MINOR updates and PATCHes.
+If use the caret (`^`) as a version prefix instead, npm would be allowed to update to any 1.x.x version.
 ```
 "package": "^1.3.8"
 ``` 
