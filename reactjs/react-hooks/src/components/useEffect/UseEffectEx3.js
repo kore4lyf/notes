@@ -11,7 +11,7 @@ function UseEffectEx3() {
     <div>
       <h3> Example 2:</h3>
       <p>To make useEffect run only when certain variable value
-        changes, on must include the variables in the an array and
+        changes, one must include the variables in the an array and
         pass the array as a second parameter to useEffect.
       </p>
       <pre className="code">

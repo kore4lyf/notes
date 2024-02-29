@@ -60,13 +60,13 @@ function App() {
         of dependencies.
 
         - <b> useEffect runs aschronously after the DOM changes have 
-          been commited to screed. It does not block the browser's painting 
+          been commited to screen. It does not block the browser's painting 
           and layout operations. Which can result in a flicker or dely if you 
           need to make immediate changes to the DOM after a render. 
         </b>
 
         - If you need to interact with the DOM immediately after a render 
-        and before it's painted on the screen. BUt if timing doesn't matter 
+        and before it's painted on the screen. But if timing doesn't matter 
         and you are making non-critical updates, then useEffect is generally 
         sufficient.
 
