@@ -123,6 +123,98 @@ function local() public returns (address, uint256, uint256) {
 
 - Non Declarative Function 
 
+
+```sol
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.7.0 <0.9.0;
+
+contract Function {
+
+  // Functions can return multiple values
+  function returnMany() public pure returns(uint, bool, uint) {
+    return (1, true, 2);
+  }
+
+  // Return values can be named
+  function named() public pure returns(uint x, uint b, uint y) {
+    return (1, true, 2);
+  }
+
+  // Return values can be assigned to their name
+  // In this case the return statement can be omitted
+  function assigned() public pure return(uint x, bool b, uint y) {
+    x = 1;
+    b = true;
+    y = 2;
+  }
+
+  // Use destructuring assignment when calling another
+  // function that returns multiple values
+  function destructuringAssignments() public pure returns(uint, bool, uint, uint, uint) {
+    (uint i, bool b, uint j) = returnMany(); 
+
+    // Values can be left out 
+    (uint x, , uint y) = (4, 5, 6);
+
+    return (i, b, j, x, y);
+  }
+
+
+  // Cannot use map for either input or output
+
+
+  // Can use array for input
+  function arrayInput(uint[] memory _arr) public {}
+
+
+  // Can use array for output
+  uint[] public arr;
+
+  function arrayOutput() public view returns(uint[] memory) {
+    return arr;
+  }
+
+}
+
+// Call function with key-value inputs
+contract XYZ {
+  function someFuncWithManyInputs(uint x, uint y, uint z, address a, bool b, string memory c) public pure return(uint) { }
+
+  function callFunc() external external pure returns (uint) {
+    return someFuncWithManyInputs(1, 2, 3, address(0), true, "c")
+  }
+
+  function callFuncWithKeyValue() external pure returns (uint) {
+    return someFunctWithManyInputs({a: address(0), b: true, c: "c", x: 1, y:1, z:2})
+  }
+}
+```
+
+## Events
+
+Imagine you want to update a data when you an event occurs.
+When events are used to store data in the blockchain, it costs very less gas compared to using storage.
+
+```sol
+// SPDX-Licence-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+contract Event {
+  // Event declaration
+  // Up to 3 parameters can be indexed.
+  // Indexed parameters helps you filter the logs by the indexed parameter
+   event Log(address indexed sender, string message);
+   event AnotherLog();
+
+   function test() public {
+    emit Log(msg.sender, "Hello, World!");
+    emit Log(msg.sender, "Hello, EVM!");
+    emit AnotherLog();
+   }
+}
+```
+
 ## view vs pure vs when neither is used
 
 - If you are reading the value of a state variable use view.
@@ -679,14 +771,59 @@ address public addr = "0xBE4024a7461933F930DD3CEf5D1a01363E8f284"
 - Data types such as Arrays, Structs, Mapping are known as reference data type.
 - If we use a referenct type, we always have to explicitly provide the data area where the type is stored.
 
-- Every reference type has an additional annotation the "data location", about where it is stored. 
+- Every reference type has an additional annotation the "data location", about where it is stored.
 - There are three data locations: **memory, storage and calldata**.
+
+**NB**: When declaring a reference data type note that if it doesn't have a `public` access specifier it will have a the `memory` data location.
 
 #### Data locations
 
 1. Memory - Lifetime is limited to an external function call.
 2. Storage - The location where state variables are stored, where the lifetime is limited to the lifetime of a contract.
-3. calldata - Special data location that contains the function arguments. (Similar to memory in life time)
+3. calldata - Special data location that contains the function arguments. (Similar to memory in lifetime)
+
+```sol
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.7.0 <0.9.0;
+
+contract DataLocations {
+  uint[] public arr;
+  mapping(uint => address) map;
+  struct MyStruct {
+    uint foo;
+  }
+
+  mapping(uint => MyStruct) myStructs;
+
+  function f() public {
+    // Call _f with state variables
+    _f(arr, map, myStructs[1]);
+
+    //get a struct from mapping
+    MyStruct storage myStruct = myStructs[1];
+
+    // Create a struct in memory
+    MyStruct memory myMemStruct = MyStruct(0);
+  }
+
+  function _f(
+    uint[] storage _arr,
+    mapping(uint => address) storage _map,
+    MyStruct storage _myStruct
+  ) internal {
+    // do something with storage variables
+  }
+
+  // You can return memory variables
+  function g(uintl[] memory _arr) public returns (uint[] memory) {
+    // do something with storage array
+  }
+
+  function h(uint[] calldata _arr) external {
+    // do something with calldata array
+  }
+}
+```
 
 #### Types of Array
 
@@ -1074,6 +1211,30 @@ contract demo {
   function returnStudent(uint index) public view returns(Student memory) {
     return s[index];
   }
+}
+```
+
+### Importing struct
+
+Struct within a solidity (.sol) file can also be imported into another
+
+StructDeclaration.sol
+
+```sol
+struct Todo {
+  string text;
+  bool completed;
+}
+```
+
+Todo.sol
+
+```sol
+import "./StructDeclaration.sol";
+
+contract Todos {
+  // An array of 'Todo' structs
+  Todo[] public todos;
 }
 ```
 
