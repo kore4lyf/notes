@@ -1472,3 +1472,333 @@ contract demo {
 
 }
 ```
+
+## Inheritance 
+
+Solidity supports multiple inheritance. Contracts can inherit other contract by using the `is` keyword.
+
+A function that is going to be overridden by a child contract must be declared as `virtual`.
+
+A Function that is going to override a parent function must be use the keyword `override`.
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+/* Graph of inheritance 
+          A
+        /   \
+       B     C
+      / \   /
+   v F   D,E
+*/
+
+contract A {
+  function foo() public pure virtual returns (string memory) {
+    return "A"
+  }
+
+  // Contract inherit other contracts by using the keyword 'is'
+  contract B is A {
+    // Override A.foo()
+    function foo() public pure virtual overide returns (string memory) {
+      return "B";
+    }
+
+    contract C is A {
+      function foo() public pure virtual overide returns(string memory){
+        return "C";
+      }
+    }
+
+
+    // Contracts can inherit form multiple parent contracts.
+    // When a function is called that is defined multiple time in
+    // different contracts, parent contracts are searched from (left to right, and in depth-first manner)
+    // the right most inherited contract will be excuted
+
+    contract D is B, C {
+      // D.foo() return "C"
+      // since C is the right most parent contract with the function foo() public override(B, C) returns (string memory) {
+        return super.foo();
+      }
+    }
+
+    contract E is C, B {
+      // E.foo() return "B"
+      // Since B is the right most parent contract with function foo()
+      function foo() public pure override(C, B) returns (string memory) {
+        return super.foo();
+      }
+    }
+
+    // Inheritance must be ordered from "most base-like" to "most derived"
+    // Swapping the order of A and B will throw a compilation error.
+    contract F is A, B {
+      function foo() public pure override(A, B) returns(string memory) {
+        return super.foo()
+      }
+    }
+
+  }
+}
+```
+
+## Shadowing Inherited Contracts
+
+It allows one to inherit state variables.
+Unlike functions, state variables can no be overidden by redeclaring in the child contract.
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+contract A {
+  string public name = "Contract A";
+
+  function getName() public view returns(string memory) {
+    return name;
+  }
+}
+
+
+// Shadowing is disallowed in solidity 0.6
+// This will not compile
+// contract B is A {
+//    string public name = "Contract B";
+//}
+
+contract C is A {
+  // This is the correct way to overide inherited state variables
+  constructor() {
+    name = "Contract C";
+  }
+
+  // C.getName returns "Contract C"
+}
+
+```
+
+## Super
+
+Super keyword allow you to inherit parent contract(s).
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+/* Inheritance tree
+
+      A
+    /   \
+   B     C
+    \   /
+      D
+*/
+
+contract A {
+  // This is called an event. You can emit events from you function
+  // and they logged into the transaction log.
+  // In our case, this will be useful for tracing function calls.
+  event Log(string message);
+
+  function foo() public virtual {
+    emit Log("A.foo called");
+  }
+
+  function bar() public virtual {
+    emit Log("A.bar called");
+  }
+}
+
+contract B is A {
+  function foo() public virtual override {
+    emit Log("B.foo called");
+    A.foo();
+  }
+
+  function bar() public virtual override {
+    emit Log("B.bar called");
+    super.bar(); // using super here is similar to writing A.bar()
+  }
+}
+
+contract C is A {
+  function foo() public virtual override {
+    emit Log("C.foo called");
+    A.foo();
+  }
+
+  function bar() public virtual override {
+    emit Log("C.bar called");
+    super.bar(); // using super here is similar to writing A.bar() 
+  }
+}
+
+contract D is B,C {
+  // Try:
+  // - Call D.foo and check the transaction Logs.
+  //   Although D inherits A, B and C, it only called C and then A.
+  // - Call D.bar and check the transaction Logs
+  //   D called C, then B, and finally A.
+  // Although super was called twice (by B and C) it only called A
+
+  functionl foo() public override(B,C) {
+    super.foo();
+  }
+
+  function bar() public overide(B,C) {
+    super.bar()
+  }
+}
+```
+
+In the function above D inherits for multiple contracts.
+Calling super in contract D allows the function to be called from left to right (i.e. the reverse order of inheritance)
+
+> One thing to note here from calling D.bar() is that Calling super.bar() calls the parent contract C.bar() (the right most)
+
+## Visibility 
+
+Functions and state variables havet to declare whether they are accessible by other contracts.
+
+Functions cna be declared as:
+- public - any contract and account can call
+- only inside the contract that defines the function
+- internal - only inside contract that inherits an internal function
+- external - only other contracts and accounts can call
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+contract Base {
+  // Private function can only be called
+  // - Inside this contract 
+  // Contracts that inherit this contract cannot this contract cannot call this function
+  function privateFunc() private pure returns (string memory) {
+    return "Private functon called";
+  }
+
+  function testPrivateFunc() public pure returns (string memory) {
+    return privateFunc();
+  }
+
+  // Internal function can be called
+  // - inside this contract
+  // - inside contracts that inherit this contract
+  function internalFunc() internal pure returns(string  memory) {
+    return "internal function called";
+  }
+
+  function testInternalFunc() public pure virtual returns (string memory) {
+    return internalFunc();
+  }
+
+  // Puvlic functions can be called
+  // - inside this contract
+  // - inside contract that inherit this contract
+  // - by other contracts and accounts
+  function publicFunc() public pure returns (string memory) {
+    return "public function called"; 
+  }
+
+  // External function can only be called
+  // - by other contracts and accounts
+  function externalFunc() external pure returns (string memory) {
+    return "external function called";
+  }
+
+  // This function will not compile since we're trying to call
+  // an external function here.
+  // function testExternalFunc() public pure returns (string memory) {
+  //    return externalFunc();
+  // }
+
+  // State variables
+  string private privateVar = "my private variable";
+  string internal interalVar = "my interanal variable";
+  string public publicVar = "my public variable";
+  // State variable cannot be external so it won't compile.
+  // string external externalVar = "my external variable";
+}
+
+contract Child is Base {
+  // Inherited contracts do not have access to private functions
+  // and state variables
+  // function testPrivateFunct() public pure returns (string memory) {
+  //   return privateFunction();
+  // }
+
+  // Internal function call be called inside child contracts
+  function testInternalFunction() public pure override returns (string memory) {
+    return internalFunc();
+  }
+}
+```
+
+## Interface
+
+You can interact with other contracts by declaring an Interface.
+
+Interface
+
+- cannot have any functions implemented
+- can inherit from other interfaces
+- all declared functions must be external
+- cannot declare a constructor
+- cannot declare state variables
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+contract Counter {
+  uint public count;
+
+  function increment() external {
+    count += 1;
+  }
+}
+
+interface ICounter {
+  function count() external view returns (uint); // this function allows another contract to get the value of count in the contract abover
+
+  function increment() external;
+}
+
+contract MyContract {
+  function incrementCounter(address _counter) external {
+    ICounter(_counter).increment();
+  }
+
+  function getCount(address _counter) external view returns (uint) {
+    return ICounter(_counter).counter();
+  }
+}
+
+// Uniswap example
+interface UniswapV2Factory {
+  function getPair(address tokenA, address tokenB) external view returns(address pair) {
+
+  }
+}
+
+interface UniswapV2Pair {
+  function getReserves() external view returns(uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast);
+}
+```
+
+contract UniswapExample {
+  address private factory = 0x5C69bEe701ef814a2B6a3EDD4B1652cB9cc5aA6f;
+  address private dai = 0x6B1....d0F;
+  address private weth = 0xC02...Cc2;
+
+  function getTokenReserves() external view returns (uint, uint) {
+    address pair = UinswapV2Factory(factory).getPair(dai, weth);
+    (uint reserve0, uint reserve1,) = UniswapV2Pair(pair).getReserves();
+    return (reserve0, reserve1);
+  }
+}
+
