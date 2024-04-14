@@ -1802,3 +1802,261 @@ contract UniswapExample {
   }
 }
 
+## Payable
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+contract Payable {
+  // Payable address can receive Ether
+  address public payable owner;
+
+  // Payable constructor can recieve Ether
+  constructor() payable {
+    owner = payable(msg.sender);
+  }
+
+  // Function to deposit Ether into this contract.
+  // Call this function along with some Ether.
+  // The balance of this contract will be automatically updated.
+  function deposit() public payable {}
+
+  // Call this function along with some Ether.
+  // The function will throw an error since this function is not payable
+  function notPayable() public {}
+
+  // Function to withdraw all Ether from this contract
+  function withdraw() public {
+    // get the amount of Ether stored in this contract
+    uint amount = address(this).balance;
+
+    // Send all Ether to owner
+    // Owner can receive Ether since the address of owner is payable
+    (bool success, ) = owner.call{value: amount}("");
+    require(success, "Failed to send Ether");
+  }
+
+  // Function to transfer Ether from this contract to address from input
+  function transfer(address payable _to, uint _amount) public {
+    // Note that "to" is declared as payable
+    (bool success,) = _to.call{value: _amount}("");
+    require(succes, "Failed to send Ether");
+  }
+}
+```
+
+## Sending Ether
+
+There are different ways to send ether.
+- transfer()
+- send()
+- call()
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+contract ReceiveEther {
+  /*
+   Which function is called, fallback() or receive()?
+
+                  Send Ether
+                      |
+                msg.data is empty?
+                    /   \
+                  yes    no
+                  /       \
+     recieve() exists?   fallback()
+             /    \
+      recieve()  fallback()
+
+    - if msg.data is empty it will call receive()
+    - if msg.data is not empty it will call fallback()
+
+
+  */
+
+  // Function to receive Ether. msg.data must be empty
+  receive() external payable {}
+
+  // Fallback function is called when msg.data is not empty
+  fallback() external payable {}
+
+  function getBalance() public view returns (uint) {
+    return address(this).balance;
+  }
+}
+
+contract SendEther {
+  function sendViaTransfer(address payable _to) public payable {
+    // This function is no longer recommended to send Ether
+    _to.transfer(msg.value);
+  } 
+
+  function sendViaSend(address payable _to) public payable {
+    // Send returns a boolean value indicating success or failure
+    // This function is not recommended for sending Ether
+    bool sent = _to.send(msg.value);
+    require(sent, "Failed to send Ether");
+  }
+
+  function sendViaCall(address payable _to) public payable {
+    // Call returns a boolean value indicating success or failure
+    // This is the current recommended method to use
+    (bool sent, bytes memory data) = _to.call{value: msg.value}("");
+    require(sent, "Failed to send Ether");
+  }
+}
+```
+
+## Fallback
+
+When you use fallback in a contract, and someone send ether to the contract using ether the transfer or send method, the minimum gas they have to pay 2300.
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+contract Fallback {
+  event Log(string func, uint gas);
+
+  // Fallback function must be declared as external
+  fallback() external payable {
+    // send / transfer (forwards 2300 gas to this fallback function)
+    // call (forwads all the the gas)
+    emit Log("fallback", gasleft());
+  }
+
+  // Receive is a variant of fallback that is triggered when msg.data is empty
+  recieve() external payable {
+    emit Log("receive", gasleft());
+  }
+
+  // Helper function to check the balance of this contract
+  function getBalance() public view return(uint){
+    return account(this).balance;
+  }
+}
+
+contract SendToFallback {
+  function transferToFallback(address payable _to) public payable {
+    _to.transfer(msg.value);
+  }
+
+  function callFallback (address payable _to) public payable {
+    (bool send, ) = _to.call{value: msg.value}("");
+    require(sent, "Failed to send Ether");
+  }
+}
+```
+
+// Use gasleft() to know the amount of gas used in a transaction
+
+1. `receive()` (`external` function) is called when Ether is sent directly to the contract's address **without any data or function call**.
+   -  It must have an `external` visibility and no arguments
+   -  If you don't define a recieve() function, but your contract receives Ether without a function call, the `fallback()` function is called.
+  
+2. `fallback()` (`external` function) is called when a function call doesn't match any of the other functions defined in the contract without any data or function call (if receive() is not defined).
+   - It must have an `external`  visibility and no argurments.
+   - If you don't define a `fallback()` function, and Ether is sent to the contract without a function call, the transaction will be reverted.
+
+> **NB**: Declaring receive() and fallback() function is not compulsory, but it's recommended to have them if you want your contract to be able to recieve Ether. If you don't define these functions, and someone tries to send Ether to your contract without a function call, the transaction will be reverted.
+
+1. `Send()` returns a boolean indicating whether the transfer was successful or not.
+   - If the transfer fails, it doesn't revert the transaction, but it propagates an error that can be caught. 
+  - It doesn't trigger the `receive()` or `fallback()` function in the recieving contract.
+
+2. `transfer()` - It reverts the transaction if the transfer fails, consuming all the remaining gas. 
+   - It does not trigger the `recieve()` or `fallback()` functions in the receiving contract.
+
+3. `call()` - It can be used to send Ether and trigger the `recieve()` or `fallback()` functions in the receiving contract, depending on the data provided.
+   - If you send Ether along with data (a function call), it will trigger the specified function in the receiving contract. If the function is not found, if will trigger the trigger the fallback() function.
+
+
+
+
+
+SAMPLE CODE: WHEN ETHER IS SENT, WITH DATA (FUNCTION CALL)
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+contract ReceivingContract {
+  event Received(address sender, uint value, byte data);
+  event FunctionCalled(address sender, uint value, bytes data);
+
+  receive() external payable {
+    emit Received(msg.sender, msg.value, "");
+  }
+  
+  fallback() external payable {
+    emit Received(msg.sender, msg.value, msg.value);
+  }
+
+  function deposit() external payable {
+    emit FunctionCalled(msg.sender, msg.value, msg.data);
+  }
+}
+
+contract SendingContract {
+  ReceivingContract public receivingContract;
+
+  constructor(address _receivingContractAddress) {
+    receivingContract = ReceivingContract(_receivingContractAddress);
+  }
+
+  function sendEtherWithData() external payable {
+    bytes memory data = abi.encodeWithSignature("deposit()");
+    (bool success, ) = address(receivingContract).call{value: msg.value}(data);
+    require(success, "Transaction failed");
+  }
+
+  function sendEtherWithoutData() external payable {
+    (bool success, ) = address(receiveContract).call{value: msg.value}("");
+    require(success, "Transaction failed");
+  }
+}
+```
+
+`sendEtherWithData()` sends Ether to the `ReceivingContract` along with data (a function call to `deposit()`). It encodes the function signature using `abi.encodeWithSignature` and sends it along with the Ether using the `call()` function.
+
+## Call
+
+
+```sol
+contract Receiver {
+  event Received(address caller, uint amount, string message);
+
+  fallback() external payable {
+    emit Received(msg.sender, msg.value, "Fallback was called");
+  }
+
+  function foo(string memory _message, uint _x) public payable returns (uint) {
+    emit Received(msg.sender, msg.value, _message);
+    return _x + 1;
+  }
+}
+
+contract Caller {
+  event Response(bool success, bytes data);
+
+  // Lets's imagine that contract Caller does not have the source code for ___
+  // contract Receiver, but we do know the address of contract Receiver and ______
+  function testCallFoo(address payable _addr) public payable {
+    // You can send ether and specify a custom gas amount
+    (bool success, bytes memory data) = _addr.call{value: msg.value, gas: }(abi.encodeWithSignature("foo(string, uint256)", "call foo", 123))
+
+    emit Response(succes, data);
+  }
+
+  // Calling a function that does not exist triggers the fallback function 
+  function testCallDoesNotExist(address _addr) public }
+    (bool success, bytes memory data) = _addr.call(abi.encodeWithSignature("doesNotExist()")
+
+    emit Response(success, data);
+}
+```
