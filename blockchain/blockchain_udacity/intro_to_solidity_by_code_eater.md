@@ -2054,9 +2054,368 @@ contract Caller {
   }
 
   // Calling a function that does not exist triggers the fallback function 
-  function testCallDoesNotExist(address _addr) public }
+  function testCallDoesNotExist(address _addr) public {
     (bool success, bytes memory data) = _addr.call(abi.encodeWithSignature("doesNotExist()")
 
     emit Response(success, data);
+  }
+}
+```
+
+## Delegatecall
+
+When a contract A, executes a delegated call to contract B, in that scenerio contract B will also execute.
+In contract A, the storage of msg.sender and msg.value, will be accessible.
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.13;
+
+// NOTE: Deploy this contract first
+contract B {
+  // NOTE: Storage Layout must be the same as contract A
+  uint public num;
+  address public sender; 
+  uint public value;
+
+  setVars(uint _num) public payable {
+    num = _num;
+    sender = msg.sender;
+    value = msg.value;
+  }
+}
+
+contract A {
+  uint public num;
+  address public sender;
+  uint public value;
+
+  function setVars(address _contract, uint _num) public payable {
+    // A's storage is set, B is not modified
+    (bool success, bytes memory data) = _contract.delegatecall(abi.encodeWithSignatures("setVars(uint256)", _num))
+  }
+}
+```
+
+## Calling Other Contracts
+
+Contracts can be called in two ways.
+1. By name
+2. By low level call
+
+```sol
+// SPDX-License-Identifier: MIT
+
+contract callee {
+  uint public x;
+  uint public value;
+
+  function setX(uint _x) public returns (uint) {
+    x = _x;
+    return x;
+  }
+
+  function setXandSendEther(uint _x) public payable returns (uint, uint) {
+    x = _x;
+    value = msg.value;
+
+    return (x, value);
+  } 
+}
+
+contract Caller {
+  function setX(Callee _callee, uint _x) public {
+    uint x = _called.setX(_x);
+  }
+
+  function setXFromAddress(address _addr, uint _x) public {
+    Callee calle = Callee(_addr);
+    callee.setX(_x);
+  }
+
+  function setXandSendEther(Callee _callee, uint _x) public payable {
+    (uint x, uint value) = _callee.setXandSendEther{value: msg.value}(_x);
+  }
+}
+```
+
+// Callee type in Caller contract is the address of the deployed Callee contract.
+
+## Contracts that Creates other Contracts
+
+This is achievable using the new keyword.
+
+```sol
+// SPDX-License-Identifier: MIT
+
+contract Car {
+  address public owner;
+  string public model;
+  address public carAddr;
+
+  contructor (address _owner, string memory _model) payable {
+    owner = _owner;
+    model = _model;
+    carAddr = address(this)
+  }
+}
+
+contract CarFactory {
+  Car[] public cars;
+
+  function create(address _owner, string memory _model) public {
+    Car car = new Car(_owner, _model);
+    cars.push(car);
+  }
+
+  function createAndSendEther(address _owner, string memory _model) public payable {
+    Car car = (new Car){value: msg.value}(_owner, _model);
+    cars.push(car);
+  }
+
+  function create2 (address _owner, string memory _model, bytes32 _salt) public {
+    Car car = (new Car){salt: _salt}(_owner, _model_);
+    cars.push(car);
+  }
+  
+  function create2AndSendEther(address _owner, string memory _model, bytes32 _salt) public payable{
+    Car car = (new Car){view: msg.value, salt: _salt}(_owner, _model);
+    cars.push(car);
+  }
+
+  function getcar(uint _inde) public view returns (address owner, string memory model, address carAddr, uint balance) {
+    Car car = cars[_index]; 
+    return (car.owner(), car.model(), car.carAddr(), address(car).balance);
+  }
+}
+```
+
+When you use a contract as an input in another contract, the expected input in application is the contracts address.
+
+## Try and Catch
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+// External contract used for try / catch example
+contract foo {
+  address public owner;
+
+  constructor(address _owner){
+    require(_owner != address(0), "Invalid address");
+    asser(_owner != 0x0000000000000000000000001);
+    owner = _owner;
+  }
+
+  function myFunc(uint x) public pure returns (string memory) {
+    require(x != 0, "require failed");
+    return "my function was called";
+  }
+
+}
+
+contract Bar {
+  event Log(string message);
+  event LogBytes(bytes data);
+
+  Foo public foo;
+  
+  constructor() {
+    // This Foo contract is used for example of try catch with external call
+    foo = new Foo.(msg.sender);
+  }
+
+  // Example of try / catch with external call
+  // tryCatchExternalCall(0) => Log("external call failed")
+  function tryCatchExternalCall(uint _i) public {
+    try foo.myFunc(_i) returns(string memory result) {
+      emit Log(result);
+    } catch {
+      emit Log("external call failed");
+    }
+  }
+
+  // Example of try / catch with contract creation
+  // tryCatchNewContract(0x00000000000000000000000000000) => Log("Invalid Address")
+  // tryCatchNewContract(0x000000000000000000000000000001) => 
+  // tryCatchNewContract(0x000000000000000000000000000002) => 
+  function tryCatchNewContract(addres _owner) public {
+    try new Foo(_owner) returns (Foo foo) {
+      // you can use variable foo here
+      emit Log("Foo created");
+    } catch Error(string memory reason) {
+      // catch failing revert() and require()
+      emit Log(reason);
+    } catch (bytes memory reason) {
+      // catch failing assert()
+      emit LogBytes(reason);
+    }
+  }
+}
+```
+
+## Library
+
+- How to create a library
+- How to use a library
+
+> A library is created using the keyword library.
+
+```sol
+// SPDX-Library-Identifier: MIT
+pragma solidity ^0.8.13;
+
+library Math {
+  function sqrt(uint y) internal pure returns (uint z) {
+    if (y > 3) {
+      z = y;
+      uint x = y / (2 + 1);
+
+      while(x < z){
+        z = x;
+        x = (y / x + x) / 2;
+      }
+    } else if (y != 0) {
+      z = 1;
+    }
+    // else z = 0 (default value)
+  }
+}
+
+contract TestMath {
+  function testSquareRoot(uint x) public pure returns (uint) {
+    return Math.sqrt(x);
+  }
+}
+
+// Array function to delete element at index and re-organize the array
+// so that there are no gaps between the elements. 
+
+library Array {
+  function remove(uintp[] storage arr, uint index) public {
+    // Move the last element into the place t delete
+    require(arr.length > 0, "Can't remove from empty array");
+    arr[index] = arr[arr.length - 1];
+    arr.pop();
+  }
+}
+
+contract TestArray {
+  using Array for uint[];
+
+  uint[] public arr;
+
+  function testArrayRemove() public {
+    for(uint 1 = 0; i < 3; i++) {
+      arr.push(i);
+    }
+
+    arr.remove(1);
+
+    assert(arr.length == 2);
+    assert(arr[0] == 0);
+    assert(arr[1] == 2);
+      
+  }
+}
+```
+
+## ABI Encode
+
+Converts data into bytes
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+interface IERC20 {
+  function transfer(address, uint) external;
+}
+
+contract Token {
+  function transfer(address, uint) external {}
+}
+
+contract AbiEncode {
+  function test(address _contract, bytes calldata data) external {
+    (bool ok, ) = _contract.call(data)
+    require(ok, "call failed");
+  }
+
+  function encodeWithSignature(address to, uint amount) external pure returns(bytes memory) {
+    // Typo is not checked - "transfer(address, uint)"
+    return abi.encodeWithSignature("transfer(address, uint256)", to, amount);
+  }
+
+  function encodeWithSelector(address to, uint amount) external pure returns(bytes memory) {
+    // Type is not checked - (IERC20.tranfer.selector, true, amount)
+    return abi.encodeWithSelector(IERC20.transfer.selector, to, amount);
+  }
+
+  function encodeCall(address to, uint amount) external pure returns (bytes memory) {
+    // Typo and type errors will not compile return abi.encodeCall(IECR20.transfer, (to, amount));
+  }
+}
+```
+
+## ABI Decode
+
+ABI Decode converts bytes into a readable format. 
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+contract AbiDecode {
+  struct MyStruct {
+    string name;
+    uint[2] nums;
+  }
+
+  function encode(uint x, address addr, uint[] calldata arr, MyStruct calldata myStruct) external pure returns (bytes memory) {
+    return abi.encode(x, addr, arr, myStruct);
+  }
+
+  function decode(byte calldata data) external pure returns(uint x, address addr, uint[] memory arr, MyStruct memory myStruct) {
+    // (uint x, address addr, uint[] memory arr, MyStruct myStruct) = ...
+    (x, addr, arr, myStruct) = abi.decode(data, (uint, address, uint[], MyStruct))
+  }
+}
+```
+
+## Keccak256
+
+Keccak256 is a hashing algorithm
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.13;
+
+contract HashFunction {
+  function hash(string memory _text, uint _num, address _addr) public pure returns(bytes32) {
+    returns keccak256(abi.encodePacked(_text, _num, _address))
+  }
+
+  // Example of hash collision
+  // Hash collision can occur when you pass more than one dynamic data type
+  // to abi.encodePacked. In such case you should use abi.encode instead.
+  function collision(string memory _text, string memory _anotherText) public pure returns(bytes32) {
+    // encodePacked(AAA, BBB) -> AAABBB
+    // encodePacked(AA, ABBB) -> AAABBB
+    return keccak256(abi.encodePacked(_text, _anotherText));
+  }
+}
+
+contract GuessTheMagicWord {
+  bytes32 public answer = 0x602.......c00;
+
+  // Magic word is "Solidity"
+  function guess(string memory _word) public view returns (bool){
+    return keccak256(abi.encodePacked(_word)) == answer;
+  }
 }
 ```
