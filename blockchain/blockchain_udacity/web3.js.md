@@ -612,7 +612,8 @@ It uses JSON as data format.
 ## Creating a Dapp
 
 - Create a new folder e.g. truffleweb3
-- cd into truffleweb3, then enter the command below.
+- cd into truffleweb3, then enter the command below, to generate a web3 react template
+
 ```js
 truffle unbox react
 ```

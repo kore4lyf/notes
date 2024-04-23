@@ -9,6 +9,6 @@ imgReadBuffer = fs.readFileSync('test-pattern.jpg');
 imgHexEncode = imgReadBuffer.toString('hex');
 
 // Output encoded data to console
-//console.log(imgHexEncode);
+// console.log(imgHexEncode);
 
 console.log(imgReadBuffer)

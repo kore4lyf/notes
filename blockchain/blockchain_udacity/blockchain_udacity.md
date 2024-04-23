@@ -1622,5 +1622,55 @@ A project example is polkadot, polkadot is positioning itself as an intermediary
 
 
 
+## Note
+
+### Ganache 
+
+#### How to install Ganache Cli
+
+```
+npm install -g ganache-cli
+```
+
+Once installed, run the following command in your terminal to start ganache.
+
+```
+ganache-cli
+```
 
 
+### Transactions
+
+#### Type of Transactions
+
+1. Message calls 
+2. Contract Creation
+
+
+Both Message Calls and Contract Creation can be initiated by an (EOA) Externally Owned Account.
+
+#### Transaction Fields
+
+```js
+txnCount = web3.eth.getTransactionCount(web3.eth.acccounts[0])
+
+var rawTxn = {
+  nonce: web3.toHex(txnCount),
+  gasPrice: web3.toHex(100000000000),
+  gasLimit: web3.toHex(140000),
+  to: '0x633...18b',
+  value: web3.toHex(0),
+  data: '0xcc...000'
+}
+```
+
+#### Creating a Transaction
+
+Using similar fields to the transaction shown above, we can construct transactions for ourselves. Using the pre-loaded test accounts and free Ether in our local blockchain, we'll be able to create transactions however we like.
+
+Before making the transaction, ensure you have installed both dependencies to your npm initialization.
+
+```js
+npm install ethereumjs-tx --save
+npm install web3 --save
+```
