@@ -1760,8 +1760,166 @@ web3.eth.getTransactionCount(sendingAddress,
 
   var serializedTransaction = tx.serialize();
 
+  const raw = '0x' + serializedTransaction.toString('hex')
+
   web3.eth.sendSignedTransaction(raw, (err, txHash) => {
     console.log('txHash: ', txHash)
   } )
 })
 ```
+
+### Ethereum Metrics
+
+**LastBlock** - 
+
+**Uncles** - Orphan blocks and unlike other blockchains, in ethereum they are included and rewarded. The dashboard displays current block uncle count and that from last 50 blocks.
+
+
+**AverageBlock** - Average time between two block (exclding uncles) - should be 15sec unless the network is really slow.
+
+**Best Block** - The highest block number of the longest chain, said differently it is heavy with cumulative difficulty.
+
+**Difficulty** - Also known as the mining difficulty to find a new block.
+
+**GasLimitChart** - 
+
+**GasPrice** - The price miners 
+
+GasSpendingChart
+
+
+
+
+Example 1: getGasPrice found here
+
+```js
+web3.eth.getGasPrice([callback])
+```
+
+Example 2: Get Uncle found here
+
+```js
+eb3.eth.getUncle(blockHashOrBlockNumber, uncleIndex [, returnTransactionObjects] [, callback])
+```
+
+Example 3: Get Block Transaction Count found here
+
+```js
+web3.eth.getBlockTransactionCount(blockHashOrBlockNumber [, callback])
+```
+
+### First Dapp 
+
+- Solidity
+
+```js
+pragma solidity ^0.4.24;
+
+contract Message {
+  string myMessage;
+
+  function setMessage(string x) public {
+    myMessage = x;
+  }
+
+  function getMessage() public view returns(string) {
+    return myMessage;
+  }
+}
+```
+
+- HTML
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title> Deploy a Remix Contract </title>
+
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+</head>
+
+<body>
+  <h1>Deploy a Remix Contract</h1>
+
+  <script>
+
+    // Connect a web3 provider
+    if (typeof web3 != 'undefined') {
+      web3 = new Web3(Web3.currentProvider)
+    }
+    else {
+      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'))
+    }
+
+    // Set a default account
+    web3.eth.defaultAccount = web3.eth.accounts[0]
+
+    // Get the contract address
+    var RemixContract = web3.eth.contract(ABI-GOES-HERE)
+
+    // Get the contract abi
+    var myMessage = RemixContract.at('CONTRACT ADDRESS GOES HERE')
+
+    console.log(myMessage)
+
+    const sendBtn = document.getElementById('setMessageBtn')
+
+    const msg = document.getElementById('#userInput').val()
+
+    sendBtn.click(function () {
+      myMessage = setMessage(message, (error, result) => { message = result })
+      
+      console.log(msg)
+    })
+
+  </script>
+</body>
+```
+
+
+
+### Improved Deployment Process
+
+How you can improve the deployment process using a tool known as Truffle.
+
+Installing truffle
+```sh
+npm install truffle -g
+```
+
+initializing truffle
+```sh
+truffle init
+```
+
+To deploy your contracts, you'll be using the truffle console.
+
+Type truffle from your terminal to see the commands available to you. 
+
+
+For now, we'll focus on using the truffle console to compile and migrate our smart contract.
+
+**Step 1: Enter the truffle console**
+
+```sh
+truffle console
+```
+
+**Step 2: Compile your contract**
+
+A test contract has been created when you initialized truffle. You can compile this contract using the following command.
+
+```sh
+compile
+```
+
+**Step 3: Migrate Your Contract**
+
+Once compiled, the contract will need to be migrated. You can do this by running the following command.
+
+```sh
+migrate
+```
+This is similar to the process you did earlier where you were pasting the ABI from remix into your editor. Once your migration is complete, you can view the contract ABI in a newly created build folder.

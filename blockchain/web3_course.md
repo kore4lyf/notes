@@ -199,7 +199,7 @@ npm install web3 --save
 ##########################*/
 
 //  -- Step 1: Set up the appropriate configuration
-var {Web3} = require("web3")
+var { Web3 } = require("web3")
 var EthereumTransaction = require("ethereumjs-tx")
 var web3 = new Web3('HTTP://127.0.0.1:7545')
 
@@ -254,6 +254,39 @@ web3.eth.sendSignedTransaction(serializedTransaction);
 
 ```
 
+If you are using Ganache, all the 10 accounts come unlocked. In order for transaction to be broadcast on the network, they must be signed.
+
+`web3.eth.personal.unlockAccount` you use this when you don't to have to sign everytime.
+
+Incase you want to prevent people from seeing the private you install `dotenv` npm module 
+
+```sh
+npm install dotenv --save
+```
+
+Create a .env file in the root of your project:
+
+```
+PRIVATE_KEY_1="YOURSECRETKEYGOESHERE"
+```
+
+As early as possible in your application, import and configure dotenv:
+```js
+require('dotenv').config()
+console.log(process.env) // remove this after you've confirmed it is working
+.. or using ES6?
+
+import 'dotenv/config'
+```
+### Creating a new web3 account (address and PK)
+
+```js
+const wallet = web3.eth.accounts.create()
+
+console.log(wallet[address])
+console.log(wallet[privateKey])
+```
+
 ## Creating a Dapp
 
 - Create a new folder e.g. truffleweb3
@@ -261,4 +294,6 @@ web3.eth.sendSignedTransaction(serializedTransaction);
 ```js
 truffle unbox react
 ```
+
+
 

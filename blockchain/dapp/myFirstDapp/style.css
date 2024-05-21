@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+    display: grid;
+    place-content: center;
+    min-height: 95vh;
+}
+
+main div {
+    display: grid;
+    place-content: center;
+}
+
+.head {
+    margin-bottom: 0;
+    padding-bottom: .2rem;
+    border-bottom: 1px solid gray;
+}
+
+.form {
+    display: flex;
+}
+
+.message {
+    border: 1px solid gray;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    line-height: 2rem;
+}
+
+.message:focus {
+    outline: 2px solid #0000ff50;
+}
+
+.send {
+    background-color: blue;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: white;
+}
+
+.send:active {
+    background-color: #0303a8;
+}
