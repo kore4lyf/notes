@@ -16,7 +16,7 @@ Always specify types because it make your code readable
 1. number e.g. 1, 5.3, -1  (inters and float)
 2. string e.g 'Hi" ( all text)
 3. boolean e.g true, false
-4. object e.g {age: 30{}}
+4. object e.g {age: 30}
 5. Array e.g [1, 2, 3]
 6. Tuple e.g [1,2] (a fixed length array )
 7. Enum {NEW, OLD}
@@ -42,6 +42,16 @@ string[] - array of strings
 number[] 
 boolean[]
 
+ARRAY OF ARRAY
+```ts
+const listOfList: number[][]
+
+// OR 
+
+const listOfList: <Array<Array<Any>>>
+const listOfList: <Array<Array<{z:int, w:string, r:Time}>>>
+```
+
 **Typed object**
 One doesn't have to necessarily declare a typed object like this for simple data type
 ```ts
@@ -56,7 +66,7 @@ const person: {
 
 **Tuple**
 ```ts 
-const roles: [number, string] = [1. 'one'];
+const roles: [number, string] = [1, 'one'];
 ``` 
 
 **Enum**
@@ -632,13 +642,99 @@ These are fundamental OOP concepts in TypeScript. Classes provide a way to model
 
 
 ## Generics in TypeScript 
+Generics allow creating "type variables" which can be used to create classes, function & type aliases that don't need to explicitly define the type that they use.
+
+Generics makes it easier to write reusable code.
+
+### Functions
+Generics with functions help make more generalized methods which more accurately represent the types used and returned.
 
 ```ts 
+function createPair<S, T>(v1: S, v2: T): [S, T]{
+  return [v1, v2];
+}
 
+console.log(createPair<string, number>("hello", 42))
+```
+
+### Classes
+
+Generics can be used to create generalized classes like Map
+
+```ts
+class NamedValue<T> {
+  private _value: T | undefined;
+
+  constructor (private name: string) {}
+
+  public setValue(value: T) {
+    this._value = value
+  }
+
+  public getValue(): T | undefined {
+    return this._value
+  }
+
+  public toString(): string {
+    return `${this.name}: ${this._value}`
+  }
+}
+
+let value = new NamedValue<number>("myNumber")
+value.setValue(10)
 ```
 
 
+### Type Aliases
 
+```ts
+type Wrapped<T> = { value: T }
+
+const WrappedValue: Wrapped<number> = { value: 10 }
+```
+Also works with interface syntax
+
+
+### Default Value
+
+Generics can be assigned default value which apply if no other value is specified or inferred.
+
+```ts
+class NamedValue<T = string> {
+  private _value: T | undefined
+
+  constructor(private name: string){}
+
+  public setValue(value: T) {
+    this._value = value
+  }
+
+  public getValue(value: T) {
+    return this._value
+  }
+
+  public toString(): string {
+    return `${this.name}: ${this._value}`;
+  }
+}
+
+let value = new NamedValue("myNumber")
+value.setValue("myValue")
+
+console.log(value.toString())
+```
+
+### Extends
+
+constraint can be added to generics to limit what's allowed. The constraints make it possible to rely on a more specific type when using the generic type.
+
+```ts
+function createLoggedPair<S extends string | number, T extends string | number>(v1: S, v2: T): [S, T] {
+  console.log(`Createing pair: v1='${v1}', v2='${v2}'`_
+    return [v1, v2]
+  )
+}
+```
 
 ## Typescript Compiler
 
