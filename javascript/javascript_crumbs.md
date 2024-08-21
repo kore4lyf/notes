@@ -4505,6 +4505,27 @@ Example
 alert("Hello\nHow are you?");
 ```
 
+## Java script event 
+
+- Right click - `onContextMenu()`
+
+### preventing an element from being draggable
+
+HTML
+Add draggable="false" to img tag
+```html
+<img draggable="false" src="..."/>
+```
+
+OR
+
+CSS
+add user-drag: none; to img
+```css
+img {
+  user-drag: none;
+}
+```
 
 
 
