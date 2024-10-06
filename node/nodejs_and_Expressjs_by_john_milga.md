@@ -40,11 +40,11 @@ Module - A module is an Encapsulated code, that share part of its code with othe
 
 You can use `module.exports = {var1, var2}` to export variables in a file, or you can use `module.exports = sayHi`, if there is only one variable to export.
 
-### Export as you go method 
+### Export as you go method
 ```js 
 module.exports.items = ['items1', 'items2']
 const person = {
-  name: 'bob
+  name: 'bob'
 }
 module.exports.singlePerson = person
 ```

@@ -91,7 +91,7 @@ if (person.role === ADMIN) {
 It can be better with enum
 ```ts 
 enum Roles { ADMIN, READ_ONLY, AUTHOR };
-// ADMIN = 0, READ_ONLY = 1, AUTHOR = 3
+// ADMIN = 0, READ_ONLY = 1, AUTHOR = 2
 
 const person = {
   name: 'Max',

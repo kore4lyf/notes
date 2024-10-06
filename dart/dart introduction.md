@@ -51,7 +51,7 @@ dart create -t console-simple .
 you will require force to create the template in a current directory.
 
 ```sh
-dart create -t console-simple .
+dart create -t console-simple . --force
 ```
 
 ### Console template files
@@ -98,7 +98,7 @@ node out
 ### Built-in Types
 
 - Numbers (int, double)
-- Strings (string)
+- Strings (String)
 - Booleans (bool)
 - Lists(List, also known as arrays)
 - Sets (Set)
@@ -174,7 +174,7 @@ print(age == null) // true
 ```
 
 Assertion operator ! Make the compiler think the value is non-null
-
+ 
 ```dart
 String? answer;
 
@@ -407,7 +407,7 @@ In dart, named parameter is much more preferable to a positional parameter, beca
 
 ```dart
 void main() {
-  s
+  
   // Basic Function
   namedParams({int a, required int b}) {
     return a - b;
@@ -568,7 +568,7 @@ class Basic {
   int id;
 
   // constructor
-  Basic(this.ids);
+  Basic(this.id);
 
   // method
   doStuff() {
@@ -597,7 +597,7 @@ class Rectangle {
 
   Rectangle(this.width, this.height) {
     area = width * height;
-    // this.area (is optional)
+    // this.area  (is optional)
   }
 }
 ```
@@ -757,7 +757,7 @@ class SuperHuman extends Human with Strong, Fast {
 }
 
 mixin Strong {
-  bool doesList = true;
+  bool doesLift = true;
 
   void benchPress() {
     print("doing bench press...");

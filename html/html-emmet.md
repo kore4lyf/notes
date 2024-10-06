@@ -100,3 +100,25 @@ Gets converted to
 ```html
 <link rel="stylesheet" href="style.css">
 ```
+
+9. Filler Text 
+
+Syntax
+
+```
+lorem
+
+OR
+
+loremTOTAL_NUMBER_OF_WORDS
+
+OR
+
+ul>li*5>a>lorem1
+```
+
+Gets converted to
+
+```html
+<link rel="stylesheet" href="style.css">
+```
