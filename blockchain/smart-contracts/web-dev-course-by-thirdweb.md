@@ -30,7 +30,7 @@ Thirdweb is a development framework, which allows you to build, launch and manag
 5. Create custom smart contracts.
 6. Deploy & Publish custom smart contracts
 
-## Smart Contracts
+## Contracts
 
 Which NFT contract should you choose.
 
@@ -38,9 +38,127 @@ ERC20 - A standard that defines how to create fungible tokens, which are interch
 
 ERC721 - Is a standard for NFT contracts. You can create NFTs with this smart contract, each token generaten from the smart contract, is it's own unique token.
 
-A standard that defines how to create non-fungible tokens (NFTs), which have unique properties that make them different from other tokens in their collection. 
+A standard that defines how to create non-fungible tokens (NFTs), which have unique properties that make them different from other tokens in their collection.
 
 ERC1155 - It combine the standard of ERC20 and ERC721 aka semi-fungible token. Just like ERC721 you can create unique tokens, and (ERC20) you can create multiple quantities of that unique token.
 
-A standard that allows a single contract to track multiple EIP-20 and/or EIP-721 tokens. 
+A standard that allows a single contract to track multiple EIP-20 and/or EIP-721 tokens.
+
+ERC20:
+An ERC20 token cannot be claimable by other, which means that all of the token will be owned by the creator of the contract.
+An ERC20 token drop will allow you to release your token to be claimed/minted by others.
+
+ERC721:
+There are a couple of ERC721 contracts
+
+- Signature Drop (ERC721A) - Gas-optimized NFT Drop with a claim phase and optional signature-based minting.
+- NFT DROP - Standard NFT drop with lazy minting and claim phase.
+- NFT Collecttion - A standard ERC712NFT Collection that is not Claimed/minted by others.
+- Multiwrap - Bundle tokens together into a new NFT that is transparent. i.e Bundle NFTs together into a new NFT.
+
+## Solidity
+
+### Hello World Contract
+
+```sol
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity >=0.7.0 <0.9.0;
+
+contract HelloWorld {
+  string public message;
+
+  constructor() {
+    message = "Hello, World";
+  }
+
+  function getMessage() public view returns (string memory) {
+    return message;
+  }
+}
+```
+
+```sol
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+contract Sample {
+  
+  constructor() {
+
+  }
+}
+
+```
+
+```sol
+string public message;
+```
+
+The code above is a declaration of a string variable in solidity. By making the variable public, it can be accessed/read/executed/called by anyone. message is the name of the variable.
+
+```
+constructor() {
+  message = "Hello, World!";
+}
+```
+
+A contructor is a function that only runs ones, on deployment.
+
+```
+function getMessage() public view returns (string memory) {
+
+}
+```
+
+The function above is public because we want it to be accessible for execution, to the public.
+
+We included `view` to the function because it won't change any state of the smart contract.
+
+```returns (string memory)``` - It returns a string and the `memory` means that the return string is temporary and it only exists in the instance of running the function.
+
+### CoinFlip Contract
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity >=0.7.0 <0.9.0;
+
+contract CoinFlip {
+  enum CoinSide { HEADS, TAILS }
+  enum FlipResult { WIN, LOSE }
+
+  event Result(address indexed player, CoinSide chosenSide, FlipResult result);
+  
+  function flipCoin(CoinSide chosenSide) public {
+    // Generate a random number
+    uint256 randomNumber = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 2;
+    
+    CoinSide result = CoinSide(randomNumber);
+
+    FlipResult flipResult = (chosenSide == result) ? FlipResult.WIN : FlipResult.LOSE;
+
+    emit Result(msg.sender, chosenSide, flipResult);
+  }
+}
+```
+
+#### event
+
+Event is a way of loging information onto the blockchain.
+
+```sol
+event Result(address indexed player, CoinSide chosenSide, FlipResult result);
+```
+
+The `event` is like a blueprint, in order to use the event it must be called with `emit`.
+
+```sol
+emit Result(msg.sender, chosenSide, flipResult);
+```
+
+Result of event:
+{"player":"0x9278430A2e5088b7659f59D15Bc4961963527b00","chosenSide":1,"result":0}
+
+### TipJar
+
 
