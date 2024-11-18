@@ -343,6 +343,37 @@ contract Sample {
 
 A Getter is a function that gets the value of a property a setter is a function that sets the value of a property.
 
-```sol
+Getter:
 
+```sol
+contract SampleContract {
+  uint256 public publicNumber;
+  uint8 private secretNumber;
+
+  function getSecret() view public returns(uint8) {
+    return secreteNumber;
+  }
+}
+```
+
+public variables automatically get a getter function.
+
+Setter:
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.7.4;
+
+contract MessageContract {
+  string private message = "Hello, world";
+
+  function getMessage() public view returns(string memory) {
+    return message;
+  }
+
+  function setMessage(string memory newMessage) public {
+    message = newMessage;
+  }
+}
 ```
