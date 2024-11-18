@@ -377,3 +377,55 @@ contract MessageContract {
   }
 }
 ```
+
+### Arrays
+
+```sol
+pragma solidity ^0.7.4;
+
+contract SampleContract {
+  uint8[3] nums = [10, 20, 30];
+
+  function getNums() public returns (uint8[3]) {
+    nums[0] = 11;
+    nums[1] = 22;
+    nums[2] = 33;
+
+    return nums;
+  }
+
+  function getLength() view public returns(uint) {
+    return nums.length;
+  }
+}
+```
+
+Dynamic Arrays:
+
+```sol
+pragma solidity ^0.7.4;
+
+contract Score {
+  uint24[] score;
+
+  function addScore(uint24 s) public returns(uint24[]) {
+    score.push(s);
+    return score
+  }
+
+  function getLength() public view returns(uint) {
+    return score.length;
+  }
+
+  function clearArray() public returns(uint24[]) {
+    delete score;
+    return score;
+  }
+}
+```
+
+### Memory vs Storage
+
+```sol
+
+```
