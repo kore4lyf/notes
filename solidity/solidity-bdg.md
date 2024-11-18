@@ -247,7 +247,7 @@ It is done like this:
 mapping(address => uint) score;
 
 function updatePoints(address _person, uint _points) {
-    score[_person] = _points;
+  score[_person] = _points;
 }
 ```
 #### Sender address
