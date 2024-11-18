@@ -20,6 +20,8 @@ Ethereum offers two types of accounts.
 - Bytes
 - String, Hex and Enum
 
+The default visiblity of any variable is internal (i.e. I can only be used by it's contract any contract that inherits it's contract)
+
 
 #### Integers
 
@@ -38,6 +40,49 @@ int256: -1157920.................................. to 1157920...................
 
 uint256:
 int256: 0 to 1157920.............................
+
+
+Example: 
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+
+contract VariableExamples {
+  bool public switchedOn = true;
+  address public owner = msg.sender;
+  uint public number = 8;
+  bytes32 public awesome1 = "Solidity is awesome!";
+  string public awesome2 = "Solidity is awesome!";
+}
+```
+bytes32: 0x536f6c696469747920697320617765736f6d6521000000000000000000000000
+
+Same as
+string: "Solidity is awesome!"
+
+Example:
+
+As a smart contract developer or a software developer you need to handle overflow and underflow.
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+
+contract OverflowAndUnderflow {
+  function overflow() public pure returns(uint256) {
+    uint max = 2**256 - 1;
+    return max + 1; // 0
+  }
+
+  function underflow() public pure returns(uint256) {
+    uint min = 0;
+    return min - 1; // 115792089237316195423570985008687907853269984665640564039457584007913129639935
+  }
+}
+```
 
 ##### Overflow
 
@@ -294,3 +339,10 @@ contract Sample {
 }
 ```
 
+### Getters & Setters
+
+A Getter is a function that gets the value of a property a setter is a function that sets the value of a property.
+
+```sol
+
+```
