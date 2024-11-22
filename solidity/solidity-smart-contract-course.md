@@ -567,7 +567,116 @@ contract Bank {
 }
 ```
 
+### Error Handling and Restriction
+
+Solidity uses state reverting exceptions to handle errors.
+
+- assert()
+- require()
+- revert()
+
+#### Require
+
+```sol
+pragma solidity ^0.7.4;
+
+contract Bank {
+  mapping(address => uint) public accounts;
+
+  function deposit() public payable {
+    require(accounts[msg.sender] + msg.value >= accounts[msg.sender], "Overflow error");
+    accounts[msg.sender] += msg.value;
+  }
+
+  function withdraw(uint money) public {
+    require(money <= accounts[msg.sender]); // Prevents user from withdrawing more than what is owned.
+    accounts[msg.sender] -= money;
+  }
+}
+```
+
+- Valide user inputs
+- Validate the response from an external contract i.e use require(external.send(amount))
+- Validate state conditions prior to executing state changing operations, for example in an owned contract situation.
+- Generally, you should use require more often.
+- Generally, it will be used towards the beginning of a function.
+
+#### Revert
+
+The ```revert``` works basically as the ```require``` function, however it can be used as a flag when a more complex if conditions are met.
+
+```revert``` makes a transaction go back to a previous state.
+```revert``` and ```require``` returns all the remaining gas
+
+```sol
+prama solidity ^0.7.4;
+
+contract Bank {
+  mapping(address => uint) public accounts;
+
+  function deposit() public payable {
+    if(accounts[msg.sender] + msg.value >= accounts[msg.sender]) {
+      revert("Overflow error");
+    }
+      accounts[msg.sender] += msg.value;
+  }
+
+  function withdraw(uint money) public {
+    if(money <= accounts[msg.sender]) {
+      revert();
+    }
+    require(money <= accounts[msg.sender]); // Prevents user from withdrawing more than what is owned.
+    accounts[msg.sender] -= money;
+  }
+}
+```
+
+- Same as require()
+- Will undo all the changes you had made in the blockchain
+- if/else logic flow. For complex checks
+- Refund remaining gas
+
+#### Assert
+
+```assert(bool condition)```
+
+Invalidates the transaction if the condition is not met - to used for **internal** errors.
+
+```sol
+pragma solidity ^0.7.4;
+
+contract Math {
+  function add(uint256 a, uint256 b) internal pure returns(uint) {
+    c = a + b;
+    assert(c >= a) // Will check for overflow internal variants
+    return c;
+  }
+
+  function multiply(uint256 a, uint256 b) internal pure returns (uint) {
+    if(a == 0) {
+      return 0;
+    }
+
+    c = a * b;
+
+    assert(c/a == b) // Will check for overflow internal variants
+
+    return c
+  }
+}
+```
+
+Assert will use all of the remaining gas.
+
+Use assert to avoid condition that should never ever be possible.
+
+> Assert validates states after making changes.
 
 
-
+- Checks for overflow/underflow
+- Checks for invaraints
+- validate contract state after making changes
+- Avoid conditions which should never, ever be possible.
+- Generally, you should use assert less often
+- Generally, it will be use towards the end of you function
 
