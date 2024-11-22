@@ -457,3 +457,117 @@ contract arrayStorageMemory {
 
 What you will notice from call the both functinos (firstChange and secondChange) is that when you get the value of x[0], will be equal to 4. That is because storage data always persist.
 
+
+### Mapping
+
+Mappings are referred to hash tables with key type and value type.
+
+```sol
+pragma solidity ^0.7.4;
+
+contract Bank {
+  mapping(address => int) public accounts;
+
+  function deposit(uint money) public {
+    accounts[msg.sender] += money;
+  }
+
+  function withdraw(uint money) public {
+    accounts[msg.sender] -= money
+  }
+}
+```
+
+Example:
+
+```sol
+pragma solidity ^0.7.4;
+
+contract SimpleToken {
+  address owner;
+  mapping(address => uint256) public accounts;
+
+  constructor(uint256 initialSupply) {
+    owner = msg.sender;
+    accounts[owner] = initialSupply;
+  }
+
+  function transfer(address to, uint256 value) public {
+    require(accounts[msg.sender] >= value, "You do not have enough Eth in your wallet"); //  Check balance
+    require(accounts[to] + value >= accounts[to]); // Overflow Check
+
+    accounts[msg.sender] -= value;
+    accounts[to] += value; // Subtract and add
+  }
+
+  function getAddressBalance(address addr) public view returns(uint256) {
+    return accounts[addr];
+  }
+
+  function getBalance() public view returns(uint256) {
+    return accounts[msg.sender];
+  }
+
+  function availableSupply () public view returns(uint256) {
+    return address(this).balance;
+  }
+
+  function transferEtherToContract(uint256 value) public payable{
+    require(value > 0);
+    
+  } 
+}
+```
+
+### Struct
+
+Solidity gives us a way to define new types in the form of struct.
+
+**Structs are like objects** with different type of types inside.
+
+Structs can be used inside mappings, arrays and it can contain arrays and mappings.
+It is not possible for a struct to contain a member of its own type, although the struct itself can be the value type of a mapping member.
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+
+contract Bank {
+  struct Account {
+    address addr;
+    uint balance;
+  }
+
+  Account public acc = Account({
+    addr: 0x9278430A2e5088b7659f59D15Bc4961963527b00,
+    balance: 50
+  });
+
+  Account public daniel = Account({
+    addr: 0x5E3232CB6Ae602Ed1DC2d62Ca1f9Ae2754A3Cb6A,
+    balance: 1000
+  });
+
+  function addAmount(uint _amount) public {
+    acc.balance += _amount;
+  }
+
+  function withdraw(uint _amount) public {
+    require(acc.balance >= _amount, "Insufficient Balance");
+    acc.balance -= _amount;
+  }
+
+  function transferToDaniel(uint256 _amount) public {
+    require(acc.balance >= _amount, "Insufficient Balance");
+    require(daniel.balance + _amount > daniel.balance);
+    acc.balance -= _amount;
+    daniel.balance += _amount;
+  }
+}
+```
+
+
+
+
+
