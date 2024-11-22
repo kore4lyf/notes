@@ -380,6 +380,8 @@ contract MessageContract {
 
 ### Arrays
 
+Arrays are series of objects of the same size and type.
+
 ```sol
 pragma solidity ^0.7.4;
 
@@ -426,6 +428,32 @@ contract Score {
 
 ### Memory vs Storage
 
-```sol
+Storage variables define contract state and can only be changed by transaction calls.
 
+Memory Variable are variable that only exists inside the calling function. They get wiped after the function exits and they are generally cheaper than storage.
+
+Example:
+
+```sol
+pragma solidity 0.7.4;
+
+contract arrayStorageMemory {
+  uint[20] public arr; // Storage by default
+
+  function startChange() public {
+    firstChange(arr);
+    secondChange(arr);
+  }
+
+  function firstChange(uint[20] storage x) internal { // Can be storage
+    x[0] = 4;
+  }
+
+  function secondChange(uint[20] memory x) internal pure { // Memory by default
+    x[0] = 3;
+  }
+}
 ```
+
+What you will notice from call the both functinos (firstChange and secondChange) is that when you get the value of x[0], will be equal to 4. That is because storage data always persist.
+
