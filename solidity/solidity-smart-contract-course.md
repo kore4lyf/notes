@@ -947,3 +947,28 @@ contract PriceFeed is owned, mortal, name("GoldFeed") {
 A contract may inherit from an interface or another contract. Solidity also support multiple inheritance.
 
 In the example above the PriceFeed contract inherit from contract "named" which requires an argument.
+
+### Events
+
+Event is a way to provide notificaton, that something has happened within the contract.
+
+Up to three parameters. It can receive attribute indedxed which will cause the respective argument to be searched for.
+It is possible to filter for the specific values of indexed arguments in the user interface.
+
+```sol
+pragma solidity ^0.7.4;
+
+contract SmartExchange {
+  event Deposit(address from, byte32 to, uint indexed value);
+  event Transfert(bytes32 from, address to, uint indexed value);
+
+  function deposit(bytes32 to) payable public {
+    emit Deposit(msg.sender, to, msg.value);
+  }
+
+  function transfer(bytes32 l, address to, uint value) payable public {
+    to.transfer(value);
+    emit Transfer(from, to, value)
+  }
+}
+```
