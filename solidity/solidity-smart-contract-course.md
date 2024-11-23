@@ -794,3 +794,156 @@ contract Bank {
 Although the we are expected to provide to parameters to the library functions, but we are allowed to do 
 e.g parameter1.func(parameter2)
 i.e accounts[msg.sender].sub(money);
+
+#### Global Variables
+
+**BLOCK AND TRANSACTION PROPERTIES:**
+
+- **block.blockhash(uint blockNumber) returns (bytes32)**: hash of the given block - only works for 256 most recent, excluding current, blocks - deprecated in version 0.4.22 and replaced by blockhash(uint blockNumber).
+
+- **block.coinbase (address)**: current block miner’s address
+
+- **block.difficulty (uint)**: current block difficulty
+
+- **block.gaslimit (uint)**: current block gaslimit
+
+- **block.number (uint)**: current block number
+
+- **block.timestamp (uint)**: current block timestamp as seconds since unix epoch
+
+- **gasleft() returns (uint256)**: remaining gas
+
+- **msg.data (bytes)**: complete calldata
+
+- **msg.gas (uint)**: remaining gas - deprecated in version 0.4.21 and to be replaced by gasleft()
+
+- **msg.sender (address)**: sender of the message (current call)
+
+- **msg.sig (bytes4)**: first four bytes of the calldata (i.e. function identifier)
+
+- **msg.value (uint)**: number of wei sent with the message
+
+- **now (uint)**: current block timestamp (alias for block.timestamp)
+
+- **tx.gasprice (uint)**: gas price of the transaction
+
+- **tx.origin (address)**: sender of the transaction (full call chain)
+
+**CRYPTOGRAPHIC AND MATH FUNCTIONS:**
+
+- **addmod(uint x, uint y, uint k) returns (uint)**: compute (x + y) % k where the addition is performed with arbitrary precision and does not wrap around at 2**256. Assert that k != 0 starting from version 0.5.0.
+
+- **mulmod(uint x, uint y, uint k) returns (uint)**: compute (x * y) % k where the multiplication is performed with arbitrary precision and does not wrap around at 2**256. Assert that k != 0 starting from version 0.5.0.
+
+- **keccak256(...) returns (bytes32)**: compute the Ethereum-SHA-3 (Keccak-256) hash of the (tightly packed) arguments
+
+- **sha256(...) returns (bytes32)**: compute the SHA-256 hash of the (tightly packed) arguments
+
+- **sha3(...) returns (bytes32)**: alias to keccak256
+
+- **ripemd160(...) returns (bytes20)**: compute RIPEMD-160 hash of the (tightly packed) arguments
+
+- **ecrecover(bytes32 hash, uint8 v, bytes32 r, bytes32 s) returns (address)**: recover the address associated with the public key from elliptic curve signature or return zero on error (example usage)
+
+**CONTRACT RELATED:**
+
+- **this (current contract’s type)**: the current contract, explicitly convertible to Address
+
+- **selfdestruct(address recipient)**: destroy the current contract, sending its funds to the given Address
+
+- **suicide(address recipient)**: deprecated alias to selfdestruct
+
+### Abstract Contracts, Inheritance and Interfaces
+
+#### Abstract Contracts and Inheritance
+
+Contracts are marked as Abstract when at least one of their functions lacks an implementation.
+
+The function without implementation must be implemented in all child contracts.
+
+```sol
+pragma solidity ^0.7.4;
+
+contract Animal {
+  string public breed;
+  uint public age;
+  uint public weight;
+
+  contructor() public {
+    age = 1;
+    weight = 1;
+  }
+
+  function sleep() pure public returns(string) { return "Zzz..."}
+
+  function eat() pure public returns(string) { return "Nom nom..."; }
+  
+  function talk() pure public returns(string)// One function that lacks implementation makes the contract abstract
+}
+
+contract Cat is Animal {
+  constructor() public {
+    breed = "Persian";
+    age = 3;
+    weight = 5;
+  }
+
+  function talk() pure public returns(string) {return "miaow";}
+}
+
+contract Dog is Animal {
+  constructor() public {
+    breed = "Labrador";
+    age = 5;
+    weight = 3;
+  }
+  
+  function talk() pure public returns(string) {return "Bark Bark";}
+}
+```
+
+#### Interfaces
+
+Interfaces are declared with the interface keyword.
+
+An interface contains function declaration without implementation.
+
+An interface:
+
+- Cannot inherit other contracts or interfaces.
+- Cannot have function with implementation
+- Cannot define constructor
+- Cannot define variables
+- Cannot define structs
+- Cannot define enums
+
+
+```sol
+pragma solidity ^0.7.4;
+
+interface Token {
+  function transfer(address recipient, uint amount) public;
+
+  function balanceOf(address _owner) returens(uint256 balance);
+}
+```
+
+When a contract inherits an interface, it must implement all of its functions.
+
+Example:
+
+```sol
+contract PriceFeed is owned, mortal, name("GoldFeed") {
+  function updateInfo(uint newInfo) public {
+    if (msg.sender == owner) info = newInfo
+  }
+
+  function get() public view returns(uint r){
+    return info;
+  }
+}
+```
+
+A contract may inherit from an interface or another contract. Solidity also support multiple inheritance.
+
+In the example above the PriceFeed contract inherit from contract "named" which requires an argument.
