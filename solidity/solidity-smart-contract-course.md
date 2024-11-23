@@ -680,3 +680,117 @@ Use assert to avoid condition that should never ever be possible.
 - Generally, you should use assert less often
 - Generally, it will be use towards the end of you function
 
+### Modifier
+
+Modifiers cna be used to easily change the behaviour of functions. For example, they can automatically check a condition prior to executing the function.
+
+**Modifiers are inheritable propertise of contracts and may be overriden by derived contracts.**
+
+```sol
+pragma solidity ^0.7.4;
+
+contract Purchase {
+  address public seller;
+
+  modifier onlySeller { // modifier
+    require(msg.sender == seller); // Usually for restrictions
+    _; // A placeholder for the rest of the code
+  }
+
+  function abort() public onlySeller{ // modifer usage
+    // ...
+  }
+}
+```
+
+Example:
+
+```sol
+pragma solidity ^0.7.4;
+
+contract owned {
+  address owner;
+
+  constructor() {
+    owner = msg.sender;
+  }
+
+  modifier onlyOwner {
+    require(msg.sender == owner);
+    _;
+  }
+}
+
+contract mortal is owned {
+  function close() public onlyOwner { // onlyOwner is inherted from owne but overridden here
+    selfDestruct(owner); // Destroys the contract
+  }
+}
+```
+
+### Library
+
+A library is a different type of contract that doesn't have any storage and cannot hold Ether.
+
+- No state variables
+- Cannot inherit nor be inherted
+- Cannot receive Ether
+
+```sol
+pragma solidity ^0.7.4;
+
+library SafeMath {
+  function mul(uint256 a, uint256 b) internal pure returns(uint256) {
+    uint256 c = a * b;
+    assert(a == 0 || c/a == b);
+    return c;
+  }
+
+  function div(uint256 a, uint256 b) internal pure returns(uint256) {
+    // assert(b > a); // Solidity automatically throws when dividing by 0;
+    uint256 c = a/b;
+    return c;
+  }
+
+  function sub(uint256 a, uint256 b) internal pure returns(uint256) {
+    assert(b <= a);
+    return a - b;
+  }
+
+  function add(uint256 a, uint256 b) internal pure returns(uint256) {
+    uint256 c = a + b;
+    assert(c >= a);
+    return c;
+  }
+}
+```
+
+#### USING OR IMPORTING THE LIBRARY
+
+Codes can be imported from github or locally
+
+```sol
+pragma solidity ^0.7.4;
+
+// import the library from github
+import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
+
+contract Bank {
+  mapping(address => uint) public accounts;
+  using SafeMath for uint256; // Define for what you use SafeMath
+
+  function deposit() public payable {
+    require(accounts[msg.sender] + msg.value => accounts[msg.sender], "Overflow error");
+    accounts[msg.sender] = accounts[msg.sender].add(msg.value);
+  }
+
+  function withdraw(uint money) public {
+    require(money <= account[msg.sender]);
+    accounts[msg.sender] = accounts[msg.sender].sub(money);
+  }
+}
+```
+
+Although the we are expected to provide to parameters to the library functions, but we are allowed to do 
+e.g parameter1.func(parameter2)
+i.e accounts[msg.sender].sub(money);
