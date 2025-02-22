@@ -129,9 +129,38 @@ e.g.
 or
 ```hex'001122FF'```
 
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+
+contract Hex {
+  bytes public hexadecimal = hex"FFFFFF";
+}
+```
+
+
 Enums are one way to create a user-defined type in solidity.
 e.g.
 ```enum ActionChoice { GoLeft, GoRight, GoStraight, StayStill }```
+
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+
+contract EnumTest {
+  enum months { JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC}
+
+  months public january = months.JAN; // 0
+  months public february = months.FEB; // 1
+  months public march = months.MAR; // 2
+  months public april = months.APR; // 3
+  months public may = months.MAY; // 4
+  months public june = months.JUN; // 5
+}
+```
 
 
 ### Contract, Constructors & Functions
@@ -186,7 +215,7 @@ functioni functionName (<parameter types>) {public|private|etc.} {pure|view|paya
 }
 ```
 
-- visiblity Declaration - ```pure|view|payable```
+- visiblity Declaration - ```public|private|internal|external```
 - State Mutability - ```pure|view|payable```
 - Function return type - ```returns(<return types>)```
 
@@ -195,11 +224,15 @@ functioni functionName (<parameter types>) {public|private|etc.} {pure|view|paya
 Solidity is a statically typed language, which means the type of a variable must be specified earlier before usage.
 
 - **public** - Default for functions. Can be called internally and externally.
-- private - Can be called only inside the contract they are defined in.
+- **private** - Can be called only inside the contract they are defined in.
 - **internal** - Can only be accessed internally (from within the current contract or contracts deriving from it)
 - **external** - (Only for functions) State variables can't be exteral. Can be called from other contracts and via transactions. Internal calls needs ```this.```. (can cost less gas sometimes)
 
-External functions are more efficient when they receive large amount of data, making it cost less gas.
+External function can onu be called directly from outside of the contract it was declared in. The cannot be called internally (except using this.functionName())
+
+A function can be made external if they are only meant to be called by external user or other contracts.
+
+External functions are more gas-efficient when they receive large amount of data than public functions when called externally, because they avoid copying arguments to memory.
 
 Example:
 
@@ -728,6 +761,27 @@ contract mortal is owned {
 }
 ```
 
+#### Modifiers with Parameters
+
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+
+contract Ownership {
+  mapping(uint256 => address) public itemOwners;
+
+  modifier onlyOwner(uint256 itemId) {
+    require(itemOwners[itemId] == msg.sender, "Not the owner of this item");
+    _;
+  }
+
+  function transferOwnership(uint256 itemId, address newOwner) external onlyOwner(itemId) {
+    itemOwners[itemId] = newOwner;
+  }
+}
+```
+
 ### Library
 
 A library is a different type of contract that doesn't have any storage and cannot hold Ether.
@@ -971,4 +1025,17 @@ contract SmartExchange {
     emit Transfer(from, to, value)
   }
 }
+```
+
+## Other findings
+
+### Facts
+
+- keccak256() returns a fixed sized hash (same as byte32)
+- abi.encodePacked() returns a dynamically sized hash of its string inputs (same as byte)
+
+### How to Concatenate
+
+```sol
+string(abi.encodePacked(string1, " ", string2, "and so on"));
 ```

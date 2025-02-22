@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.4;
+// Todo App - Contract
+// A user can create a Todo List - address to an array of todoList (struct)
+// A todo list has 1-M Lists of items - A list of struct { title: string, lists: string[][] }
+  // ~ has a Title 
+// A List has 1-M Items - [item, description]
+// An Item contains (1) a message and a description 
+
+// ACTIONS 
+// createTodo(string todoListTitle) 
+// updateTodo(string todoListTitle) 
+// deleteTodo() 
+// addItem(string titlestring item, string description) 
+
+contract Todo {
+  // modifier todoListExits {
+  //   require("" === "", "Todo List already Exists." );
+  //   _;
+  // }
+
+  event CreateTodo(address indexed from, string todoList);
+  event UpdateTodo(address indexed from, string todoList);
+  event DeleteTodo(address indexed from, string todoList);
+  event addItem(string indexed item, string description);
+
+  struct TodoList {
+    string title;
+    string[][] listOfItems;
+  }
+
+  mapping(address => TodoList[]) TodoLists;
+
+  function createTodo(string memory todoListTitle) public {
+    TodoList memory userTodoList = TodoList({ 
+      title: todoListTitle,
+      listOfItems: []
+    });
+
+    TodoLists[msg.sender] = TodoLists.push(userTodoList);
+  }
+}

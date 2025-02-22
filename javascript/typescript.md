@@ -26,7 +26,7 @@ Always specify types because it make your code readable
 **Others**
 - undefined 
 - void 
-- function
+- Function
 - unknown 
 - never
 - null
