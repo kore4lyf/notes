@@ -236,6 +236,48 @@ To test use:
 truffle test
 ```
 
+### Test Sample
+
+Adoption.js
+
+```js
+let Adoption = artifacts.require("Adoption")
+
+contract("Adoption", (accounts) => {
+  describe("First group of tests", () => {
+    let instance
+
+    before(async () => {
+      instance = await Adoption.deployed();
+    })
+
+    it("", async () => {
+      await instance.adopt.sendTransaction(8, {from: account[0]})
+      let adopter = await instance.adopter.call(8)
+      assert.equal(adopter, accounts[0], "Incorrect owner address")
+    })
+
+    it("Should get adopter address by id in array", async () => {
+      let adopter = await instance.getAdopters.call()
+      assert.equal(adopters[8], accounts[0], "Owner of pet Id should be recorded in the array")
+    })
+
+    it("Should throw if invalid pet id is given", async () => {
+      try {
+        await instance.adopt.sendtransaction(17, {from: account[0]})
+        asset.fail(true, false, "This function did not throw")
+      } catch(error) {
+        // Checks if the error contains the keyword "revert"
+        assert.include(string(error), "revert", "Expected 'revert' but instead got ${error}")
+      }
+    })
+
+  })
+})
+```
+
+NB: **call()** is usually used for getter functions. When you are run functions that modify the state of the contract, use the **sendTransaction()** function.
+
 ## Truffle Console & Truffle Develop
 
 The truffle console and truffle develop allow us to access the truffle console.
@@ -271,3 +313,5 @@ Truffle unbox can install a dapp skeleton. e.g. for react React
 ```sh
 truffle unbox react
 ```
+
+
