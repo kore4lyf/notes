@@ -22,7 +22,6 @@ Ethereum offers two types of accounts.
 
 The default visiblity of any variable is internal (i.e. I can only be used by it's contract any contract that inherits it's contract)
 
-
 #### Integers
 
 int8: -126 to -127
@@ -41,8 +40,7 @@ int256: -1157920.................................. to 1157920...................
 uint256:
 int256: 0 to 1157920.............................
 
-
-Example: 
+Example:
 
 ```sol
 // SPDX-License-Identifier: MIT
@@ -57,6 +55,7 @@ contract VariableExamples {
   string public awesome2 = "Solidity is awesome!";
 }
 ```
+
 bytes32: 0x536f6c696469747920697320617765736f6d6521000000000000000000000000
 
 Same as
@@ -102,7 +101,7 @@ uint8 num= 0
 4. `<address>.call(...) returns (bool)` - Issue-low-level CALL, returns false on failure.
    Fowards 2300 gas stipend, not adjustable.
 5. `<address>.callcode(...) returns (bool)` - Issue low-level CALL CODE, returns false on failure.
-   Forwards all available gas, adjustable. 
+   Forwards all available gas, adjustable.
 6. `<address>.delegatecall(...) returns (bool)` - Issue low-level DELEGATE CALL, returns false on failure.
    Forwards all available gas, adjustable.
 
@@ -117,10 +116,12 @@ Bytes can be use in one Smart contract to another smart contract relation.
 
 #### String, Hex and Enum
 
-Strings are written with either double or single-quotes 
-e.g.
-```"foo" ```
-or 
+Strings are written with either double or single-quotes e.g.
+
+``` "foo" ```
+
+or
+
 ```'bar'```
 
 Hexadecimal Literals are prefixed with the keyword `hex` and are enclosed in double or single-quotes
@@ -139,11 +140,9 @@ contract Hex {
 }
 ```
 
-
 Enums are one way to create a user-defined type in solidity.
 e.g.
 ```enum ActionChoice { GoLeft, GoRight, GoStraight, StayStill }```
-
 
 ```sol
 // SPDX-License-Identifier: MIT
@@ -161,7 +160,6 @@ contract EnumTest {
   months public june = months.JUN; // 5
 }
 ```
-
 
 ### Contract, Constructors & Functions
 
@@ -203,8 +201,6 @@ constract TokenCreator {....}
 
 Constructor is a function that runs only once when a contract is deployed to a network.
 
-#### 
-
 #### Functions
 
 Structure of a solidity function
@@ -224,15 +220,15 @@ functioni functionName (<parameter types>) {public|private|etc.} {pure|view|paya
 Solidity is a statically typed language, which means the type of a variable must be specified earlier before usage.
 
 - **public** - Default for functions. Can be called internally and externally.
-- **private** - Can be called only inside the contract they are defined in.
+- **private** - Can be called only inside the contract they are defined in. No derived (child) contracts can read or write it.
 - **internal** - Can only be accessed internally (from within the current contract or contracts deriving from it)
 - **external** - (Only for functions) State variables can't be exteral. Can be called from other contracts and via transactions. Internal calls needs ```this.```. (can cost less gas sometimes)
 
-External function can onu be called directly from outside of the contract it was declared in. The cannot be called internally (except using this.functionName())
+External function can only be called directly from outside of the contract it was declared in. The cannot be called internally (except using this.functionName())
 
 A function can be made external if they are only meant to be called by external user or other contracts.
 
-External functions are more gas-efficient when they receive large amount of data than public functions when called externally, because they avoid copying arguments to memory.
+External functions are more gas-efficient when they receive large amount of data than public functions when called externally, because they avoid copying arguments to memory (unlike public) (i.e. Arguments are passed via calldata [even when memory is specified]).
 
 Example:
 
@@ -291,6 +287,8 @@ contract E is C {
   }
 }
 ```
+
+If a function needs to be called internally you may use public or internal. Use external call for functions that don't need internal calls.
 
 ##### State Mutability (Only for functions)
 
@@ -459,7 +457,7 @@ contract Score {
 }
 ```
 
-### Memory vs Storage
+### Memory vs Storage vs Calldata
 
 Storage variables define contract state and can only be changed by transaction calls.
 
@@ -488,8 +486,18 @@ contract arrayStorageMemory {
 }
 ```
 
-What you will notice from call the both functinos (firstChange and secondChange) is that when you get the value of x[0], will be equal to 4. That is because storage data always persist.
+What you will notice from call the both functions (firstChange and secondChange) is that when you get the value of x[0], will be equal to 4. That is because storage data always persist.
 
+**Memory vs Calldata**:
+
+**Memory** is a modifiable, temporary storage area.
+
+**Calldata** is a read-only, non-modifiable area where function arguments are passed by the caller. It's cheaper, because it doesen't copy data into memory.
+
+If a function is public and assuming it has a parameter (string memory variable1), the input string entered into variable1 will be copied from calldata to memory each character costs 3 gas per word.
+
+If a function is external, it has a parameter (string memory variable1), solidity treats it as calldata under the hood until it is modified.
+But specifing calldata (i.e. string calldata variable1) will make it clear that you are not editing it.
 
 ### Mapping
 
@@ -705,7 +713,6 @@ Use assert to avoid condition that should never ever be possible.
 
 > Assert validates states after making changes.
 
-
 - Checks for overflow/underflow
 - Checks for invaraints
 - validate contract state after making changes
@@ -845,7 +852,7 @@ contract Bank {
 }
 ```
 
-Although the we are expected to provide to parameters to the library functions, but we are allowed to do 
+Although the we are expected to provide to parameters to the library functions, but we are allowed to do
 e.g parameter1.func(parameter2)
 i.e accounts[msg.sender].sub(money);
 
@@ -971,7 +978,6 @@ An interface:
 - Cannot define structs
 - Cannot define enums
 
-
 ```sol
 pragma solidity ^0.7.4;
 
@@ -1039,3 +1045,74 @@ contract SmartExchange {
 ```sol
 string(abi.encodePacked(string1, " ", string2, "and so on"));
 ```
+
+### Custom Errors
+
+Use custom errors for cheaper gas on failure (cheaper than require()).
+
+```sol
+contract Sample {
+  error InvalidInput(string field);
+  error InvalidIndex(uint index);
+
+  modifier validInput(string data) {
+    if (bytes(data).length == 0) revert InvalidInput(data);
+  }
+
+  modifier validIndex(uint index, uint length) {
+    if(index >= length) revert InvalidIndex;
+  }
+}
+```
+
+Why use Custom Errors:
+
+1. Gas Efficiency: require(condition, "Message") stores the error string on-chain and includes it in the revert data, which costs more gas (both for deployment and execution).
+2. Custom Errors are defined at compile tiem and only pass a selector plus optionanl parameter when reverting.
+
+### Checks-Effects-Interactions Pattern
+
+The CEI pattern is a security best practise in solidity to prevent reentrancy attacts and ensure predictable state change.
+
+Reentrancy attacks occur when a contract makes an external call (e.g. sending ETH) before finishing its state updates. The called contract can call back into the origianl contract, exploiting its mid-update state.
+
+- Checks: Validate all conditions and inputs first (e.g. require or revert if something goes wrong)
+- Effects: Update the contract's state (e.g. modifiy variable, arrays, mappings)
+- Interactions: Make external calls (e.g. to other contracts or msg.sender)
+
+IN MY WORDS:
+Don't just modify state right away, do some checks first like:
+
+- is the user the a valid user
+- Does the user have up to the digits
+- e.t.c
+
+In Real World Context:
+Ensure a user's balance is updated before transferring tokens, preventing them from draining the contract by reentering during the transfer.
+
+For Example:
+
+Prone to Reentrancy Attact
+
+```sol
+function deleteTodoList(_todoIndex) external validIndex(_todoIndex) {
+  TodoLists[msg.sender].pop();
+  emit DeleteTodoList(msg.sender, getTodoById(_index - 1).title);
+}
+```
+
+In the code above, the state was modified (pop()) before emitting the event. Events are internal and don't trigger reentrancy, so this isn't vulnerable here. However, it's not CEI-compliant because "Effects".
+
+In the refactored version:
+
+```sol
+function deleteTodoList(_todoIndex) external validIndex(_todoIndex) {
+  string memory title = todoList[msg.sender][_todoIndex].title;
+  TodoLists[msg.sender].pop();
+  emit DeleteTodoList(msg.sender, title);
+}
+```
+
+The title is captured first (check)
+Then the state is modified (effect)
+Then emit the event (Interaction)
