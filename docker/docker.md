@@ -159,6 +159,8 @@ docker ps -a
 docker run -it codewithmosh/hello-world
 ```
 
+-it means interactive or Interact
+
 ## Testing Docker
 
 [https://labs.play-with-docker.com/](https://labs.play-with-docker.com/) is a play ground to test run docker.
@@ -169,7 +171,11 @@ You can access your docker image on any computer that uses docker as long is the
 docker pull codewithmosh/
 ```
 
-## install ubuntu image on Docker
+## Docker Hub
+
+[https://hub.docker.com](https://hub.docker.com)
+
+## Install ubuntu image on Docker
 
 Downloads ubuntu
 
@@ -187,3 +193,538 @@ The command will download ubuntu if it's unable to find it locally. After a succ
 
 To interact and iteract with the  
 
+## Creating a docker image
+
+Creating a docker image requires creating a file called `Dockerfile`, which include some docker commands, that specifies how to build an Image for your application.
+
+For example:
+
+```Dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 8080
+ENV NODE_ENV=production
+CMD node app.js
+```
+
+Example 2:
+
+```Dockerfile
+FROM node:latest
+WORKDIR /fe
+COPY package*.json ./
+COPY . ./
+RUN npm cli
+CMD ["npm", "start"]
+```
+
+### Common Command Used Dockerfile
+
+- **FROM**
+it specifies the base image to use for the new image
+
+syntax
+
+```Dockerfile
+FROM image[:tag] [AS name]
+```
+
+```Dockerfile
+FROM ubuntu:20.4
+```
+
+- **WORKDIR**
+Sets the working dir for the following (next) instructions.
+
+syntax
+
+```Dockerfile
+WORKDIR /path/to/workdir
+```
+
+- **COPY**
+
+Copies the files or directories from the build context to the image.
+
+Syntax
+
+```Dockerfile
+COPY [--chown=<user>:<group>] <src>... <dest>
+```
+
+Sample
+
+```Dockerfile
+COPY . /app
+```
+
+- **RUN**
+
+Executes command in the shell during image build.
+
+Syntax
+
+```Dockerfile
+RUN <command>
+```
+
+Sample
+
+```Dockerfile
+Run npm run dev
+```
+
+- **EXPOSE**
+
+Informs docker that the container will listen on a/some specified network port(s).
+
+Syntax
+
+```Dockerfile
+EXPOSE <port> [<port>/<protocol>...]
+```
+
+Sample
+
+```Dockerfile
+EXPOSE 3000
+```
+
+- **ENV**
+Sets environment variables during the build process
+
+Syntax
+
+```Dockerfile
+ENV KEY=VALUE
+```
+
+Sample
+
+```Dockerfile
+ENV NODE_ENV=production
+```
+
+- **ARG**
+
+Defines the build time variables
+
+Syntax
+
+```Dockerfile
+ARG <name> [=<default value>]
+```
+
+Sample
+
+```Dockerfile
+ARG NODE_VERSION=20
+```
+
+- **VOLUME**
+
+Creates a mount point for externally mounted volumes, essentially specifing a location inside your container, where you can connect your storage
+
+Syntax
+
+```Dockerfile
+VOLUME ["/data"]
+```
+
+Sample
+
+```Dockerfile
+VOLUME /myvol
+```
+
+- **CMD**
+
+It provides default command to execute when the container starts.
+
+```Dockerfile
+CMD ["npm", "run", "dev"]
+```
+
+Sample
+
+```Dockerfile
+CMD npm run dev
+```
+
+- **ENTRYPOINT**
+Specifies the default executable to be ran, when the container starts
+
+```Dockerfile
+CMD ["executable", "param1", "param2"]
+```
+
+Sample
+
+```Dockerfile
+CMD executable param1 param2
+```
+
+> Is Entrypoint is similar to  CMD, No. Both CMD and Entrypoints are instruction in Docker, for defining the default command to run, when a container starts.
+  > The defference is that CMD is much more flexible and can be overridden when running the container, while Entrypoint defines the main command that cannont be easily overridden.
+  > CMD - Default executable
+  > CMD - Fixed starting point
+
+#### ENTRYPOINT VS CMD
+
+Both ENTRYPOINT and CMD are used to define how a container should run, but they serve distinct purposes and behave differently when combined.
+
+##### ENTRYPOINT
+
+ENTRYPOINT specifies the executabe that the container will run when it starts.
+
+It defines the default command or appliaation for the container, and it's always executed. Arguments passed to the container (via docker run) are appended to the ENTRYPOINT.
+
+FORMAT:
+Exec Form (Prefered):
+ENTRYPOINT ["executable", "param1", "param2"]
+e.g. ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+It can be overidden at runtime with `docker run --entrypoint`.
+
+USE CASE: Best for defining a container's primary purpose (e.g. a web server, a script runner)
+
+##### CMD
+
+CMD provides default arguments or behavior for the contianer. It can be overridden easily with `docker run`
+
+If ENTRYPOINT is set, CMD provides the default arguments to give to it, if no ENTRYPOINT is defined, CMD specifies the executable and its arguments.
+
+FORMAT:
+EXEC FORM: CMD ["executable", "param1", "param2"]
+e.g. CMD ["python", "app.py"]
+
+SHELL FORM: CMD command param1 param2
+e.g. CMD echo "Hello world"
+
+As Default Parameters: CMD ["param1", "param2"] (when used with ENTRYPOINT)
+
+Example:
+
+ENTRYPOINT for Fixed Behavior
+ENTRYPOINT sets the executable and CMD provides it default argument
+
+```Dockerfile
+ENTRYPOINT ["echo", "Hello"]
+CMD ["World"]
+```
+
+Running `docker run myImage`
+output: Hello World
+
+Running `docker run myImage Everyone`
+output: Hello Everyone (CMD is overridden)
+
+Example:
+
+Use CMD for Felxibility
+
+```Dockerfile
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+Running `docker run myImage`
+Starts Nginx
+Running `docker run myImage bash`
+Starts Bash
+
+##### Best Practice
+
+Use ENTRYPOINT to define the container's core purpose(e.g. a specific app or script)
+
+Use CMD to provide default arguments that can be customized at runtime
+
+Prefer exec form ["command", "arg1d"] over chell form for both, as it avoids shell overhead and signal handling issues.
+
+## Practical
+
+### Hello Docker
+
+Create a new file called hello-docker
+
+```sh
+mkdir hello-docker
+cd hello-docker
+```
+
+create an new file called app.js and write a javaScript that logs "Hello, Docker!"
+
+```sh
+echo "console.log('Hello, Docker!')" > hello.js
+```
+
+Create a Docker file
+
+```sh
+FROM node:20-alpine
+WORKDIR /app
+COPY . .
+CMD node hello.js
+```
+
+**To build**:
+
+```Dockerfile
+docker buiid -t hello-docker .
+```
+
+-t stands for tag.
+Tag is option if it is not provided, it defaults to the latest path.
+
+To view images or the newly created images:
+
+```sh
+docker image ls
+```
+
+To Run
+
+```sh
+docker run hello-docker
+```
+
+output: Hello, Docker!
+
+To run docker in shell mode
+
+```sh
+docker run -it hello-docker sh
+```
+
+then run
+
+```sh
+node hello.js
+```
+
+## Dockerizing React Apps
+
+```sh
+npm create vite@latest my-react-docker
+cd my-react-docker
+```
+
+Create a Dockerfile
+
+```Dockerfile
+FROM node:20-alpine
+
+RUN addgroup app && adduser -S -G app app
+
+USER app
+
+WORKDIR /app
+
+COPY pakage*.json .
+
+COPY . .
+
+USER root
+
+RUN chown -R app:app .
+
+USER app
+
+Run npm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD npm run dev
+```
+
+Explanation:
+
+1. FROM node:20-alpine
+   First we need to set the base image
+
+2. Run addgroup app && adduser -S -G app app
+   Here we set permission to protect our app from bad actors or users trying to exploit it.
+
+   -S is used to create a system user
+   -G is used to add the user to a group
+
+   This is done to prevent running the app as a root user. If the app is run as a root user, any vulnerability in the app can be exploited to gain access to the host system.
+
+   It's a good practice to run the app as a non-root user.
+
+3. USER app
+   Set the User to app
+
+4. WORKDIR /app
+   Set working directory to app
+
+5. COPY package*.json .
+   It copies the package.json and package-lock.json to the image.
+   This is done before copying the rest of the files to take advantage of Docker's cache.
+   If the package.json and package-lock.json files haven't changed, Docker will use the cached dependencies
+
+6. USER root
+   Sometimes the ownership of the files in the working directory is changed to roo and thus the app can't access the files and throw an error -> EACCESS: permission denied.
+   To avoid this, change the ownership of the files to the root user
+
+7. RUN chown -R app:app .
+   Change the ownership of the /app directory to the app user
+   `chown -R <user>:<group> <directory>`
+   chown command changes the user and/or group ownership of a given file
+
+8. USER app
+   Change the user back to app
+
+9. Run npm install
+10. COPY . .
+11. EXPOSE 5173
+12. CMD npm run dev
+
+### .dockerignore
+
+To prevent docker from coping certain files or folder, create a file called `.dockerignore`
+
+```.dockerignore
+node_modules/
+```
+
+### To build
+
+```sh
+docker build -t my-react-docker .
+```
+
+### To run
+
+```sh
+docker run my-react-docker
+```
+
+When you run the image, you would realise that server is runing as expected on [https://localhost:5173](https://localhost:5173), but when you open the url on your computer you would realise that you are unable to access URL, this is because of the docker file is running in an isolate environment.
+The port is not accessible from outside the container.
+
+To make our host aware of the server we need to do something called **port mapping**.
+Port mapping is a concept in docker that allows us to map ports between a docker container and a host machine.
+
+```sh
+docker run -p 5173:5173 react-docker
+```
+
+The code above will map the container port to our host machine's port.
+
+But you'd have to update your package.json file to ensure that the add `--host` to `vite` command, so that vite can expose the port.
+
+i.e the inital script
+
+```json
+scripts: {
+  "dev": "vite
+}
+```
+
+Will become
+
+```json
+scripts: {
+  "dev": "vite --host"
+}
+```
+
+Docker automatically updates the image with the new changes, so when you run the docker image the changes will show up.
+
+## More Commands
+
+### View active containers
+
+```sh
+docker ps
+```
+
+### View docker containers and images
+
+```sh
+docker ps -a
+```
+
+### Stop a container
+
+```sh
+docker stop <uid>|<name>
+```
+
+you can use the first 3 characters of the UID, if after runing the command you get the same character as a response.
+
+### Remove all stopped or inactive containers
+
+```sh
+docker container prune
+```
+
+### Remove a specific container by Name or Id
+
+```sh
+docker rm <uid(first 3 characters)>
+```
+
+By default you can't stop a running container but you can forceful remove a container with having to stop the running contain with the `--flag`.
+
+```sh
+docker rm <uid(first 3 characters)> --force
+```
+
+### Auto update image files
+
+Assuming you created an Image for your app, and you'd like to auto update the changes you make in you locally files while running the docker image.
+
+```sh
+docker run -p 5173:5173 -v "${pwd}:/app" -v /app/node_modules react-docker
+```
+
+`"${pwd}:/app"`
+The react-docker folder on the host, was copied to the /app folder in the image, which make them similar or identical.
+So when you map both path while running the image, host chages will be effected in the running container too.
+
+-v stands for volume
+
+-v /app/node_modules - This is done so that any changes in the local host dependencies will trigger a reinstall  when starting the container.
+
+### Publishing your image
+
+Ensure you are logged in
+
+```sh
+docker login -u kore4lyf
+```
+
+Then enter your password.
+
+To publish
+
+```sh
+docker tag react-docker kore4lyf/react-docker
+docker push kore4lyf/react-docker
+```
+
+To run or use image on a new computer
+
+```sh
+docker run kore4lyf/react-docker
+// OR
+docker use kore4lyf/react-docker
+```
+
+## Docker Compose
+
+Docker compose is a tool that allows us to **define** and **manage** multi-container docker applications. 
+It uses a YAML file to configure the services, networks and volumes, enabling us to run and scale the entire applications with a single command.
+With docker compose we don't have to run 10 commands independently/seperatly to run 10 containers.
+
+```sh
+docker compose up
+```
+
+The YAML file can be created manually, but docker also provides us with a CLI that can generate the file `docker init`.
