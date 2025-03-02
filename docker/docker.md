@@ -719,7 +719,7 @@ docker use kore4lyf/react-docker
 
 ## Docker Compose
 
-Docker compose is a tool that allows us to **define** and **manage** multi-container docker applications. 
+Docker compose is a tool that allows us to **define** and **manage** multi-container docker applications.
 It uses a YAML file to configure the services, networks and volumes, enabling us to run and scale the entire applications with a single command.
 With docker compose we don't have to run 10 commands independently/seperatly to run 10 containers.
 
@@ -728,3 +728,215 @@ docker compose up
 ```
 
 The YAML file can be created manually, but docker also provides us with a CLI that can generate the file `docker init`.
+
+### Setting up docker compose
+
+Create a new folder or a new project(Directory)
+Enter the new directory/folder
+then run `docker init`
+
+If you are using docker on windows desktop you'd automatically have access to docker compose, but
+
+If you are running apline or ubuntu, init is not a docker command, it's related to docker compose.
+To install docker compose.
+
+```sh
+apk add docker-cli-compose
+# OR
+apt install docker-cli-compose
+```
+
+To test
+
+```sh
+docker compose version
+```
+
+Then try running
+
+```sh
+# Windows
+docker init
+# OR
+# Linux
+docker compose init
+```
+
+when you run the `docker init` command, you will be asked some question so that docker compose can generate the proper files and instruction for you, based on your preference.
+
+4 files would be created for you:
+
+1. .dockerignore
+2. compose.yaml
+3. Dockerfile
+4. README.Docker.md
+
+**.dockerignore**:
+
+```.dockerignore
+# Include any files or directories that you don't want to be copied to your
+# container here (e.g., local build artifacts, temporary files, etc.).
+#
+# For more help, visit the .dockerignore file reference guide at
+# https://docs.docker.com/go/build-context-dockerignore/
+
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/.next
+**/.cache
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/charts
+**/docker-compose*
+**/compose.y*ml
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+**/build
+**/dist
+LICENSE
+README.md
+```
+
+**compose.yaml**:
+
+```yaml
+services:
+  server:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 5173:5173
+    volume:
+      - .:/app
+      - /app/node_modules
+```
+
+**Dockerfile**:
+You can replace the content of the docker file with the one we use in the React project.
+
+```Dockerfile
+FROM node:20-alpine
+
+RUN addgroup app && adduser -S -G app app
+
+USER app
+
+WORKDIR /app
+
+COPY pakage*.json .
+
+COPY . .
+
+USER root
+
+RUN chown -R app:app .
+
+USER app
+
+Run npm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD npm run dev
+```
+
+To run or create your docker image, run the command below
+
+```sh
+docker compose up
+```
+
+If you are running the command on windows and you get and error message saying permission denied.
+Close command prompt or VScode and open them again as an administrator.
+
+If you are running on linux you can use the command `sudo docker compose up`
+
+So far What we done is great, the changes in a local directory update in the image, when ever it detects it, and every time we try to run our container and it detects some changes in the `.node_module` it automatically updates it's own `.node_module`.
+But this isn't that optimal for DX, every time we make a change to the package file we have to rerun the container.
+It don't make changes automatically, when a change is made to the package file (in the host machine) or when we think it needs to rebuild the image.
+
+### Docker compose watch
+
+`docker compose watch` listens to changes and
+
+- Rebuild our app
+- Re-running the container
+
+it's a feature that automatically update our container as we work.
+
+With docker compose watch, we can do 3 main things
+
+1. **Sync** - Moves changed files from the host machine to the right directory in the container (making sure that everything stays uptodate).
+2. **Rebuild** - The rebuild process **starts** with the creation of new container images and then it updates the services.
+This is beneficial when rolling out changes to applications in production. Garanteeing the most recent version of the code is in operation.
+3. **Sync-restart** - This merges the sync and restart processes, it begins by syncing modifications from the host files system to the container paths, then restarting the container.
+This is important during the development and testing of applications.
+
+## Docker on a fullstack app (MERN)
+
+structure:
+|- app/
+  |- compose.yaml
+  |
+  |- frontend/
+  |  |- Dockerfile
+  |  |- other files
+  |
+  |- backend/
+     |- Dockerfile
+     |- other files
+
+**compose.yaml**:
+The yaml runs 3 different services.
+
+1. web
+2. api
+3. db
+
+```yaml
+version "3.8"
+
+services:
+  web:
+
+  api:
+
+  db:
+
+volumes:
+  anime:
+
+```
+
+`version "3.8"` - First we specified the version of docker compose you are using
+
+`services:` - Define the services/containers to be run
+
+`web:` - Any name can be use other than web, but using web is a standard naming convention for frontend.
+
+`api` - service for the the api container
+
+`db` -Service for the db container
+
+`volumes:` We define the volumes to be used by the services
+
+`anime:` - is a new volume name anime
+
+`depends_on:` - this command is use to specify that a services depends on another service 
