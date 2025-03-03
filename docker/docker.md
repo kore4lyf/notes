@@ -915,10 +915,57 @@ version "3.8"
 
 services:
   web:
+    depends_on:
+      - api
+
+    build: ./frontend
+
+    ports:
+      - 5173:5173
+
+    environment:
+      VITE_API_URL: http://localhost:8080
+
+   develop:
+     watch:
+       - path: ./frontend/package.json
+         action: rebuild
+       - path: ./frontend/package-lock.json
+         action: rebuild
+       - path: ./frontend
+         target: /app
+         action: sync
 
   api:
+    depends_on:
+      - db
+
+    build: ./backend
+
+    ports:
+      - 8000:8000
+
+    environment:
+      DB_URL: mongodb://db/anime
+
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend/package-lock.json
+          action: rebuild
+        - path: ./backend
+          target: /app
+          action: sync
 
   db:
+    image: mongo:latest
+    
+    ports:
+      - 27017:27017
+
+    volumes:
+      anime:/data/db
 
 volumes:
   anime:
@@ -939,4 +986,169 @@ volumes:
 
 `anime:` - is a new volume name anime
 
-`depends_on:` - this command is use to specify that a services depends on another service 
+**WEB SERVICE**:
+
+```js
+  web:
+    depends_on:
+      - api
+
+    build: ./frontend
+
+    ports:
+      - 5173:5173
+
+    environment:
+      VITE_API_URL: http://localhost:8080
+
+   develop:
+     watch:
+       - path: ./frontend/package.json
+         action: rebuild
+       - path: ./frontend/package-lock.json
+         action: rebuild
+       - path: ./frontend
+         target: /app
+         action: sync
+```
+
+`depends_on:` - this command is used to specify that a services depends on another service.
+first we specify that the web depends on the api service. This simply means that the api will be started before the web service.
+
+`build: ./frontend` - it specifies the build context for the web service. This is the directory where the Dockerfile for the web service is located.
+
+`ports:`
+  `- 5173:5173`
+Here we specify the ports to expose for the web service.
+The first number is the port on the host machine, the second number is the port inside the container
+
+`environment:`
+  `VITE_API_URL: http://localhost:8080`
+Environment variable was added
+
+`develop:` - Anything mentioned under the develop will be watched for changes by docker compose watch and it will perform the action(s) mentioned.
+
+```js
+develop:
+   watch:
+      - path: ./frontend/package.json
+        action: rebuild
+      - path: ./frontend/package-lock.json
+        action: rebuild
+      - path: ./frontend
+        target: /app
+        action: sync
+```
+
+path specifies the path to watch for changes.
+When ever there is a change in package.json or package-lock.json, it will trigger/require the container to be rebuilt.
+
+We also want to list to the changes in the frontend directory and listen for the sync the app directory.
+
+**DB** (Database):
+
+```js
+  db:
+    image: mongo:latest
+    
+    ports:
+      - 27017:27017
+      
+    volumes:
+      anime:/data/db
+```
+
+`db:`
+  `image: mongo:latest`
+
+Here we specify the image we want to use for the db service from docker hub.
+
+`volumes:`
+  `- anime: /data/db`
+
+We are mounting the volume name "anime" inside the container at /data/db directory, this is done so that inside the mongodb container is persisted even if the container is stopped.
+
+Use
+
+```sh
+sudo docker compose up
+```
+
+to create image and run a container from the image
+
+To make sure that local changes are tracked, run
+
+```sh
+sudo docker compose watch
+```
+
+## Dockerizing fullstack Next.js app
+
+in you project folder, run
+
+```sh
+docker init
+```
+
+Modify the Dockerfile
+
+```Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD npm run dev
+```
+
+Modify your compose.yaml file
+
+```yaml
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./next.config.js
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: .
+          target: /app
+          action: sync
+    environment:
+      - DB_URL=mongodb+srv://sujaljasljlasjflaksdfksdf.mongodb.net/
+
+volume:
+  taskeddb:
+```
+
+If want to run your database locally, you'd have to create a seperate service for that and run an image for it.
+
+## DOCKER SCOUT: Docker has a new secrity feature.
+
+When images are created for your applications, you are consistently stacking layers of images and software components. However, some of this layers or components might have vulnerabilities, making our containers and their applications succeptible to attacks.
+
+DOCKER SCOUT, is a tool from docker that allow us to be pro-active about security. It scans your container images, looks at all the layers and creates a detailed list called a Software Bill of Materials (SBOM) (This list includes everything your container is made of). Then docker scout checks the list against an always updated database of no vulnerabilities.
+
+Docker scout can be used in different places like:
+
+- Docker Desktop
+- Docker Hub
+- Docker CLI
+
