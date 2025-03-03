@@ -443,6 +443,561 @@ Use CMD to provide default arguments that can be customized at runtime
 
 Prefer exec form ["command", "arg1d"] over chell form for both, as it avoids shell overhead and signal handling issues.
 
+## Commands
+
+### Docker Image
+
+#### Build an image from a docker file
+
+```sh
+docker build -t image_name path_to_dockerfile
+
+# Example
+docker build -t myapp .
+```
+
+#### List all local image
+
+```sh
+docker image ls
+```
+
+#### Pull an image from Docker Hub
+
+```sh
+docker pull image_name:tag
+
+# Example
+docker pull nginx:latest
+```
+
+#### Remove a local image
+
+```sh
+docker rmi image_name:tag
+
+# Example
+docker rmi nginx:latest
+```
+
+or
+
+```sh
+docker rm [image_name/image_id]
+
+# Example
+docker rm fd84f19954f
+```
+
+#### Tag an image
+
+```sh
+docker tag source_image:tag new_image:tag
+
+# Example
+docker tag myapp:latest myapp:v1
+```
+
+#### Push an image to Docker Hub
+
+```sh
+docker push image_name:tag
+
+# Example
+docker push myapp:v1
+```
+
+#### Inspect details of an Image
+
+```sh
+docker image inspect image_name:tag
+
+# Example
+docker image inspect myapp:v1
+```
+
+#### Save an image to a tar archive
+
+```sh
+docker save -o image_name.tar image_name:tag
+
+# Example
+docker save -o myapp.tar myapp:v1
+```
+
+#### Load an image from a tar archive
+
+```sh
+docker load -i image_name.tar
+
+# Example
+docker load -i image_name.tar
+```
+
+#### Prune unused images
+
+```sh
+docker image prune
+```
+
+### Docker Container
+
+#### Run a container from an image
+
+```sh
+docker run image_name
+
+# Example
+docker run ubuntu
+```
+
+#### Run a named container from an image
+
+```sh
+docker run --name container_name image_name
+
+# Example
+docker run --name my_container myapp:v1
+```
+
+#### List all running containers
+
+```sh
+docker ps
+```
+
+#### List all containers (including stopped ones)
+
+```sh
+docker ps -a
+```
+
+#### Stop a running container
+
+```sh
+docker stop container_name_or_id
+
+# Example
+docker stop my_container
+```
+
+#### Start a stopped container
+
+```sh
+docker start container_name_or_id
+
+# Example
+docker start my_container
+```
+
+#### Run container in interactive mode
+
+```sh
+docker run -it container_name_or_id
+
+# Example
+docker run -it my_container
+```
+
+#### Run container in interactive shell mode
+
+```sh
+docker run -it container_name_or_id sh
+
+# Example
+docker run -it my_container sh
+```
+
+#### Remove a stopped container
+
+```sh
+docker rm container_name_or_id
+
+# Example
+docker rm my_container
+```
+
+#### Remove a running container (forcefully)
+
+```sh
+docker rm -f container_name_or_id
+
+# Example
+docker rm -f my_container
+```
+
+#### Inspect details of a container
+
+```sh
+docker inspect container_name_or_id
+
+# Example
+docker inspect container
+```
+
+#### View container logs
+
+```sh
+docker logs container_name_or_id
+
+# Example
+docker logs container_name_or_id
+```
+
+#### Pause a running container
+
+```sh
+docker pause container_name_or_id
+
+# Example
+docker pause my_container
+```
+
+#### Unpause a paused container
+
+```sh
+docker unpause container_name_or_id
+
+# Example
+docker unpause my_container
+```
+
+### Docker Volumes and Network
+
+- **Create a named volume:**
+
+    `docker volume create volume_name`
+
+    **EXAMPLE**:
+
+    `docker volume create my_volume`
+
+- **List all volumes:**
+
+    `docker volume ls`
+
+- **Inspect details of a volume:**
+
+    `docker volume inspect volume_name`
+
+    **EXAMPLE**:
+
+    `docker volume inspect my_volume`
+
+- **Remove a volume:**
+
+    `docker volume rm volume_name`
+
+    **EXAMPLE**:
+
+    `docker volume rm my_volume`
+
+- **Run a container with a volume (mount):**
+
+    `docker run --name container_name -v volume_name:/path/in/container image_name:tag`
+
+    **EXAMPLE**:
+
+    `docker run --name my_container -v my_volume:/app/data my-app:v1`
+
+- **Copy files between a container and a volume:**
+
+    `docker cp local_file_or_directory container_name:/path/in/container`
+
+    **EXAMPLE**:
+
+    `docker cp data.txt my_container:/app/data`
+
+- **Run a container with port mapping:**
+
+    `docker run --name container_name -p host_port:container_port image_name`
+
+    **EXAMPLE**:
+
+    `docker run --name my_container -p 8080:80 my-app`
+
+- **List all networks:**
+
+    `docker network ls`
+
+- **Inspect details of a network:**
+
+    `docker network inspect network_name`
+
+    **EXAMPLE**:
+
+    `docker network inspect bridge`
+
+- **Create a user-defined bridge network:**
+
+    `docker network create network_name`
+
+    **EXAMPLE**:
+
+    `docker network create my_network`
+
+- **Connect a container to a network:**
+
+    `docker network connect network_name container_name`
+
+    **EXAMPLE**:
+
+    `docker network connect my_network my_container`
+
+- **Disconnect a container from a network:**
+
+    `docker network disconnect network_name container_name`
+
+    **EXAMPLE**:
+
+    `docker network disconnect my_network my_container`
+
+### Docker Compose
+
+- **Create and start containers defined in a `docker-compose.yml` file:**
+
+`docker-compose up`
+
+This command reads the `docker-compose.yml` file and starts the defined services in the background.
+
+- **Stop and remove containers defined in a `docker-compose.yml` file:**
+
+`docker-compose down`
+
+This command stops & removes the containers, networks, and volumes defined in the `docker-compose.yml` file.
+
+- **Build or rebuild services:**
+
+`docker-compose build`
+
+This command builds or rebuilds the Docker images for the services defined in the `docker-compose.yml` file.
+
+- **List containers for a specific Docker Compose project:**
+
+`docker-compose ps`
+
+This command lists the containers for the services defined in the `docker-compose.yml` file.
+
+- **View logs for services:**
+
+`docker-compose logs`
+
+This command shows the logs for all services defined in the `docker-compose.yml` file.
+
+- **Scale services to a specific number of containers:**
+
+`docker-compose up -d --scale service_name=number_of_containers`
+
+**EXAMPLE**:
+
+`docker-compose up -d --scale web=3`
+
+- **Run a one-time command in a service:**
+
+`docker-compose run service_name command`
+
+**EXAMPLE**:
+
+`docker-compose run web npm install`
+
+- **List all volumes:**
+
+`docker volume ls`
+
+Docker Compose creates volumes
+
+- **List all networks:**
+
+`docker network ls`
+
+Docker Compose creates networks, and this command lists them.
+
+- **Inspect details of a network:**
+
+`docker network inspect network_name`
+
+**EXAMPLE**:
+
+`docker network inspect my_network`
+
+- **Connect a container to a network:**
+
+`docker network connect network_name container_name`
+
+**EXAMPLE**:
+
+`docker network connect my_network my_container`
+
+- **Disconnect a container from a network:**
+
+`docker network disconnect network_name container_name`
+
+**EXAMPLE**:
+
+`docker network disconnect my_network my_container`
+
+#### Docker Compose Example
+
+Here's an example of a `docker-compose.yml` file:
+
+```yaml
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:
+```
+
+#### Docker Compose Use Case
+
+Let's consider a practical use case: a MERN (MongoDB, Express.js, React.js, Node.js) stack application.
+
+**1. Dockerfile (API Service)**:
+
+```dockerfile
+FROM node:16
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD ["npm", "start"]
+```
+
+**2. Dockerfile (Client Service)**:
+
+```dockerfile
+FROM node:16
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+**3. docker-compose.yml**:
+
+```yaml
+version: "3.8"
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: mongodb://admin:admin@mongo:27017/mydatabase
+    depends_on:
+      - mongo
+    networks:
+      - mern_network
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - mern_network
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mern_network
+volumes:
+  mongo_data:
+networks:
+  mern_network:
+```
+
+**Explanation:**:
+
+- **Services:** Define the services (api, client, mongo).
+- **Build:** Specifies the build context and Dockerfile.
+- **Ports:** Maps host ports to container ports.
+- **Environment:** Sets environment variables.
+- **Depends_on:** Ensures services start in the correct order.
+- **Volumes:** Manages persistent data.
+- **Networks:** Creates a custom network for communication.
+
+**4. Docker Compose File Example**:
+
+```yaml
+version: "3.8"
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - mern_network
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: mongodb://admin:admin@mongo:27017/mydatabase
+    depends_on:
+      - mongo
+    networks:
+      - mern_network
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - mern_network
+volumes:
+  mongo_data:
+networks:
+  mern_network:
+```
+
+**5. Docker Compose File Example (Continued)**:
+
+```yaml
+# Ensure the API service is running before starting the client
+    depends_on:
+      - api
+# Define named volumes for persistent data
+volumes:
+  mongo_data:
+# Define a custom network for communication between services
+networks:
+  mern_network:
+```
+
 ## Practical
 
 ### Hello Docker
