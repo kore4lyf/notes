@@ -251,20 +251,20 @@ contract("Adoption", (accounts) => {
       instance = await Adoption.deployed();
     })
 
-    it("", async () => {
-      await instance.adopt.sendTransaction(8, {from: account[0]})
+    it("It should adopt a pet", async () => {
+      await instance.adopt(8, {from: account[0]})
       let adopter = await instance.adopter.call(8)
       assert.equal(adopter, accounts[0], "Incorrect owner address")
     })
 
     it("Should get adopter address by id in array", async () => {
-      let adopter = await instance.getAdopters.call()
+      let adopter = await instance.getAdopters())
       assert.equal(adopters[8], accounts[0], "Owner of pet Id should be recorded in the array")
     })
 
     it("Should throw if invalid pet id is given", async () => {
       try {
-        await instance.adopt.sendtransaction(17, {from: account[0]})
+        await instance.adopt(17, {from: account[0]})
         asset.fail(true, false, "This function did not throw")
       } catch(error) {
         // Checks if the error contains the keyword "revert"
@@ -275,8 +275,6 @@ contract("Adoption", (accounts) => {
   })
 })
 ```
-
-NB: **call()** is usually used for getter functions. When you are run functions that modify the state of the contract, use the **sendTransaction()** function.
 
 ## Truffle Console & Truffle Develop
 

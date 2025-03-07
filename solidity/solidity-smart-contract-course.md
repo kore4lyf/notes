@@ -1033,6 +1033,24 @@ contract SmartExchange {
 }
 ```
 
+## ERC20 Token Standard Interface
+
+ERC20 is an interface of a smart contract that defines how a token should look like, which include uimplemented functions and events that an ERC20 token must have. 
+
+```sol
+contract ERC20Interface {
+  function totalSupply() public constant returns (uint);
+  function balanceOf(address tokenOwner) public constant returns(uint balance);
+  function allowance(address tokenOwner, address spender) public constant returns (uint remaining);
+  function transfer(address to, uint tokens) public returns (bool success);
+  function approve(address spender, uint tokens) public returns (bool success);
+  function transferFrom(address from, address to, uint token) public returns (bool success);
+
+  event Transfer(address indexed from, address indexed to, uint tokens);
+  event Approval(address indexed tokenOwner, address indexed spender, uint tokens); 
+}
+```
+
 ## Other findings
 
 ### Facts

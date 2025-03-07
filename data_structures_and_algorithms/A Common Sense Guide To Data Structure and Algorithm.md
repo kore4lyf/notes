@@ -1,141 +1,153 @@
 # Data Structure and algorithm
-> Big O notation is used to express the time complexity of code.
 
-> Big O: For N values of data provided to an algorithm, how many steps would the algorithm take in a worst-case scenario?
+Big O notation is used to express the time complexity of code.
+
+Big O: For N values of data provided to an algorithm, how many steps would the algorithm take in a worst-case scenario?
 
 ## CHAPTER 1: Why Data Structures Matter
+
 ### Array
+
 - It takes one step to READ data from an array.
-- Linear SEARCH will take a maximum of N steps. The computer also have to search every cell so it can be sure that the value doesn’t exist within the array.
-- Adding a new data to the end if an array takes just one step.
+- Linear SEARCH will take a maximum of N steps. Linear search involves searching the entire array (where N is the size of the array.)
+- Appending a new data to the end of an array, only takes just one step.
 - Inserting a new piece of data at the beginning or the middle of an array, however, is a different story. In these cases, we need to shift many pieces of data to make room for what we’re inserting, leading to additional steps.
 - The worst-case scenario for insertion into an array—that is, the scenario in which insertion takes the most steps—is where we insert data at the beginning of the array.
-We can say that insertion in a worst-case scenario can take up to N + 1 steps for an array containing N elements. 
+We can say that insertion in a worst-case scenario can take up to N + 1 steps for an array containing N elements.
 N shifts (every data element of the array) and one insertion.
 - Deletion is a little bit similar to insertion. When it comes to deletion, the actual deletion itself is really just one step, but we need to follow up with additional steps of shifting data to the left to close the gap caused by the deletion.
 - For an array containing N elements, the maximum number of steps that deletion would take is N steps.
 
-
 ### Set (How a Single Rule Can Affect Efficiency)
+
 - set is an array with one additional constraint of
 barring duplicates.
 - Sets are useful when you need to ensure that you don’t have duplicate data.
 For instance, if you’re creating an online phone book, you don’t want the same phone number appearing twice.
 - READ: It takes just one step for the computer to look up what’s contained within a particular index.
 - SEARCH: It takes up to N steps to search for a value within a set.
-- INSERT: The computer first needs to determine that this value doesn’t already exist in the set (Which requires Searching). 
+- INSERT: The computer first needs to determine that this value doesn’t already exist in the set (Which requires Searching).
 Insertion into the end of a set will take up to N + 1 steps
 for N elements.
 In the worst-case scenario, where we’re inserting a value at the beginning of a set, the computer needs to search N cells to ensure that the set doesn’t already contain that value, another N steps to shift all the data to the right, and another final step to insert the new value. That’s a total of 2N + 1 steps.
 - DELETE: Deletion itself takes one step. The maximum steps deletion takes is N steps.
 
-
 ### Exercises
+
 1. For an array containing 100 elements, provide the number of steps the following operations would take:
-a. Reading
-answer = 1 step
+    a. Reading
+    answer = 1 step
 
-b. Searching for a value not contained within the array
-answer = 100 steps
+    b. Searching for a value not contained within the array
+    answer = 100 steps
 
-c. Insertion at the beginning of the array
-answer = 101 steps
+    c. Insertion at the beginning of the array
+    answer = 101 steps
 
-d. Insertion at the end of the array
-answer = 1 step
+    d. Insertion at the end of the array
+    answer = 1 step
 
-e. Deletion at the beginning of the array
-answer = 100 steps
+    e. Deletion at the beginning of the array
+    answer = 100 steps
 
-f. Deletion at the end of the array
-answer = 1 step
-
+    f. Deletion at the end of the array
+    answer = 1 step
 
 2. For an array-based set containing 100 elements, provide the number of steps the following operations would take:
-a. Reading
-answer = 1 step
+    a. Reading
+    answer = 1 step
 
-b. Searching for a value not contained within the array
-answer = 100 steps
+    b. Searching for a value not contained within the array
+    answer = 100 steps
 
-c. Insertion of a new value at the beginning of the set
-answer = 201 steps
+    c. Insertion of a new value at the beginning of the set
+    answer = 101 steps
 
-d. Insertion of a new value at the end of the set
-answer = 101 steps
+    d. Insertion of a new value at the end of the set
+    answer = 101 steps
 
-e. Deletion at the beginning of the set
-answer = 100 steps
+    e. Deletion at the beginning of the set
+    answer = 100 steps
 
-f. Deletion at the end of the set
-answer = 1 step
+    f. Deletion at the end of the set
+    answer = 1 step
 
-
-3. Normally the search operation in an array looks for the first instance of a given value. But sometimes we may want to look for every instance of a given value. 
+3. Normally the search operation in an array looks for the first instance of a given value. But sometimes we may want to look for every instance of a given value.
 For example, say we want to count how many times the value “apple” is found inside an array. How many steps would it take to find all the “apples”? Give your answer in terms of N.
 answer = N steps
 
-
-
 ## CHAPTER 2: Why Algorithms Matter
+
 As a software engineer you should be able to write quality code. There can be two snippets of code that both accomplish the same task, but one snippet may be better than the other.
 
-There are numerous measures of code quality. One important measure is **code maintainability**. 
+There are numerous measures of code quality. One important measure is **code maintainability**.
 Maintainability of code involves aspects such as the
 **readability**, **organization**, and **modularity** of one’s code.
-However, there’s another aspect of high-quality code, and that is **code efficiency**. 
+However, there’s another aspect of high-quality code, and that is **code efficiency**.
 For example, you can have two code snippets that both achieve the same goal, but one runs faster than the other.
 
 ### ORDERED ARRAYS
+
 The ordered array is almost identical to the “classic” array. The only difference is that ordered arrays require that the values are always kept in order.
-- If our value ends up toward the beginning of the ordered array, we'd have fewer comparisons and more shifts. 
-- If our value ends up toward the end, we get more comparisons but fewer shifts. The fewest steps occur when the new value winds up at the very end, since no shifts are necessary. 
+
+- If our value ends up toward the beginning of the ordered array, we'd have fewer comparisons and more shifts.
+- If our value ends up toward the end, we get more comparisons but fewer shifts. The fewest steps occur when the new value winds up at the very end, since no shifts are necessary.
 
 > While insertion is less efficient for an ordered array than for a classic array, the ordered array has a secret superpower when it comes to searching.
 
 #### Searching an Ordered Array
-LINEAR SEARCH - Searching each cell from left to right until we find the valie we arelooking for.
+
+LINEAR SEARCH - Searching each cell from left to right until we find the value we are looking for.
+
 - With an ordered array, however, we can stop a search early even if the value isn’t contained within the array (This is impossible in a classic array).
 - The search stops as soon as the element it’s iterating over is greater than the search_value.
 - The big advantage of an ordered array over a classic array is that an ordered array allows for an alternative searching algorithm. This algorithm is known as **binary search**, and it is a much, much faster algorithm than linear search.
-- With ordered arrays of a small size, the algorithm of binary search doesn’t have much of an advantage over linear search unless array is large.
+- **With ordered arrays of a small size, the algorithm of binary search doesn’t have much of an advantage over linear search unless array is large.**
 - With an array containing 100 values, here are the maximum number of steps each type of search would take:
 • Linear search: 100 steps
 • Binary search: 7 steps
 If data was doubled in binary search, it would only cost one more step (i.e Array of 200 values will cost 8 steps, 400 values will cost 9 steps).
 
-
 #### Code Implementation: Binary Search
 
-Here’s an implementation of binary search in Ruby:
-```ruby
-def binary_search(array, search_value)
-    lower_bound = 0
-    upper_bound = array.length - 1
-    while lower_bound <= upper_bound do
-        midpoint = (upper_bound + lower_bound) / 2
-        value_at_midpoint = array[midpoint]
-        if search_value == value_at_midpoint
-            return midpoint
-        elsif search_value < value_at_midpoint
-            upper_bound = midpoint - 1
-        elsif search_value > value_at_midpoint
-            lower_bound = midpoint + 1
-        end
-    end
-    return nil
-end
+Here’s an implementation of binary search in JavaScript:
+
+```js
+// Binary Search
+
+const binarySearch = (array, searchValue) => {
+  let lowerBound = 0
+  let upperBound = array.length - 1
+
+  while(lowerBound <= upperBound) { // using = here ensure that it will be able to search for the last element in the array.
+    
+    const midPoint = Math.floor((lowerBound + upperBound) / 2)
+
+    const valueFound = array[midPoint]
+
+    if(valueFound === searchValue) return midPoint
+
+    if(searchValue > valueFound) lowerBound = midPoint + 1 // +1 shifts the lowBound away from the range that has been checked
+    else if (searchValue < valueFound) upperBound = midPoint - 1
+  }
+
+  return null
+}
 ```
 
+0 + 9 = 9/2 = 4.5 = 4
+
+5 + 9 = 14/2 = 7
 
 ## Chapter 3: Big O Notation
-- we can’t simply label one algorithm a “22-step algorithm” and another a “400-step algorithm.” This is because the number of steps an algorithm takes cannot be pinned down to a single number. 
+
+- we can’t simply label one algorithm a “22-step algorithm” and another a “400-step algorithm.” This is because the number of steps an algorithm takes cannot be pinned down to a single number.
 - To help ease communication regarding time complexity, computer scientists have borrowed a concept from the world of mathematics to describe a concise and consistent language around the efficiency of data structures and algorithms. Known as Big O Notation, this formalized expression of these concepts allows us to easily categorize the efficiency of a given algorithm and convey it to others.
 - In a worst-case scenario, linear search will take as many steps as there are elements in the array. As we’ve previously phrased it: for N elements in the array, linear search can take up to N steps. The appropriate way to express this in Big O Notation is: O(N)
 Some pronounce this as “Big Oh of N.” Others call it “Order of N.” My personal preference, however, is “Oh of N.”
 - Linear search will take N steps, we express this as O(N).
 
->  An algorithm that is O(N) is also known as having linear time.
+> An algorithm that is O(N) is also known as having linear time.
 
 - Reading from an array takes just one step. So, we express this as O(1), which I pronounce “Oh of 1”.
 Big O is an answer to that key question on your forehead: if there are N data elements, how many steps will the algorithm take?
@@ -143,7 +155,7 @@ Big O is an answer to that key question on your forehead: if there are N data el
 - Let’s say we have an algorithm that always takes three steps no matter how much data there is. That is, for N elements, the algorithm always takes three steps. How would you express that in terms of Big O?
 Based on everything you’ve learned up to this point, you’d probably say that it’s O(3).
 
-However, it’s actually O(1). 
+However, it’s actually O(1).
 
 > what Big O is truly concerned about: how will an algorithm’s performance change as the data increases?
 
@@ -152,13 +164,15 @@ However, it’s actually O(1).
 As long as the algorithm with 100 steps stops increasing at a certain point, it is considered to be an O(1) algorithm, which is considered to be better than an O(N) algorithm.
 The same is true even for an O(1) algorithm that always takes one million steps. As the data increases, there will inevitably reach a point at which O(N) becomes less efficient than the O(1) algorithm, and will remain so up toward an infinite amount of data.
 
-#### Same Algorithm, Different Scenarios
+### Same Algorithm, Different Scenarios
+
 - Linear search isn’t always O(N). If we were to describe the efficiency of linear search in its totality, we’d say that linear search is O(1) in a best-case scenario (when the item we’re searching for is found in the first cell of the array), and O(N) in a worst-case scenario (If the item we’re looking for is in the final cell of the array).
 - While Big O effectively describes both the best- and worst-case scenarios of a given algorithm, Big O Notation generally refers to the worst-case scenario unless specified otherwise. This is why most references will describe linear search as being O(N) even though it can be O(1) in a best-case scenario. 
 
 This is because a “pessimistic” approach can be a useful tool.
 
 #### An Algorithm of the Third Kind
+
 - Let’s now look at how to describe binary search in terms of Big O Notation. We can’t describe binary search as being O(1), because the number of steps increases as the data increases. It also doesn’t fit into the category of O(N).
 - In Big O terms, we describe binary search as having a time complexity of: O(log N). 
 

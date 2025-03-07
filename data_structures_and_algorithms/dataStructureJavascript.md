@@ -11,6 +11,8 @@ In JavaScript, an array already has all the function needed for a  stack
 Example:
 **Palindrome** - a word that remain the same when it re-arranged in reverse order.
 
+The optimal Palindrome definition - a word where it's opposite indexes are equal.
+
 ```js
 let letters = [] // stack
 
@@ -58,24 +60,26 @@ reversedWord is the same length as input. Therefore result takes O(n) space
 **Optimized Solution**: Two-Pointer Technique
 
 ```js
-const WORD = "raceCar"
+// Palindrome
 
-function isPalindrome(word) {
-  let left = 0
-  let right = word.length - 1
+const isPalindrome =(word) => {
+  let upperBound = word.length - 1
+  let lowerBound = 0
 
-  while (left <= right) {
-    if (word[left] !== word[right]) {
-      return false
-    }
+  while(lowerBound !== upperBound ) {
+    const leftCharacter = word[lowerBound]
+    const rightCharacter = word[upperBound]
+        
+    if(leftCharacter !== rightCharacter) return false
 
-    console.log("Left: ", left);
-    console.log("Right: ", right);
+    upperBound--
+    lowerBound++
   }
+  return true
 }
 
-console.log(`${reversedWord} is ${isPalindrom(WORD) ? "a palindrome" : "not a palindrome"}`)
-// "racecar is a palindrome"
+console.log(isPalindrome("racecar")) // True
+console.log(isPalindrome("bike")) // False
 ```
 
 Time Complexity: O(n/2)
@@ -83,3 +87,29 @@ We check only half of the string.
 
 Space Complexity: O(1)
 no new strings beyond the input
+
+## Binary Search
+
+```js
+// Binary Search
+
+const binarySearch = (array, searchValue) => {
+  let lowerBound = 0
+  let upperBound = array.length - 1
+
+  while(lowerBound <= upperBound) { // using = here ensure that it will be able to search for the last element in the array.
+    
+    const midPoint = Math.floor((lowerBound + upperBound) / 2)
+
+    const valueFound = array[midPoint]
+
+    if(valueFound === searchValue) return midPoint
+
+    if(searchValue > valueFound) lowerBound = midPoint + 1 // +1 shifts the lowBound away from the range that has been checked
+    else if (searchValue < valueFound) upperBound = midPoint - 1
+
+  }
+
+  return null
+}
+```
