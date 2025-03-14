@@ -1,6 +1,7 @@
-# OOP 
+# OOP
 
 ## Theory
+
 1. **Class**: A class is a blueprint for creating objects. It defines the properties (attributes) and behaviors (methods) that objects of that class will have.
 
 2. **Object**: An object is an instance of a class. It represents a specific instance of the class, with its own set of values for the properties defined by the class.
@@ -21,10 +22,8 @@
 
 10. **Instance Variable**: An instance variable is a variable declared within a class but outside of any method. Each instance of the class (object) has its own copy of the instance variables.
 
+## Code
 
-
-
-## Code 
 ```typescript
 // Class definition
 class Animal {
@@ -68,6 +67,7 @@ dog.makeSound(); // Output: Buddy barks
 ```
 
 Explanation:
+
 1. **Class**: We define two classes, `Animal` and `Dog`, representing animals and dogs respectively.
 
 2. **Object**: We create objects `animal` and `dog` using the `new` keyword followed by the class name.

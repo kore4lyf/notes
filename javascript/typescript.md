@@ -1,16 +1,94 @@
-# Typescript 
+# Typescript
 
-## What is Typescript 
+## What is Typescript
+
 Is a superset of JavaScript.
 
 Typescript can't be executed on the browser.
 
-Typescript compiler compiles Typescript to JavaScript. 
+Typescript compiler compiles Typescript to JavaScript.
 
-TypesScript allow the usage of types. 
+TypesScript allow the usage of types.
 
+## Initialize a Typescript Project
 
-## Core Types 
+Install TypeScript
+
+```sh
+npm install --save-dev typescript
+```
+
+Initialize a Typescript project
+
+```sh
+npx tsc --init
+```
+
+This will generate a `tsconfig.json` file with default settings.
+
+To run all typescript files
+
+```sh
+tsc
+```
+
+To watch and auto compile specific files:
+
+```sh
+tsc app.ts -w
+
+# OR
+
+tsc app.ts --watch
+```
+
+To watch all files in a directory
+
+```sh
+tsc -w
+
+# OR
+
+tsc --watch
+```
+
+Another method of interacting with Typescript:
+
+```sh
+npm init -y
+```
+
+package.json
+add the line of script
+
+```sh
+{
+  "scripts": {
+    "tsc": "tsc"
+  }
+}
+```
+
+Create a typescript file e.g. `app.ts`.
+
+To run Typescript
+
+```sh
+npm run tsc # to execute all tsc file in the folder
+
+# OR
+
+tsc app.ts # to transpile a specific Typescript file
+```
+
+To run generated app.js
+
+```sh
+node app.js
+```
+
+## Core Types
+  
 Always specify types because it make your code readable
 
 1. number e.g. 1, 5.3, -1  (inters and float)
@@ -22,27 +100,29 @@ Always specify types because it make your code readable
 7. Enum {NEW, OLD}
 8. Any (any data type)
 
+**Others**:
 
-**Others**
-- undefined 
-- void 
+- undefined
+- void
 - Function
-- unknown 
+- unknown
 - never
 - null
-- Custom types 
+- Custom types
 
+**Array Types**:
 
-**Array Types**
 ```ts
 let favouriteActivites: any[];
 // using any defeats all the good that TS brings to the table 
 ```
-string[] - array of strings 
-number[] 
+
+string[] - array of strings
+number[]
 boolean[]
 
 ARRAY OF ARRAY
+
 ```ts
 const listOfList: number[][]
 
@@ -52,8 +132,9 @@ const listOfList: <Array<Array<Any>>>
 const listOfList: <Array<Array<{z:int, w:string, r:Time}>>>
 ```
 
-**Typed object**
+**Typed object**:
 One doesn't have to necessarily declare a typed object like this for simple data type
+
 ```ts
 const person: {
   name: string;
@@ -64,13 +145,15 @@ const person: {
 }
 ```
 
-**Tuple**
-```ts 
-const roles: [number, string] = [1, 'one'];
-``` 
+**Tuple**:
 
-**Enum**
+```ts
+const roles: [number, string] = [1, 'one'];
+```
+
+**Enum**:
 Instead of doing something like this:
+
 ```ts
 const ADMIN:  number = 0;
 const READ_ONLY: number = 1;
@@ -89,7 +172,8 @@ if (person.role === ADMIN) {
 ```
 
 It can be better with enum
-```ts 
+
+```ts
 enum Roles { ADMIN, READ_ONLY, AUTHOR };
 // ADMIN = 0, READ_ONLY = 1, AUTHOR = 2
 
@@ -105,8 +189,9 @@ if (person.role === ADMIN) {
 }
 ```
 
-**Customizing enum**
-```ts 
+**Customizing enum**:
+
+```ts
 enum Roles { ADMIN = 'ADMIN', READ_ONLY = 100, AUTHOR = 'AUTHOR' }
 ```
 
@@ -114,16 +199,16 @@ enum Roles { ADMIN = 'ADMIN', READ_ONLY = 100, AUTHOR = 'AUTHOR' }
 Avoid any.
 works like js.
 
-```ts 
+```ts
 let favoriteArtist: any;
 let hobbies: any[];
 ```
 
+### Union Types
 
-
-#### Union Types 
 e.g. number | string
-```ts 
+
+```ts
 function combine(input: number | string, input2: number | string) {
   let result;
   if (typeof input1 == 'number' && typeof input2 == 'number') {
@@ -135,14 +220,15 @@ function combine(input: number | string, input2: number | string) {
 }
 ```
 
-#### Literal Types 
-Usually constants. 
+### Literal Types
 
-```ts 
+Usually constants.
+
+```ts
 const number2 = 2.8
 ```
 
-```ts 
+```ts
 function combine(input: 0 | 1, input2: 0 | 1, input3: 'hello' | 'welcome') {
   let result;
   if (typeof input1 == 'number' && typeof input2 == 'number') {
@@ -154,7 +240,7 @@ function combine(input: 0 | 1, input2: 0 | 1, input3: 'hello' | 'welcome') {
 }
 ```
 
-#### Type Alias 
+#### Type Alias
 
 ```ts
 type combined = number | string;
@@ -162,12 +248,12 @@ type binary = 0 | 1;
 type greet = 'hello' | 'welcome';
 
 function combine(input: binary, input2: combined, input3: greet) {
-  ....
+  ...
 }
 ```
 
+#### Functions and Types
 
-#### Functions and Types 
 ```ts
 function add(n1: number, n2: number): number  {
   return n1 + n2;
@@ -180,23 +266,24 @@ function printResult(num: number): void {
 }
 ```
 
-#### Function Types 
-```ts 
+#### Function Types
+
+```ts
 let combinedValue: function;
 ```
 
-One can specify function blue blueprint type. 
-```ts 
+One can specify function blue blueprint type.
+
+```ts
 let combinedValues: (a: number, b: number) => number;
 ```
 
-
 #### Unknown Type
+
 Unknown is more safer than any.
 Just stick to `void` or `unknown` instead of any.
 
-
-```ts 
+```ts
 let userInput: unknown; // can hold any type
 
 let userName: string;
@@ -209,10 +296,11 @@ username == userInput; // false
 userInput == username; // true
 ```
 
-#### Never Type 
+#### Never Type
+
 Is used to infer that a function will never end. It is more clearer when used that when used.
 
-```ts 
+```ts
 function generateError(message: string, code: number): never {
   // throw { message: message, errorCode: code }
 
@@ -220,11 +308,12 @@ function generateError(message: string, code: number): never {
 }
 ```
 
+## Interfaces
 
-## Interfaces 
-Interfaces helps us to describe entities. 
+Interfaces helps us to describe entities.
 
 We can have an object like this.
+
 ```ts
 const person: {  name: string; age: number} = {
   name: 'Max',
@@ -233,6 +322,7 @@ const person: {  name: string; age: number} = {
 ```
 
 We can make it more readable by separating the interface, and make it reusable.
+
 ```ts
 interface Person {
   name: string;
@@ -246,6 +336,7 @@ const person: Person = {
 ```
 
 One can use question mark `?` to make a property optional in the interface.
+
 ```ts
 interface Person {
   name: string;
@@ -259,6 +350,7 @@ const person: Person = {
 ```
 
 Adding a function.
+
 ```ts
 interface Person {
   name: string;
@@ -276,11 +368,11 @@ const person: Person = {
 ```
 
 ### Interface Naming Convention
-In the previous example,  if we need to add a Person class to our program, it might cause a little bit of a confusion. 
+
+In the previous example,  if we need to add a Person class to our program, it might cause a little bit of a confusion.
 The solve this problem can name Person (for interface).
 
-
-Solution - 
+Solution -
 IPerson or PersonInterface
 
 But using the prefix "interface" is much more readable.
@@ -319,10 +411,11 @@ const person: PersonInterface = {
 }
 ```
 
-
 ## Type Assertion (type conversion)
+
 using `as dataType`
-```ts 
+
+```ts
 let vAny: any = 10;
 let vUnknown: unknown = 10;
 
@@ -330,60 +423,65 @@ let s1: string = vAny;
 let s2: string = vUnknown as string;
 ```
 
-String type cannot be converted to a number. To make this hapeen it must be converted to unknown first then number.
-```ts 
+String type cannot be converted to a number. To make this happen it must be converted to unknown first then number.
+
+```ts
 let pageNumber: string = '1';
 let numericPageNumber: number = pageNumber as number // error
 ```
 
-SOLUTION 
-```ts 
+SOLUTION
+
+```ts
 let pageNumber: string = '1';
 let numericPageNumber: number = (pageNumber as unknown) as number // successful conversion
 ```
 
-
-
 ## Using TypeScript to work with the DOM
+
 In order to be able to work with DOM flawlessly one need to use type assertion to specify HTML type.
-```ts 
+
+```ts
 const someElement = document.querySelector(".foo");
 
 console.log("someELement', someElement.value) 
 // error. TS can't find var.value
 ```
+
 This can be solved by making someElement a generic type (any) but this disables or defeats the essence of using TS.
 
 Bad fix. Works but not recommended.
-```ts 
+
+```ts
 const someElement = document.querySelector(".foo");
 
 console.log("someELement', (someElement as any).value) 
 ```
 
-
-```ts 
+```ts
 const someElement = document.querySelector(".foo") as HTMLInputElement;
 
 console.log("someElement", someElement.value);
 ```
+
 Here it was converted to HTMLInputElement which allows it to access the `value` property
 
+### Adding Eventlistener
 
-### Adding Eventlistener 
-
-```ts 
+```ts
 const someElement = document. querySelector(".foo");
 
 someElement.addEventListener('blur', (event) => {
   console.log("event", event.target.value) // error
 })
 ```
-The code above failed because by default `event.target` has a type EventTarget. 
-But the particular element we target is an input element. 
+
+The code above failed because by default `event.target` has a type EventTarget.
+But the particular element we target is an input element.
 
 SOLUTION
-```ts 
+
+```ts
 const someElement = document. querySelector(".foo");
 
 someElement.addEventListener('blur', (event) => {
@@ -392,10 +490,9 @@ someElement.addEventListener('blur', (event) => {
 })
 ```
 
+## Classes
 
-
-##  Classes 
-```ts 
+```ts
 class User {
   firstName: string;
   lastName: string;
@@ -417,17 +514,18 @@ console.log(user.firstName)
 
 > `protected`, private is allowed in class and it's children.
 
-```ts 
+```ts
 class User {
   private firstName: string;
   protected lastName: string;
 }
 ```
+
 firstName and lastName can only be accessed in the class. (Private Variables)
 
+**readonly variables**:
 
-**readonly variables**
-```ts 
+```ts
 class User {
   firstName: string;
   lastName: string;
@@ -439,14 +537,15 @@ class User {
     this.unchangeableName = this.firstName;
   }
 }
-``` 
+```
+
 Any attempt to rewrite `unchangableName` within the class will lead to an error.
 
+### Using Interfaces with classes
 
-### Using Interfaces with classes 
 When a class implements an interface the function(s) declare within the interface must created in it.
 
-```ts 
+```ts
 interface UserInterface {
   getFullname(): string;
 }
@@ -467,11 +566,13 @@ class User implements UserInterface {
   }
 }
 ```
+
 If getFullname function was not created in the class it will cause an error to occur.
 
+### Static Properties
 
-### Static Properties  
 A static property makes a variable accessible only within the class and unavailable within the instance of that class.
+
 ```ts
 class User implements UserInterface {
   firstName: string;
@@ -480,9 +581,9 @@ class User implements UserInterface {
 }
 ```
 
-### Inheritance 
+### Inheritance
 
-```ts 
+```ts
 interface UserInterface {
   getFullname(): string;
 }
@@ -516,8 +617,8 @@ class Admin extends User {
 }
 ```
 
+## OOP
 
-## OOP 
 Object-oriented programming (OOP) is a programming paradigm that organizes code into objects, which are instances of classes. In TypeScript, a statically-typed superset of JavaScript, you can create classes and objects to implement OOP concepts.
 
 Here's a brief explanation using TypeScript:
@@ -637,19 +738,17 @@ Here's a brief explanation using TypeScript:
 
 These are fundamental OOP concepts in TypeScript. Classes provide a way to model real-world entities, encapsulate data, and define behaviors in a structured manner.
 
+## Generics in TypeScript
 
-
-
-
-## Generics in TypeScript 
 Generics allow creating "type variables" which can be used to create classes, function & type aliases that don't need to explicitly define the type that they use.
 
 Generics makes it easier to write reusable code.
 
-### Functions
+### Functions-Generics
+
 Generics with functions help make more generalized methods which more accurately represent the types used and returned.
 
-```ts 
+```ts
 function createPair<S, T>(v1: S, v2: T): [S, T]{
   return [v1, v2];
 }
@@ -657,7 +756,7 @@ function createPair<S, T>(v1: S, v2: T): [S, T]{
 console.log(createPair<string, number>("hello", 42))
 ```
 
-### Classes
+### Classes-Generics
 
 Generics can be used to create generalized classes like Map
 
@@ -684,7 +783,6 @@ let value = new NamedValue<number>("myNumber")
 value.setValue(10)
 ```
 
-
 ### Type Aliases
 
 ```ts
@@ -692,8 +790,8 @@ type Wrapped<T> = { value: T }
 
 const WrappedValue: Wrapped<number> = { value: 10 }
 ```
-Also works with interface syntax
 
+Also works with interface syntax
 
 ### Default Value
 
@@ -738,7 +836,8 @@ function createLoggedPair<S extends string | number, T extends string | number>(
 
 ## Typescript Compiler
 
-### Watch mode 
+### Watch mode
+
 Used to auto compile TypeScript file to a JavacSript file based on changes in the file.
 
 ```sh
@@ -749,26 +848,30 @@ tsc app.ts --watch
 tsc app.ts -w
 ```
 
-### Allow TypeScript manage file in a directory 
-```sh 
-tsc --init 
-``` 
- Running this code create a **tsconfig.json** file. 
+### Allow TypeScript manage file in a directory
 
- After running the code above
- ```sh
- tsc
- ```
- when `tsc` is run, it executes all TS files within the directory, producing a their JS file. 
+```sh
+tsc --init 
+```
+
+Running this code create a **tsconfig.json** file.
+
+After running the code above
+
+```sh
+tsc
+```
+
+ when `tsc` is run, it executes all TS files within the directory, producing a their JS file.
 
  To enter watch mode for all TS files in the directory:
- ```sh 
+
+ ```sh
  tsc --watch
  ```
 
+**tsconfig.json**:
 
-
-**tsconfig.json**
 ```json
 {
   "compilerOptions": {
@@ -782,8 +885,10 @@ tsc --init
 }   
 ```
 
-#### Exclude Files to Execute in the directory 
+#### Exclude Files to Execute in the directory
+
 This allow one to inform typescript to exclude files to execute
+
 ```json
 {
   "compilerOptions": {
@@ -796,12 +901,13 @@ This allow one to inform typescript to exclude files to execute
   ]
 }   
 ```
+
 The configuration above prevent `app.ts` in the main directory and any file that ends `.dev.ts` that is within a the main or that is a sub directory of the main directory.
 
 And also any TS file within node modules. But by default node_module is excluded.
 
+#### Include Files to Execute in the directory
 
-#### Include Files to Execute in the directory 
 This allows one to specify files to execute. Files not listed will not be executed.
 
 ```json
@@ -816,8 +922,8 @@ This allows one to specify files to execute. Files not listed will not be execut
 }   
 ```
 
+#### Specifying Files to Execute in the directory
 
-#### Specifying Files to Execute in the directory 
 ```json
 {
   "compilerOptions": {
@@ -830,19 +936,22 @@ This allows one to specify files to execute. Files not listed will not be execut
 }   
 ```
 
+#### Using DOM APIs in TS
 
-####  Using DOM APIs in TS 
-**app.ts **
-```ts 
+**app.ts**:
+
+```ts
 const button = document.querySelector('button')!;
 
 button.addEventListener();
 ```
+
 The `!` after the button allows TypeScript to accept button even though it doesn't know what it is.
 
-
 the `lib: []` compiler option allow one to include some JavaScript library to TS.
-**tsconfig.json**
+
+**tsconfig.json**:
+
 ```json
 {
   "compilerOption": {
@@ -855,8 +964,10 @@ the `lib: []` compiler option allow one to include some JavaScript library to TS
   }
 }
 ```
-One can get the same configuration as the  one above by setting 
-```json 
+
+One can get the same configuration as the  one above by setting
+
+```json
 {
   "compilerOptions": {
     "target": "es6"
@@ -864,10 +975,11 @@ One can get the same configuration as the  one above by setting
 }
 ```
 
+#### Allow JavaScript files to be compiled
 
-####  Allow JavaScript files to be compiled 
 This allow JS file to be compiled  by TS.
-```json 
+
+```json
 {
   "compilerOptions": {
     "allowJs": true
@@ -875,22 +987,23 @@ This allow JS file to be compiled  by TS.
 }
 ```
 
+#### Set where TS creates files (.js) should be stored
 
-#### Set where TS creates files (.js) should be stored. 
-```json 
+```json
 {
   "compilerOptions": {
     "outDir": "./dist"
   }
 }
 ```
-All executed files are move into dist directory. 
+
+All executed files are move into dist directory.
 
 It can also recreate directories based on the structure of the working directory. In order to prevent this, it's best to set the rootDir.
 
+#### Set TS rootDir
 
-#### Set TS rootDir 
-```json 
+```json
 {
   "compilerOptions": {
     "rootDir": "./src"
@@ -899,7 +1012,8 @@ It can also recreate directories based on the structure of the working directory
 ```
 
 #### Remove Comments  in generated JS
-```json 
+
+```json
 {
   "compilerOptions": {
     "removeComments": true
@@ -908,7 +1022,8 @@ It can also recreate directories based on the structure of the working directory
 ```
 
 #### Don't generate .js files
-```json 
+
+```json
 {
   "compilerOptions": {
     "noEmit": true
@@ -916,9 +1031,9 @@ It can also recreate directories based on the structure of the working directory
 }
 ```
 
+#### Prevent TS from generating JavaScript when an error occurs
 
-#### Prevent TS from generating JavaScript when an error occurs. 
-```json 
+```json
 {
   "compilerOptions": {
     "noEmitOnError": true
@@ -926,19 +1041,13 @@ It can also recreate directories based on the structure of the working directory
 }
 ```
 
-
-
 #### Strict Type-Checking Options
 
 - `strict: true`
-Enables all type checking. 
+Enables all type checking.
 
 - `noImplicitAny: true`
 It ensure that data is properly declared.
 
-
 - `strictNullCheck`
 Ensure there are no null value that are null
-
-
-- a

@@ -6,14 +6,6 @@
 npx create-expo-app@latest
 ```
 
-OR
-
-Use Expo CLI
-
-```sh
-npm install -g expo-cli
-```
-
 To run expo
 
 ```sh
@@ -26,22 +18,6 @@ expo start
 
 ```sh
 expo start --host <your_IP_address>
-```
-
-## Using Typescript with Expo
-
-```sh
-expo init my-project
-
-npm install --save-dev typescript @types/react @types/react-native
-
-npx tsc --init // This command generates a tsconfig.json file in your project directory
-
-// Configure tsconfig.json: Open the tsconfig.json file and configure it according to your project needs. You may need to adjust settings such as target, module, jsx, and outDir.
-
-// Rename files to TypeScript: Rename your dot js files to dot tsx files if they contain JSX/TSX syntax. For example, rename App.js to App.tsx.
-
-// Start the development server: Run expo start or npm start to start the Expo development server. This will compile TypeScript files and start the development server.
 ```
 
 ## Introduction
@@ -110,7 +86,7 @@ Component for displaying text.
 
 It supports nesting, styling and touch handling.
 
-Depending on the target platform, React Native will translate this component to either a UITextView (iOS), a TextView (Android), or a p (Web).
+Depending on the target platform, React Native will translate t, a TextVhis component to either a UITextView (iOS)iew (Android), or a p (Web).
 
 ```js
 import { View, Text } from 'react-native'
@@ -127,6 +103,7 @@ export default function App() {
 > Placing text directly inside a view will cause an error. Every text must be wrapped around the **Text** component.
 
 #### Embedding Text
+
 ```js
 import { View, Text } from 'react-native'
 
@@ -197,6 +174,9 @@ export default function App() {
 
 - contain
 - cover
+- center
+- repeat
+- stretch
 
 #### Setting Background Image
 
@@ -409,7 +389,7 @@ export default function App() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   return (
     <View style={{ backgroundColor: "plum", flex: 1, paddingTop: 60}}>
-      <StatusBar backgroundColor="midnightblue" barStyle="lightContent" hidden={false}/>
+      <StatusBar backgroundColor="midnightblue" barStyle="light-content" hidden={false}/>
     </View>
     )
 }
@@ -424,7 +404,7 @@ value: light-content, dark-content
 
 - **hidden** - hides the visibility of the status bar.
 
-### ActivityIndicator 
+### ActivityIndicator
 
 The ActivityIndicator component displays a circular loading indicator. It is used to inform users about the status of ongoing processes such as loading an app, submitting a form, or saving updates.
 
@@ -461,7 +441,7 @@ values: small (default), large.
 - **animating** is used to display or hide the ActivityIndicator
 values: true, false
 
-### Alert
+<!-- ### Alert
 
 It acts as an API, that invoke a component, rather than being a component itself.
 Alert launches an alert dialog with specified title and message.
@@ -518,13 +498,14 @@ export default function App() {
     </View>
     )
 }
-```
+``` -->
 
 ### Custom Component
 
 This involves using other components to create another component.
 
 /components/Greet.js
+
 ```js
 import { View, Text } from 'react-native'
 
@@ -648,8 +629,8 @@ In React Native all dimensions are unit less (no rem or Other unit) but one can 
 
 - paddingHorizontal
 - paddingVertical
-- paddingHorizontal
-- paddingVertical
+- marginHorizontal
+- marginVertical
 
 **Border**:
 
@@ -728,7 +709,7 @@ It accepts an integer value greater than or equal to 0, indicating the fraction 
 In web dev, a div element's display must be set to flex before flex properties can work on it. In React Native, View component is set to flex by default.
 
 > flex is used allow a flex item share available space.
-  > e.g. Setting `flex: 1` flex container makes the view occupy the entire space. Setting a flex value on a flex item makes it share available space with other flex items. A flex item with `flex: 3` will be 3 time larger than a flex item with `flex: 1`.
+  > e.g. Setting `flex: 1` flex container makes the view occupy the entire space. Setting a flex value on a flex item makes it share available space with other flex items. A flex item with `flex: 3` will be 3 times larger than a flex item with `flex: 1`.
 
 #### flexDirection
 
@@ -953,7 +934,7 @@ const styles = StyleSheet.create({
 
 ### Dimensions API Drawback
 
-Device dimension can change when screen orientation changes, but **Demensions** does not update.
+Device dimension can change when screen orientation changes, but **Dimensions** does not update.
 
 By default the orientation of an Expo is set to portrait, to make landscape work, one must change `"orientation": "portrait"` to `"orientation" : "default"` in the `app.json` file.
 
@@ -1110,7 +1091,7 @@ When developing a cross-platform app, maximizing code reuse is a priority.
 
 There are situations where it becomes necessary to tailor your code to specific platforms.
 
-React Native offers two approaches for organizing and seperating platform-specific code.
+React Native offers two approaches for organizing and separating platform-specific code.
 
 - Platform module
 - Platform-specific file extensions
@@ -1141,7 +1122,7 @@ text: {
   ...Platform.select({
     ios: {
       color: "purple",
-      fontSizd: 24,
+      fontSize: 24,
       fontStyle: "italic"
     },
     android: {
@@ -1208,7 +1189,7 @@ FlatList component renders only the items currently in view, making it highly pe
 ```
 
 - To render list horizontally use `horizontal={true}`.
-- `keyExtracttor` - is a prop that takes an Item from the array and return a unique key for the item. It is used to identify the unique items in the list, similar to key props.
+- `keyExtractor` - is a prop that takes an Item from the array and return a unique key for the item. It is used to identify the unique items in the list, similar to key props.
 
 By default it returns item.key, if that is not present, it returns item.id, if that is not also present, it uses the items index as key (index is available as a second argument)
 
@@ -1303,7 +1284,7 @@ It accepts many of the FlatLists props and some extra ones.
 
 ```js
 <SectionList
-  sections={grouptedPokemonList}
+  sections={groupedPokemonList}
   renderItem={({ item }) => {
     return (
       <View style={styles.card}>

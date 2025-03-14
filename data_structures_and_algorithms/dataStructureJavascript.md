@@ -11,27 +11,30 @@ In JavaScript, an array already has all the function needed for a  stack
 Example:
 **Palindrome** - a word that remain the same when it re-arranged in reverse order.
 
+While the algorithm is a good example of a stack, it's not an optimal solution for finding a whether a word is a palindrome or not.
+
 The optimal Palindrome definition - a word where it's opposite indexes are equal.
 
 ```js
-let letters = [] // stack
-
-let word = "racecar"
-
-let reversedWord = ""
+const letters: string[] = [] // stack
+const word: string = "racecar"
+let rword: string = ""
 
 // Put letters of word into stack
-for (var i = 0; i < word.length; i++) {
+for(let i:number =0; i<word.length; i++) {
   letters.push(word[i])
 }
 
 // Pop off the stack in reverse order
-for (var i = 0; i < word.length; i++) {
+for(let i:number =0; i<word.length; i++) {
   rword += letters.pop()
 }
 
-if (rword === word) console.log(word + " is a palindrome.")
-else console.log(word + "is not a palindrome")
+if(rword === word) {
+  console.log(word + " is a palindrome.")
+} else {
+  console.log(word + " is not a palindrome.")
+}
 
 ```
 
@@ -41,13 +44,13 @@ My Refactored Code:
 // Palindrome
 
 const WORD = "racecar"
-let reversedWord = ""
+let reversedWord: string = ""
 
-for (i = WORD.length - 1; i >= 0; i--) {
+for (let i: number = WORD.length - 1; i >= 0; i--) {
   reversedWord += WORD[i]
 }
 
-result = `${reversedWord} is ${WORD === reversedWord ? "a palindrome" : "not a palindrome"}`
+const result: string = `${reversedWord} is ${WORD === reversedWord ? "a palindrome" : "not a palindrome"}`
 console.log(result)
 ```
 
@@ -62,13 +65,14 @@ reversedWord is the same length as input. Therefore result takes O(n) space
 ```js
 // Palindrome
 
-const isPalindrome =(word) => {
-  let upperBound = word.length - 1
-  let lowerBound = 0
+const isPalindrome =(word: string | number): boolean => {
+  word = word.toString()
+  let upperBound: number = word.length - 1
+  let lowerBound: number = 0
 
   while(lowerBound !== upperBound ) {
-    const leftCharacter = word[lowerBound]
-    const rightCharacter = word[upperBound]
+    const leftCharacter: string = word[lowerBound]
+    const rightCharacter: string = word[upperBound]
         
     if(leftCharacter !== rightCharacter) return false
 
@@ -78,8 +82,9 @@ const isPalindrome =(word) => {
   return true
 }
 
-console.log(isPalindrome("racecar")) // True
-console.log(isPalindrome("bike")) // False
+console.log(isPalindrome("racecar")) // true
+console.log(isPalindrome("bike")) // false
+console.log(isPalindrome(1234321)) // true
 ```
 
 Time Complexity: O(n/2)
@@ -87,6 +92,12 @@ We check only half of the string.
 
 Space Complexity: O(1)
 no new strings beyond the input
+
+### Implementing you own Stack
+
+```js
+
+```
 
 ## Binary Search
 
