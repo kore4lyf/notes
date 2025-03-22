@@ -1612,7 +1612,7 @@ const ValidateForm = () => {
 
 Final App
 
-```js 
+```js
 import { useState, useEffect } from 'react'
 import { SafeAreaView, View, StyleSheet, Text, 
   StatusBar, FlatList, ActivityIndicator, Button } from 'react-native'
@@ -1813,7 +1813,6 @@ const styles = StyleSheet.create({
 })
 ```
 
-
 ## Networking
 
 Here we will cover the following.
@@ -1950,6 +1949,7 @@ const [error, setError] = useState("")
 ```
 
 ## Navigation
+
 Navigation is a mechanism that allows users to move across different screens, access features, and generally use your app effectively.
 
 A go-to solution for handling navigation is the React Navigation Library.
@@ -1958,10 +1958,11 @@ Expo has its own built-in routing  feature exclusive to Expo Projects.
 
 React Navigation works both with or without Expo in React Native Apps.
 
-### React Navigation 
+### React Navigation
+
 It provides a variety of Navigators like **Stack**, **Drawer**, and **Tab** Navigators.
 
-Stack Navigator provides a way for your app to transition between screens where each new screen is placed on top a stack. 
+Stack Navigator provides a way for your app to transition between screens where each new screen is placed on top a stack.
 
 Drawer Navigator renders a navigation drawer on the side of the screen which can be opened and closed via gestures.
 
@@ -1974,6 +1975,7 @@ npm install @react-navigation/native
 ```
 
 Also install react-native-screen and react-native-safe-area-content.
+
 ```sh
 npx expo install react-native-screens react-native-safe-area-context
 ```
@@ -1986,11 +1988,778 @@ import { NavigationContainer } from '@react-navigation/native'
 
 export default function App() {
   return (
-    <NavigationContainer>
+    // <NavigationContainer>
       {/* Rest of you app code */}
-    </NavigationContainer>
+    // </NavigationContainer>
   )
 }
 ```
 
-#### Stack Navigations
+#### Stack Navigation
+
+Each new screen is stacked on top of the previous one, like a deck of cards.
+
+When you navigate to a new screen, a new card is placed on top of the stack, and when you navigate back, the top card is removed, revealing the previous screen.
+
+It allows users to drill into detailed views and then retrace their steps when done.
+
+It's particularly useful in scenarios where a linear flow of screens is required.
+
+The React Navigation library offers two navigators:
+
+1. Stack Navigator
+2. Native Stack Navigator
+
+The **Stack Navigator** is a JavaScript-based navigator which offers a high degree of customization, making it a great choice for apps that require a unique navigation experience. However, this comes at the cost of performance especially when compared to its counterpart, the Native Stack Navigator.
+
+The **Native Stack Navigator** leverages the native navigation constructs of iOS and Android, providing better performance and a more native feel to the transitions and gestures. The caveat here is, it might not offer the same level of customization as the stack Navigator.
+
+To use Native Stack Navigation:
+
+```sh
+npm install @react-navigation/native-stack
+```
+
+```tsx
+import { NavigationContainer} from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import HomeScreen from "./screen/HomeScreen"
+import AboutScreen from "./screen/AboutScreen"
+
+const Stack = createNativeStackNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      {// <Stack.Navigator initalRouteName="About"> // initialRouteName is used to set the default route}
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigation>
+    // </NavigationContainer>
+  )
+}
+```
+
+create folder and file /screens/HomeScreen.js
+
+```jsx
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function HomeScreen() {
+  return (
+    <View>
+      <Text>Home Screen</Text>
+     </View>
+  );
+}
+```
+
+create another file /screens/AboutScreen.js
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function AboutScreen() {
+  return (
+    <View>
+      <Text>About Screen</Text>
+     </View>
+  );
+}
+```
+
+##### Navigating between screen (Native Stack Navigation)
+
+There are two ways to navigate between screens
+
+- Navigation prop
+- useNavigation Hook
+
+1. Navigation prop: Every screen component in your navigation is provided a navigation prop automatically by ReactNavigation. Navigation prop has various methods to initiate a navigation action, One of them is `navigate`.
+
+- navigate
+
+using the previous examples:
+
+/screens/HomeScreen.js
+
+```js
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function HomeScreen({ navigation }) {
+  return (
+    <View>
+      <Text>Home Screen</Text>
+      <Button title="Go to about" onPress={() => navigation.navigate("About")} />
+    </View>
+  );
+}
+```
+
+If you prefer using hooks:
+
+ReactNavigation provides a useNavigation hooks.
+
+/screens/HomeScreen.js
+
+```js
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+
+export default function HomeScreen() {
+  const navigation  = useNavigation()
+  return (
+    <View>
+      <Text>Home Screen</Text>
+      <Button title="Go to About" onPress={() => navigation.navigate("About")}>
+     </View>
+  );
+}
+```
+
+##### Passing Data Between Screens
+
+`navigation.navigate()` takes a second parameter, called route which can be used to pass data between screens.
+
+/screens/HomeScreen.js
+
+```js
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function HomeScreen({ navigation }) {
+  return (
+    <View>
+      <Text>Home Screen</Text>
+      <Button title="Go to about" onPress={() => navigation.navigate("About", {
+        name: "Korede"
+      })} />
+    </View>
+  );
+}
+```
+
+The name data can be accessed on another screen using the `route` prop, which is available to all screen components.
+
+/screens/AboutScreen.js
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function AboutScreen({ route }) {
+  const { name } = route.params
+
+  return (
+    <View>
+      <Text>About Screen</Text>
+      <Text>My name is {name}</Text>
+     </View>
+  );
+}
+```
+
+It's also possible to set a data for a screen, using initalParams prop on the `Stack.Screen` component.
+
+```tsx
+import { NavigationContainer} from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import HomeScreen from "./screen/HomeScreen"
+import AboutScreen from "./screen/AboutScreen"
+
+const Stack = createNativeStackNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="About" component={AboutScreen} initialPrams={
+          name: "Guest"
+        } />
+      </Stack.Navigation>
+    // </NavigationContainer>
+  )
+}
+```
+
+By providing an initial parameter, if name data is not provide in the to the About screen, the default value will be used.
+
+You can also update or override a particular data by performing a action i.e. pressing a button. Assuming we want to update the default/custom data by pressing a button.
+
+/screens/AboutScreen.js
+
+```js
+import React from 'react';
+import { View, Text,Button } from 'react-native';
+
+export default function AboutScreen({ route, navigation }) {
+  const { name } = route.params
+
+  return (
+    <View>
+      <Text>About Screen</Text>
+      <Text>My name is {name}</Text>
+      <Button title="Update name" onPress={() => 
+        navigation.setParams({
+          name: "Peter Pan"
+        })
+      }>
+     </View>
+  );
+}
+```
+
+Data can also be sent back to the previous screen using the concept.
+
+##### Stack Navigation Options
+
+Every screen in a navigation displays a title by default, which serves as a handy guide for users. By default, the name of the screen is used as the screen title.
+
+A screen title can be customized by specifying a title option.
+
+```tsx
+import { NavigationContainer} from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { View, Text, Pressable } from 'react-native'
+import HomeScreen from "./screen/HomeScreen"
+import AboutScreen from "./screen/AboutScreen"
+
+const Stack = createNativeStackNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} options={
+          title: "Welcome Home",
+          headerStyle: {
+            backgroundColor: "purple"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: { fontWeight: "bold" },
+          headerRight: () => {
+            <Pressable onPress={() => alert("Menu button pressed!")}>
+              <Text style={{ color: "#fff" }}>Menu</Text>
+            </Pressable>
+          },
+          contentStyle: {
+            backgroundColor: "#e8e4f3"
+          }
+        } />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigation>
+    // </NavigationContainer>
+  )
+}
+```
+
+The options applied to a particular screen is not passed to the next screen. To make sure that all screens use similar options, apply the options on `<Stack.Navigator>` which is an outer tag for all the stack screens.
+
+```tsx
+import { NavigationContainer} from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { View, Text, Pressable } from 'react-native'
+import HomeScreen from "./screen/HomeScreen"
+import AboutScreen from "./screen/AboutScreen"
+
+const Stack = createNativeStackNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Stack.Navigator initialRouter="Home" screenOptions={{
+        headerStyle: {
+          backgroundColor: "purple"
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: { fontWeight: "bold" },
+        headerRight: () => {
+          <Pressable onPress={() => alert("Menu button pressed!")}>
+            <Text style={{ color: "#fff" }}>Menu</Text>
+          </Pressable>
+        },
+        contentStyle: {
+          backgroundColor: "#e8e4f3"
+        }
+      }}>
+        <Stack.Screen name="Home" component={HomeScreen} options={
+          title: "Welcome Home"
+        } />
+        <Stack.Screen name="About" component={AboutScreen} />
+      </Stack.Navigation>
+    // </NavigationContainer>
+  )
+}
+```
+
+##### Dynamic Stack Navigator Options
+
+Override the title of a screen.
+
+```tsx
+import { NavigationContainer} from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { View, Text, Pressable } from 'react-native'
+import HomeScreen from "./screen/HomeScreen"
+import AboutScreen from "./screen/AboutScreen"
+
+const Stack = createNativeStackNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Stack.Navigator initialRouter="Home" screenOptions={{
+        headerStyle: {
+          backgroundColor: "purple"
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: { fontWeight: "bold" },
+        headerRight: () => {
+          <Pressable onPress={() => alert("Menu button pressed!")}>
+            <Text style={{ color: "#fff" }}>Menu</Text>
+          </Pressable>
+        },
+        contentStyle: {
+          backgroundColor: "#e8e4f3"
+        }
+      }}>
+        <Stack.Screen name="Home" component={HomeScreen} options={
+          title: "Welcome Home"
+        } />
+        <Stack.Screen name="About" component={AboutScreen} options={(route) => ({
+          title: route.params.name
+        })}} />
+      </Stack.Navigation>
+    // </NavigationContainer>
+  )
+}
+```
+
+Another way to do this is to use hooks.
+
+/screens/AboutScreen.js
+
+```js
+import React, { useLayoutEffect } from 'react';
+import { View, Text,Button } from 'react-native';
+
+export default function AboutScreen({ route, navigation }) {
+  const { name } = route.params
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title.name,
+    })
+  }, [navigation, name])
+
+  return (
+    <View>
+      <Text>About Screen</Text>
+      <Text>My name is {name}</Text>
+      <Button title="Update name" onPress={() => 
+        navigation.setParams({
+          name: "Peter Pan"
+        })
+      }>
+     </View>
+  );
+}
+```
+
+### Drawer Navigation
+
+Drawer Navigator introduces a hidden menu, sliding from either side of the screen.
+
+It is particularly in apps with multiple main sections that require a neat and organized navigation structure.
+
+Installation
+
+```sh
+npm install @react-navigation/drawer
+
+# Then install other libraries required by the React Navigation
+
+npm install react-native-gesture-handler react-native-reanimated
+```
+
+app.js
+
+```js
+import "react-native-guesture-handler"
+import { NavigationContainer } from "@react-navigation/native"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+
+const Drawer = createDrawerNavigator()
+```
+
+for reanimated config, update your `babel.config.js`
+
+```js
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: ["bable-preset-expo"],
+    plugins: ["react-native-reanimated/plugin"] 
+  }
+}
+```
+
+It is also recommended you clear cache before starting the application. Update your package.json script.
+
+-c represent clear caches.
+Which is a recommen
+
+```js
+{
+  "scripts": {
+    "start": "expo start -c"
+  }
+}
+```
+
+app.js
+
+```js
+import "react-native-guesture-handler"
+import { NavigationContainer } from "@react-navigation/native"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+
+const Drawer = createDrawerNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen />
+        <Drawer.Screen />
+      </Drawer.Navigator>
+    // </NavigationContainer>
+  )
+}
+```
+
+Create a screen folder
+Create two react components
+
+screens/DashboardScreen.js
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function DashboardScreen() {
+  return (
+    <View>
+      <Text>DashboardScreen</Text>
+     </View>
+  );
+}
+
+```
+
+screen/SettingsScreen.js
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function SettingsScreen() {
+  return (
+    <View>
+      <Text>SettingsScreen</Text>
+     </View>
+  );
+}
+```
+
+Update your app.js
+
+app.js
+
+```js
+import "react-native-guesture-handler"
+import { NavigationContainer } from "@react-navigation/native"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import DashboardScreen from "./screens/DashboardScreen.js"
+import SettingsScreen from "./Screens/SettingsScreen.js"
+
+const Drawer = createDrawerNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+      </Drawer.Navigator>
+    // </NavigationContainer>
+  )
+}
+```
+
+Using a button to toggle the drawer
+
+screens/DashboardScreen.js
+
+```js
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function DashboardScreen({ navigation }) {
+  return (
+    <View>
+      <Text>DashboardScreen</Text>
+      <Button title="Toggle Drawer" onPress={()=> navigation.toggleDrawer()} />
+     </View>
+  );
+}
+```
+
+Using a button to jump to another screen (with navigation.jumpTo())
+
+screens/DashboardScreen.js
+
+```js
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function DashboardScreen({ navigation }) {
+  return (
+    <View>
+      <Text>DashboardScreen</Text>
+      <Button title="Toggle Drawer" onPress={()=> navigation.toggleDrawer()} />
+      <Button title="Go To Settings" onPress={() => navigation.jumpTo("Settings")} />
+     </View>
+  );
+}
+```
+
+#### Drawer Navigation Options
+
+app.js
+
+```js
+import "react-native-guesture-handler"
+import { NavigationContainer } from "@react-navigation/native"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import DashboardScreen from "./screens/DashboardScreen.js"
+import SettingsScreen from "./Screens/SettingsScreen.js"
+
+const Drawer = createDrawerNavigator()
+
+export default function App() {
+  return (
+    // <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Dashboard" component={DashboardScreen} options={
+          title: "My Dashboard", // modify title
+          drawerLabel: "1. Dashboard", // Change Dashboard name in the drawer section
+          drawerActiveTintColor: "#333" , 
+          DrawerActiveBackgroundColor: "LightBlue", // The background color for the active drawer
+          drawerContentStyle: {
+            backgroundColor: "#c6cbef"
+          }
+        } />
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+      </Drawer.Navigator>
+    // </NavigationContainer>
+  )
+}
+```
+
+### Tab Navigation
+
+Tab Navigation offers a way to switch between different screens by tapping on a tab which is usually displayed at the bottom of the screen.
+
+It's a common and intuitive navigation pattern found in many apps, providing a seamless, user-friendly experience.
+
+```npm
+npm install @react-navigation/bottom-tabs
+```
+
+create app.js
+
+```js
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import React from 'react';
+import { View, Text } from 'react-native';
+
+const Tab = createBottomTabNavigator()
+
+export default function Index() {
+  return (
+    // <NavigationContainer>
+      <Tab.Navigatior>
+        <Tab.Screen />
+        <Tab.Screen />
+        <Tab.Screen />
+      </Tab.Navigatior>
+    // </NavigationContainer>
+  );
+}
+```
+
+Create
+Screens/ProfileScreen.js
+
+```js
+import { View, Text } from 'react-native'
+import React from 'react'
+
+const ProfileScreen = () => {
+  return (
+    <View>
+      <Text>ProfileScreen</Text>
+    </View>
+  )
+}
+
+export default ProfileScreen
+```
+
+Screens/CourseListScreen.js
+
+```js
+import { View, Text } from 'react-native'
+import React from 'react'
+
+const CourseListScreen = () => {
+  return (
+    <View>
+      <Text>CourseListScreen</Text>
+    </View>
+  )
+}
+
+export default CourseListScreen
+```
+
+Screens/SettingsScreen.js
+
+```js
+import { View, Text } from 'react-native'
+import React from 'react'
+
+const SettingsScreen = () => {
+  return (
+    <View>
+      <Text>SettingsScreen</Text>
+    </View>
+  )
+}
+
+export default SettingsScreen
+```
+
+update app.js
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import CourseListSection from "@/screens/CourseListScreen"
+import ProfileScreen from "@/screens/ProfileScreen"
+import SettingsScreen from "@/screens/SettingsScreen"
+
+const Tab = createBottomTabNavigator()
+
+const index = () => {
+  return (
+    // <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Course List" component={CourseListSection} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    // </NavigationContainer>
+  )
+}
+
+export default index
+```
+
+#### Tab Navigation Options
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import CourseListSection from "@/screens/CourseListScreen"
+import ProfileScreen from "@/screens/ProfileScreen"
+import SettingsScreen from "@/screens/SettingsScreen"
+
+const Tab = createBottomTabNavigator()
+
+const index = () => {
+  return (
+    // <NavigationContainer>
+      <Tab.Navigator screenOptions={{
+        tabBarLabelPosition: "beside-icon",
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: "purple"
+      }}>
+        <Tab.Screen name="Course List" component={CourseListSection} />
+        <Tab.Screen name="Profile" component={ProfileScreen}/>
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    // </NavigationContainer>
+  )
+}
+
+export default index
+```
+
+Apply options on specific screens
+
+```js
+import React from 'react';
+import { View, Text } from 'react-native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import CourseListSection from "@/screens/CourseListScreen"
+import ProfileScreen from "@/screens/ProfileScreen"
+import SettingsScreen from "@/screens/SettingsScreen"
+import Ionicons from "@expo/vector-icons/Ionicons"
+
+const Tab = createBottomTabNavigator()
+
+const index = () => {
+  return (
+    <Tab.Navigator screenOptions={{
+      tabBarLabelPosition: "below-icon",
+      tabBarShowLabel: true,
+      tabBarActiveTintColor: "purple"
+    }}>
+      <Tab.Screen name="Course List" component={CourseListSection} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{
+        tabBarLabel: "My Profile",
+        headerTitle: "My Profile",
+        tabBarIcon: ({ color }) => (<Ionicons name="person" size={20} color={color} /> ),
+        tabBarBadge: 3,
+      }}/>
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  )
+}
+
+export default index
+```
+
+### Nesting Navigators
+
+Nesting navigators allows us to combine the powers of different types of navigators, creating a seamless and organized user experience.
+
+It's like having a main road with smaller branching lanes, each having its own set of rules yet interconnected.
+
+In this example, we'd nest a stack navigator within a tab navigator.
+
+```
