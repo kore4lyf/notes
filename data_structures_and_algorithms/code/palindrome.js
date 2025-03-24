@@ -1,15 +1,19 @@
-const WORD = "raceCar"
+// Palindrome
 
-function isPalindrome(word) {
-  let left = 0
-  let right = word.length - 1
+const isPalindrome =(word) => {
+  let upperBound = word.length - 1
+  let lowerBound = 0
+  
+  while(lowerBound <= upperBound ) {
+        
+    if(word[lowerBound] !== word[upperBound]) return false
 
-  while (left <= right) {
-    if (word[left] !== word[right]) {
-      return false
-    }
-
-    console.log("Left: ", left);
-    console.log("Right: ", right);
+    lowerBound++
+    upperBound--
   }
+  return true
 }
+
+isPalindrome("racecar") // true
+isPalindrome("bike") // false
+isPalindrome("abba") // false     

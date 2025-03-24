@@ -567,7 +567,7 @@ export default async function Page() {
 
 It's a new rendering that combines static and dynamic rendering. It's allows you to render a static shell of a page while streaming dynamic content.
 
-With PPR you can have both static and dynamic content on a page, but static content loads faster and dynamic contents have a placeholde or container awaiting it's delivery.
+With PPR you can have both static and dynamic content on a page, but static content loads faster and dynamic contents have a placeholder or container awaiting it's delivery.
 
 ## API
 
@@ -729,17 +729,17 @@ app/sitemap.xml
 </urlset>
 ```
 
-flie convention: **favIcon** - .ico - valid locations: app/
+file convention: **favIcon** - .ico - valid locations: app/
 
-flie convention: **icon** - .ico, .jpg, .jpeg, .png, .svg - valid location: app/**/*
+file convention: **icon** - .ico, .jpg, .jpeg, .png, .svg - valid location: app/**/*
 
-flie convention: **apple-icon** - .jpg, .jpeg, .png - valid location: app/**/*
+file convention: **apple-icon** - .jpg, .jpeg, .png - valid location: app/**/*
 
-flie convention: opengraph-image - .jpg, .jpeg, .png, .gif
+file convention: opengraph-image - .jpg, .jpeg, .png, .gif
 
-flie convention: twitter-image - .jpg, .jpeg, .png, .gif
+file convention: twitter-image - .jpg, .jpeg, .png, .gif
 
-flie convention: opengraph-image.alt - txt
+file convention: opengraph-image.alt - txt
 
 flie convention: twitter-image.alt - .txt
 
