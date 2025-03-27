@@ -500,3 +500,93 @@ Build a script that instantiates one Ticker and bind to the “tick” event, pr
 // The solution to Exercise 1 already covers a lot
 ```
 
+## Timers
+
+Node implements the timer API also found in web browsers.
+
+### setTimeout
+
+```js
+const timeout = 2000 // 2 seconds
+
+setTimeout(() => console.log("Timed Out", timeout))
+```
+
+### clearTimeout
+
+setTimeout returns a timeout handle that you can use to disable it.
+
+```js
+const timeoutHandle = setTimeout(() => console.log("Yeah!"), 1000)
+
+clearTimeout(timeoutHandle)
+```
+
+Here the timeout will never execute because we clear it right after we set it.
+
+```js
+const timeoutHandle = setTimeout(() => console.log("Yeah!"), 1000)
+
+const timeoutKiler = setTimeout(() => { 
+  console.log("Timeout killer")
+  clearTimeout(timeoutHandle)  
+}, 500)
+```
+
+Time handle will never execute because clearTimeout will be called 0.5 sec to the time of its execution.
+
+### setInterval
+
+Set Interval is similar to setTimeout, but schedules a given function to run every X seconds. where X is the number of times it runs.
+
+```js
+const period = 1000
+
+const interval = setInterval(() => {
+  console.log("tick")
+}, period)
+```
+
+### clearInterval
+
+clearInterval unschedule a running interval.
+
+```sh
+const period = 1000
+
+const interval = setInterval(() => {
+  console.log("tick")
+}, period)
+
+setTimeout(() => clearInterval(interval), 10000)
+```
+
+### process.nextTick()
+
+setTimeout and setInterval let things happen later, `process.nextTick()` makes something happen right after what's happening right now is finished, but before anything else.
+
+`process.nextTick()`: This schedules a callback to be executed after the current operation is complete, but before the event loop moves on to the next event.
+
+```js
+process.nextTick(() => {
+  // Do something
+})
+```
+
+### A note on tail recursion
+
+Assuming you want to schedule a function that executes periodically, and you want to guarantee that no two of the function is executing at the same time, `setInterval` is not the best way to go about it. The interval will fire regardless of whether the function has finished it's duty or not.
+
+If any two async() calls can't overlap you are better off using tail recursion.
+
+```js
+const schedule = () => {
+  setTimeout(async () => {
+    console.log("Yeah!")
+    schedule()
+  }, 1000)
+}
+```
+
+The trick here is that you call the function inside setTimeout, which means it has to wait for the timer every time.
+
