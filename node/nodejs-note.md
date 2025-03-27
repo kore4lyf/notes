@@ -138,7 +138,7 @@ console.log(buf);
 // <Buffer 00 00 00 00 00 00 00 00 00 00>
 ```
 
-similar to `new Buffer` is `Buffer.allocUnsafe()`
+similar to deprecated `new Buffer` is `Buffer.allocUnsafe()`
 
 ```js
 Buffer.allocUnsafe(size) //→ Creates an uninitialized buffer, which might have old memory data. Use with caution.
@@ -263,6 +263,21 @@ console.log('targetBuffer after first copy:', targetBuffer.toString()); // Outpu
 // Copy bytes from index 6 to 10 (exclusive) of sourceBuffer to targetBuffer starting at index 5
 sourceBuffer.copy(targetBuffer, 5, 6, 11);
 console.log('targetBuffer after second copy:', targetBuffer.toString()); // Output: targetBuffer after second copy: Hello World
+```
+
+### Modifying Buffers
+
+```js
+let x = Buffer.from("Cake")
+console.log(x)
+// <Buffer 43 61 6b 65>
+console.log(x[3])
+// 101
+x[3] = "9".charCodeAt(0)
+console.log(x[3])
+// 57
+console.log(x.toString())
+// 'Cak9'
 ```
 
 ### Buffers in TypeScript
@@ -590,3 +605,364 @@ const schedule = () => {
 
 The trick here is that you call the function inside setTimeout, which means it has to wait for the timer every time.
 
+## Low-level File System
+
+### fs.stat and fs.fstat
+
+You can query some meta-info on a file (or dir) by using fs.stat like this:
+
+```js
+const fs = require("fs")
+
+fs.stat("./code-fake.js", (err, stats) => {
+  if(err) {
+    console.log("Error: ", err.message)
+    return
+  }
+
+  console.log(stats)
+})
+```
+
+Result
+
+Stats {
+  dev: 786940458,
+  mode: 33206,
+  nlink: 1,
+  uid: 0,
+  gid: 0,
+  rdev: 0,
+  blksize: 4096,
+  ino: 3377699722388924,
+  size: 250,
+  blocks: 0,
+  atimeMs: 1743079676145.2297,
+  mtimeMs: 1743079569907.089,
+  ctimeMs: 1743079675528.0205,
+  birthtimeMs: 1743079665571.522
+}
+
+stats is a Stats instance, with which you can call:
+
+1. stats.isFile()
+2. stats.isDirectory()
+3. stats.isBlockDevice()
+4. stats.isCharacterDevice()
+5. stats.isSymbolicLink()
+6. stats.isFIFO()
+7. stats.isSocket()
+
+We can use the methods above to determine the whether a what was selected on the computer is a file, symbolic, link, directory or socket.
+
+```js
+const fs = require("fs")
+
+fs.stat("./code-fake.js", (err, stats) => {
+  if(err) {
+    console.log("Error: ", err.message)
+    return
+  }
+
+  if(stats.isFile()) console.log("code-fake.js is a file")
+  if(stats.isDirectory()) console.log("code-fake.js is a directory")
+  if(stats.isSymbolicLink()) console.log("code-fake.js is a symbolic link")
+  if(stats.isSocket()) console.log("code-fake.js is a socket")
+})
+```
+
+Result: code-fake.js is a file
+
+### The key difference between fs.stat and fs.fstat
+
+`fs.stat`: Retrieves information about a file given its path.
+`fs-fstat`: Retrieves information about a file given its file descriptor.
+
+In Node.js, when you perform low-level file operations (e.g. using `fs.open`), the os returns a file descriptor
+
+File descriptor is a small integer that represents the open file. The file descriptor can be used to perform other operations on the file.
+
+### Open a file
+
+A file can be opened using `fs.open`.
+
+```js
+cnostconst fs = require("fs")
+
+fs.open("./code-fake.js", "r", (err, fileDescriptor) => {
+  if(err) {
+    console.log("Error: ", err.message)
+    return
+  }
+
+  console.log(fileDescriptor)
+})
+```
+
+Result: 3
+
+The first argument is the path
+Second argument is the Flag (the mode in which teh file is to be opened)
+
+The flags can be "r", "r+", "w", "w+", "a", "a+".
+
+- `r` - **Reading only**. stream - is at the beginning of the file.
+- `r+` - **Reading and Writing**. stream - is at the beginning of the file.
+- `w` - **Writing**. Truncates(empties) existing file. Creates a new file if missing. stream - is at the beginning of the file.
+- `w+` - **Open for reading and writing**. stream - is at the beginning of the file.
+- `a` - **Writing only**. Creates a new file if missing. stream - is at the end of the file.
+- `a+` - **Reading and Writing**. Creates a new file if missing. stream - is at the end of the file.
+
+### Reading From a File with a File Descriptor
+
+```js
+const fs = require("fs")
+
+fs.open("./code-fake.js", "r", (err, fd) => {
+  if(err) {
+    console.error(err)
+    return
+  }
+
+  const readBuffer = Buffer.alloc(1024)
+  const bufferOffset = 0
+  const bufferLength = readBuffer.length
+  const filePosition = 0
+
+  fs.read(
+    fd,
+    readBuffer,
+    bufferOffset,
+    bufferLength,
+    filePosition,
+    (readErr, readBytes) => {
+      if(readErr) {
+        console.error(readErr)
+        return
+      }
+
+      console.log(`Read ${readBytes} bytes:`)
+      console.log(readBuffer.slice(0, readBytes))
+
+      fs.close(fd, (closeErr) => {
+        if(closeErr) console.error(closeErr)
+      })
+    }
+  )
+})
+```
+
+### Writing to a File with a File Descriptor
+
+```js
+const fs = require("fs")
+
+fs.open("./code-fake.js", "w", (err, fd) => {
+  if(err) {
+    console.error(err)
+    return
+  }
+
+  const writeBuffer = Buffer.from("Halloween is evil.")
+  const bufferOffset = 0
+  const bufferLength = writeBuffer.length
+  const filePosition = null
+
+  fs.write(
+    fd,
+    writeBuffer,
+    bufferOffset,
+    bufferLength,
+    filePosition,
+    (writeErr, writeBytes) => {
+      if(writeErr) {
+        console.error(writeErr)
+        return
+      }
+
+      console.log(`write ${writeBytes} bytes:`)
+      console.log(writeBuffer.slice(0, writeBytes).toString())
+
+      fs.close(fd, (closeErr) => {
+        if(closeErr) console.error(closeErr)
+      })
+    }
+  )
+})
+
+```
+
+### Faster Way to Read a File
+
+```js
+const fs = require("fs")
+
+fs.readFile("./code-fake.js", 
+  (err, data) => console.log(data.toString("utf-8")))
+```
+
+readFile is asynchronous, but readFileSync  is synchronous.
+
+### Faster way to Write a file
+
+fs.writeFile - truncates a file before writing it.
+
+```js
+const fs = require("fs")
+
+const contentToWrite = "This is the Content I want to write to the file."
+
+fs.writefile(
+  "./code-fake.js",
+  contentToWrite,
+  "utf-8", 
+  (err) => console.error(err))
+```
+
+writeFile is asynchronous, but writeFileSync  is synchronous.
+
+fs.appendFile - Appends to an existing file.
+
+```js
+const fs = require("fs")
+
+const contentToAppend = "This is the Content I want to write to the file."
+
+fs.appendFile("./code-Bake.js", contentToAppend)
+```
+
+appendFile is asynchronous, but appendFileSync  is synchronous.
+
+### Close Your Open Files
+
+In real applications you should keep track of those file descriptors and eventually close them using `fs.close(fd[, callback])` when no longer needed.
+
+### Advanced Tip: careful when appending concurrently
+
+If you are using these low-level file-system functions to append into a file, and concurrent writes will be happening, opening it in append-mode will not be enough to ensure there will be no overlap. Instead, you should keep track of the last written position before you write.
+
+### Exercises - Low-Level File System
+
+**Exercise 1** - Get the size of a file
+Having a file named a.txt, print the size of that files in bytes.
+
+```js
+const fs = require("fs")
+
+fs.stat("a.txt", (err, stats) => {
+  if(err) throw err
+
+  console.log(`File Size: ${stats.size} bytes`)
+})
+```
+
+**Exercise 2** - read a chunk from a file. Having a file named a.txt, print bytes 10 to 14.
+
+```js
+const fs = require("fs")
+
+fs.open("a.txt", "r", (err, fd) => {
+  if(err) throw err
+
+  const buffer = Buffer.alloc(5)
+
+  fs.read(
+    fd,
+    buffer,
+    0,
+    5,
+    10,
+    (err, bytesRead, buffer) => {
+      if(err) throw err
+      console.log(`Bytes 10 - 14: ${buffer.toString()}`)
+      fs.close(fd, err => if(err) throw err)
+    }
+  )
+})
+```
+
+**Exercise 3** - read two chunks from a file
+Having a file named a.txt, print bytes 5 to 9, and when done, read bytes 10 to 14.
+
+```js
+const fs = require("fs")
+
+fs.open("a.txt", "r", (err, fd) => {
+  if(err) throw err
+
+  const buffer = Buffer.alloc(5)
+
+  // First Read
+  fs.read(
+    fd,
+    buffer,
+    0,
+    5,
+    5,
+    (err, bytesRead, buffer) => {
+      if(err) throw err
+      console.log(`Bytes 5 - 9: ${buffer.toString()}`)
+      fs.close(fd, err => if(err) throw err)
+    }
+  )
+
+  // Second Read
+  fs.read(
+    fd,
+    buffer,
+    0,
+    5,
+    10,
+    (err, bytesRead, buffer) => {
+      if(err) throw err
+      console.log(`Bytes 10 - 14: ${buffer.toString()}`)
+      fs.close(fd, err => if(err) throw err)
+    }
+  )
+})
+```
+
+**Exercise 4** - Overwrite a file
+Having a file named a.txt, Overwrite it with the UTF-8-encoded string “ABCDEFGHIJLKLMNOPQRSTUVXYZ0123456789abcdefghijklmnopqrstuvxyz”.
+
+```js
+const fs = require("fs")
+
+const content = "ABCDEFGHIJLKLMNOPQRSTUVXYZ0123456789abcdefghijklmnopqrstuvxyz"
+
+fs.writeFile("a.txt", content, "utf-8", err => {
+  if(err) throw err
+  console.log("File Overwritten Successfully")
+})
+```
+
+**Exercise 5** - append to a file
+Having a file named a.txt, append UTF-8-encoded string “abc” to file a.txt.
+
+```js
+const fs = require("fs")
+
+fs.appendFile("a.txt", "abc", "utf8", err => {
+  if(err) throw err
+  console.log("Content appended successfully")
+})
+```
+
+**Exercise 6** - change the content of a file
+Having a file named a.txt, change byte at pos 10 to the UTF-8 value of “7”.
+
+```js
+const fs = require("fs")
+
+fs.readFile("a.txt", (err, data) => {
+  if(err) throw err;
+
+  const buffer = Buffer.from(data)
+
+  if(buffer.length > 10) {
+    buffer[10] = "7".charCodeAt(0)
+  } else {
+    console.log("File is too short to modify position 10')
+  }
+})
+```
