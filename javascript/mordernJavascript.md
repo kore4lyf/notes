@@ -201,5 +201,157 @@ const dogArrayVersion = Object.entries(dog) // [ ["name": "Don"], ["color": "bla
 
 ### Avoid push mutations using spread operator
 
+When you call a function, you should trust
+that it won’t change any supplied values. Functions that have no side effects are called “pure” functions, and that’s what you should strive to achieve.
 
+```js
+function addGift(cart) {
+  if (cart.length > 2) {
+    return [...cart, reward];
+  }
+  return cart;
+}
+```
 
+When you start using spread operator, you would realize, you would no longer be dependent on array functions.
+
+**Copying**:
+
+**Mutating**:
+
+```js
+let x = [1, 2, 3]
+let y = x.slice()
+```
+
+**Not Mutating**:
+
+```js
+let x = [1, 2, 3]
+let y = [...x]
+
+console.log("x: ", x)
+console.log("y: ", y) // y does not reference x
+// x:  [ 1, 2, 3 ]
+// y:  [ 1, 2, 3 ]
+```
+
+**Adding Data**:
+
+**Mutating Data**:
+
+```js
+let x = [1, 2, 3]
+x.push(4)
+
+console.log("x: ", x)
+// x:  [ 1, 2, 3, 4 ]
+```
+
+**Not Mutating Data**:
+
+```js
+let x = [1, 2, 3]
+
+x = [...x, 4]
+```
+
+### Avoid Sort Confusion with the Spread Operator
+
+sort() mutates data. To prevent mutating the data use spread operator.
+
+```js
+[...staff].sort()
+```
+
+Now you can sort however much they want because you aren’t changing the original array.
+
+## Maximize Code Clarity with Special Collections
+
+### Use Objects for Static Key-Value Lookups
+
+Objects are the best collection for simple key value lookups.
+
+You could put the hex values in an array, but that doesn’t really communicate much.
+
+```js
+const colors = ['#d10202', '#19d836', '#0e33d8'];
+```
+
+```js
+const colors = {
+  red: '#d10202',
+  green: '#19d836',
+  blue: '#0e33d8'
+}
+```
+
+When a future developer wants to get the proper color red, they don’t need to know a position; they just call it directly: colors.red. Alternatively, they can use array syntax colors['red']. It’s simple. That’s why objects are so valuable for retrieving static information.
+
+> The key here is static information. Objects are not good for information that’s continually updated, looped over, altered, or sorted. In those cases, use `Map`.
+
+## Create Objects WIthout Mutations using Object.assign()
+
+`Object.assign()` allows you merge the properties of an object.
+
+The method takes a series of objects and updates the inner-most object with the keys and values from outer objects, then returns the updated first object.
+
+```js
+const defaults = {
+  author: "",
+  title: "",
+  year: 2017,
+  rating: null,
+};
+
+const book = {
+  author: "Joe Morgan",
+  title: "Simplifying JavaScript",
+};
+
+let newBook = Object.assign(defaults, book)
+
+console.log("newBook: ",newBook)
+console.log("defaults: ", defaults)
+console.log("book: ", book)
+```
+
+Result:
+
+newBook:  {
+  author: 'Joe Morgan',
+  title: 'Simplifying JavaScript',
+  year: 2017,
+  rating: null
+}
+
+defaults:  {
+  author: 'Joe Morgan',
+  title: 'Simplifying JavaScript',
+  year: 2017,
+  rating: null
+}
+
+book:  { author: 'Joe Morgan', title: 'Simplifying JavaScript' }
+
+Unfortunately `defualt` is muted.
+
+Fortunately, the solution is simple. Just make the first object an empty object. After you do that, the returned object will be the updated empty object. The other objects will have no mutations.
+
+```js
+const defaults = { 
+  author: '',
+  title: '',
+  year: 2017,
+  rating: null,
+};
+
+const book = {
+  author: 'Joe Morgan',
+  title: 'Simplifying JavaScript',
+};
+
+const updated = Object.assign({}, defaults, book);
+```
+
+Now, there’s one problem with copying objects using `Object.assign()`.
