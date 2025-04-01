@@ -903,6 +903,7 @@ function myFunction(value, index, array) {
 ```
 
 ### Array.reduce()
+
 The reduce() method runs a function on each array element to produce (reduce it to) a single value.
 
 The reduce() method works from left-to-right in the array. See also **reduceRight()**.
@@ -4889,6 +4890,7 @@ In ES6, there’s a new built-in object that behaves like a mathematical set and
 
 #### Creating a set 
 There’s a couple of different ways to create a Set. The first way, is pretty straightforward:
+
 ```js
 const games = new Set();
 console.log(games);
@@ -4951,10 +4953,19 @@ And if you run `.next()` again?
 ```js
 iterator.next();
 // uObject {value: 'February', done: false}
-``` 
-
+```
 And so on until done equals true which marks the end of the Set.
 
+```js
+const colors = new Set(["black", "red", "green", "purple"])
+
+const iterateColors = colors.values()
+console.log(iterateColors.next()) // { value: 'black', done: false }
+console.log(iterateColors.next()) // { value: 'red', done: false }
+console.log(iterateColors.next()) // { value: 'green', done: false }
+console.log(iterateColors.next()) // { value: 'purple', done: false }
+console.log(iterateColors.next()) // { value: undefined, done: true }
+```
 
 ##### Using a for...of Loop
 An easier method to loop through the items in a Set is the for...of loop.
