@@ -64,7 +64,7 @@ Groq is a query language used by Sanity.
 This means fetch all where _id match the image string.
 
 ```s
-*[_id == "image-b9c9dbd7b37508e3adbb7237026b426b0ad3bb50-740x786-jpgimage-b9c9dbd7b37508e3adbb7237026b426b0ad3bb50-740x786-jpg"]
+*[_id == "image-b9c9dbd7b37508e3adbb7237026b426b0ad3bb50-740x786-jpg"]
 ```
 
 This means fetch all data from schema dataset.
@@ -171,6 +171,41 @@ export const STARTUP_QUERY = defineQuery(`*[_type == "startup" && defined(slug.c
 `)
 ```
 
+Putting search keywords into consideration.
+
+```s
+*[_type == "startup" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc){
+  _id,
+  title,
+  _createdAt,
+  author -> {
+    _id, name, image, bio
+  }, 
+  views,
+  description,
+  category,
+  image
+}
+```
+
+Putting search keywords into consideration.
+
+```s
+*[_type == "startup" && _id == $id] [0] {
+  _id,
+  title,
+  _createdAt,
+  author -> {
+    _id, name, username image, bio
+  }, 
+  views,
+  description,
+  category,
+  image,
+  pitch
+}
+```
+
 ## Schema Types
 
 To learn more about how you can store date visit [https://www.sanity.io/docs/](https://www.sanity.io/docs/)
@@ -271,3 +306,83 @@ npm i server-only
 
 Sever-only is a package that helps us to ensure that a specific module can only be used in a server component.
 
+/sanity/lib/live.ts
+
+```ts
+import "server-only"
+import { defineLive } from "next-sanity";
+import { client } from './client'
+
+export const { sanityFetch, SanityLive } = defineLive({ 
+  client: client.withConfig({ 
+    // Live content is currently only available on the experimental API
+    // https://www.sanity.io/docs/api-versioning
+    apiVersion: 'vX' 
+  }) 
+});
+```
+
+To implement the live fetch go to your component that fetches the data and import and use `sanityFectch()` from `live.ts`.
+
+```tsx
+ // const posts: STARTUP_QUERYResult = await client.fetch(STARTUP_QUERY)
+  const { data: posts } = await sanityFetch({query: STARTUP_QUERY}) // Live update fetch
+
+  <>
+  // rafce 
+  </SanityLive>
+  </>
+```
+
+#### Disabling CDN data to be Fetched
+
+```js
+ const { views: totalViews }= await client.withConfig({
+    useCdn: false
+  }).fetch(STARTUP_VIEWS_QUERY, { id })
+```
+
+By setting useCdn to false.
+
+## Performing Write Operation
+
+To setup a write client on sanity we need to generate a Token with write permissions via the Sanity website.
+
+Visit your dashboard, navigate to the project dataSet list and select the dataset for project you are working on.
+Head over to API, click the Tokens menu, scroll to Tokens.
+Write name and give editor access.
+
+Copy the token you were given then paste in in your `.env.local`
+
+```env
+SANITY_WRITE_TOKEN=token
+```
+
+Go to `env.ts`
+
+```ts
+export const token = process.env.SANITY_WRITE_TOKEN
+```
+
+within `sanity/lib` create a new file called `sanity/lib/write-client.ts` then copy the content of `client.ts` to `write-client.ts`.
+
+Import token from env.ts, import server-only to ensure that the code can only be ran on the server.
+
+```ts
+import  "server-only"
+import { createClient } from 'next-sanity'
+
+import { apiVersion, dataset, projectId, token } from '../env'
+
+export const writeClient = createClient({
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
+  token,
+})
+
+if(!writeClient.config().token) {
+  throw new Error("Write token not found.")
+}
+```

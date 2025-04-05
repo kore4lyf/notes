@@ -966,3 +966,226 @@ fs.readFile("a.txt", (err, data) => {
   }
 })
 ```
+
+## Streams
+
+Node has a useful abstraction: Streams
+
+- readStream
+- writeStream
+
+### readStream
+
+A ReadStream is like a faucet of data. After you have created one, you can:
+
+- **Wait for data**:
+By binding to the “data” event you can be notified every time there is a chunk being delivered by
+that stream.
+
+If you use stream.setEncoding(encoding), the “data” events pass in strings.
+
+```js
+const readStream = ...
+readStream.on('data', function(data) {
+  // data is a buffer;
+});
+```
+
+The data passed in on the first example is a buffer.
+
+```js
+const readStream = ...
+readStream.setEncoding('utf8');
+readStream.on('data', function(data) {
+// data is a UTF-8-encoded string;
+ });
+```
+
+The size of each chunk may vary, it may depend on buffer size or on the amount of available data.
+
+- **Know when it ends**:
+A stream can end and you can know when that happens.
+
+```js
+const readStream = ...
+
+readStream.on("end", () => console.log("The stream has ended"))
+```
+
+- **Pause it**:
+A read stream is like a faucet, an you can keep the data from coming in by pausing it.
+
+```js
+readStream.pause()
+```
+
+- **Resume it**:
+The faucet can be reopened and the stream can start flowing again.
+
+```js
+readStream.resume()
+```
+
+### writeStream
+
+- **Write**:
+You can write a buffer or a string by calling write:
+
+```js
+const writeStream = ...
+writeStream.write("This is an UTF-8 string")
+```
+
+Alternatively you can specify another encoding like this:
+
+```js
+const writeStream = ...
+writeStream.write('7e3e4acde5ad240a8ef5e731e644fbd1', "base64")
+```
+
+You can write a buffer:
+
+```js
+const writeStream = ...
+const buffer = Buffer.from("This is a buffer with some string.")
+writeStream.write(buffer)
+```
+
+- **Wait for it to drain**:
+
+If `write()` manages to flush all data to the kernel buffer, it returns true. If not, returns false.
+
+When a writeStream manages to flush the data into the kernel buffers, it emits a "drain" event so you can listen to it like this:
+
+```js
+const writeStream = ...
+writeStream.on("drain", () => console.log("Drain emitted"))
+```
+
+### Some Stream Examples
+
+Here are some instances of Node streams.
+
+#### Filesystem Streams
+
+You can create a read stream for a file path by doing something like:
+
+```js
+const fs = require("fs")
+const rs = fs.createReadStream("/path/to/file")
+```
+
+```js
+const fs = require("fs")
+
+const rs = fs.createReadStream("./code-Bake.js")
+rs.setEncoding("utf8")
+rs.on("data", (data) => console.log(data))
+rs.on("end", () => console.log("The End."))
+```
+
+You can pass a second argument.
+
+```js
+const fs = require("fs")
+const options = { 
+  flags: 'r',
+  encoding: null,
+  fd: null,
+  mode: 0666,
+  bufferSize: 64 * 1024
+}
+
+const rs = fs.createReadStream("./code-Bake.js", options)
+rs.setEncoding("utf8")
+rs.on("data", (data) => console.log(data))
+rs.on("end", () => console.log("The End."))
+```
+
+You can also create a write stream.
+
+```js
+const fs = require("fs")
+
+const writeStream = fs.createWriteStream("./code-Bake.js", {flags: "a", encoding: "utf-8"})
+
+writeStream.write("David Goggins")
+```
+
+### Network Streams
+
+There are all kinds of streams on the networking API of Node.
+For instance, a client TCP connection is a write and a read stream.
+An http request object is a read stream. An http response object is a write stream. That is, each implements the ReadStream / WriteStream methods and events.
+
+As we said, Node does not block on writes, and it buffers the data for you if the write cannot be flushed into the kernel buffers. Imagine this scenario: you are pumping data into a write stream (like a TCP connection to a browser), and your source of data is a read stream (like a file ReadStream):
+
+```js
+require('http').createServer(function(req, res) {
+  const rs = fs.createReadStream('/path/to/big/file');
+  
+  rs.on('data', function(data) {
+    res.write(data);
+  });
+  
+  rs.on('end', function() {
+    res.end();
+  });
+});
+```
+
+If the file is local, the read stream should be fast. If the connection to the client is slow, the writeStream will be slow. So readStream “data” events will happen quickly, the data will be sent to the writeStream, but eventually Node will have to start buffering the data because the kernel buffers will be full.
+
+What will happen then is that the /path/to/big/file file will be buffered in memory for each request,
+and if you have many concurrent requests, Node memory consumption will inevitably increase,
+which may lead to other problems, like swapping, thrashing and memory exhaustion.
+
+To address this problem you will have to make use of the pause and resume of the read stream, and
+pace it alongside your write stream so your memory does not fill up:
+
+```js
+require('http').createServer(function(req, res) {
+  const rs = fs.createReadStream('/path/to/big/file');
+  
+  rs.on('data', function(data) {
+    if (!res.write(data)) {
+      rs.pause();
+    }
+  });
+
+  res.on('drain', function() {
+    rs.resume();
+  });
+
+  rs.on('end', function() {
+    res.end();
+  });
+});
+```
+
+We are pausing the readStream if the write cannot flush it to the kernel, and we are resuming it (line 9) when the writeStream is drained.
+
+#### Pipe
+
+What was described here is a recurring pattern, and instead of this complicated chain of events, you
+can simply use `stream.pipe()`, which does exactly what we described:
+
+```js
+var util = require('util');
+require('http').createServer(function(req, res) {
+  var rs = fs.createReadStream('/path/to/big/file');
+  rs.pipe(res);
+});
+```
+
+```js
+var fs = require('fs');
+
+require('http').createServer(function(req, res) {
+  var rs = fs.createReadStream('/path/to/big/file');
+  rs.pipe(res, {end: false});
+  rs.on('end', function() {
+    res.end("And that's all folks!");
+  }).listen(4000);
+});
+```

@@ -455,6 +455,17 @@ const TaskForm = () => {
 export default TaskForm;
 ```
 
+### useActionState()
+
+useActionState is added to replace and improve the ReactDOM useFormState.
+
+useActionState is a hook that allows you to update state based on the result of a form action.
+
+```js
+const [state, formAction, isPending] = useActionState(fn, initalState, permalink?)
+```
+
+
 ### NextJs Rendering Techniques
 
 #### Static Site Generation (SSG)
@@ -568,6 +579,66 @@ export default async function Page() {
 It's a new rendering that combines static and dynamic rendering. It's allows you to render a static shell of a page while streaming dynamic content.
 
 With PPR you can have both static and dynamic content on a page, but static content loads faster and dynamic contents have a placeholder or container awaiting it's delivery.
+
+PPR is still at experimental phase as a March 2025.
+
+Update `next.config.ts`
+
+```js
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  images: {
+    dangerouslyAllowSVG: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*',
+        // You can specify port and pathname patterns if needed
+        // port: '',
+        // pathname: '/**',
+      },
+    ],
+  },
+  experimental: {
+    ppr: "incremental"
+  },
+  devIndicators: { // This will help us visualize what is happening with PPR
+    appIsrStatus: true,
+    buildActivity: true,
+    buildActivityPosition: "bottom-right"
+  }
+};
+
+export default nextConfig;
+```
+
+In your page.tsx, `export const experimental_ppr = true`
+
+```tsx
+import { STARTUP_BY_ID_QUERY } from "@/sanity/lib/queries"
+import { notFound } from "next/navigation"
+import React from 'react'
+
+export const experimental_ppr = true
+
+const page = async ({ params }: { params: Promise<{ id: string }>}) => {
+  const id  = (await params).id
+
+  const post = await client.fetch(STARTUP_BY_ID_QUERY, { id })
+
+  if(!post) return notFound()
+
+  return (
+    <>
+      <h1 className="text-3xl">This is a startup number: {id}</h1>
+    </>
+  )
+}
+
+export default page
+```
 
 ## API
 
@@ -745,3 +816,56 @@ flie convention: twitter-image.alt - .txt
 
 > File based metadata has a higher priority over a config based metadata.
 
+## unstable_after
+
+unstable_after allows you to schedule work to be executed after a response is finished. This is useful for task and other side effect that should not block the response, such as logging and analytics.
+
+It can be used in server components e.g. server actions, route handlers and Middleware.
+
+```js
+import { unstable_after as after } from 'next/server'
+
+const Component = async () => {
+  after( async () => await // Do something asynchronous
+  )
+}
+```
+
+To enable experimental.after it must be enabled in next config
+
+## Suspense
+
+Here `id` is an asynchronous data.
+Skeleton is a suspense component from shadcn, which an could be any component.
+
+
+```js
+
+import React, { Suspense } from 'react'
+
+export const exprimental_ppr = true
+
+const page = () => {
+  return (
+    <>
+      <Suspense fallback={<Skeleton className="w-fit" />}>
+        <View id={id} />
+      </Suspense>
+    </>
+  )
+}
+```
+
+## Parallel and Sequential data fetching
+
+When fetching data inside components, you need to be aware of two data fetching patterns: Parallel and Sequential.
+
+Sequential: request in a component tree are dependent on each other. This can lead to longer loading times.
+
+Parallel: request in a route are eagerly initiated and will load data at the same time. This reduces the to time it takes to load data.
+
+```ts
+const [post, select] = await Promise.all([
+  
+])
+```

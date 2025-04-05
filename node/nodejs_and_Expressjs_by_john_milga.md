@@ -1,11 +1,13 @@
 # Node Js and Express Js 
 
-## Introduction 
+## Introduction
+
 What is Node Js?
+
 - Environment to run JS outside Browser
-- Built on chrome's V8 JS Engine 
+- Built on chrome's V8 JS Engine
 - Big Community
-- Full-stack 
+- Full-stack
 
 ### Global Variables
 Global variables are variables that can be accessed anywhere in an application. 
