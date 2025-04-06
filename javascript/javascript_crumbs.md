@@ -902,6 +902,26 @@ function myFunction(value, index, array) {
 }
 ```
 
+### Array.groupBy()
+
+```js
+const users = [
+  { name: "Bilal", role: "admin" },
+  { name: "Ali", role: "user" },
+  { name: "Ayesha", role: "admin" },
+  { name: "Sara", role: "user" }
+]
+
+const groupedUsers = users.groupBy(user => user.role)
+
+console.log(groupedUsers)
+
+// {
+//    "admin": [{ "name": "Bilal", "role": "admin" }, { "name": "Ayesha", "role": "admin" }]
+//    "user": [{ "name": "Ali", "role": "user" }, { "name": "Sara": "user" }]
+// }
+```
+
 ### Array.reduce()
 
 The reduce() method runs a function on each array element to produce (reduce it to) a single value.
