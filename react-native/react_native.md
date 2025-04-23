@@ -1960,7 +1960,7 @@ React Navigation works both with or without Expo in React Native Apps.
 
 ### React Navigation
 
-It provides a variety of Navigators like **Stack**, **Drawer**, and **Tab** Navigators.
+ It provides a variety of Navigators like **Stack**, **Drawer**, and **Tab** Navigators.
 
 Stack Navigator provides a way for your app to transition between screens where each new screen is placed on top a stack.
 
