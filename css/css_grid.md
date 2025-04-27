@@ -10,7 +10,6 @@
 - Browser Support
 
 
-
 ## Grid
 ```css
 .list {

@@ -13,9 +13,9 @@ React Context allows data to be passed from the parent component to any nested c
 1. Create a context
 
 ```jsx
-import { context } from 'react'
+import { createContext } from 'react'
 
-const MyContext = createContext()
+const MyContext = createContext("")
 
 export default MyContext
 ```
