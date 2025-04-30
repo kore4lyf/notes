@@ -62,25 +62,187 @@ for(var i = 0; i < 3; i++) {
 }
 ```
 
-Answer: 
+Answer: 333333
 
 ## 5
 
 ```js
+function getAge() {
+  "use strict";
+  age = 21
+  console.log(age)
+}
 
+getAge()
 ```
+
+Answer: ReferenceError
+
+"use strict" enforces stricter parsing and error handling rules.
+Age = 21 without strict mode will become a global variable.
+**Strict mode prohibits implicitly creating global variables.** JavaScript will throw a ReferenceError since assigning to an undeclared variable is an error in strict mode.
+Execution will stop at `age = 21`.
+ReferenceError: age is not defined
+
+## RULES/BEHAVIOURS ENFORCED BY STRICT MODE
+
+A. **Prevents Accidental Globals**: Assigning values to undeclared variables throws a ReferenceError instead of creating global variables.
+
+Non-strict: `undeclaredVar = 1`, creates window.undeclearedVar
+Strict: `undeclaredVar = 1`, throws ReferenceError
+
+```js
+"use strict"
+
+undeclaredVar = 1
+// ReferenceError
+
+x = 3.14; // ReferenceError
+// This will cause an error because x is not declared
+
+function myFunction() {
+  y = 3.14; // ReferenceError
+}
+
+// Declared inside a function, it has local scope (only the code inside the function is in strict mode)
+
+function myFunction() {
+  "use strict";
+  y = 3.14;   // ReferenceError
+}
+```
+
+B. **Prevents Silent Errors on Assignments**: Assignment that would silently fail in non-strict mode now throw errors.
+
+```js
+undefined = 5
+// TypeError
+
+// Non Writable Objects
+Object.defineProperty(obj, "x", { value: 0, writable: false}))
+obj.x = 1 // TypeError
+
+// Getter-only Properies
+var obj = {
+  get x() { return 0}
+}
+obj.x = 1 // TypeError
+```
+
+> In strict mode, any assignment to a non-writable property, a getter-only property, a non-existing property, a non-existing variable, or a non-existing object, will throw an error.
+
+C. Requires delete on Deletable properties
+
+Attempting to delete variables, functions, function arguments or non-configurable properties throws an Error.
+
+You can only delete configurable properties of objects.
+
+Non strict: delete someVarable; // returns false
+
+```js
+"use strict"
+delete someVariables // SyntaxError
+```
+
+D. Prohibits Duplicate Parameter Name
+
+Declaring duplicate parameter name will throw SyntaxError.
+
+Non strict: function sum(x, x) {...} 
+is allowed but the second parameter overrides the first.
+
+```js
+function getSum(x, x) {
+  sum = x+x
+  console.log(sum)
+}
+
+getSum(3, 4) // 8
+```
+
+```js
+"use strict"
+function sum(x, x) { // SyntaxError
+  ...
+}
+```
+
+E. Prohibits Old Octal Syntax
+
+Octal numeric literals (Prefixed with a leading zero e.g. 010) are a syntaxError.
+The new way to do it is `0o` prefix (e.g. `0o10`)
+
+Non Strict: var x = 010
+Sets x to 8
+
+```js
+"use strict"
+var x = 010; // SyntaxError
+```
+
+F. Reserved Keywords
+
+Using future reserved keywords like (implements, interface, let, package, private, protected, public, static, yield) as a variables or function names throws SyntaxError.
+
+G. Prohibits `with` Statement
+The `with` statement is disallowed and throws a SyntaxError.
+`with` is discouraged to performance and readability issues.
+
+H. Makes `eval` Safer
+Variables declared in eval() code in strict mode do not leak into the surrounding scope (i.e eval cannot introduce a new variable into the surrounding scope)
+
+I. Secures arguments and arguments.callee
+
+- Changes to arguments do not affect the corresponding named parameters, and vice-versa.
+- arguments.callee is disallowed and accessing it throws a TypeError
+- arguments.caller is also disallowed
+
+J. Changes `this` Binding
+if a function is called without explicit context, this with be undefined.
 
 ## 6
 
-```js
+What is the output
 
+```js
+const obj = { a: "one", b: "two", a: "three" }
+console.log(obj)
 ```
+
+Answer: { a: "three", b: "two"}
+
+{a: "three"} is an update to initial value of a
 
 ## 7
 
-```js
+What is the event.target when clicking the button?
 
+```js
+<div onclick="console.log('first div')">
+  <div onclick="console.log('Second div')">
+    <button onclick="(e) => console.log('Button', e.target)">
+      CLICK
+    </button>
+  </div>
+</div>
 ```
+
+A. Outer div
+B. Inner div
+C. button
+D. An array of all nested element
+
+result:
+button
+second div
+first div
+
+due to bubbling.
+
+When the handlers in the inner and outer div elements are executed because of the click bubbling up, the `event.target` property within those handlers will still refer back to the original element that was clicked (Which is the button).
+To know which element the current handler/function is attached to you would use `event.currentTarget`
+
+Answer: C
 
 ## 8
 
