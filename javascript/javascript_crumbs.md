@@ -5820,3 +5820,18 @@ String.fromCodePoint() - Converts a char code
 String.fromCodePoint(65) // A
 String.fromCodePoint(66) // B
 ```
+
+## Swapping variable values
+
+You can easily swap variable values without creating a temp variable.
+
+```js
+let a = 5
+let b = 10
+
+[a, b] = [b, a]
+// a = 10
+// b = 5
+```
+
+## 
