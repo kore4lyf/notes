@@ -172,3 +172,178 @@ for image:
 150 x 150 for summary
 560 x 300 for summary_large_image
 
+### Structured Data
+
+- Information that crawlers are already looking for, and can easily read
+- Consistent structure, across many web properties
+- Preferred format: JSON-LD in a special script tag
+
+```html
+<script type="application/ld+json">
+  ...
+</script>
+```
+
+#### What does this get us?
+
+- Enhanced features in apps
+- Indexers don't have to guess so much about connections between things
+- More control over the way search results look
+
+Breadcrumbs (used by google's crawler to know how a site is structured)
+
+```html
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@id": "https://example.com/books",
+        "name": "Books",
+        "image": "http://example.com/images/icon-book.png"
+      }
+    },{
+      "@type": "ListItem",
+      "position": 2
+      ....
+    }
+    }]
+  }
+</script>
+
+<script type="application/id+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Course",
+  "name": "Introduction to Computer Science and Programming",
+  "description": "Introduction CS course laying out the basics.",
+  "provider": {
+    "@type": "Organization",
+    "name": "University of Technoloy - Edureka",
+    "sameAs": "http://www.ut-eureka.edu"
+  }
+}
+</script>
+```
+
+To make the content data dynamic react.
+
+> ids don't have to be numbers they can be urls too.
+
+You can visit [Schema.org](https://schema.org) to know how the data should be structured.
+
+To test you structure data visit **Google structured data testing tool**.
+
+Google also has a sample for you can apply to a page.
+The higher the itemListElement the deeper the content.
+
+Add `<script type="application/ld+json">` inside body tag at the very beginning.
+
+You can add two structured data to your page one to show depth and the other that describes your content.
+
+You can get samples from Google.
+
+## Mobile Pages
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1">
+```
+
+Other properties:
+
+- width - Positive integer or "device-width"
+- initial-scale - Positive number between 1.0 and 10.0
+- maximum-scale - Positive number between 1.0 and 10.0
+- minimum-scale - Positive number between 1.0 and 10.0
+- user-scalable - yes or no
+
+Allows website launch in Fullscreen on IOS
+
+```html
+<meta name="apple-mobile-web-app-capable" content="yes">
+```
+
+Black Status Bar
+
+```html
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+```
+
+Home Screen Title
+
+```html
+<meta name="apple-mobile-web-app-title" content="Frontend Masters">
+```
+
+manifest.json for android devices
+
+```html
+<link rel="manifest" href="/manifest.json">
+```
+
+```json
+{
+  "name": "Frontend Masters", // App name
+  "icons": [
+    { /* 192px Square recommended for "add to home screen" */
+      "src": "/myicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    { /* 512px Square recommended for "startup screen" */
+      "src": "/myicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+
+  ], // Various sizes of icon
+  "theme_color": "#2d89ef", // Title bar styling
+  "background_color": "#2d89ef", // Used for startup screen
+  "display": "standalone" // Launch as an app
+}
+```
+
+for the display, it may take:
+
+- fullscreen - All available display area is used
+- standalone - Look & feel like a standalone app
+- minimal-ui - "lightbrowser" UI. Doesn't have own window.
+- browser - Conventional web app in a browser
+
+### Home screen Icons
+
+```html
+<link href="https://placehold.it/152" sizes="152x152" rel="apple-touch-icon">
+```
+
+other sizes: unfortunately you have to provide a link tag for other sizes too.
+
+57 - iPhone 1, 2
+72 - iPad 1, 2
+114 - iPhone 4 (Retina)
+120 - iPhone 6, 7, SE
+144 - iPad 3 (Retina)
+152 - iPad Air, Air 2, Mini
+167 - iPad Pro
+180 - iPhone 6+, 7+
+128 - Android Regular
+192 - Android High Res
+
+```html
+<script>
+addToHomeScreen({
+  appId: "mordern.seo", // Local storage name (no need to change)
+  message: "Add to home?", // the message can be customized
+  modal: false, // block UI until the message is closed
+  mandatory: false, // can't proceed if you don't add to homescreen
+
+})
+</script>
+```
+
+### AMP (Accelerated Mobile Pages)
+
+No longer a an important factor.
