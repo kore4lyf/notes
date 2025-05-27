@@ -1,4 +1,7 @@
 // Palindrome
+// Two pointer technique is the approach
+// set upperBound and lowerBound
+// Create a while(lb <= ub) loop that decrements the ub and increments db
 
 const isPalindrome =(word) => {
   let upperBound = word.length - 1

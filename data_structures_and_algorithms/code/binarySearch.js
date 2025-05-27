@@ -1,3 +1,12 @@
+// Search Algorithm
+
+// Binary search has an efficiency of O(log n)
+// lowerBound (lb)
+// upperBound (ub)
+// midPoint = (lb + ub) / 2
+// if (midPoint === lb ||  midpoint === ub) // Search value in not in the array
+// if (searchValue === midPoint) // Value found
+
 const binarySearch = async (array, searchValue) => {
   let lowerBound = 0
   let upperBound = array.length - 1 

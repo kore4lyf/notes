@@ -150,7 +150,9 @@ Some pronounce this as “Big Oh of N.” Others call it “Order of N.” My pe
 > An algorithm that is O(N) is also known as having linear time.
 
 - Reading from an array takes just one step. So, we express this as O(1), which I pronounce “Oh of 1”.
-Big O is an answer to that key question on your forehead: if there are N data elements, how many steps will the algorithm take?
+Big O is an answer to that key question on your forehead:
+
+> if there are N data elements, how many steps will the algorithm take?
 
 - Let’s say we have an algorithm that always takes three steps no matter how much data there is. That is, for N elements, the algorithm always takes three steps. How would you express that in terms of Big O?
 Based on everything you’ve learned up to this point, you’d probably say that it’s O(3).
@@ -167,7 +169,8 @@ The same is true even for an O(1) algorithm that always takes one million steps.
 ### Same Algorithm, Different Scenarios
 
 - Linear search isn’t always O(N). If we were to describe the efficiency of linear search in its totality, we’d say that linear search is O(1) in a best-case scenario (when the item we’re searching for is found in the first cell of the array), and O(N) in a worst-case scenario (If the item we’re looking for is in the final cell of the array).
-- While Big O effectively describes both the best- and worst-case scenarios of a given algorithm, Big O Notation generally refers to the worst-case scenario unless specified otherwise. This is why most references will describe linear search as being O(N) even though it can be O(1) in a best-case scenario. 
+- While Big O effectively describes both the best- and worst-case scenarios of a given algorithm.
+- **Big O Notation generally refers to the worst-case scenario unless specified otherwise**. This is why most references will describe linear search as being O(N) even though it can be O(1) in a best-case scenario. 
 
 This is because a “pessimistic” approach can be a useful tool.
 
@@ -202,14 +205,31 @@ O(log N) means that for N data elements, the algorithm would take log2
 | 512 | 512 | 9 |
 | 1024 | 1024 | 10 |
 
-
-
-## CHAPTER 4: Speeding Up Your Code with Big O
+## CHAPTER 4: Speeding Up Your Code with Big O (Sorting Algorithms)
 
 ### Bubble Sort
 
+Bubble Sort is a basic sorting algorithm and follows these steps:
+1. Point to two consecutive values in the array. (Initially, we start by pointing
+to the array’s first two values.) Compare the first item with the second one
+
+2. If the two items are out of order (in other words, the left value is greater
+than the right value), swap them (if they already happen to be in the cor-
+rect order, do nothing for this step)
+
+3. Move the “pointers” one cell to the right.
+
+4. Repeat Steps 1 through 3 until we reach the end of the array, or if we
+reach  the  values  that  have  already  been  sorted.  (This  will  make  more
+sense in the walk-through that follows.) At this point, we have completed our first pass-through of the array. That is, we “passed through” the array by pointing to each of its values until we reached the end.
+
+5. We then move the two pointers back to the first two values of the array, and execute another pass-through of the array by running Steps 1 through 4 again. We keep on executing these pass-throughs until we have a pass through in which we did not perform any swaps. When this happens, it
+means our array is fully sorted and our work is done.
+
 #### Code Implementation: Bubble Sort
+
 Here’s an implementation of Bubble Sort in Python:
+
 ```py
 def bubble_sort(list):
     unsorted_until_index = len(list) - 1
@@ -225,8 +245,8 @@ def bubble_sort(list):
     return list
 ```
 
-
 ### The Efficiency of Bubble Sort
+
 The Bubble Sort algorithm contains two significant kinds of steps:
 • **Comparisons**: two numbers are compared with one another to determine
 which is greater.
@@ -240,6 +260,7 @@ With an array containing 20 values, we’d have:
 
 If you look at the growth of steps as N increases, you’ll see that it’s growing by approximately N^2
 . Take a look at the following table:
+
 | Data Elements | Steps | N^2 |
 | :--- | :--- | :--- |
 | 5 | 20 | 25 |
@@ -249,7 +270,6 @@ If you look at the growth of steps as N increases, you’ll see that it’s grow
 | 80 | 6320 | 6400 |
 
 > O(N2) is also referred to as quadratic time.
-
 
 ### Big O of an embedded loop
 ```js 

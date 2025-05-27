@@ -1,7 +1,7 @@
 # Big O notation
 
 Big O notation is a way to measure the time complexity of an algorithm.
-It help us understand how the execution time of an algorithm grows as the size fo the input increases in the worst, best or average case.
+It help us understand how the execution time of an algorithm grows as the size of the input increases in the worst, best or average case.
 
 1. O(1) Constant - The algorithm execution time doesn't depend on the size of the input. e.g Accessing an element in an array, Checking if a number is even.
 
