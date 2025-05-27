@@ -77,7 +77,7 @@ are the words case sensitive?
 if beginWord equals endWord, is the length 1, or do we return 0?
 if wordList is empty do we return 0?
 
-2. Pattern Recognition
+2 Pattern Recognition
 
 LeetCode is just pattern recognition, you can solve most of these problems using common data structures.
 
@@ -86,3 +86,38 @@ then whats the Big O Notation of the solution.
 
 Step 2: Find Optimal Solution
 
+## Converting O(N^2) to O(N)
+
+```js 
+function hasDuplicateValue(array) {
+
+  for(let i = 0; i < array.length; i++) {
+    for(let j = 0; j < array.length; j++) {
+        if(i !== j && array[i] === array[j]) {
+            return true;
+        }
+    }
+  }
+
+console.log(steps); // print number of steps if no duplicates
+return false;
+}
+```
+
+Above is function that find if an array has a duplicate value. For example, the array [1, 5, 3, 9, 1, 4] has two instances of the number 1, so we’d return true to indicate that the array has a case of duplicate numbers.
+
+```js
+function hasDuplicateValue(array) {
+  let existingIndexNumbers = [];
+
+  for(let i = 0; i < array.length; i++) {
+    if(existingNumbers[array[i]]) {
+      return true;
+    } else {
+      existingNumbers[array[i]] = true;
+    }
+  }
+}
+```
+
+Since the array is an array of numbers, by looping through their values in the original array and using the value as an index in existingIndexNumber, it becomes easy to find an existing value in the array.

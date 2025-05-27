@@ -272,46 +272,48 @@ If you look at the growth of steps as N increases, you’ll see that it’s grow
 > O(N2) is also referred to as quadratic time.
 
 ### Big O of an embedded loop
+
 ```js 
 function hasDuplicateValue(array) {
-    let steps = 0; // count of steps
+  let steps = 0; // count of steps
 
-    for(let i = 0; i < array.length; i++) {
-        for(let j = 0; j < array.length; j++) {
-            steps++; // increment number of u
-            if(i !== j && array[i] === array[j]) {
-                return true;
-            }
+  for(let i = 0; i < array.length; i++) {
+    for(let j = 0; j < array.length; j++) {
+        steps++; // increment number of u
+        if(i !== j && array[i] === array[j]) {
+            return true;
         }
     }
-    console.log(steps); // print number of steps if no duplicates
-    return false;
+  }
+
+console.log(steps); // print number of steps if no duplicates
+return false;
 }
 ```
 Based on this, we can conclude that for N values in the array, our function would perform N^2 comparisons. This is because we perform an outer loop that must iterate N times to get through the entire array, and for each iteration, we must iterate another N times with our inner loop. That’s N steps * N steps, which is N^2 steps, leaving us with an algorithm of O(N^2).
 This added code will print the number of steps taken when there are no duplicates. If we run hasDuplicateValue([1, 4, 5, 2, 9]), for example, we’ll see an output of 25 in the JavaScript console, indicating that there were 25 comparisons for the 5 elements in the array.
 
 > Very often (but not always), when an algorithm nests one loop inside another, the algorithm is O(N^2). So, whenever you see a nested loop, O(N^2) alarm bells should go off in your head.
-
 > Now, the fact that our function is O(N^2) should give us pause. This is because O(N^2) is considered a relatively slow algorithm. Whenever you encounter a slow algorithm, it’s worth spending some time to consider whether there are any faster alternatives. There may not be any better alternatives, but let’s first make sure.
 
-
 ### A Linear Solution
+
 Following is another implementation of the hasDuplicateValue function that doesn’t rely on nested loops. It’s a bit clever, so let’s first look at how it works and then we’ll see if it’s any more efficient than our first implementation.
 
 ```js
 function hasDuplicateValue(array) {
-    let existingNumbers = [];
-    for(let i = 0; i < array.length; i++) {
-        if(existingNumbers[array[i]] === 1) {
-            return true;
-        } else {
-            existingNumbers[array[i]] = 1;
-        }
+  let existingNumbers = [];
+
+  for(let i = 0; i < array.length; i++) {
+    if(existingNumbers[array[i]] === 1) {
+      return true;
+    } else {
+      existingNumbers[array[i]] = 1;
     }
-    return false;
+  }
 }
 ```
+
 This new algorithm appears to make N comparisons for N data elements. This is because there’s only one loop.
 We know that O(N) is much faster than O(N^2), so by using this second approach, we’ve optimized our hasDuplicateValue function significantly. This is a huge speed boost.
 
