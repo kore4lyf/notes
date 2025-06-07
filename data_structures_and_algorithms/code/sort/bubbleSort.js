@@ -8,26 +8,26 @@
   // Inner - Swaps
   // Outer - Repeat Swap
 const bubbleSort = (arr, order="asc") => {
+  arr = [...arr] // doesn't mutate the original data
   const arrLen = arr.length - 1
-  let sorted = false
+  let sorted = true
 
-  while(!sorted) {
+  while(sorted) {
       // Point to the first two value
     let upperBound = 0
     let lowerBound = 1
-    sorted = true
+    sorted = false
 
     while(upperBound < arrLen) {
       if(order === "desc") {
-        if (arr[upperBound] < arr[lowerBound]) {
+        if (arr[upperBound] < arr[lowerBound]) { // Swap if true
           [arr[upperBound], arr[lowerBound]] = [arr[lowerBound], arr[upperBound]]
-          sorted = false
+          sorted = true
         }
       } else {
-        if (arr[upperBound] > arr[lowerBound]) {
+        if (arr[upperBound] > arr[lowerBound]) { // Swap if true
           [arr[upperBound], arr[lowerBound]] = [arr[lowerBound], arr[upperBound]]
-          sorted = false
-          console.log("asc")
+          sorted = true
         }
       }
 

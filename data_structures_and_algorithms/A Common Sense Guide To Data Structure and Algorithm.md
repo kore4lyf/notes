@@ -170,19 +170,20 @@ The same is true even for an O(1) algorithm that always takes one million steps.
 
 - Linear search isn’t always O(N). If we were to describe the efficiency of linear search in its totality, we’d say that linear search is O(1) in a best-case scenario (when the item we’re searching for is found in the first cell of the array), and O(N) in a worst-case scenario (If the item we’re looking for is in the final cell of the array).
 - While Big O effectively describes both the best- and worst-case scenarios of a given algorithm.
-- **Big O Notation generally refers to the worst-case scenario unless specified otherwise**. This is why most references will describe linear search as being O(N) even though it can be O(1) in a best-case scenario. 
+- **Big O Notation generally refers to the worst-case scenario unless specified otherwise**. This is why most references will describe linear search as being O(N) even though it can be O(1) in a best-case scenario.
 
 This is because a “pessimistic” approach can be a useful tool.
 
 #### An Algorithm of the Third Kind
 
 - Let’s now look at how to describe binary search in terms of Big O Notation. We can’t describe binary search as being O(1), because the number of steps increases as the data increases. It also doesn’t fit into the category of O(N).
-- In Big O terms, we describe binary search as having a time complexity of: O(log N). 
+- In Big O terms, we describe binary search as having a time complexity of: O(log N).
 
 > I pronounce this as “Oh of log N.” This type of algorithm is also known as having a time complexity of log time.
 
 #### Logarithms
-Logarithms are the inverse of exponents. 
+
+Logarithms are the inverse of exponents.
 log2 8 = 3.
 Another way of explaining log2
  8 is: if we kept dividing 8 by 2 until we ended
@@ -191,9 +192,9 @@ up with 1, how many 2s would we have in our equation?
 
 In other words, how many times do we need to halve 8 until we end up with 1? In this example, it takes us three times. Therefore, log2 8 = 3.
 
-
 O(log N) means that for N data elements, the algorithm would take log2
  N steps. If there are 8 elements, the algorithm would take three steps, since log2 8 = 3.
+
 | N Elements | O(N) | O(log N) |
 | :--- | :--- | :--- |
 | 8 | 8 | 3 |
@@ -210,21 +211,16 @@ O(log N) means that for N data elements, the algorithm would take log2
 ### Bubble Sort
 
 Bubble Sort is a basic sorting algorithm and follows these steps:
-1. Point to two consecutive values in the array. (Initially, we start by pointing
-to the array’s first two values.) Compare the first item with the second one
 
-2. If the two items are out of order (in other words, the left value is greater
-than the right value), swap them (if they already happen to be in the cor-
-rect order, do nothing for this step)
+1. Point to two consecutive values in the array.(Initially, we start by pointing to the array’s first two values.) Compare the first item with the second one
+
+2. If the two items are out of order (in other words, the left value is greater than the right value), swap them (if they already happen to be in the correct order, do nothing for this step)
 
 3. Move the “pointers” one cell to the right.
 
-4. Repeat Steps 1 through 3 until we reach the end of the array, or if we
-reach  the  values  that  have  already  been  sorted.  (This  will  make  more
-sense in the walk-through that follows.) At this point, we have completed our first pass-through of the array. That is, we “passed through” the array by pointing to each of its values until we reached the end.
+4. Repeat Steps 1 through 3 until we reach the end of the array, or if we reach  the  values  that  have  already  been  sorted.  (This  will  make  more sense in the walk-through that follows.) At this point, we have completed our first pass-through of the array. That is, we “passed through” the array by pointing to each of its values until we reached the end.
 
-5. We then move the two pointers back to the first two values of the array, and execute another pass-through of the array by running Steps 1 through 4 again. We keep on executing these pass-throughs until we have a pass through in which we did not perform any swaps. When this happens, it
-means our array is fully sorted and our work is done.
+5. We then move the two pointers back to the first two values of the array, and execute another pass-through of the array by running Steps 1 through 4 again. We keep on executing these pass throughs until we have a pass through in which we did not perform any swaps. When this happens, it means our array is fully sorted and our work is done.
 
 #### Code Implementation: Bubble Sort
 
@@ -273,7 +269,7 @@ If you look at the growth of steps as N increases, you’ll see that it’s grow
 
 ### Big O of an embedded loop
 
-```js 
+```js
 function hasDuplicateValue(array) {
   let steps = 0; // count of steps
 
@@ -290,6 +286,7 @@ console.log(steps); // print number of steps if no duplicates
 return false;
 }
 ```
+
 Based on this, we can conclude that for N values in the array, our function would perform N^2 comparisons. This is because we perform an outer loop that must iterate N times to get through the entire array, and for each iteration, we must iterate another N times with our inner loop. That’s N steps * N steps, which is N^2 steps, leaving us with an algorithm of O(N^2).
 This added code will print the number of steps taken when there are no duplicates. If we run hasDuplicateValue([1, 4, 5, 2, 9]), for example, we’ll see an output of 25 in the JavaScript console, indicating that there were 25 comparisons for the 5 elements in the array.
 
@@ -317,16 +314,22 @@ function hasDuplicateValue(array) {
 This new algorithm appears to make N comparisons for N data elements. This is because there’s only one loop.
 We know that O(N) is much faster than O(N^2), so by using this second approach, we’ve optimized our hasDuplicateValue function significantly. This is a huge speed boost.
 
-
 ## CHAPTER 5: Optimizing Code with and Without Big O
+
 There may be times when two competing algorithms are described in the same way using Big O, yet one algorithm is faster than the other.
 In this chapter, you’re going to learn how to discern between two algorithms that seem to have the same efficiency, and how to select the faster of the two.
-
 
 ### Selection Sort
 
 #### Code Implementation: Selection Sort
+
+1. We check each cell of the array from left to right to determine which value is least.
+2. we swap its value with the
+value we began the pass-through with. This
+would  be  index  0  in  the  first  pass-through,
+
 Here’s a JavaScript implementation of Selection Sort:
+
 ```js
 function selectionSort(array) {
     for(let i = 0; i < array.length - 1; i++) {
@@ -346,7 +349,7 @@ function selectionSort(array) {
 }
 ```
 
-#### The Efficiency of Selection Sort 
+#### The Efficiency of Selection Sort
 
 | N Elements | Max # of Steps in Bubble Sort | Max # of Steps in Selection Sort |
 | 5 | 20 | 14 (10 comparisons + 4 swaps) |
@@ -359,8 +362,8 @@ From this comparison, it’s clear Selection Sort takes about half the number of
 
 > To know which is algorithm (With the same Big O)  is more efficient, calculate their steps.
 
-
 ### Big O Ignores constants
+
 Selection Sort and Bubble Sort are described in exactly the same way.
 Again, Big O Notation answers the key question: if there are N data elements, how many steps will the algorithm take? Because Selection Sort takes roughly half of N2 steps O(N2 / 2).
 In reality, however, Selection Sort is described in Big O as O(N2), because **Big O Notation ignores constants**.
@@ -371,26 +374,25 @@ Even though the algorithm takes N2 / 2 steps, we drop the “/ 2” because it�
 - Even O(100N), which is 100 times slower than O(N), is also referred to as O(N).
 
 > Both are described in Big O as O(N), but Selection Sort is actually twice as fast a Bubble Sort.
-
-> Big O Notation only concerns itself with general categories of algorithm speeds. O(1), O(log N), O(N), O(N2) e.t.c are the are general categories of Big O. 
-
+> Big O Notation only concerns itself with general categories of algorithm speeds. O(1), O(log N), O(N), O(N2) e.t.c are the are general categories of Big O.
 
 ## CHAPTER 6: Optimizing for Optimistic Scenarios
+
 Worst-case scenario isn’t the only situation worth considering. Being able to consider all scenarios is an imqportant skill that can help you choose the appropriate algorithm for every situation.
 
 ### Insertion Sort
+
 Bubble Sort and Selection Sort, Both have efficiencies of O(N2), but Selection Sort is actually twice as fast. Insertion Sort that will reveal the power of analyzing scenarios beyond the worst case.
 
-> Insertion Sort in a worst-case scenario is where the array is sorted in descending order. 
+> Insertion Sort in a worst-case scenario is where the array is sorted in descending order.
 
 Best- and worst-case scenarios happen relatively infrequently. In the real world, average scenarios are what occur most of the time.
 Take a randomly sorted array, for example. What are the odds that the values will occur in perfect ascending or descending order? It’s much more likely that the values will be all over the place.
 
 In the best-case scenario, where the data is already sorted in ascending order, we end up making just one comparison per pass-through and not a single shift, since each value is already in its correct place.
 
-
-
 #### Code Implementation: Insertion Sort
+
 Here is a Python implementation of Insertion Sort:
 ```py
 def insertion_sort(array):
