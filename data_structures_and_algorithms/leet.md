@@ -86,7 +86,9 @@ then whats the Big O Notation of the solution.
 
 Step 2: Find Optimal Solution
 
-## Converting O(N^2) to O(N)
+## Exercises
+
+Converting O(N^2) to O(N)
 
 ```js 
 function hasDuplicateValue(array) {
@@ -121,3 +123,97 @@ function hasDuplicateValue(array) {
 ```
 
 Since the array is an array of numbers, by looping through their values in the original array and using the value as an index in existingIndexNumber, it becomes easy to find an existing value in the array.
+
+### Hash Tables
+
+- Write a function that returns the intersection of two arrays. The intersection is a third array that contains all values contained within the first two arrays. For example, the intersection of [1, 2, 3, 4, 5] and [0, 2, 4, 6, 8] is [2, 4].
+Your  function  should  have  a complexity of O(N).
+(If  your  programming language has a built-in way of doing this, don’t use it. The idea is to build the algorithm yourself.)
+
+Solution:
+
+```js
+const findIntersection = (firstArr, secondeArr) => {
+  // Edge case check
+  if(!firstArr instanceof Array || !secondeArr instanceof Array) {
+    console.log("Provide array as input")
+    throw new Error("Invalid input, expected array first Arg: array, second Arg: array")
+  }
+
+  let intersection = []
+  const firstArrMap = new Map()
+
+  // convert first array to map
+  for(let item of firstArr) {
+    firstArrMap.set(item, true)
+  }
+
+  for(let item of secondeArr) {
+    if(firstArrMap.get(item)) intersection = [...intersection, item]
+  }
+
+  return intersection
+}
+
+const firstArr = [1, 2, 3, 4, 5]
+
+const secondeArr = [0, 2, 4, 6, 8]
+
+console.log(findIntersection(firstArr, secondeArr)) // [ 2, 4 ]
+```
+
+- Write a function that accepts an array of strings and returns the first duplicate value it finds. For example, if the array is ["a", "b", "c", "d", "c", "e", "f"], the function should return "c", since it’s duplicated within the array.
+(You can assume that there’s one pair of duplicates within the array.)
+Make sure the function has an efficiency of O(N).
+
+Solution:
+
+```js
+const findDuplicate = arr => {
+  if(!Array.isArray(arr)) throw new Error("Provide array as input")
+  const arrMap = new Map()
+
+  for(item of arr) {
+    if(arrMap.get(item)) return item
+    arrMap.set(item, true)
+  }
+}
+
+const data = ["a", "b", "c", "d", "c", "e", "f"]
+
+console.log(findDuplicate(data)) // c
+```
+
+- Write a function that accepts a string that contains all the letters of the alphabet except one and returns the missing letter. For example, the string, "the quick brown box jumps over a lazy dog" contains all the letters of the alphabet except the letter, "f". The function should have a time complexity of O(N).
+
+Solution:
+
+```js
+const findMissingAlphabetChar = text => {
+  if(typeof text != "string") throw new Error("input must be of type string")
+
+  const aCharCode = "a".charCodeAt(0)
+  const zCharCode = "z".charCodeAt(0)
+  const alphabetsMap = new Map()
+
+  for(char of text){
+    if(alphabetsMap.get(char)) continue
+    alphabetsMap.set(char, true)
+  }
+
+  for(let pointer = aCharCode; pointer <= zCharCode; pointer++) {
+    if(!alphabetsMap.get(String.fromCharCode(pointer))) return String.fromCharCode(pointer)
+  }
+}
+
+const text = "the quick brown box jumps over a lazy dog"
+
+console.log(findMissingAlphabetChar(text)) // f
+```
+
+- Write a function that returns the first non-duplicated character in a string.
+For example, the string, "minimum" has two characters that only exist once—the "n" and the "u", so your function should return the "n", since it occurs first. The function should have an efficiency of O(N).
+
+```js
+
+```

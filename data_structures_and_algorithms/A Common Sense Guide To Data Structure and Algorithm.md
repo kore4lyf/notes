@@ -394,16 +394,17 @@ In the best-case scenario, where the data is already sorted in ascending order, 
 #### Code Implementation: Insertion Sort
 
 Here is a Python implementation of Insertion Sort:
+
 ```py
 def insertion_sort(array):
     for index in range(1, len(array)):
         temp_value = array[index]
         position = index - 1
         while position >= 0:
-        if array[position] > temp_value:
+          if array[position] > temp_value:
             array[position + 1] = array[position]
             position = position - 1
-        else:
+          else:
             break
         array[position + 1] = temp_value
     return array
@@ -411,25 +412,25 @@ def insertion_sort(array):
 
 - N^2 comparisons and shifts combined
 - N - 1 removals
-- + N - 1 insertions
+- N - 1 insertions
 
 `N^2 + 2N - 2 steps`
 
-- Since Big O ignores constants we'd hace N^2 + N2
+- Since Big O ignores constants we'd hace N^2 + N^2
 - Big O Notation only takes into account the highest order of N when we have multiple orders added together.
 
-That is, if we have an algorithm that takes N4 + N3 + N2 + N steps, we only consider N4 to be significant—and just call it O(N4). 
+That is, if we have an algorithm that takes N^4 + N^3 + N^2 + N steps, we only consider N^4 to be significant—and just call it O(N^4).
 
-We can simplify the expression further by throwing out the lower order, reducing it to O(N2).
+We can simplify the expression further by throwing out the lower order, reducing it to O(N^2).
 
 | Sorting algorithm| Best Case | Average Case | Worst Case |
 | :-- | :-- | :-- | :-- |
 | Selection Sort | N^2 / 2 | N^2 / 2 | N^2 / 2 |
 | Insertion | N | N^2 / 2 | N^2 |
 
+#### Example
 
-#### Example 
-```
+```js
 function intersection(firstArray, secondArray){
     let result = [];
     for (let i = 0; i < firstArray.length; i++) {
@@ -442,10 +443,12 @@ function intersection(firstArray, secondArray){
     return result;
 }
 ```
-Insertions, at most, would take N steps (if the two arrays happened to be identical). This is a lower order compared to N^2, so we’d still consider the algorithm to be O(N^2). If the arrays are of different sizes say N and M we’d say that the efficiency of this function is O(N * M). 
+
+Insertions, at most, would take N steps (if the two arrays happened to be identical). This is a lower order compared to N^2, so we’d still consider the algorithm to be O(N^2). If the arrays are of different sizes say N and M we’d say that the efficiency of this function is O(N * M).
 
 The code above need to be optimized, because it keeps searching after finding an intercept.
 To fix this, we can add a single word to our implementation:
+
 ``` js
 function intersection(firstArray, secondArray){
     let result = [];
@@ -460,13 +463,15 @@ function intersection(firstArray, secondArray){
     return result;
 }
 ```
+
 where the two elements do not contain a single shared value, we have no choice but to perform N^2 comparisons. But now, in the best-case scenario, where the two arrays are identical, we only have to perform N comparisons. In an average case, where the two arrays are different but share some values, the performance will be somewhere between N and N^2.
 
-
 ## CHAPTER 7: Big O in Everyday Code
+
 > Determining the efficiency of our code is the first step in optimizing it.
 
-#### Mean Average of Even Numbers
+### Mean Average of Even Numbers
+
 The following Ruby method accepts an array of numbers and returns the mean average of all its even numbers. How would we express its efficiency in terms of Big O?
 
 ```ruby
@@ -483,9 +488,11 @@ def average_of_even_numbers(array)
     return sum / count_of_even_numbers
 end
 ```
+
 Our algorithm takes three extra steps in addition to the 3N steps, so the total number of steps is 3N + 3 (i.e. O(N).
 
 #### Word Builder
+
 This is an algorithm that collects every combination of two-character strings built from an array of single characters. For example, given the array: ["a", "b", "c", "d"], we’d return a new array containing the following
 string combinations:
 [
@@ -507,22 +514,23 @@ function wordBuilder(array) {
     return collection;
 }
 ```
-Time Complexity: O(N^2)
 
+Time Complexity: O(N^2)
 
 Now, what would happen if we modified our algorithm to compute each combination of three-character strings? That is, for our example array of ["a", "b", "c", "d"], our function would return the array:
 [
-'abc', 'abd', 'acb',
-'acd', 'adb', 'adc',
-'bac', 'bad', 'bca',
-'bcd', 'bda', 'bdc',
-'cab', 'cad', 'cba',
-'cbd', 'cda', 'cdb',
-'dab', 'dac', 'dba',
-'dbc', 'dca', 'dcb'
+    'abc', 'abd', 'acb',
+    'acd', 'adb', 'adc',
+    'bac', 'bad', 'bca',
+    'bcd', 'bda', 'bdc',
+    'cab', 'cad', 'cba',
+    'cbd', 'cda', 'cdb',
+    'dab', 'dac', 'dba',
+    'dbc', 'dca', 'dcb'
 ]
 
 Here’s an implementation that uses three nested loops. What is its time complexity?
+
 ```js
 function wordBuilder(array) {
     let collection = [];
@@ -542,6 +550,7 @@ function wordBuilder(array) {
 Time Complexity: O(N^3)
 
 #### Array Sample
+
 In the next example, we create a function that takes a small sample of an array. We expect to have very large arrays, so our sample is just the first, middlemost, and last value from the array.
 
 ```py
@@ -551,33 +560,38 @@ def sample(array):
     last = array[-1]
     return [first, middle, last]
 ```
+
 Time Complexity: O(1)
 
+#### Average Celsius Reading
 
-#### Average Celsius Reading 
 Here’s another example that involves mean averages. Let’s say we’re building weather-forecasting software. To determine the temperature of a city, we take temperature readings from across many thermometers across the city, and we calculate the mean average of those temperatures.
 
 Following is some Ruby code that accomplishes this. What is its Big O?
+
 ```ruby
 def average_celsius(fahrenheit_readings)
     # Collect Celsius numbers here:
     celsius_numbers = []
+
     # Convert each reading to Celsius and add to array:
     fahrenheit_readings.each do |fahrenheit_reading|
         celsius_conversion = (fahrenheit_reading - 32) / 1.8
         celsius_numbers.push(celsius_conversion)
     end
+
     # Get sum of all Celsius numbers:
     sum = 0.0
     celsius_numbers.each do |celsius_number|
         sum += celsius_number
     end
+
     # Return mean average:
     return sum / celsius_numbers.length
 end
 ```
-Inside the method, we run two loops. The first converts the readings to Celsius, and the second sums all the Celsius numbers. Since we have two loops that each iterate over all N elements, we have N + N, which is 2N (plus a few constant steps). Because Big O Notation drops the constants, this gets reduced to O(N).
 
+Inside the method, we run two loops. The first converts the readings to Celsius, and the second sums all the Celsius numbers. Since we have two loops that each iterate over all N elements, we have N + N, which is 2N (plus a few constant steps). Because Big O Notation drops the constants, this gets reduced to O(N).
 
 #### Clothing Labels
 
@@ -596,7 +610,8 @@ Specifically, our labels should contain the item name plus its size, ranging fro
 "Green Shirt Size: 5"
 ]
 Here is Python code that will create this text for an entire array of clothing items:
-```js
+
+```py
 def mark_inventory(clothing_items):
     clothing_options = []
     for item in clothing_items:
@@ -604,18 +619,20 @@ def mark_inventory(clothing_items):
         # number, but do not include it):
         for size in range(1, 6):
             clothing_options.append(item + " Size: " + str(size))
+
 return clothing_options
-``` 
+```
+
 Nested loops that result in O(N^2) occur when each loop revolves around N. In our case, however, while our outer loop runs N times, our inner loop runs a constant five times. That is, this inner loop will always run five times no matter what N is.
 
-
 #### Count the Ones
+
 Here’s another algorithm where the Big O is different from what it seems at first glance. This function accepts an array of arrays, where the inner arrays contain 1’s and 0’s. The function then returns how many 1’s there are.
 So, for this example input:
 [
-[0, 1, 1, 1, 0],
-[0, 1, 0, 1, 0, 1],
-[1, 0]
+  [0, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1],
+  [1, 0]
 ]
 our function will return 7, since there are seven 1’s. Here’s the function in Python:
 
@@ -628,10 +645,11 @@ def count_ones(outer_array):
                 count += 1
     return count
 ```
+
 We can say that N represents how many numbers there are. And since our algorithm simply processes each number, the function’s time complexity is O(N).
 
-
 #### Palindrome Checker
+
 A palindrome is a word or phrase that reads the same both forward and backward. Some examples include “racecar,” “kayak,” and “deified.”
 
 Here’s a JavaScript function that determines whether a string is a palindrome:
@@ -659,35 +677,12 @@ function isPalindrome(string) {
     return true;
 }
 ```
+
 The loop runs N / 2 steps. However, Big O ignores constants. Because of this, we drop the division by 2, and our algorithm is O(N).
 
 #### Get All the Products
+
 Our next example is an algorithm that accepts an array of numbers and returns the product of every combination of two numbers.
-For example, if we passed in the array, [1, 2, 3, 4, 5], the function returns:
-[2, 3, 4, 5, 6, 8, 10, 12, 15, 20]
-This is because we first multiply the 1 by the 2, 3, 4, and 5. Then we multiply the 2 by the 3, 4, and 5. Next, we multiply the 3 by the 4 and the 5. And finally, we multiply the 4 by the 5.
-
-Here’s a JavaScript implementation of this algorithm:
-```js
-function twoNumberProducts(array) {
-    let products = [];
-    // Outer array:
-    for(let i = 0; i < array.length - 1; i++) {
-        // Inner array, in which j always begins one index
-        // to the right of i:
-        for(let j = i + 1; j < array.length; j++) {
-        products.push(array[i] * array[j]);
-        }
-    }
-    return products;
-}
-```
-That would mean that the loop runs N / 2 steps. However, Big O ignores constants. Because of this, we drop the division by 2, and our algorithm is O(N).
-
-
-#### Get All the Products
-
-Our next example is an algorithm that accepts an array of numbers and returns the product of every combination of two numbers. 
 For example, if we passed in the array, [1, 2, 3, 4, 5], the function returns:
 [2, 3, 4, 5, 6, 8, 10, 12, 15, 20]
 This is because we first multiply the 1 by the 2, 3, 4, and 5. Then we multiply the 2 by the 3, 4, and 5. Next, we multiply the 3 by the 4 and the 5. And
@@ -707,11 +702,12 @@ function twoNumberProducts(array) {
     return products;
 }
 ```
+
 - N^2 / 2 steps
 - 0(N^2)
 
-
 #### Dealing with Multiple Datasets
+
 Now, what happens if instead of computing the product of every two numbers from a single array, we instead compute the product of every number from one array by every number of a second array?
 
 For example, if we had the array, [1, 2, 3] and the array, [10, 100, 1000], we’d compute the products as:
@@ -730,10 +726,11 @@ function twoNumberProducts(array1, array2) {
     return products;
 } 
 ```
+
 - In a sense then, O(N * M) can be construed as a range between O(N) and O(N^2).
 
-
 #### Password Cracker
+
 You’re a hacker (an ethical one, of course) who’s trying to figure out someone’s password. You decide on a brute-force approach, and write some code that produces every possible string of a given length. Here’s the code you whipped up:
 
 ```ruby
@@ -743,11 +740,13 @@ def every_password(n)
     end
 end
 ```
+
 The way this works is you pass in a number to the function, which becomes
 the variable n.
 If n is 3, for example, the code "a" * n produces the string "aaa". The code then sets a loop between all possible strings within the range of "aaa" and "zzz".
 Running this code will print:
-```
+
+```txt
 aaa
 aab
 aac
@@ -758,33 +757,36 @@ zzx
 zzy
 zzz
 ```
+
 - O(2^N)
 - In a certain sense, O(2^N) is the opposite of O(log N). With an algorithm of O(log N) (like binary search), each time the data is doubled, the algorithm takes one additional step. With an algorithm of O(2^N), each time we add one element of data, the algorithm doubles in steps!.
- - As you can see, O(2^N) gets even slower than O(N^3) at a point.
-
+- As you can see, O(2^N) gets even slower than O(N^3) at a point.
 
 ## CHAPTER 8: Blazing Fast Lookup with Hash Tables
+
 If this array were unordered, searching for the price of a given food would take O(N) steps since the computer would have to perform a linear search. If it’s an ordered array, the computer could do a binary search, which would take O(log N).
-While O(log N) isn’t bad, we can do better. In fact, we can do much better. By the end of this chapter, you’ll learn how to use a special data structure called a hash table, which can be used to look up data in just O(1) time. 
+While O(log N) isn’t bad, we can do better. In fact, we can do much better. By the end of this chapter, you’ll learn how to use a special data structure called a hash table, which can be used to look up data in just O(1) time.
 
 ### Hash Tables
-Most programming languages include a data structure called a hash table, and it has an amazing superpower: fast reading. 
+
+Most programming languages include a data structure called a hash table, and it has an amazing superpower: fast reading.
 
 > Note that hash tables are called by different names in various programming languages. Other names include hashes, maps, hash maps, dictionaries, and associative arrays.
 
 Here’s an example of the menu as implemented with a hash table using Ruby:
-```
+
+```ruby
 menu = { "french fries" => 0.75, "hamburger" => 2.5,
 "hot dog" => 1.5, "soda" => 0.6 }
 ```
 
 > Looking up a value in a hash table has an efficiency of O(1) on average, as it usually takes just one step. Let’s see why.
 
-The process of taking characters and converting them to numbers is known as **hashing**. 
+The process of taking characters and converting them to numbers is known as **hashing**.
 
 The code that is used to convert those letters into particular numbers is called a **hash function**.
 
-```
+```txt
 For example, here’s a simple way to map letters to numbers:
 
 A = 1
@@ -804,27 +806,28 @@ BAD converts to 214.
 
 > The truth is that a hash function needs to meet only one criterion to be valid: a hash function must convert the same string to the same number every single time it’s applied. If the hash function can return inconsistent results for a given string, it’s not valid.
 
-- Under the hood, a hash table stores its data in a bunch of cells in a row, similar to an array. 
-- In a hash table, the placement of each value is determined by its key. That is, by hashing the key itself, we compute the index number where the key’s associated value should
-be placed.
-
+- Under the hood, a hash table stores its data in a bunch of cells in a row, similar to an array.
+- In a hash table, the placement of each value is determined by its key. That is, by hashing the key itself, we compute the index number where the key’s associated value should be placed.
 
 #### One-Directional Lookups
-It’s important to point out that the ability to find any value within the hash table in a single step only works if we know the value’s key. 
--  If we tried to find a particular value without knowing its key, we’d still have to resort to searching each and every key-value pair within the hash table, which is O(N).
-- We want to use a value to find its associated key, we cannot take advantage of the hash table’s fast lookup ability. This is because the whole premise of the hash table is that the key determines the value’s location. But this premise only works in one direction: 
 
+It’s important to point out that the ability to find any value within the hash table in a single step only works if we know the value’s key.
+
+- If we tried to find a particular value without knowing its key, we’d still have to resort to searching each and every key-value pair within the hash table, which is O(N).
+- We want to use a value to find its associated key, we cannot take advantage of the hash table’s fast lookup ability. This is because the whole premise of the hash table is that the key determines the value’s location. But this premise only works in one direction.
 
 #### Dealing with Collisions
+
 Hash tables are awesome, but are not without complications.
+
 - Some languages store the keys next to the values themselves. This is useful in case of collisions, which I’ll discuss in the next section.
 - Trying to add data to a cell that is already filled is known as a collision. Fortunately, there are ways around it.
 - One classic approach for handling collisions is known as separate chaining. When a collision occurs, instead of placing a single value in the cell, it places in it a reference to an array.
-- In a scenario where the computer hits upon a cell that references an array, its search can take some extra steps, as it needs to conduct a linear search  within an array of multiple values. 
+- In a scenario where the computer hits upon a cell that references an array, its search can take some extra steps, as it needs to conduct a linear search  within an array of multiple values.
 - So, it actually turns out that the worst-case performance for a hash table lookup is O(N).
 
-
 #### Making an Efficient Hash Table
+
 Ultimately, a hash table’s efficiency depends on three factors:
 
 - How much data we’re storing in the hash table
@@ -835,7 +838,7 @@ It makes sense why the first two factors are important. If you have a lot of dat
 
 Let’s say we’re using a hash function that always produces a value that falls in the range from 1 to 9. An example of this is a hash function that converts letters into their corresponding numbers and keeps adding the resulting digits together until it ends up with a single digit.
 
-```
+```txt
 For example:
 PUT = 16 + 21 + 20 = 57
 Because 57 contains more than one digit, the hash function breaks up the 57 into 5 + 7:
@@ -845,18 +848,19 @@ Because 57 contains more than one digit, the hash function breaks up the 57 into
 In the end, PUT hashes into 3.
 This hash function by its very nature will always return a number 1 through 9.
 ```
+
 With this hash function, the computer would never even use cells 10 through 16 even though they exist. All data would be stuffed into cells 1 through 9.
 
 > A good hash function, therefore, is one that distributes its data across all available cells. The more we can spread out our data, the fewer collisions we will have.
 
+##### The Great Balancing Act
 
-#### The Great Balancing Act
 - Hash table’s efficiency goes up as its number of collisions goes down. In theory, then, the best way to avoid collisions would be to have a hash table with a large number of cells.
 
 - A hash table with 1,000 cells would seem to be wonderful for our case, since odds are there would be no collisions.
 However, while avoiding collisions is important, we have to balance that with avoiding memory hogging as well.
 
-- Although a hash table with 1,000 cells for our five pieces of data is great for avoiding collisions, we’d be using up 1,000 cells just to store just five pieces of data, and that’s a poor use of memory
+- Although a hash table with 1,000 cells for our five pieces of data is great for avoiding collisions, we’d be using up 1,000 cells just to store just five pieces of data, and that’s a poor use of memory.
 
 - This is the balancing act that a hash table must perform. A good hash table strikes a balance of avoiding collisions while not consuming lots of memory.
 To accomplish this, computer scientists have developed the following rule of thumb: for every 7 data elements stored in a hash table, it should have 10 cells.
@@ -866,20 +870,20 @@ So, if you’re planning on storing 14 elements, you’d want to have 20 availab
 
 - Again, most of the internals of a hash table are managed by the computer language you’re using. It decides how big the hash table needs to be, what hash function to use, and when it’s time to expand the hash table. You have the right to assume that your programming language has implemented its hash table to allow for peak performance.
 
-
 #### Hash Tables for Organization
-Because hash tables keep data in pairs, they are useful in many scenarios for organizing data. Some data exists naturally in paired form.
-- The fast-food menu and thesaurus scenarios from this chapter are classic examples of this. 
-- In Python, hash tables are known as dictionaries since a dictionary is a common form of paired data: it’s a list of words with their respective definitions.
 
+Because hash tables keep data in pairs, they are useful in many scenarios for organizing data. Some data exists naturally in paired form.
+
+- The fast-food menu and thesaurus scenarios from this chapter are classic examples of this.
+- In Python, hash tables are known as dictionaries since a dictionary is a common form of paired data: it’s a list of words with their respective definitions.
 - Other examples of naturally paired data can include tallies, such as political candidates and the number of votes each received:
 `{"Candidate A" => 1402021, "Candidate B" => 2321443, "Candidate C" => 432}`
 
 An inventory tracking system, which keeps track of how much of each item is in supply, is another tally example:
 `{"Yellow Shirt" => 1203, "Blue Jeans" => 598, "Green Felt Hat" => 65}``
 
-
 Say we encounter a function that returns the meaning of common HTTP status code numbers:
+
 ```ruby
 def status_code_meaning(number)
     if number == 200
@@ -897,6 +901,7 @@ end
 ```
 
 By using a hash table, we can completely eliminate the conditional logic:
+
 ```ruby
 STATUS_CODES = {200 => "OK", 301 => "Moved Permanently",
 401 => "Unauthorized", 404 => "Not Found",
@@ -907,6 +912,7 @@ end
 ```
 
 We can create an entire list of dogs if we place multiple hash tables inside an array:
+
 ```ruby
 [
 {"Name" => "Fido", "Breed" => "Pug", "Age" => 3, "Gender" => "Male"},
@@ -916,19 +922,23 @@ We can create an entire list of dogs if we place multiple hash tables inside an 
 ```
 
 #### Hash Tables for Speed
+
 While hash tables are a perfect fit for paired data, they can also be used to make your code faster—even if your data doesn’t exist as pairs. And this is where things really get exciting.
 
 Here’s a simple array:
 array = [61, 30, 91, 11, 54, 38, 72]
 
 However, what would happen if we ran some code that would convert these numbers into a hash table that looked like this?
-```
+
+```ruby
 hash_table = {61 => true, 30 => true, 91 => true,
 11 => true, 54 => true, 38 => true, 72 => true}
 ```
 
 ##### Array Subset
+
 Here’s a JavaScript implementation of this approach:
+
 ```js
 function isSubset(array1, array2) {
     let largerArray;
@@ -970,30 +980,36 @@ function isSubset(array1, array2) {
 - When we analyze the efficiency of this algorithm, we find that it’s O(N * M).
 
 In our new approach, after we’ve determined which array is larger and which is smaller, we’re going to run a single loop through the larger array, and store each value inside of a hash table:
+
 ```js
-let hashTable = {};
+let hashTable = {}
+
 for(const value of largerArray) {
-hashTable[value] = true;
+  hashTable[value] = true
 }
 ```
 
 For the earlier example, ["a", "b", "c", "d", "e", "f"], once we’ve run it through this loop, we end up with a hash table that looks like this:
-```
+
+```js
 {"a": true, "b": true, "c": true, "d": true, "e": true, "f": true}
 ```
 
 Now, here’s the brilliant part. Once the first loop is complete and we now have this hash table to work with, we can then begin a second (non-nested) loop that iterates through the smaller array:
+
 ```js
 for(const value of smallerArray) {
-    if(!hashTable[value]) { return false; }
+  if(!hashTable[value]) { return false; }
 }
 ```
 
+#### Exercises - Hash Tables
 
-Exercises: 
-1. Write a function that returns the intersection of two arrays. The intersection is a third array that contains all values contained within the first two arrays. For example, the intersection of [1, 2, 3, 4, 5] and [0, 2, 4, 6, 8] is [2, 4].
+- Write a function that returns the intersection of two arrays. The intersection is a third array that contains all values contained within the first two arrays. For example, the intersection of [1, 2, 3, 4, 5] and [0, 2, 4, 6, 8] is [2, 4].
+
 Your function should have a complexity of O(N). (If your programming language has a built-in way of doing this, don’t use it. The idea is to build the algorithm yourself.)
-```js 
+
+```js
 // Find Intersection 
 let array1 = [1, 2, 3, 4, 5];
 let array2 = [0, 2, 4, 6, 8];
@@ -1016,8 +1032,7 @@ findIntersection = (array1, array2) => {
 console.log(findIntersection(array1, array2));
 ```
 
-
-2. Write a function that accepts an array of strings and returns the first duplicate value it finds. For example, if the array is ["a", "b", "c", "d", "c", "e", "f"], the function should return "c", since it’s duplicated within the array. (You can assume that there’s one pair of duplicates within the array.) Make sure the function has an efficiency of O(N).
+- Write a function that accepts an array of strings and returns the first duplicate value it finds. For example, if the array is ["a", "b", "c", "d", "c", "e", "f"], the function should return "c", since it’s duplicated within the array. (You can assume that there’s one pair of duplicates within the array.) Make sure the function has an efficiency of O(N).
 
 ```js
 // Find the First Duplicate Value in an array
@@ -1040,8 +1055,7 @@ let findFirstDuplicate = (array) => {
 console.log(findFirstDuplicate(list));
 ```
 
-
-4. Write a function that returns the first non-duplicated character in a string.
+- Write a function that returns the first non-duplicated character in a string.
 For example, the string, "minimum" has two characters that only exist once—the "n" and the "u", so your function should return the "n", since it occurs first. The function should have an efficiency of O(N).
 
 ```js
@@ -1074,15 +1088,19 @@ console.log(findFirstNonDupChar(str));
 ```
 
 ## CHAPTER 9: Crafting Elegant Code with Stacks and Queues
+
 These are two data structures that can help improve code elegance and maintainability.
 
 ### Stacks
+
 A stack stores data in the same way arrays do—it’s simply a list of elements. The one catch is that stacks have the following three constraints:
+
 - Data can be inserted only at the end of a stack.
 - Data can be deleted only from the end of a stack.
 - Only the last element of a stack can be read.
 
 ### Abstract Data Types
+
 Most programming languages don’t actually come with the stack as a built- in data type or class. Instead, it’s up to you to implement it yourself. This is a stark contrast with arrays, which are available in most languages.
 To create a stack, then, you generally have to use one of the built-in data structures to actually hold the data. Here is one way to implement a stack using Ruby, which uses an array under the hood:
 
@@ -1111,12 +1129,14 @@ In fact, a stack doesn’t even care about what data structure is under the hood
 - Set is an ADT (Abstract Data Type).
 - It should be noted that even a built-in data structure can be an abstract data type. Even if a programming language does implement its own Stack class, it doesn’t change the fact that the stack data structure is still a concept that allows for various data structures to be used under the hood.
 
-
 #### Stacks in Action
+
 Although a stack is not typically used to store data on a long-term basis, it can be a great tool to handle temporary data. 
 
 ##### Code Implementation: Stack-Based Code Linter
+
 Here’s a Ruby implementation of the preceding algorithm. Note that we are using our earlier Ruby implementation of the Stack class:
+
 ```ruby 
 class Linter
     def initialize
@@ -1168,8 +1188,8 @@ end
 end
 ```
 
-
 #### The Importance of Constrained Data Structures
+
 By definition, if a stack is just a constrained version of an array, that means an array can do anything a stack can do. If so, what advantage does a stack provide?
 
 - First, when we work with a constrained data structure, we can prevent potential bugs. The linting algorithm, for example, only works if we exclusively remove items from the top of the stack. If a programmer inadvertently writes code that removes items from the middle of the array, the algorithm will break down. By using a stack, we’re forced into only removing items from the top, as it’s impossible to get the stack to remove any other item.
@@ -1180,11 +1200,11 @@ By definition, if a stack is just a constrained version of an array, that means 
 
 - The “undo” function in a word processor, for example, is a great use case for a stack. 
 
-
 #### Queues
+
 Like stacks, queues are arrays with three restrictions (it’s just a different set of restrictions):
 
- - Data can be inserted only at the end of a queue. (This is identical behavior to the stack.)
+- Data can be inserted only at the end of a queue (This is identical behavior to the stack.)
 - Data can be deleted only from the front of a queue. (This is the opposite behavior of the stack.)
 - Only the element at the front of a queue can be read. (This, too, is the opposite of behavior of the stack.)
 

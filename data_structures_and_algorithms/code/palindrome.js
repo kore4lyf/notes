@@ -19,4 +19,4 @@ const isPalindrome =(word) => {
 
 isPalindrome("racecar") // true
 isPalindrome("bike") // false
-isPalindrome("abba") // false     
+console.log(isPalindrome("abba")) // true

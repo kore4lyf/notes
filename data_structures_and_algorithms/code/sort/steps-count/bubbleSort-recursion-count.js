@@ -30,8 +30,8 @@ const bubbleSort = (arr, steps, sortLen = arr.length - 1) => {
 
   // If at some point nothing was sorted return the array
   // OR sortLen is equal to 1
-  if(!sorted || sortLen === 1) return arr
   console.log("steps: ", steps)
+  if(!sorted || sortLen === 1) return arr
 
   bubbleSort(arr, sortLen--)
 }
