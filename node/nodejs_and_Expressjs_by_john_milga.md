@@ -1,4 +1,4 @@
-# Node Js and Express Js 
+# Node Js and Express Js
 
 ## Introduction
 
@@ -10,40 +10,40 @@ What is Node Js?
 - Full-stack
 
 ### Global Variables
-Global variables are variables that can be accessed anywhere in an application. 
+
+Global variables are variables that can be accessed anywhere in an application.
+
 - __dirname - path to current directory
-- __filename - filename 
-- require - function to use modules (commonJS) e.t.c 
+- __filename - filename
+- require - function to use modules (commonJS) e.t.c
 - module - info about current module (file)
 - process - info about env where the program is being executed.
 
 > You can console.log these global variables.
 
-```js 
+```js
 console.log(__dirname)
-``` 
+```
 
 > You can also use setInterval or setTimeout in node js.
 
-```js 
+```js
 setInterval(() => {
   console.log('hello, world')
 }, 1000)
-``` 
+```
 
+## Modules
 
-
-
-
-## Modules 
 Node uses Common JS Library, and every file in node is a module (by default)
 
-Module - A module is an Encapsulated code, that share part of its code with other programs. 
+Module - A module is an Encapsulated code, that share part of its code with other programs.
 
 You can use `module.exports = {var1, var2}` to export variables in a file, or you can use `module.exports = sayHi`, if there is only one variable to export.
 
 ### Export as you go method
-```js 
+
+```js
 module.exports.items = ['items1', 'items2']
 const person = {
   name: 'bob'
@@ -57,28 +57,32 @@ If you want to include a file in your working file, just use, don't export any v
 require('file path')
 ```
 
-## Built-in Modules 
-- OS 
-- PATH 
-- FS 
-- HTTP 
+## Built-in Modules
 
+- OS
+- PATH
+- FS
+- HTTP
 
-### OS 
+### OS
+
 The os module provides operating system-related utility methods and properties. It can be accessed using:
 
 ```js
 const os = require('os');
 ```  
 
-#### `os.userInfo()` 
-Returns information (object) about the currently effective user. 
-```js 
+#### `os.userInfo()`
+
+Returns information (object) about the currently effective user.
+
+```js
 const os = require('os')
 const user = os.userInfo() 
 console.log(user)
 ```
-result: 
+
+result:
 {
   uid: 10274,
   gid: 10274,
@@ -87,11 +91,9 @@ result:
   shell: '/data/data/com.termux/files/usr/bin/login'
 }
 
-
-
 #### Some other os methods
 
-```js 
+```js
 const os = require('os')
 
 console.log(`The system uptime is ${os.uptime()} seconds `) 
@@ -104,7 +106,8 @@ const currentOS = {
 }
 console.log(currentOS)
 ```
-result:  
+
+result:
 The system uptime is 31134.4 seconds
 
 {
@@ -115,19 +118,21 @@ The system uptime is 31134.4 seconds
 }
 
 ### Path
+
 The path module provides utilities for working with file and directory paths. It can be accessed using:
 
-```js 
+```js
 const os = require('os')
 ```
 
-```js 
+```js
 const os = require('os')
 const path = path.sep
 ```
+
 result: /
 
-```js 
+```js
 const os = require('os') 
 
 const filepath = path.join('/meadowlark','meadowlark.js')
@@ -142,14 +147,110 @@ const absolute = path.resolve(__dirname,'meadowlark', 'meadowlark.js')
 
 console.log(absolute) 
 // /storage/emulated/0/Documents/codingProjects/nodejs/meadowlark/meadowlark.js
-``` 
+```
 
-
+```js
+console.log(path.basename("c:\\nodejs\\app.html")) // app.html
+console.log(path.basename("c:\\nodejs\\app.js", "js")) // app
+console.log(path.dirname("c:\\nodejs\\courses\\app.js", "js")) // c:\nodejs\courses
+console.log(path.extname("c:\\nodejs\\courses\\app.js")) // .js
+console.log(path.join("c:", "nodejs", "courses")) // c:\nodejs\courses
+console.log(path.join("c:", "nodejs", "courses", "..")) // c:\nodejs
+console.log(path.normalize("c:\\\courses\\\redux\\\\store\\\\features\\")) // c:\courses\redux\store\features
+console.log(path.parse("c:\\nodejs\\courses\\app.js"))
+/*
+  {
+    root: "c:\\",
+    dir: "c:\\nodejs\\course",
+    base: "app.js",
+    ext: "js",
+    name: "app"
+  }
+*/
+```
 
 ### fs (file system)
 
-#### Synchronously Read and Access files 
-```js 
+#### Creating folders
+
+```js
+import * as fs from "fs/promises"
+
+try {
+  await fs.mkdir("c"\\nodejs")
+  console.log("Foldoer Created ...")
+} catch (error) {
+  console.log(error)
+}
+```
+
+```js
+import * as fs from "fs/promises"
+
+try {
+  await fs.mkdir("c"\\nodejs\\courses")
+  console.log("Foldoer Created ...")
+} catch (error) {
+  console.log(error)
+}
+```
+
+If folder nodejs folder doesn't exists it will throw an error.
+But by adding `{recursive: true}` it will create exisiting folders that do not exist.
+
+```js
+import * as fs from "fs/promises"
+
+try {
+  await fs.mkdir("c"\\nodejs\\courses", { recursive: true })
+  console.log("Folder Created ...")
+} catch (error) {
+  console.log(error)
+}
+```
+
+#### Reading the content of a folder
+
+```js
+import * as fs from "fs/promises"
+
+try {
+  const file = await fs.readdir("c"\\nodejs", { recursive: true })
+  
+  for (const file of files) {
+  console.log(file)}
+} catch (error) {
+  console.log(error)
+}
+```
+
+#### Remove Folder / Directory
+
+```js
+try {
+  await fs.rmdir("c:\\nodejs\\courses")
+} catch(error) {
+  console.log(error)
+}
+```
+
+Folder must be empty
+
+#### Copying Files
+
+```js
+import * as fs from "fs/promises"
+
+try {
+  await fs.copyFile("README.md", "info.txt")
+} catch (error) {
+  console.log(error)
+}
+```
+
+#### Synchronously Read and Access files
+
+```js
 const { readFileSync, writeFileSync } = require('fs')
 console.log('start')
 const first = readFileSync('./content/first.txt', 'utf8')
@@ -164,12 +265,12 @@ console.log('done with this task')
 console.log('starting the next one')
 ```
 
-If you don't include the third parameter, the writeFileSync new text will override the existing content in the file. 
+If you don't include the third parameter, the writeFileSync new text will override the existing content in the file.
 but by providing `{flag: a}` you allow the new text to be appended to the existing one.
 
+#### Asynchronously Read and Access files
 
-#### Asynchronously Read and Access files 
-```js 
+```js
 const { readFile, writeFile } = require('fs')
 
 console.log('start')
@@ -198,9 +299,9 @@ writeFile(
 
 It's best to use the async approach, because node will not be able to serve other users if it handling a resource intensive synchronous request.
 
+Here writing two opened files into another file.
 
-Here writing two opened files into another file. 
-```js 
+```js
 const { readFile, writeFile } = require('fs')
 
 console.log('start')
@@ -209,7 +310,9 @@ readFile('./content/first.txt', 'utf8', (err, result) => {
     console.log(err)
     return
   }
+
   const first = result
+
   readFile('./content/second.txt', 'utf8', (err, result) => {
     if (err) {
       console.log(err)
@@ -230,7 +333,7 @@ readFile('./content/first.txt', 'utf8', (err, result) => {
   })
 })
 console.log('starting next task')
-``` 
+```
 
 One way to avoid call back hell is to use promise, another is async await. 
 

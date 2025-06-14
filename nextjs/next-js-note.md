@@ -390,8 +390,8 @@ const DeleteForm = ({ id }) => {
     </form>
   );
 };
-export default DeleteForm;
 
+export default DeleteForm;
 ```
 
 ### useFormState()

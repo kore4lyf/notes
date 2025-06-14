@@ -1,5 +1,3 @@
-0
-
 Moving focus into the modal
 To put focus into the modal, you have to put focus onto a focusable element within the modal, which is why doing modal.focus(); did not result in the focus moving into the modal like you wished since modal itself isn't a focusable element. Instead, you would want to do something such as $(modal).find("button").first().focus(); instead.
 

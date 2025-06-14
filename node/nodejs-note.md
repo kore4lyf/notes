@@ -967,7 +967,7 @@ fs.readFile("a.txt", (err, data) => {
 })
 ```
 
-## Streams
+## Streams - intro
 
 Node has a useful abstraction: Streams
 
@@ -1189,3 +1189,230 @@ require('http').createServer(function(req, res) {
   }).listen(4000);
 });
 ```
+
+## OS
+
+```js
+import os from "os"
+
+console.log(os.platform()) // win32
+console.log(os.arch()) // x64
+console.log(os.cpus()) /*
+  [
+    {
+      model: 'Intel(R) Core(TM) i5-6300U CPU @ 2.40GHz',
+      speed: 2496,
+      times: { user: 238781, nice: 0, sys: 166531, idle: 635781, irq: 1062 }
+    },
+    ...
+  ]
+*/
+
+console.log(os.hostname()) // KoRe
+console.log(os.homedir()) // C:\\Users\\HP
+console.log(os.networkInterfaces()) /*
+  {
+    vEthernet (Default Switch)': [
+    {
+      address: 'fe80::414d:6510:65b:a801',
+      netmask: 'ffff:ffff:ffff:ffff::',
+      family: 'IPv6',
+      mac: '00:15:5d:5f:df:5d',
+      internal: false,
+      cidr: 'fe80::414d:6510:65b:a801/64',
+      scopeid: 44
+    },
+    {
+      address: '172.22.128.1',
+      netmask: '255.255.240.0',
+      family: 'IPv4',
+      mac: '00:15:5d:5f:df:5d',
+      internal: false,
+      cidr: '172.22.128.1/20'
+    }
+  ],
+  ...
+  }
+*/
+console.log(os.freemem()) // 2822135808
+console.log(os.totalmem()) // 8463736832
+```
+
+## URL
+
+```js
+import { URL } from "url"
+
+const myURL = new URL("https:/www.example.com:8080/p/a/t/h?query=string#hash")
+
+console.log(myURL.hash) // #hash
+console.log(myURL.host) // www.example.com:8080
+console.log(myURL.hostname) // www.example.com
+console.log(myURL.port) //8080
+console.log(myURL.href) //https:/www.example.com:8080/p/a/t/h?query=string#hash
+console.log(myURL.protocol) // https:
+console.log(myURL.search) // ?query=string
+console.log(myURL.searchParams) // URLSearchParams { "query" => "string" }
+```
+
+## HTTP
+
+```js
+import http from "http"
+
+// Create our server
+const server = http.createServer((req, res) => {
+  // res.setHeader("Content-Type", "text/html")
+  // res.statusMessage = "BAD"
+  // res.statusCode = 404
+
+  // Shorthand for status (code, message & header)
+  res.writeHead(202, "Good", { "Content-Type" : "text/html"})
+
+  res.write("<h2> Hollo, Node JS </h2>")
+
+  // End server
+  // res.end("Server Down!")
+})
+server.listen(8000, () => console.log("Server up! on port: 8000"))
+```
+
+### Routing
+
+```js
+import http from "http"
+
+const server = http.createServer((req, res) => {
+  console.log(req.url) // log current URL path
+
+  if (req.url === "/") {
+    res.end("<h1> Home </h1>")
+  } else if (req.url === "/about") {
+    res.end("<h2> About Section </h2>")
+  } else if (req.url === "/contact") {
+    res.end("<h3> Contact </h3>")
+  } else {
+    res.end("<h1> 404 page not found :( </h1>")
+  }
+})
+
+server.listen(8000, () => console.log("Server up"))
+```
+
+```js
+import http from "http"
+
+const server = http.createServer((req, res) => {
+  console.log(req.url) // log current URL path
+
+  if (req.url === "/") {
+    res.writeHead(200, "OK", { "Content-Type": "text/html"})
+    res.end("<h1> Home </h1>")
+  } else if (req.url === "/about") {
+    res.writeHead(200, "OK", { "Content-Type": "text/html"})
+    res.end("<h2> About Section </h2>")
+  } else if (req.url === "/contact") {
+    res.writeHead(200, "OK", { "Content-Type": "text/html"})
+    res.end("<h3> Contact </h3>")
+  } else {
+    res.writeHead(404, "BAD", { "Content-Type": "text/html"})
+    res.end("<h1> 404 page not found :( </h1>")
+  }
+})
+
+server.listen(8000, () => console.log("Server up"))
+```
+
+### Serving Pages
+
+home.html
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> ABOUT </title>
+  </head>
+  <body>
+    <h1>About Page</h1>
+    <p>aldjf dfaldf aldfj a;ldfa lsdfja ldfa lsdfa dflaj dfa sdflja sdfljasdf ads fadls fasd flas dfla sdf asdflasdfl adfl afjld ffdsfasdf aldjf dfaldf aldfj a;ldfa lsdfja ldfa lsdfa dflaj dfa sdflja sdfljasdf ads fadls fasd flas dfla sdf asdflasdfl adfl afjld ffdsfasdf</p>
+    <button>Contact Us</button>
+  </body>
+</html>
+```
+
+```js
+import http from "http"
+import fs from "fs"
+
+const server = http.createServer((req, res) => {
+  if (req.url === "/") {
+    res.writeHead(200, "OK", { "Content-Type": "text/html"})
+    
+    fs.readFile("./home.html", (error, data) => {
+      if (error) throw error
+      res.end(data)
+    })
+  }
+})
+
+server.listen(8000, () => console.log("Server is running on port: 8000"))
+```
+
+## Thread
+
+Each unit capable of executing code is called a thread.
+
+Node js is single threaded which means it cna only do one thing at a time.
+
+The solution is Event Loop:
+The event loop will be generated in the thread & the role of this loop is to schedule which operations our thread should be performing at any given point.
+
+A typical example is a javascript function, that takes a callback.
+
+**Callback**:
+
+- Callback is an asynchronous equivalent for a function.
+- A callback function is called a the completion of a given task.
+- Callback help us in preventing from the blocking of the code.
+- Node makes heavy use of callbacks.
+
+## Events
+
+```js
+import EventEmitter from "events"
+
+// Creating Instance
+const customEmitter = new EventEmitter()
+
+// 1. on: listen/register for an event
+// 2. once: listen/register for an event
+// 3. emit: emit/call an event
+
+customEmitter.on("response", (name, id) => {
+  console.log(`user: ${name} id: ${id}`)
+}
+
+customEmitter.emit("response", "KoRe", 18) // user: KoRe id: 18
+```
+
+## Streams
+
+Streams are a way of reading and writing large data without loading the entire data to a memory.
+
+By default it take 64k of data (read/write)
+
+```js
+import { createReadStream } from "fs"
+
+// const stream = createReadStream("./data.txt", { highWaterMark: 20000})
+
+const stream = createReadStream("./data.txt", { encode: "utf8"})
+
+stream.on("data", (data) => {
+  console.log(data)
+})
+```
+
+highWaterMark controls the size of the buffer.

@@ -213,7 +213,7 @@ Another cool trick you can do is wrap your inputs with the label tag. This is ca
 ``` 
 
 
-### Limitations with the <label> tag
+### Limitations with the `<label>` tag
 The label tag can only works with "labelable" elements. Those include:
 ```html 
 <button>
@@ -553,17 +553,18 @@ This is important both as a preference and also to avoid causing issues for user
     animation-name: dissolve;
   }
 } 
-``` 
-
+```
 
 #### Prefers Color Scheme
+
 Another amazing API is one that allows us to detect if the user prefers a "light" or "dark" colorscheme.
 
-```html 
+```html
 <div class="wrapper">
   ...
 </div> 
 ```
+
 ```css
 @media (prefers-color-scheme: dark) {
   .wrapper {
@@ -578,10 +579,9 @@ Another amazing API is one that allows us to detect if the user prefers a "light
 }
 ```
 
+#### Using Media Query in JavaScript
 
-
-#### Using Media Query in JavaScript 
-Supporting darkmode Finding out if dark mode is supported by the browser As dark mode is reported through a media query, you can easily check if the current browser supports dark mode by checking if the media query prefers-color-scheme matches at all. Note ow don't include any value, but purely check if the mnedia query alone matches. 
+Supporting darkmode Finding out if dark mode is supported by the browser As dark mode is reported through a media query, you can easily check if the current browser supports dark mode by checking if the media query prefers-color-scheme matches at all. Note ow don't include any value, but purely check if the media query alone matches. 
 
 ```js 
 // check support for dark mode 

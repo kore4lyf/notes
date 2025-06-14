@@ -1208,7 +1208,6 @@ Like stacks, queues are arrays with three restrictions (it’s just a different 
 - Data can be deleted only from the front of a queue. (This is the opposite behavior of the stack.)
 - Only the element at the front of a queue can be read. (This, too, is the opposite of behavior of the stack.)
 
-
 ##### Queue Implementation
 
 I mentioned that the queue is an abstract data type. Like many other abstract data types, it doesn’t come implemented in many programming languages.
@@ -1232,10 +1231,9 @@ class Queue
 end
 ```
 
- 
- #### Queue in Action
- Queues are common in many applications, ranging from printing jobs to background workers in web applications.
+#### Queue in Action
 
+Queues are common in many applications, ranging from printing jobs to background workers in web applications.
 
 ## CHAPTER 10: Recursively Recurse with Recursion
 What happens when the blah() function defined here is called?

@@ -849,3 +849,574 @@ function convertWeight(weight, ounces = 0, roundTo = 2) {
   return roundToDecimalPlace(conversion, roundTo);
 }
 ```
+
+## Writing functions for testability (Mocha)
+
+Instead of struggling to make tests for your code, you should focus on writing code that is testable. Your code will improve, your tests will be easier to write, and the user experience will be identical. There’s nothing to lose.
+
+Here’s a function that looks simple but has some subtle complexity
+
+```js
+import { getTaxInformation } from './taxService'
+
+function formatPrice(user, { price, location }) {
+  const rate = getTaxInformation(location);
+  const taxes = rate ? `plus $${price * rate} in taxes.` : 'plus tax.'
+  return `${user} your total is: ${price} ${taxes}`;7
+}
+
+export { formatPrice }
+```
+
+The problem with using imported code directly is that the function is now tightly coupled with the imported function.
+
+This means that if you run a test, the test will
+also have to access the API.
+
+Now your test is dependent on network access, response time, and so on. Again, this is a big problem. You’re just trying to build a string.
+
+To avoid the problem, you can create mocks that intercept imports and explicitly set a return value. Here’s what a test would look like for the current function.
+
+```js
+import expect from 'expect';
+import sinon from 'sinon';
+import * as taxService from './taxService';
+import { formatPrice } from './problem';
+
+describe('format price', () => {
+let taxStub;
+
+beforeEach(() => {
+  taxStub = sinon.stub(taxService, 'getTaxInformation');
+});
+
+afterEach(() => {
+  taxStub.restore();
+});
+
+it('should return plus tax if no tax info', () => {
+  taxStub.returns(null);
+
+  const item = { price: 30, location: 'Oklahoma' };
+  const user = 'Aaron Cometbus';
+  const message = formatPrice(user, item);
+  const expectedMessage = 'Aaron Cometbus your total is: plus tax.';
+
+  expect(message).toEqual(expectedMessage);
+});
+
+it('should return plus tax information', () => {
+  taxStub.returns(0.1);
+
+  const item = { price: 30, location: 'Oklahoma' };
+  const user = 'Aaron Cometbus';
+  const message = formatPrice(user, item);
+  const expectedMessage = 'Aaron Cometbus your total is: 30 plus $3 in taxes.';
+  expect(message).toEqual(expectedMessage);
+});
+});
+```
+
+When you create a stub, you’re bypassing the imported code and declaring
+what the output would be without running the actual code. The upside is that now you don’t have to worry about any external dependencies. The downside is that you constantly have to set and reset the return value in every assertion. See line 19 for an example `taxStub.returns(null)`.
+
+Don’t be fooled by the shortness of the test suite. Tests that require a lot of external helpers, such as spies, mocks, and stubs, are a clue that your code is complex and may be tightly coupled. You should simplify your code.
+
+> Fortunately, the fix for tightly coupled code is fairly simple. You simply pass in your external functions as arguments. **Passing in dependencies as arguments is called dependency injection.**
+
+- **Stubs, Mocks, Spies**
+Even with your best efforts, you’ll eventually need some helpers to test your code.
+Fortunately there are quite a few techniques to help you. The three big ones are stubs,mocks, and spies.
+In this example, you’re working with stubs. You’re overriding outside code and
+returning an explicit result. It’s called a stub because you’re removing all the underlying logic of the function and just declaring a result.
+Mocks are a little more complex. They stand in for the objects they’re replacing, and
+you make assertions based on the messages they’ll receive and the methods you’ll
+call on them. For example, you may mock an object and assert that you’ll call a format()
+method on your object with the argument jabberwocky.
+A crucial difference between mocks and stubs is that you set up the expectations
+before you call the code with mocks. Martin Fowler has a good article on the difference
+between mocks and stubs.a
+Spies are like mocks, but you check how they were called after you execute the code.
+If you called formatPrice() and wanted to make sure that getTaxInformation() was called
+once with an argument of Iowa, you’d set up the stub with a spy and then, after calling
+formatPrice(), you’d make assertions on the spy. If you look at the code for this book,
+you’ll see an occasional spy.
+For more on mocks, spies, and stubs, Simon Coffey goes into detail on each, using
+
+Ruby as an example.b
+> a. https://martinfowler.com/articles/mocksArentStubs.html
+> b. https://about.futurelearn.com/blog/stubs-mocks-spies-rspec
+
+To decouple your code, pass `getTaxInformation()` as an argument. You don’t need to change anything else in your code.
+
+functions/test/test.js
+```js
+function formatPrice(user, { price, location }, getTaxInformation) {
+const rate = getTaxInformation(location);
+const taxes = rate ? `plus $${price * rate} in taxes.` : 'plus tax.';
+return `${user} your total is: ${price} ${taxes}`;
+}
+export { formatPrice }
+```
+
+Now that you’re using dependency injection, you don’t need stubs. When you
+write your tests, you don’t need to bypass an import. Instead, you pass a
+simple function that returns the value you want. It’s a lot like stubbing but
+without any external dependencies.
+
+Here’s your test:
+functions/test/test.spec.js
+```js
+import expect from 'expect';
+import { formatPrice } from './test';
+
+describe('format price', () => {
+
+  it('should return plus tax if no tax info', () => {
+    const item = { price: 30, location: 'Oklahoma' };
+    const user = 'Aaron Cometbus';
+    const message = formatPrice(user, item, () => null);
+    expect(message).toEqual('Aaron Cometbus your total is: 30 plus tax.');
+  });
+
+  it('should return plus tax information', () => {
+    const item = { price: 30, location: 'Oklahoma' };
+    const user = 'Aaron Cometbus';
+    const message = formatPrice(user, item, () => 0.1);
+    expect(message).toEqual('Aaron Cometbus your total is: 30 plus $3 in taxes.');
+
+  });
+});
+```
+
+The important thing to know is that there’s a perception that writing tests is
+hard. That’s just not true. If a test is hard to write, spend time rethinking
+your code. If your code isn’t easy to test, you should change your code, not
+your tests.
+
+### Reduce Complexity with Arrow Functions
+
+You’ll learn how to use arrow functions to destructure arguments,
+return objects, and construct higher-order functions.
+
+```js
+const name = {
+  first: 'Lemmy',
+  last: 'Kilmister',
+};
+function getName({ first, last }) {
+  return `${first} ${last}`;
+}
+```
+
+```js
+const getName = { first, last } => `${first} ${last}`;
+```
+
+```js
+const comic = {
+  first: 'Peter',
+  last: 'Bagge',
+  city: 'Seattle',
+  state: 'Washington',
+};
+const getName = ({ first, last }) => `${first} ${last}`;
+getName(comic);
+// Peter Bagge
+```
+
+If you’re returning an object, you have to be careful when omitting the return statement. Because an arrow function can’t tell whether the curly braces are for an object or to wrap a function body, you’ll need to indicate the return object by wrapping the whole thing in parentheses.
+
+```js
+const getFullName = ({ first, last }) => ({ fullName: `${first} ${last}` });
+getFullName(comic);
+// { fullName: 'Peter Bagge' }
+```
+
+Finally, arrow functions are great ways to make higher-order functions—func-
+tions  that  return  other  functions.
+
+```js
+const discounter = discount => {
+  return price => {
+    return price * (1 - discount);
+  };
+};
+const tenPercentOff = discounter(0.1);
+tenPercentOff(100);
+// 90
+```
+
+Because the return value is another function, you can leverage the implicit return to return the function without even needing extra curly braces.
+
+```js
+const discounter = discount => price => price * (1 - discount);
+
+const tenPercentOff = discounter(0.1);
+tenPercentOff(100);
+// 90
+```
+
+If you’re anything like me, you’re probably already forgetting all about higher-order functions. When are you going to use them? Turns out, they can be very helpful. Not only are they great ways to lock in parameters, but they’ll also  help  you  take  some  of  the  ideas  you’ve  already  seen—array  methods,rest parameters—even further.
+
+In all the examples, you invoked the higher-order functions by first assigning the returned function to a variable before calling that with another parameter. That’s not necessary.
+
+```js
+discounter(0.1)(100);
+// 90
+```
+
+### Create a zip function
+
+```js
+const zip = (...left) => (...right) => {
+  return left.map((item, i) => [item, right[i]])
+}
+```
+
+### Combine Currying and Array Methods for Partial Application
+
+With  higher-order  functions,  you  can  avoid  repetition  by  creating  a  new function  with  values  you  lock  in  once  and  use  later. When  you  return  a higher-order function, you don’t have to invoke it right away. After you invoke it once, you have another pre-made function that you can use over and over. It’s like you wrote it with the argument hard-coded.
+
+Building functions that take only one argument at a time is called
+“currying,” and it’s an invaluable technique when you’re working with methods
+that pass only one argument
+
+Currying and Partial Application
+Partially applied functions can take multiple rounds of parameters. This is often confused with currying. And it’s true that currying and partial application are very similar, but they’re different.
+
+data.js
+
+```js
+const dogs = [
+  {
+    name: 'max',
+    weight: 10,
+    breed: 'boston terrier',
+    state: 'wisconsin',
+    color: 'black',
+  },
+  {
+    name: 'don',
+    weight: 90,
+    breed: 'labrador',
+    state: 'kansas',
+    color: 'black',
+  },
+  {
+    name: 'shadow',
+    weight: 40,
+    breed: 'labrador',
+    state: 'wisconsin',
+    color: 'chocolate',
+  },
+];
+```
+
+```js
+function getDogNames(dogs, filter) {
+  const [key, value] = filter;
+  return dogs
+  .filter(dog => dog[key] === value)
+  .map(dog => dog.name);
+}
+getDogNames(dogs, ['color', 'black']);
+// ['max', 'don']
+```
+
+This function looks pretty good, but it’s actually severely limited.
+There are two issues. First, your filter function is constrained.
+Second, the map, like all array methods, can take only one argument—the
+item  being  checked—so  you  have  to  somehow  get  your  other  variables in scope.
+
+curry.js
+```js
+function getDogNames(dogs, filterFunc) {
+  return dogs
+  .filter(filterFunc)
+  .map(dog => dog.name)
+}
+
+getDogNames(dogs, dog => dog.weight < 20);
+// ['max']
+```
+
+You’re partway there, but you’re still forced to hard code a value, the number 20 in this case.
+
+```js
+const weightCheck = weight => dog => dog.weight < weight;
+getDogNames(dogs, weightCheck(20));
+// ['max']
+getDogNames(dogs, weightCheck(50));
+// ['max', 'shadow']
+```
+
+```js
+const identity = field => value => dog => dog[field] === value;
+const colorCheck = identity('color');
+const stateCheck = identity('state');
+getDogNames(dogs, colorCheck('chocolate'));
+// ['shadow']
+getDogNames(dogs, stateCheck('kansas'));
+// ['don']
+```
+
+Now think about what you’ve created. You took a function that had specific
+requirements  and  made  something  abstract  that  can  take  many  different comparisons.
+
+If you only wanted the dogs that meet at least one criteria, you can write a
+function that uses the some() array method, which returns true if any value
+returns true.
+functions/curry/curry.js
+```js
+function allFilters(dogs, ...checks) {
+  return dogs
+  .filter(dog => checks.every(check => check(dog)))
+  .map(dog => dog.name);
+}
+allFilters(dogs, colorCheck('black'), stateCheck('kansas'));
+// ['Don']
+```
+
+```js
+function anyFilters(dogs, ...checks) {
+  return dogs
+  .filter(dog => checks.some(check => check(dog)))
+  .map(dog => dog.name);''
+}
+anyFilters(dogs, weightCheck(20), colorCheck('chocolate'));
+// ['max', 'shadow']
+```
+
+### Prevent Context Confusion with Arrow Functions
+
+Scope and context are probably the two most confusing concepts for JavaScript
+developers.
+
+A function’s scope, at it simplest, is what variables the functions can access. Context is what the keyword this refers to in a function or class.
+
+Scope pertains to functions and context pertains to objects. While that’s not 100 percent true—you can use this in any function—it’s a good general rule.
+
+```js
+const validator = {
+  message: 'is invalid.',
+  setInvalidMessage(field) {
+    return `${field} ${this.message}`;
+  },
+};
+
+validator.setInvalidMessage('city');
+// city is invalid
+```
+
+As you see, this.message refers to the property on the object. This works because, when the method is called from the object, the function creates a this binding with the containing object as context.
+
+Working with this on objects usually isn’t a problem until you try to use a function as callback for another function.
+For example, you’ll encounter problems with this when using setTimeout(), setInterval(), or your favorite array methods such as map() or filter(). Each of these functions takes a callback, which, as you’ll see, changes the context of the callback.
+
+```js
+const validator = {
+  message: 'is invalid.',
+  setInvalidMessages(...fields) {
+    return fields.map(function (field) {
+      return `${field} ${this.message}`;
+    });
+  },
+};
+
+validatorProblem.setInvalidMessages(field);
+// TypeError: Cannot read property 'message' of undefined
+```
+
+The problem is that when you invoke the function, you’ll get either a TypeError or undefined. This is where most developers get frustrated and refactor the code to remove a reference to this.
+
+Remember that whenever you call a function, it creates a this binding based on where it’s called. setInvalidMessage() was called in the context of an object. The this context was the object. The callback for the map function is called in the context of the map() method, so the this binding is no longer the Validator object. It will actually be the global object: window in a browser and the Node.js environment in a REPL. The callback doesn’t have access to the message property.
+
+This is where arrow functions come in. Arrow functions don’t create a new this binding when you use them. If you were to rewrite the preceding map() callback using an arrow function, everything would work as expected.
+
+```js
+const validator = {
+  message: 'is invalid.',
+  setInvalidMessages(...fields) {
+    return fields.map(field => {
+      return `${field} ${this.message}`;
+  });
+  },
+};
+validator.setInvalidMessages('city');
+// ['city is invalid.]
+```
+
+Now this may seem great and a good reason to always use arrow functions.
+But remember, sometimes you actually do want to set a this context.
+For example, what if you wrote your original setInvalidMessage() method not as
+a named method but as an arrow function assigned to a property?
+functions/context/method.js
+```js
+const validator = {
+  message: 'is invalid.',
+  setInvalidMessage: field => `${field} ${this.message}`,
+};
+
+validatorMethod.setInvalidMessage(field);
+// TypeError: Cannot read property 'message' of undefined
+```
+You’d have the exact same TypeError when you called it.
+
+In this case, you didn’t create a new this context binding to the current object. Because you didn’t create a new context, you’re still bound to the global object.
+
+## Keep Interfaces Clear with Classes
+
+### Build Readable Classes
+
+To start off, make a class called Coupon. You declare a class with the class
+keyword. You can then create new instances using the new keyword.
+
+```js
+class Coupon {
+
+}
+
+const coupon = new Coupon();
+```
+
+The next step is to create a constructor method. You’ll need to name it constructor().
+
+```js
+class Coupon {
+  constructor(price, expiration) {
+    this.price = price;
+    this.expiration = expiration || 'two weeks';
+  }
+}
+const coupon = new Coupon(5);
+coupon.price;
+// 5
+coupon['expiration'];
+// 'Two Weeks'
+```
+
+Note that you aren’t declaring properties as public or private. Currently,
+everything is public.
+
+The class and object instance are getting a little more interesting, but they still can’t do much. The next step is to add two simple methods: getPriceText() to return a formatted price and getExpirationMessage() to get a formatted message.
+
+```js
+class Coupon {
+  constructor(price, expiration) {
+    this.price = price;
+    this.expiration = expiration || 'two weeks';
+  }
+  getPriceText() {
+    return `$ ${this.price}`;
+  }
+  getExpirationMessage() {
+    return `This offer expires in ${this.expiration}.`;
+  }
+}
+const coupon = new Coupon(5);
+coupon.getPriceText();
+// '$ 5'
+coupon.getExpirationMessage();
+// 'This offer expires in two weeks.'
+```
+
+### Share Methods with Inheritance
+
+You’ll learn how to extend classes and call parent methods.
+
+```js
+import Coupon from './extend';
+class FlashCoupon extends Coupon {
+}
+
+const flash = new FlashCoupon(10);
+
+flash.price;
+// 10
+
+flash.getPriceText();
+// "$ 10"
+```
+
+To make the change, set up a constructor function that takes price and expiration, as you did on the parent. In this constructor, you’ll need to 
+> call **super()** to access the parent constructor.
+
+```js
+import Coupon from './extend';
+
+class FlashCoupon extends Coupon {
+  constructor(price, expiration) {
+    super(price);
+    this.expiration = expiration || 'two hours';
+  }
+}
+
+const flash = new FlashCoupon(10);
+
+flash.price;
+// 10
+
+flash.getExpirationMessage();
+// "This offer expires in two hours"
+```
+
+Of course, you may not like that message. This is a flash coupon after all. You should alert your users that this coupon is special. Any time you call a method, the JavaScript engine first checks to see if the method exists on the current class. If not, the engine goes up the chain, checking each class or prototype along the way. This means you can override any method by creating a new method with the same name.
+
+Try adding a new method called `getExpirationMessage()` to the FlashCoupon class. This method will be the same as the parent method except that it returns a message of This is a flash offer and expires in `${this.expiration}`.
+
+The last step is to write methods that invoke the parent methods. To start, add two new methods to your Coupon class. First, add the method getRewards(), which takes a user and then calls isRewardsEligible() to find out if the user is eligible for further discounts. If the user is eligible for further discounts, reduce the price.
+
+As a warning, any method you add to a parent class is inherited by a child class. This can be a huge benefit, but it’s also easy to create bloat in child classes by adding methods to parents that aren’t necessary in child classes.
+
+```js
+class Coupon {
+  constructor(price, expiration) {
+    this.price = price;
+    this.expiration = expiration || 'Two Weeks';
+  }
+  getPriceText() {
+    return `$ ${this.price}`;
+  }
+  getExpirationMessage() {
+    return `This offer expires in ${this.expiration}`;
+  }
+  isRewardsEligible(user) {
+    return user.rewardsEligible && user.active;
+  }
+  getRewards(user) {
+    if (this.isRewardsEligible(user)) {
+      this.price = this.price * 0.9;
+    }
+  }
+}
+
+export default Coupon
+```
+
+```js
+import Coupon from './extend';
+class FlashCoupon extends Coupon {
+  constructor(price, expiration) {
+    super(price);
+    this.expiration = expiration || 'two hours';
+  }
+  getExpirationMessage() {
+    return `This is a flash offer and expires in ${this.expiration}.`;
+  }
+  isRewardsEligible(user) {
+    return super.isRewardsEligible(user) && this.price > 20;
+  }
+  getRewards(user) {
+    if (this.isRewardsEligible(user)) {
+      this.price = this.price * 0.8;
+    }
+  }
+}
+
+export { FlashCoupon };
+```
+
+JavaScript is a prototype language. Classes as you’re using them are simply a familiar syntax for a different paradigm. The benefit is that because they are using the same prototype actions under the hood, you can combine classes with legacy code.
+
+### Extend Existing Prototypes with Class

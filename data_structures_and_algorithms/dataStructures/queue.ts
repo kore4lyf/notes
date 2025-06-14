@@ -1,17 +1,18 @@
 class Queue {
   storage: unknown[]
 
-  constructor(storage: unknown[]) {
+  constructor(storage: unknown[] =[]) {
     this.storage = storage
   }
 
-  peek = () => this.storage[0]
   
   enqueue = (value: unknown) => {
     this.storage.push(value)
   }
-
-  dequeue = () => this.storage.unshift()
+  
+  dequeue = () => this.storage.shift()
+  
+  peek = () => this.storage[0]
 
   size = () => this.storage.length
 }
@@ -27,6 +28,6 @@ console.log("queue.storage ", queue.storage)
 
 const queue2 = new Queue([10, 11, 12, 13, 14, 15])
 console.log("queue2.peek() ", queue2.peek())
-console.log("queue2.pop() ", queue2.dequeue())
+console.log("queue2.dequeue() ", queue2.dequeue())
 console.log("queue2.size() ", queue2.size())
-console.log("queue2.storage ", container4.storage)
+console.log("queue2.storage ", queue2.storage)

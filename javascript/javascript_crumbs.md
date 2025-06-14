@@ -647,9 +647,11 @@ fruits instanceof Array;   // returns true
 ## JavaScript Array Methods
 
 ### Converting Arrays to Strings
+
 The JavaScript method toString() converts an array to a string of (comma separated) array values.
 
 Example
+
 ```js
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 document.getElementById("demo").innerHTML = fruits.toString();
@@ -765,7 +767,7 @@ Example:
 
 ```js
 var points = [40, 100, 1, 5, 25, 10];
-points.sort(function(a, b){return a - b});
+points.sort(function(a, z){return a - z});
 ```
 
 Use the same trick to sort an array descending:
@@ -774,7 +776,7 @@ Example:
 
 ```js
 var points = [40, 100, 1, 5, 25, 10];
-points.sort(function(a, b){return b - a});
+points.sort(function(a, z){return z - a});
 ```
 
 #### The Compare Function
@@ -5019,10 +5021,10 @@ console.log(roster);
 
 ```js 
 roster.add('Amanda');
-Uncaught TypeError: Invalid value used in weak set(…)
+// Uncaught TypeError: Invalid value used in weak set(…)
 ``` 
 
-This is expected behavior because WeakSets can only contain objects. But why should it only contain objects? Why would you even use a WeakSet if normal Sets can contain objects and other types of data? Well, the answer to that question has more to do with why WeakSets do not have a .clear() method…
+This is expected behavior because WeakSets can only contain objects. But why should it only contain objects? Why would you even use a WeakSet if normal Sets can contain objects and other types of data? Well, the answer to that question has more to do with why WeakSets do not have a `.clear()` method…
 
 ##### Garbage Collection
 In JavaScript, memory is allocated when new values are created and is "automatically" freed up when those values are no longer needed. This process of freeing up memory after it is no longer needed is what is known as garbage collection.
@@ -5037,12 +5039,9 @@ console.log(roster);
 
 What makes this so useful is you don’t have to worry about deleting references to deleted objects in your WeakSets, JavaScript does it for you! When an object is deleted, the object will also be deleted from the WeakSet when garbage collection runs. This makes WeakSets useful in situations where you want an efficient, lightweight solution for creating groups of objects.
 
-The point in time when garbage collection happens depends on a lot of different factors. 
+The point in time when garbage collection happens depends on a lot of different factors.
 
-
-
-
-### Maps 
+### Maps
 If Sets are similar to Arrays, then Maps are similar to Objects because Maps store key-value pairs similar to how objects contain named properties with values.
 
 Essentially, a Map is an object that lets you store key-value pairs where both the keys and the values can be objects, primitive values, or a combination of the two.
@@ -5834,4 +5833,199 @@ let b = 10
 // b = 5
 ```
 
-## 
+## Understanding `this`
+
+**`this` refers to an object that is executing the current piece of code**. 
+It references the object that is executing the current function.
+
+### Global scope
+When ever `this` keyword is used outside of any function, it refers to the global object.
+
+```js
+console.log(this)
+```
+
+### Function Methods
+
+If the function being referenced is a regular function, `this` references the global object (Nodejs Environment). If the function that is being referenced is a method in an object, `this` references the object itself.
+
+If a function is called from a global scope that include `this` keyword, then `this` will always point to the window object (in a browser) or the global object.
+
+```js
+var myVar = 100
+
+function printMe() {
+  var myVar = 200
+  console.log("myVar = ", myVar) // 200
+  console.log("this.myVar = ", this.myVar) // 200
+}
+```
+
+In nodejs
+myVar = 200
+this.myVar = undefined
+
+In the Browser
+myVar = 200
+this.myVar = 100
+
+### Object Methods
+
+```js
+const person = {
+  name: "Blake",
+  dob: "1997",
+  introduce() {
+    return `Hi, I am ${this.name}, I was born in ${this.dob} `
+  }
+}
+
+console.log(person.introduce()) // Hi, I am Blake, I was born in 1997
+```
+
+But we will get a different result if the result of introduce() is assigned to a variable.
+
+```js
+const person = {
+  name: "Blake",
+  dob: "1997",
+  introduce() {
+    return `Hi, I am ${this.name}, I was born in ${this.dob} `
+  }
+}
+
+const blake = person.introduce
+console.log(blake()) // Hi, I am undefined, I was born in undefined
+```
+
+The introduce method was defined in the person but not bound to it.
+
+### Constructor Function
+
+```js
+function Country(name) {
+  this.name = name;
+  this.age = 1960
+
+  this.info = function () {
+    console.log(`${this.name} was founded ${this.age}`)
+  }
+}
+
+const country = new Country("Nigeria")
+console.log("name: ", country.name) // name:  Nigeria
+console.log(country.info()) // Nigeria was founded 1960
+```
+
+### Event Handlers
+
+In addEventListener event handler, `this` refers to the element the handler was attached to.
+
+```js
+const button = document.querySelector("buttton")
+
+button.addEventListener("click:, () => {
+  console.log(this)
+}) // output: <button> Click </button>
+```
+
+### call()
+
+`call` is one of the most popular ways to explicitly define what `this` refers to. 
+The `call()` is used to borrow a method from an isolated object and use it on another with a specific context.
+
+```js
+const game = {
+  title: "PrisonBreak",
+  year: 1979
+}
+
+function detail() {
+  console.log(`${this.title}, was released in ${this.year}`)
+}
+
+detail() // RESULT: undefined was released in undefined
+```
+
+The above prints the result because there is no connection between the game and the detail method. Hence, calling the detail method by itself will only print undefined.
+
+```js
+const game = {
+  title: "PrisonBreak",
+  year: 1979
+}
+
+function detail() {
+  console.log(`${this.title}, was released in ${this.year}`)
+}
+
+const fullDetail = detail.call(game)
+console.log(fullDetail) // PrisonBreak, was released in 1979
+```
+
+### apply()
+
+Apply is similar to call, except that apply method takes arguments as an array (e.g. funtionName.apply(thisArg, [argsArray]) ).
+
+```js
+const game = {
+  title: "PrisonBreak",
+  year: 1979
+}
+
+function detail() {
+  console.log(`${this.title}, was released in ${this.year}`)
+}
+
+const fullDetail = detail.apply(game)
+console.log(fullDetail) // PrisonBreak, was released in 1979
+```
+
+```js
+const game = {
+  title: "PrisonBreak",
+  year: 1979
+}
+
+function detail(greet) {
+  console.log(`${greet}, ${this.title}, was released in ${this.year}`)
+}
+
+const fullDetail = detail.apply(game, ["Hello"])
+console.log(fullDetail) // PrisonBreak, was released in 1979
+```
+
+### bind
+
+Is used to permanently set this context for a function. 
+bind **creates a new function** that parmanently binds this to an object.
+
+```js
+const game = {
+  title: "PrisonBreak",
+  year: 1979
+}
+
+function detail(greet) {
+  console.log(`${greet}, ${this.title}, was released in ${this.year}`)
+}
+
+const fullDetail = detail.bind(game, "Hello")
+console.log(fullDetail())
+```
+
+```js
+const game = {
+  title: "PrisonBreak",
+  year: 1979
+}
+
+function detail(greet, name) {
+  console.log(`${greet} ${name}, ${this.title}  was released in ${this.year}`)
+}
+
+const fullDetail = detail.bind(game, "Hello", "David")
+console.log(fullDetail())
+```
+
+
