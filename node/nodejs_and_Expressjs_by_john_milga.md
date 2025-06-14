@@ -335,10 +335,9 @@ readFile('./content/first.txt', 'utf8', (err, result) => {
 console.log('starting next task')
 ```
 
-One way to avoid call back hell is to use promise, another is async await. 
+One way to avoid call back hell is to use promise, another is async await.
 
-
-```js 
+```js
 const { readFile, writeFile } = require('fs')
 
 const start = async () => {
@@ -357,10 +356,11 @@ const start = async () => {
 }
 
 start()
-``` 
+```
 
-### HTTP 
-```js 
+### HTTP
+
+```js
 const http = require('http')
 
 const server = http.createServer((req, res) => {
@@ -378,42 +378,45 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(5000)
-``` 
+```
 
+## NPM
 
-
-
-## NPM 
 NPM means Node Package manager.
-- npm i <packageName> // Install local dependency 
-- npm install -g <packageName> // Install dependency globally 
-- package.json // A manifest file (stores important info about project/package) 
 
+- npm i `<packageName>` // Install local dependency 
+- npm install -g `<packageName>` // Install dependency globally 
+- package.json // A manifest file (stores important info about project/package)
 
 It should be created with any if the following:
-```sh 
+
+```sh
 npm init // step by step, press enter to skip
 ```
-```sh 
+
+```sh
 npm init -y (skip steps and creates default files)
 ```
 
 ### devDependencies
+
 > nodemon is an npm package that watches our file for changes and restarts our server.
 
 Packages that are not used in production should be installed as devDependencies
 nodemon should be installed as a dev dependency.
 
-
-```sh 
+```sh
 npm i nodemon -D 
 ```
-OR 
-```sh 
+
+OR
+
+```sh
 npm i nodemon --save-dev
 ```
 
-If you are using node add this to the script. 
+If you are using node add this to the script.
+
 ```js
 "script": {
   "start": "node app.js",
@@ -426,49 +429,50 @@ In some cases one might be able to use `npm <scriptName>` but in most cases `npm
 
 > start or dev can be renamed to any word.
 
+### npx
 
+npx stands for execute its a package tht was introduced in npm 5.2. It allow you run a cli tool instead of installing it globally e.g. npx create-reaxt-app my-app
 
-### npx  
-npx stands for execute its a package tht was introduced in npm 5.2. It allow you run a cli tool instead of installing it globally e.g. npx create-reaxt-app my-app 
+### Uninstall a node module
 
-### Uninstall a node module 
-```sh 
+```sh
 npm uninstall <moduleName>
 ```
 
 ### Install a particular version
-```sh 
+
+```sh
 npm i <moduleName>@version
 ```
 
-## Event Loop 
+## Event Loop
+
 The event loop is what allows Node.js to perform non-blocking I/O operations, despite the fact that JavaScript is single threaded, by offloading operations to the system kernel whenever possible. 
 
 - JavaScript is synchronous and single threaded. i.e. It reads code line by line.  
 
 The event loop is responsible for preventing a running request from delaying other requests. The event loop registers the callback running other blocking request and runs the registered request when the .
 
-```js 
+```js
 console.log('First') 
 setTimeout(() => {
   console.log('Second')
 }, 0)
 console.log('Third')
 ```
-Results: 
-  First 
-  Third 
-  Second 
 
+Results:
+  First
+  Third
+  Second
 
+## Async Patterns
 
-## Async Patterns 
-- Callbacks 
-- Promises 
+- Callbacks
+- Promises
 - async await
 
-
-```js 
+```js
 const { readFile, writeFile } = require('fs').promises
 // const util = require('util')
 // const readFilePromise = util.promisify(readFile)
@@ -507,13 +511,12 @@ start()
 //   .catch((err) => console.log(err))
 ```
 
+## Events Emitter / Event-driving programming
 
-
-## Events Emitter / Event-driving programming 
 Example:
 
-```js 
-const  EventEmitter = requie('event') 
+```js
+const  EventEmitter = require('event') 
 
 // If you to create sth custom you need to extend ye class 
 // But if you want to emit an event and listen for it just create the instance 
@@ -525,17 +528,19 @@ const customEmmiter = new EventEmitter()
 // emit - emit an event 
  
 customEmitter.on('respond', () => {
-  console.log('Data Recieved`)
+  console.log('Data Received`)
 })
 
 customEmitter.emit('response');
-``` 
-Result: 
-Data Decieved
+```
 
-We can also pass the using the same event multiple times 
-```js 
-const  EventEmitter = requie('event') 
+Result:
+Data Received
+
+We can also pass the using the same event multiple times
+
+```js
+const  EventEmitter = require('event')
 
 // If you to create sth custom you need to extend ye class 
 // But if you want to emit an event and listen for it just create the instance 
@@ -555,16 +560,16 @@ customEmitter.on('respond', () => {
 })
 
 customEmitter.emit('response');
-``` 
-Result: 
-Data Decieved
+```
+
+Result:
+Data Received
 Some other logic here
 
-
-
 Passing parameters and arguments to Event
-```js 
-const  EventEmitter = requie('event') 
+
+```js
+const  EventEmitter = requie('event')
 
 // If you to create sth custom you need to extend ye class 
 // But if you want to emit an event and listen for it just create the instance 
@@ -584,42 +589,39 @@ customEmitter.on('respond', () => {
 })
 
 customEmitter.emit('response', 'john', 24);
-``` 
-Result: 
-Data Recieved user John with id:24
-Some other logic here
+```
 
+Result:
+Data Received user John with id:24
+Some other logic here
 
 > The order matters you must first listen for an event before you can emit it.
 
-
 The server (`http.createServer()`) has a method called `on`. We can create an event an listen for it. 
 
-```js 
+```js
 const http = require('http') 
 
-const server = createServer() 
+const server = http.createServer() 
 
 server.on('request', (req, res) => {
   res.end('Welcome')
 })
 
 server.listen(5000)
-``` 
+```
 
-This simply means that the server has a request event. 
+This simply means that the server has a request event.
 
+> You may not be setting up events on you own, a lot of built-in modules relay heavily on the concept of events.
 
-> You may not be setting up events on you own, alot of built-in modules relay heavily on the concept of events. 
+## Streams
 
-
-
-
-## Streams 
-Streams are used to read or write sequentially. 
+Streams are used to read or write sequentially.
 It's handy when u are dealing with large files.
 
-**4 Different Types of Streams**
+**4 Different Types of Streams**:
+
 - Writeable (Use to **write data** sequentially)
 - Readable (Used to **read data** sequentially)
 - Duplex (Use to both **read and write data** sequentially)
@@ -627,14 +629,9 @@ It's handy when u are dealing with large files.
 
 > Just like event, many built-in module implement stream interface. Stream extends event emitters class which means we can use events on streams.
 
+In our previous chapter we learned about readFile, readFileSync, writeFile and writeFileSync. these file system method read the entire data at once, which is not appropriate for a very large file because such file will occupy a large part of the computer memory.
 
-
-
-In our previous chapter we learned about readFile, readFileSync, writeFile and writeFileSync. these file system method read the entire data at once, which is not appropriate for a very large file because such file will occupy a large part of the computer memory. 
-
-
-
-```js 
+```js
 const { createReadStream } = require('fs')
 
 // default 64kb
@@ -647,44 +644,40 @@ const stream = createReadStream('./content/big.txt')
 stream.on('data', (result) => {
   console.log(result)
 })
-stream.on('error', (err) => console.log(err))
 
+stream.on('error', (err) => console.log(err))
 ```
 
+HTTP stream
 
-
-HTTP stream 
-```js 
+```js
 var http = require('http')
 var fs = require('fs')
 
 http.createServer(function (req, res) {
-    // const text = fs.readFileSync('./content/big.txt', 'utf8')
-    // res.end(text)
-    const fileStream = fs.createReadStream('./content/big.txt', 'utf8')
-    fileStream.on('open', (res) => {
-      fileStream.pipe(res)
-    })
-    fileStream.on('error', (err) => {
-      res.end(err)
-    })
+  // const text = fs.readFileSync('./content/big.txt', 'utf8')
+  // res.end(text)
+  const fileStream = fs.createReadStream('./content/big.txt', 'utf8')
+  fileStream.on('open', (res) => {
+    fileStream.pipe(res)
   })
-  .listen(5000)
+  fileStream.on('error', (err) => {
+    res.end(err)
+  })
+})
+.listen(5000)
 ```
 
+### Other Info in Node
 
-### Other Info in Node 
 - req.method ( Based on current request e.g GET, POST )
 - req.url e.g /, /about
 
+## Express
 
+### http basics
 
-
-
-## Express 
-
-### http basics 
-```js 
+```js
 const http = require('http')
 
 const server = http.createServer((req, res) => {
@@ -713,13 +706,14 @@ const server = http.createServer((req, res) => {
 server.listen(5000)
 ```
 
-- We must specify a status code for the pages we want our users to access. 
-- Others that cannot be accessed will lead to a 404 status code. 
+- We must specify a status code for the pages we want our users to access.
+- Others that cannot be accessed will lead to a 404 status code.
 - `content-type: text/plain` will return `res.write()` data as a text, event if it contains an html, it will render as a text.
 - Http status code 201 is used to show that post request is successful.
 
-### Requesting Resources 
-```js 
+### Requesting Resources
+
+```js
 const http = require('http')
 const { readFileSync } = require('fs')
 
@@ -772,15 +766,14 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(5000)
-``` 
+```
 
 - In node files cannot be directly requested directly, it must be read first and displayed. 
-- The problem with using node is that you must also read all the local resources that your file/document/webpage needs to functions and write them back. You can use the `res.url` 
+- The problem with using node is that you must also read all the local resources that your file/document/webpage needs to functions and write them back. You can use the `res.url`
 
+### Using Express
 
-### Using Express 
-
-```js 
+```js
 const express = require('express')
 const app = express()
 
@@ -810,9 +803,9 @@ app.listen(5000, () => {
 // app.listen
 ```
 
+### Loading HTML file with and it resources
 
-### Loading HTML file with and it resources  
-```js 
+```js
 const express = require('express')
 const path = require('path')
 
