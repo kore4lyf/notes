@@ -230,6 +230,21 @@ const containerVariants = {
   }
 }
 
+const h3Variants = {
+  hidden: {
+    opacity: 0,
+    x: "100vw"
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      delay: .5
+    }
+  }
+}
+
 const Base = ({ addBase, pizza }) => {
   const bases = ['Classic', 'Thin & Crispy', 'Thick Crust'];
 
@@ -240,7 +255,180 @@ const Base = ({ addBase, pizza }) => {
       animate="visible"
     >
 
-      <h3>Step 1: Choose Your Base</h3>
+      <motion.h3 variant={h3Variant}>Step 1: Choose Your Base</motion.h3>
+    </motion.div>)
+}
+```
+
+child element do not require setting initial and animate as long as the same convention is use (hidden and visible). i.e any variant key used is parent element will be automatically set for child elements too.
+
+### Transition Orchestration Property
+
+- when
+(when the animation should occur in relation to any children elements). Values include:
+  - beforeChildren (We want to complete the parent animation before the children animation runs)
+  - afterChildren (opposite of beforeChildren)
+
+- mass
+Higher mass value means the element will move slower, lower mass value means the element will move faster
+
+- damping
+Damping means opposing force
+
+- staggerChildren
+for example: (0.4 secs) 
+Animate children one after the other (with 0.4sec difference)
+
+```js
+const containerVariants = {
+  hidden: {
+    opacity: 0,
+    x: "100vw"
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { 
+      type: "spring",
+      when: "beforeChildren",
+      mass: 0.4, // Higher mean - it will move slower, lower - opposite
+      damping: 8, // opposing force
+      staggerChildren: 0.4, // (0.4 secs) Animate children one after the other
+    } 
+  }
+}
+
+const childVariants = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1
+  }
+}
+```
+
+## Keyframes
+
+```js
+const buttonVariants = {
+  visible: {
+    x: [0, -20, 20, -20, 20, 0],
+    transition: { delay: 2}
+  }
+  hover: {
+    scale: 1.1,
+    textShadow: "0px 0px 8px #ffffff",
+    boxShadow: "0px 0px 8px #ffffff",
+  }
+}
+```
+
+`x: [0, -20, 20, -20, 20, 0]`
+
+here we have specified the positions we want to animate a button, and it stops when it gets to the end of the animation.
+
+## Repeating Animations
+
+This can be achieved using a transition orchestration property called repeat.
+
+Fixed repeating:
+Play back an forth
+
+```js
+const buttonVariants = {
+  hover: {
+    scale: [1, 1.1],
+    textShadow: "0px 0px 8px #ffffff",
+    boxShadow: "0px 0px 8px #ffffff",
+    transition: {
+      duration: 0.3,
+      repeat: 10
+    }
+  }
+}
+```
+
+Infinity:
+
+```js
+const buttonVariants = {
+  hover: {
+    scale: [1, 1.1],
+    textShadow: "0px 0px 8px #ffffff",
+    boxShadow: "0px 0px 8px #ffffff",
+    transition: {
+      duration: 0.3,
+      repeat: Infinity
+    }
+  }
+}
+```
+
+## Animating an element out of the Page
+
+This can be achieved using animate presence.
+
+App.jsx
+
+```js
+import { Route, Routes, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+
+const App = () => {
+
+  const location = useLocation()
+
+  return (
+    <>
+      <Header />
+      <AnimatePresence>
+        <Routes location={location}>
+          <Route path="/base" element={<Base addBase={addBase} pizza={pizza} />} />
+          <Route path="/toppings" element={<Toppings addTopping={addTopping} pizza={pizza} />} />
+          <Route path="/order" element={<Order pizza={pizza} />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </AnimatePresence>
+    </>
+  );
+}
+```
+
+Wrap the element in `AnimatePresense` then define your exit animation on the element e.g `<motion.div exit={{ y: "-100vw", opacity: 0}}`
+
+The essence assigning location to route here is to make make the component rerender as the value of the location is changed.
+
+Include your exit object in the route components.
+
+```js
+const containerVariants = {
+  hidden: {
+    opacity: 0
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 1.5,
+      duration: 1.5
+    }
+  },
+  exit: {
+    x: "-100vw",
+    transition: { ease: "easeInOut" }
+  }
+}
+
+const Home = () => {
+  return (
+    <motion.div className="home container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit">
+      <h2>
+        Welcome to Pizza Joint
+      </h2>
     </motion.div>)
 }
 ```
