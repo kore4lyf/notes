@@ -384,8 +384,8 @@ server.listen(5000)
 
 NPM means Node Package manager.
 
-- npm i `<packageName>` // Install local dependency 
-- npm install -g `<packageName>` // Install dependency globally 
+- npm i `<packageName>` // Install local dependency
+- npm install -g `<packageName>` // Install dependency globally
 - package.json // A manifest file (stores important info about project/package)
 
 It should be created with any if the following:
@@ -424,7 +424,7 @@ If you are using node add this to the script.
 }
 ```
 
-we can run our app normally using `npm start`to or `npm run start`, or `npm run dev` to run our app with nodemon. 
+we can run our app normally using `npm start`to or `npm run start`, or `npm run dev` to run our app with nodemon.
 In some cases one might be able to use `npm <scriptName>` but in most cases `npm run <scriptName>` will work.
 
 > start or dev can be renamed to any word.
@@ -447,11 +447,11 @@ npm i <moduleName>@version
 
 ## Event Loop
 
-The event loop is what allows Node.js to perform non-blocking I/O operations, despite the fact that JavaScript is single threaded, by offloading operations to the system kernel whenever possible. 
+The event loop is what allows Node.js to perform non-blocking I/O operations, despite the fact that JavaScript is single threaded, by offloading operations to the system kernel whenever possible.
 
 - JavaScript is synchronous and single threaded. i.e. It reads code line by line.  
 
-The event loop is responsible for preventing a running request from delaying other requests. The event loop registers the callback running other blocking request and runs the registered request when the .
+The event loop is responsible for preventing a running request from delaying other requests. The event loop registers the callback running other blocking request and runs the registered request when the.
 
 ```js
 console.log('First') 
@@ -597,7 +597,7 @@ Some other logic here
 
 > The order matters you must first listen for an event before you can emit it.
 
-The server (`http.createServer()`) has a method called `on`. We can create an event an listen for it. 
+The server (`http.createServer()`) has a method called `on`. We can create an event an listen for it.
 
 ```js
 const http = require('http') 
@@ -625,7 +625,7 @@ It's handy when u are dealing with large files.
 - Writeable (Use to **write data** sequentially)
 - Readable (Used to **read data** sequentially)
 - Duplex (Use to both **read and write data** sequentially)
-- Transform (Where data can be **modified** when writing or reading) 
+- Transform (Where data can be **modified** when writing or reading)
 
 > Just like event, many built-in module implement stream interface. Stream extends event emitters class which means we can use events on streams.
 
@@ -768,7 +768,7 @@ const server = http.createServer((req, res) => {
 server.listen(5000)
 ```
 
-- In node files cannot be directly requested directly, it must be read first and displayed. 
+- In node files cannot be directly requested directly, it must be read first and displayed.
 - The problem with using node is that you must also read all the local resources that your file/document/webpage needs to functions and write them back. You can use the `res.url`
 
 ### Using Express
@@ -831,32 +831,32 @@ You can remove `app.get('/', (req, res) => { res.sendFile(path.resolve(__dirname
 
 > by using express.static('./public'), all static file like css JavaScript etc must be placed in the public folder.
 
-
 ### API vs SSR (Server Side Rendering )
+
 When using express, you will mostly use it to setup an API or Templates with server side rendering. 
 
-#### API 
-Involves setting up an HTTP interface to interact with out data. 
-Data is sent using JSON. 
+#### API Ex
+
+Involves setting up an HTTP interface to interact with out data.
+Data is sent using JSON.
 In order to send our response we will `res.JSON()`
 
-- API - JSON 
-- SEND DATA 
-- res.json() 
+- API - JSON
+- SEND DATA
+- res.json()
 
+#### SSR
 
-#### SSR 
-We will set-up templates and set back an entire HTML, CSS, and JavaScript. 
+We will set-up templates and set back an entire HTML, CSS, and JavaScript.
 We'd do that using `res.render()`
 
-- SRR - TEMPLATE 
+- SRR - TEMPLATE
 - SEND TEMPLATE
-- res.render() 
+- res.render()
 
+### API
 
-
-### API 
-```js 
+```js
 const express = require('express')
 const app = express()
 const { products } = require('./data')
@@ -867,13 +867,12 @@ app.get('/', (req, res) => {
 app.listen(5000, () => {
   console.log('Server is listening on port 5000....')
 })
-``` 
+```
 
-The page server above return a json when localhost:5000 is entered in the browser. 
+The page server above return a json when localhost:5000 is entered in the browser.
 
+#### Modifying JSON based on Request
 
-
-#### Modifying JSON based on Request 
 ```js 
 const express = require('express')
 const app = express()
