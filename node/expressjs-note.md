@@ -741,3 +741,27 @@ export { homeController }
   </body>
 </html>
 ```
+
+## Generating JWT secret
+
+a. Using Node.js's Crypto Module
+
+```js
+import * as crypto from "crypto"
+// const crypto = require("crypto")
+
+
+// Generate a 256-bit (32-byte) random string, encoded in hex
+const generateSecret = () => {
+  return crypto.randomBytes(32).toString("hex")
+}
+
+const jwtSecret = generateSecret()
+console.log("Your JWT secret: ", jwtSecret)
+```
+
+## Using a command-line tool
+
+```sh
+openssl rand -base64 32
+```
