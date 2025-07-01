@@ -147,4 +147,75 @@ Only is used when one wants to test only a particular suite within your code exc
 
 - describe.only("Message", () => {}) // Runs only this Test Suite excluding other test case
 - it.only("Message", () => {}) // runs only this Test Case excluding other test case
-- 
+
+## Example 1
+
+```js
+import { authenticateUser, product } from "../app/BasicUtils"
+
+describe("BasicUtils test suite", () => {
+
+  describe("Product of two numbers Test Suite", () => {
+    it("return the product of 3 and 2", () => {
+      const actual = product(3, 2)
+      expect(actual).toEqual(6)
+    })
+  })
+
+  describe("User authentication", () => {
+
+    it("Return the lower case of username", () => {
+      const username = "DEVELOPER"
+      const password = "dev"
+      const suite = authenticateUser
+      const actual = suite(username, password)
+      expect(actual.usernameLowercase).toBe("developer")
+    })
+    
+    it("Return the username characters of a valid user", () => {
+      const username = "DEVELOPER"
+      const password = "dev"
+      const suite = authenticateUser
+      const actual = suite(username, password)
+      expect(actual.usernameCharacters).toEqual(["D", "E", "V", "E", "L", "O", "P", "E", "R"])
+    })
+    
+    // To ensure that the Order of the array value is put into consideration
+    it("Return the username characters of a valid user", () => {
+      const username = "DEVELOPER"
+      const password = "dev"
+      const suite = authenticateUser
+      const actual = suite(username, password)
+      expect(actual.usernameCharacters).toEqual(expect.arrayContaining(["D", "E", "V", "E", "L", "O", "P", "E", "R"])) // Pass
+    })
+
+    it("Checks whether a character exists within username character", () => {
+      const username = "DEVELOPER"
+      const password = "dev"
+      const suite = authenticateUser
+      const actual = suite(username, password)
+      expect(actual.userDetails).toEqual({})
+
+      // expect(actual.userDetails).toBeDefined()
+      // expect(actual.userDetails).not.toBeUndefined()
+
+      // expect(actual.userDetails).not.toBeDefined()
+      // expect(actual.userDetails).toBeUndefined()
+    })
+
+    it("Returns user authentication status", () => {
+      const username = "DEVELOPER"
+      const password = "dev"
+      const suite = authenticateUser
+      const actual = authenticateUser(username, password)
+      expect(actual.isAuthenticated).toBe(true)
+       // expect(actual.isAuthenticated).toBeTruthy()
+      // expect(actual.isAuthenticated).not.toBeTruthy()
+    })
+  })
+})
+```
+
+You would notice that some variable were declared several times, and you might think that it's best to put them at the top, immediately after describe, but that violates the rule of **Independence** (Unit Test must be independent).
+
+Jest provides us with some hooks in order not keep repeating ourselves.

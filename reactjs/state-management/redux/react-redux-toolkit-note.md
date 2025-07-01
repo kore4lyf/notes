@@ -24,7 +24,7 @@ Redux toolkit is makes simplies redux. In the past redux was used hand in hand w
 
 Redux toolkit makes it easy to setup and managet redux state.
 
-Redux helps us to create a global state that we can use in our app, this is called a store. Redux was originally designed to store only a single store, with newer versions you are allowed to customize your context and provode multiple stores if your want.
+Redux helps us to create a global state that we can use in our app, this is called a store. Redux was originally designed to store only a single store, with newer versions you are allowed to customize your context and provide multiple stores if your want.
 
 In src folder, create a file called store.js
 
@@ -319,7 +319,7 @@ const postSlice = createSlice({
       state.error = null
     },
     [fetchPosts.fulfilled]: (state, action: PayloadAction<Post[]>) => {
-      state.loading = "succeded";
+      state.loading = "succeeded";
       state.posts = action.payload;
     },
     [fetchPosts.rejected]: (state) => {
@@ -564,4 +564,57 @@ function App() {
 }
 
 export default App
+```
+
+### Caching
+
+Data is cached according to each endpoint definition.
+Data is cached as long as one component in your application is subscribed to that data. If the component is unmounted, that data wont be cached any more.
+
+If no components are subscribed to a specific query, the cache will expire after (default: 60 secs).
+
+Applicable to all endpoint.
+
+```js
+export const jsonPlaceholderApi = createApi({
+  keepUnsedDataFor: 20, // 20 secs
+})
+```
+
+We can also specify for each endpoints.
+
+```js
+export const jsonPlaceholderApi = createApi({
+  reducerPath: "jsonPlaceholderApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://jsonPlaceholder.typicode.com",
+  }),
+  endpoints: (builder) => ({
+    getPosts: builder.query({ 
+      query: () => "posts",
+      keepUnsedDataFor: 10})
+})
+```
+
+### Refetching
+
+You can manually refetch data.
+
+```js
+const  { data, error, isLoading, refetch } = useGetPostsQuery()
+
+Refetch the data after creating a post.
+
+const handleCreatePost = async () => {
+  await createPost(newPost);
+  refectch()
+}
+```
+
+#### Refetch when user switch tabs
+
+```js
+export const jsonPlaceholderApi = createApi({
+  refetchOnFocus: true,
+})
 ```
