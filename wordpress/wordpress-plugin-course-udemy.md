@@ -80,3 +80,68 @@ add_filter("filter", "test")
 
 > A priority of a plugin is 10 by default, 0 is the maximum priority. The higher the number the lower the priority.
 
+### Action Hooks
+
+Action hooks only work because of two functions that work with each other.
+
+- do_action() - Do action is a point in the code where an action is available. Inserts an action hook.
+
+- add_action() - Is where we hook callback functions.
+
+
+
+You will find this hooks being called `/wp-setting.php`.
+
+```php
+do_action('plugin_loaded') // Executes after the theme is fully load
+
+do_action('setup_theme') // Word press uses the setup_theme hook in case a developer wants to perform any action before a theme loads.
+
+do_action('after_setup_theme') // Executes after the theme is fully load
+```
+
+### Filter Hooks
+
+Unlike action hooks that don't return any value to the function that calls them, them the whole point of a filter function is to get a value, modify the value and returned the modified value.
+
+Filters work through a pair of function that work together:
+
+- applied_filters()
+- add_filters()
+
+```php
+function the_content( $more_link_text = null, $strip_teaser = false ) {
+  $content = get_the_content( $more_link_text, $strip_teaser);
+
+  $content = apply_filters('the_content', $content);
+  $content = str_replace(...);
+  echo $content;
+}
+
+function modify_content( $content ) {
+  $content = $content . 'Copyright 2025. All rights reserved';
+  return  $content
+}
+
+add_filter ('the_content', 'modify_content')
+```
+
+**Taking a callback with more that one parameter**:
+
+```php
+function modify_body_classes($classes, $class) {
+  $classes = apply_filters('body_class', $classes, $class);
+
+  return array_unique( $classes );
+}
+
+add_filter('body_filter', 'modify_body_classes', 10, 2)
+
+// The third parameter is the priority of the function
+// The forth parameter is the number of parameters the filter is will is taking.
+```
+
+## Structuring the plugin
+
+- Plugins are usually stored in `wp-content/plugins`.
+- If your plugin only contains has one single file then you can drop it directly in the plugin folder. But if has many other files then it should be 
