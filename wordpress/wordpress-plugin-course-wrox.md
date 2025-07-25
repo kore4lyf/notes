@@ -623,6 +623,7 @@ $foo = range( 10, 100, 10 );
 ```
 
 ##### Shorthand PHP
+
 You should never use shorthand PHP tags ( `<? and ?>` ) when developing plugins. Shorthand tags must be enabled on the server to work. As a plugin developer, you typically won't have access to the server, so there's no guarantee they'll work for your users. Always use the full PHP opening and closing tags ( `<?php and ?>` ).
 
 The one exception to this rule is for the short echo tag, as shown in the following example:
@@ -632,6 +633,7 @@ The one exception to this rule is for the short echo tag, as shown in the follow
 ```
 
 ##### SQL Statements
+
 When writing SQL statements in WordPress to make a direct database call, always capitalize the SQL part of the statement. Most statements should be written on a single line, but it's OK to break the statement into multiple lines if the statement is complex.
 
 ```php
@@ -641,6 +643,132 @@ SELECT ID FROM wp_users WHERE user_login = 'example'
 ## 3 Dashboard and Settings
 
 ### ADDING MENUS AND SUBMENUS
+
+#### Creating a Top‐Level Menu
+
+A top‐level menu is common practice for any plugin that needs multiple option pages.  To register a top‐level menu, you use the `add_menu_page()` function.
+
+```php
+<?php add_menu_page( page_title, menu_title, capability, menu_slug, function, icon_url, position ); ?>
+```
+
+The `add_menu_page()` function accepts the following parameters:
+
+- **page_title**: Title of the page as shown in the `<title>` tags.
+- **menu_title**: Name of your menu displayed on the Dashboard.
+- **capability**: Minimum capability required to view the menu.
+- **menu_slug**: Slug name to refer to the menu; should be a unique name.
+- **function**: Function to be called to display the page content for the item.
+- **icon_url**: URL to a custom image to use as the menu icon. Also supports the dashicons helper class to use a font icon (e.g. dashicons‐chart‐pie).
+- **position**: Location in the menu order where it should appear.
+
+wp-content/plugin/mv-plugin/mv-plugin.php
+
+```php
+<?php
+/**
+ * Plugin Name: MV Plugin
+ * Plugin URI: https://www.wordpress.org/mv-slider
+ * Description: My plugin's description
+ * Version: 1.0
+ * Requires at least: 5.6
+ * Author: Korede Faleye
+ * Author URI: https://www.github.com/kore4lyf
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: mv-slider
+ * Domain Path: /languages
+ */
+
+/*
+MV Slider is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+MV Slider is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with MV Slider. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
+*/
+
+  add_action( 'admin_menu', 'pdev_create_menu' );
+
+  function pdev_create_menu() {
+    //create custom top-level menu
+    add_menu_page( 
+      'MV Plugin Settings Page', 
+      'MV Settings', 'manage_options', 
+      'mv-options', 'mv_settings_page',
+      'dashicons-smiley', 99 );
+
+```
+
+#### Adding a Submenu
+
+```php
+<?php add_submenu_page( parent_slug, page_title, menu_title,
+capability,
+ menu_slug, function ); ?>
+```
+
+The add_submenu_page() function accepts the following parameters:
+
+- **parent_slug**: Slug name for the parent menu (menu_slug previously defined)
+- **page_title**: Title of the page as shown in the `<title>` tags
+- **menu_title**: Name of your submenu displayed on the Dashboard
+- **capability**: Minimum capability required to view the submenu
+- **menu_slug**: Slug name to refer to the submenu; should be a unique name
+- **function**: Function to be called to display the page content for the item
+
+```php
+<?php
+/**
+ * Plugin Name: MV Plugin
+ * Plugin URI: https://www.wordpress.org/mv-slider
+ * Description: My plugin's description
+ * Version: 1.0
+ * Requires at least: 5.6
+ * Author: Korede Faleye
+ * Author URI: https://www.github.com/kore4lyf
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: mv-slider
+ * Domain Path: /languages
+ */
+
+/*
+MV Slider is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+MV Slider is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with MV Slider. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
+*/
+
+  add_action( 'admin_menu', 'pdev_create_menu' );
+
+  function pdev_create_menu() {
+    //create custom top-level menu
+    add_menu_page( 
+      'MV Plugin Settings Page', 
+      'MV Settings', 'manage_options', 
+      'mv-options', 'mv_settings_page',
+      'dashicons-smiley', 99 );
+
+    //create submenu items
+    add_submenu_page( 'mv-options', 'About The MV
+      Plugin', 'About', 'manage_options', 'mv-about', 'mv_about_page' );
+    add_submenu_page( 'mv-options', 'Help With The MV
+      Plugin', 'Help', 'manage_options', 'mv-help', 'mv_help_page' );
+    add_submenu_page( 'mv-options', 'Uninstall The MV Plugin', 'Uninstall', 'manage_options', 'mv-uninstall', 'mv_uninstall_page' );
+}
+```
 
 ### PLUGIN SETTINGS
 

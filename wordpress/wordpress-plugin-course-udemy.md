@@ -145,3 +145,93 @@ add_filter('body_filter', 'modify_body_classes', 10, 2)
 
 - Plugins are usually stored in `wp-content/plugins`.
 - If your plugin only contains has one single file then you can drop it directly in the plugin folder. But if has many other files then it should be 
+
+
+Lets create a new plugin called `mv-slider`
+`wp-content/plugins/mv-slider`
+
+Create a new folder called mv-slider with the following folder structure.
+
+/mv-slider
+|- assets
+|    /css
+|    /images
+|
+|- functions
+|
+|- languages
+|
+|- post-types
+|
+|- short-codes
+|
+|- vendor
+|
+|- views
+||
+|- index.php
+|- mv-slider.php
+
+mv-slider.php
+
+```php
+<?php
+
+/**
+ * Plugin Name: MV Slider
+ * Plugin URI: https://www.wordpress.org/mv-slider
+ * Description: My plugin's description
+ * Version: 1.0
+ * Requires at least: 5.6
+ * Author: Korede Faleye
+ * Author URI: https://www.github.com/kore4lyf
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: mv-slider
+ * Domain Path: /languages
+ */
+
+/*
+MV Slider is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+MV Slider is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with MV Slider. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
+*/
+
+// Used to avoid direct access to the file.
+if ( ! defined 'ABSPATH' ) {
+  // You many leave a message use
+  // die("You are not allowed to access the plugin directly.")
+  exit;
+}
+```
+
+The if condition tries to check if the ABSPATH variable exists. If it exits the wordpress is already installed if it doesn't 
+
+
+**Security setting**:
+
+**index.php**:
+
+It ensures that no one will be able to list the plugin directly vie the URL.
+
+```php
+<?php
+# Silence is golden
+```
+
+## 3 Events that plugins can trigger
+
+- register_activation_hook()
+- register_deactivation_hook()
+- register_uninstall_hook()
+
+## Creating Custom Post Types (CPT)
+
+## Metabox API - What are Metaboxes
