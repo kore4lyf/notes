@@ -3,7 +3,7 @@
 ## Installation
 
 ```js
-npm i three @react-three/fiber @react-three/drei
+npm i three @react-three/fiber @react-three/drei npm i @react-three/eslint-plugin -D
 ```
 
 ## Example

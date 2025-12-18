@@ -1105,11 +1105,11 @@ export default App
 ```tsx
 const expandRowVariants = {
   hidden: { opacity: 0 ,y: 50},
-  visible: (i: any) => {
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1}
-  }
+    visible: (i: any) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.1}
+    })
 }
 
 // usage

@@ -219,7 +219,7 @@ The if condition tries to check if the ABSPATH variable exists. If it exits the 
 
 **index.php**:
 
-It ensures that no one will be able to list the plugin directly vie the URL.
+It ensures that no one will be able to list the plugin directly view the URL.
 
 ```php
 <?php
@@ -235,3 +235,9 @@ It ensures that no one will be able to list the plugin directly vie the URL.
 ## Creating Custom Post Types (CPT)
 
 ## Metabox API - What are Metaboxes
+
+### Metabox API - Nonces and other
+
+Nonce means number only used once.
+
+Nonce is a here is a kind of token that can be used only once to make that a piece of information is coming from where it's supposed to come from (e.g. Admin).
