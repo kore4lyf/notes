@@ -1,5 +1,10 @@
 # Data Structure - Java Script
 
+## Intro
+
+- **Space Complexity**: How much memory is used 
+- **Time Complexity**: How many Primitive Operations are executed,  wrt input size and assuming worst case scenarios.
+
 ## Stack
 
 LIFO - Last In First Out.
